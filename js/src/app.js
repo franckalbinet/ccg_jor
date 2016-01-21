@@ -2,11 +2,9 @@
 $(function () {
   'use strict';
   Vis.initialize = function () {
-    console.log("app boostrapped. Congrats!")
-    // Instantiate Application model
-    // Vis.Models.app = new Vis.Models.App();
-
-    // router = new Vis.Routers();
-    // Backbone.history.start();
+    Vis.Collections.app = new Vis.Collections.App();
+    // Vis.Routers.app = new Vis.Routers.App();
+    new Vis.Routers.App();
+    Backbone.history.start();
   };
 });

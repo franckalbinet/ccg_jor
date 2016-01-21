@@ -1,64 +1,3 @@
-/* Global Vis object
-	 Set up global application namespace using object literals.
-*/
-var Vis = Vis   || {};
-Vis.DEFAULTS 		|| (Vis.DEFAULTS = {});
-Vis.Routers     || (Vis.Routers = {});
-Vis.Templates 	|| (Vis.Templates = {});
-Vis.Models 			|| (Vis.Models = {});
-Vis.Collections || (Vis.Collections = {});
-Vis.Views 			|| (Vis.Views = {});
-/*  Default/config values
-    Stores all application configuration.
-*/
-Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
-  DATASETS_URL: {
-    CHILDREN: "data/children.json",
-    HOUSEHOLDS: "data/households.json"
-  }
-});
-// Application router
-Vis.Routers.App = Backbone.Router.extend({
-  routes: {
-    "*path": "load",
-  },
-  load: function (params) {
-    Backbone.trigger("load:data", params);
-  }
-});
-/* Loading "tidy" data */
-Vis.Collections.App = Backbone.Collection.extend({
-  initialize: function(options) {
-    Backbone.on("load:data", function(params) { this.load(); }, this);
-  },
-
-  load: function() {
-    var that = this;
-
-    queue()
-      .defer(
-        function(url, callback) {
-          d3.json(url, function(error, result) {
-            callback(error, result);
-          })
-        },
-        Vis.DEFAULTS.DATASETS_URL.CHILDREN)
-      .defer(
-        function(url, callback) {
-          d3.json(url, function(error, result) {
-            callback(error, result);
-          })
-        },
-        Vis.DEFAULTS.DATASETS_URL.HOUSEHOLDS)
-      .await(_ready);
-
-    // on success
-    function _ready(error, children, households) {
-      // coerce data
-      debugger;
-    }
-  }
-});
 // Application model: save app. states
 Vis.Models.App = Backbone.Model.extend({
   defaults: {
@@ -134,13 +73,3 @@ Vis.Models.App = Backbone.Model.extend({
 
 
 })
-// Global namespace's method used to bootstrap the application from html
-$(function () {
-  'use strict';
-  Vis.initialize = function () {
-    Vis.Collections.app = new Vis.Collections.App();
-    // Vis.Routers.app = new Vis.Routers.App();
-    new Vis.Routers.App();
-    Backbone.history.start();
-  };
-});
