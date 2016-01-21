@@ -1,0 +1,10 @@
+[
+{"hh": "A", "gender": 1, "age": 3, "head": 1},
+{"hh": "A", "gender": 2, "age": 5, "head": 2}
+{"hh": "B", "gender": 1, "age": 1, "head": 2},
+{"hh": "B", "gender": 1, "age": 4, "head": 1},
+{"hh": "B", "gender": 2, "age": 8, "head": 2},
+{"hh": "C", "gender": 1, "age": 8, "head": 1},
+{"hh": "C", "gender": 2, "age": 9, "head": 2},
+{"hh": "C", "gender": 2, "age": 15, "head": 1}
+]
