@@ -7,20 +7,19 @@ Vis.Models.App = Backbone.Model.extend({
     Backbone.on("data:loaded", function(data) { this.bundle(data); }, this);
   },
 
+  // coupling
   sync: function() {
     var that = this;
     this.intersectKeys();
-    this.childrenHousehold.filter(function(d) {
-      return that.intersectedKeys.indexOf(d) > -1;
-    });
-    this.householdHousehold.filter(function(d) {
-      return that.intersectedKeys.indexOf(d) > -1;
-    });
+    this.childrenKey.filter(this.filterExactList(that.intersectedKeys));
+    this.householdKey.filter(this.filterExactList(that.intersectedKeys));
+    Backbone.trigger("filter:synced");
   },
 
+  // decoupling
   unsync: function() {
-    this.childrenHousehold.filter(null);
-    this.householdHousehold.filter(null);
+    this.childrenKey.filter(null);
+    this.householdKey.filter(null);
   },
 
   intersectKeys: function() {
@@ -33,12 +32,8 @@ Vis.Models.App = Backbone.Model.extend({
   // "children" dataset
   getChildrenKeys: function() {
     var that = this;
-    this.childrenKeys = new Array();
-    this.childrenByHousehold.top(Infinity)
-      .forEach(function(d) {
-        if (d.value != 0) that.childrenKeys.push(d.key);
-      });
-    return this.childrenKeys;
+    return _.uniq(this.childrenKey.top(Infinity)
+      .map(function(d) { return d.hh; }));
   },
 
   filterByAge: function(args) {
@@ -47,17 +42,22 @@ Vis.Models.App = Backbone.Model.extend({
     this.sync();
   },
 
-
   // "households" dataset
   getHouseholdsKeys: function() {
-    return this.householdHousehold.top(Infinity)
+    return this.householdKey.top(Infinity)
       .map(function(d) { return d.hh; });
   },
 
   filterByHead: function(args) {
     this.unsync();
-    this.householdHead.filter(args);
+    var filter = (args !== null) ? this.filterExactList(args) : null;
+    this.householdHead.filter(filter);
     this.sync();
+  },
+
+  // allows filtering crossfilter dimensions by list of values
+  filterExactList: function(array) {
+    return function(d) { return array.indexOf(d) > -1; }
   },
 
   // filter: function() {
@@ -87,6 +87,7 @@ Vis.Models.App = Backbone.Model.extend({
     // household (one) -> child (many)
     var children = crossfilter(data.children);
     // dimensions
+    this.childrenKey = children.dimension(function(d) { return d.hh; });
     this.childrenGender = children.dimension(function(d) { return d.gender; });
     this.childrenAge = children.dimension(function(d) { return d.age; });
     this.childrenHousehold = children.dimension(function(d) { return d.hh; });
@@ -99,7 +100,7 @@ Vis.Models.App = Backbone.Model.extend({
     // household (one) -> head, poverty, disability, ... (one)
     var households = crossfilter(data.households);
     // dimensions
-    this.householdHousehold = households.dimension(function(d) { return d.hh; });
+    this.householdKey = households.dimension(function(d) { return d.hh; });
     this.householdHead = households.dimension(function(d) { return d.head; });
     this.houseHoldPoverty = households.dimension(function(d) { return d.poverty; });
     this.householdDisability = households.dimension(function(d) { return d.hasDis; });
@@ -107,9 +108,6 @@ Vis.Models.App = Backbone.Model.extend({
     this.householdsByHead = this.householdHead.group();
     this.householdsByPoverty = this.houseHoldPoverty.group();
     this.householdsByDisability = this.householdDisability.group();
-
-    // this.filterByAge([1, 5]);
-    debugger;
 
     // dataset "incomes"
     // this.sourcesIncome = crossfilter(data.sourcesIncome);
