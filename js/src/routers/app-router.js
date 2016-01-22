@@ -4,6 +4,6 @@ Vis.Routers.App = Backbone.Router.extend({
     "*path": "load",
   },
   load: function (params) {
-    Backbone.trigger("load:data", params);
+    Backbone.trigger("data:loading", params);
   }
 });

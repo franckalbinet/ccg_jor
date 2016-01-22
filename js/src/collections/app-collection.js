@@ -1,7 +1,7 @@
 /* Loading "tidy" data */
 Vis.Collections.App = Backbone.Collection.extend({
   initialize: function(options) {
-    Backbone.on("load:data", function(params) { this.load(); }, this);
+    Backbone.on("data:loading", function(params) { this.load(); }, this);
   },
 
   load: function() {
@@ -27,7 +27,10 @@ Vis.Collections.App = Backbone.Collection.extend({
     // on success
     function _ready(error, children, households) {
       // coerce data
-      debugger;
+      Backbone.trigger("data:loaded", {
+        children: children,
+        households: households
+      });
     }
   }
 });

@@ -23,13 +23,13 @@ Vis.Routers.App = Backbone.Router.extend({
     "*path": "load",
   },
   load: function (params) {
-    Backbone.trigger("load:data", params);
+    Backbone.trigger("data:loading", params);
   }
 });
 /* Loading "tidy" data */
 Vis.Collections.App = Backbone.Collection.extend({
   initialize: function(options) {
-    Backbone.on("load:data", function(params) { this.load(); }, this);
+    Backbone.on("data:loading", function(params) { this.load(); }, this);
   },
 
   load: function() {
@@ -55,7 +55,10 @@ Vis.Collections.App = Backbone.Collection.extend({
     // on success
     function _ready(error, children, households) {
       // coerce data
-      debugger;
+      Backbone.trigger("data:loaded", {
+        children: children,
+        households: households
+      });
     }
   }
 });
@@ -63,24 +66,71 @@ Vis.Collections.App = Backbone.Collection.extend({
 Vis.Models.App = Backbone.Model.extend({
   defaults: {
   },
+
   initialize: function () {
-    this.listenTo(Vis.Collections.app, "loaded", function(data) {
-      this.bundle(data);
+    Backbone.on("data:loaded", function(data) { this.bundle(data); }, this);
+  },
+
+  sync: function() {
+    var that = this;
+    this.intersectKeys();
+    this.childrenHousehold.filter(function(d) {
+      return that.intersectedKeys.indexOf(d) > -1;
+    });
+    this.householdHousehold.filter(function(d) {
+      return that.intersectedKeys.indexOf(d) > -1;
     });
   },
 
-  redraw: function() {
-    this.syncCrossfilters();
-    Backbone.trigger("redraw");
+  unsync: function() {
+    this.childrenHousehold.filter(null);
+    this.householdHousehold.filter(null);
   },
 
-  //filters / setters
-  filterByAge: function(params) {
-    this.childrenByAge.filter(params);
-    this.refresh();
+  intersectKeys: function() {
+    this.intersectedKeys = _.intersection(
+      this.getChildrenKeys(),
+      this.getHouseholdsKeys()
+    );
   },
 
-  // getters
+  // "children" dataset
+  getChildrenKeys: function() {
+    var that = this;
+    this.childrenKeys = new Array();
+    this.childrenByHousehold.top(Infinity)
+      .forEach(function(d) {
+        if (d.value != 0) that.childrenKeys.push(d.key);
+      });
+    return this.childrenKeys;
+  },
+
+  filterByAge: function(args) {
+    this.unsync();
+    this.childrenAge.filter(args);
+    this.sync();
+  },
+
+
+  // "households" dataset
+  getHouseholdsKeys: function() {
+    return this.householdHousehold.top(Infinity)
+      .map(function(d) { return d.hh; });
+  },
+
+  filterByHead: function(args) {
+    this.unsync();
+    this.householdHead.filter(args);
+    this.sync();
+  },
+
+  // filter: function() {
+  //   this.unsync();
+  //   // this.childrenByAge.filter(args);
+  //   this.setChildrenKeys();
+  //   this.sync();
+  // },
+
   getHouseholdsByHead: function() {
     return this.householdsByHead.top(Infinity);
   },
@@ -113,7 +163,7 @@ Vis.Models.App = Backbone.Model.extend({
     // household (one) -> head, poverty, disability, ... (one)
     var households = crossfilter(data.households);
     // dimensions
-    this.household = households.dimension(function(d) { return d.hh; });
+    this.householdHousehold = households.dimension(function(d) { return d.hh; });
     this.householdHead = households.dimension(function(d) { return d.head; });
     this.houseHoldPoverty = households.dimension(function(d) { return d.poverty; });
     this.householdDisability = households.dimension(function(d) { return d.hasDis; });
@@ -121,6 +171,9 @@ Vis.Models.App = Backbone.Model.extend({
     this.householdsByHead = this.householdHead.group();
     this.householdsByPoverty = this.houseHoldPoverty.group();
     this.householdsByDisability = this.householdDisability.group();
+
+    // this.filterByAge([1, 5]);
+    debugger;
 
     // dataset "incomes"
     // this.sourcesIncome = crossfilter(data.sourcesIncome);
@@ -130,16 +183,20 @@ Vis.Models.App = Backbone.Model.extend({
 
     // dataset "coping" (coping mechanisms)
     // this.coping = crossfilter(data.coping);
-  },
-
-
+  }
 })
 // Global namespace's method used to bootstrap the application from html
 $(function () {
   'use strict';
   Vis.initialize = function () {
+    /* Initialization sequence:
+        1. the "app-router" parses hash string then dispatch "data:loading" event
+        2. the "app-collection" loads datasets then dispatch "data:loaded" event
+        3. the "app-model" creates crossfilters dimensions, grps, ...
+        4. views ...
+    */
+    Vis.Models.app = new Vis.Models.App();
     Vis.Collections.app = new Vis.Collections.App();
-    // Vis.Routers.app = new Vis.Routers.App();
     new Vis.Routers.App();
     Backbone.history.start();
   };
