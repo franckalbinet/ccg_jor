@@ -13,6 +13,7 @@ $(function () {
 
     // Views instantiation
     new Vis.Views.ChildrenAge({model: Vis.Models.app});
+    new Vis.Views.ChildrenGender({model: Vis.Models.app});
     new Vis.Views.HouseholdsHead({model: Vis.Models.app});
 
     new Vis.Routers.App();

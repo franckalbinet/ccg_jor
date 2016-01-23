@@ -3,22 +3,30 @@
       <meta http-equiv="content-type" content="text/html; charset=utf-8">
 </head>
     <body>
+      <!-- DIM 1-->
+      <h2>Children crossfilter/dataset</h2>
       <div id="children-by-age">
-        <h3>Children by Age</h3>
-        <input type="text" name="age-filter">
-        <h4>childrenByHousehold group</h4>
+        Filter: Children age ([1, 5]) <input type="text" name="age-filter">
+        <h4>children by age group</h4>
         <div id="result"></div>
       </div>
+      <div id="children-by-gender">
+        <br/>
+        Filter: Children gender (1, 2) <input type="text" name="gender-filter">
+        <h4>children by gender group</h4>
+        <div id="result"></div>
+      </div>
+
+      <!-- DIM 2-->
+      <h2>Households crossfilter/dataset</h2>
+      <div id="households-by-head">
+        Filter: Households head of family (1, 2, 97) <input type="text" name="head-filter">
+        <h4>Households by head group</h4>
+        <div id="result"></div>
+      </div>
+
       <div id="children-by-gender"></div>
       <div id="households-by-children"></div>
-
-      <div id="households-by-head">
-        <h3>Households by Head</h3>
-        <input type="text" name="head-filter">
-        <h4>householdsByHead group</h4>
-        <div id="result"></div>
-      </div>
-
       <div id="households-by-poverty"></div>
     </body>
     <script src="./js/vendor/jquery.1.11.1.min.js"></script>
@@ -27,6 +35,7 @@
     <script src="./js/vendor/crossfilter.min.js"></script>
     <script src="./js/vendor/underscore-min.js"></script>
     <script src="./js/vendor/backbone.js"></script>
+    <script src="http://dimplejs.org/dist/dimple.v2.1.6.min.js"></script>
     <script src="./js/vis.js"></script>
     <!-- Bootsrapping od specific visualization app. -->
     <script type="text/javascript">

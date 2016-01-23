@@ -10,6 +10,7 @@ vis_src =	${vis_dir}/namespace.js\
 					${vis_dir}/models/app-model.js\
 					${vis_dir}/app.js\
 					${vis_dir}/views/children-age-view.js\
+					${vis_dir}/views/children-gender-view.js\
 					${vis_dir}/views/households-head-view.js\
 
 # vis.js build

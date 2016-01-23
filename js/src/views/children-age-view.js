@@ -7,12 +7,15 @@ Vis.Views.ChildrenAge = Backbone.View.extend({
     },
 
     initialize: function () {
-      Backbone.on("filter:synced", function(d) { this.render(); }, this);
+      // Backbone.on("children:synced", function(d) { this.render(); }, this);
+      Backbone.on("filtered", function(d) {
+        if (d !== "childrenAge") this.render();
+      }, this);
     },
 
     render: function() {
       this.$el.find("#result")
-        .text(JSON.stringify(this.model.childrenByHousehold.top(Infinity)));
+        .text(JSON.stringify(this.model.childrenByAge.top(Infinity)));
     },
 
     parseFilter: function(e) {
