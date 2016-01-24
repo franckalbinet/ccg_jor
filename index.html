@@ -1,33 +1,31 @@
 <html lang="en">
 <head>
       <meta http-equiv="content-type" content="text/html; charset=utf-8">
+      <link href="./css/vis.css" rel="stylesheet">
 </head>
     <body>
       <!-- DIM 1-->
       <h2>Children crossfilter/dataset</h2>
       <div id="children-by-age">
-        Filter: Children age ([1, 5]) <input type="text" name="age-filter">
+        <!-- Filter: Children age ([1, 5]) <input type="text" name="age-filter"> -->
         <h4>children by age group</h4>
-        <div id="result"></div>
+        <div id="chart-children-by-age" class="chart"></div>
+        <!-- <div id="result"></div> -->
       </div>
       <div id="children-by-gender">
-        <br/>
-        Filter: Children gender (1, 2) <input type="text" name="gender-filter">
+        <!-- <br/>
+        Filter: Children gender (1, 2) <input type="text" name="gender-filter"> -->
         <h4>children by gender group</h4>
-        <div id="result"></div>
+        <div id="chart-children-by-gender" class="chart"></div>
+        <!-- <div id="result"></div> -->
       </div>
 
       <!-- DIM 2-->
       <h2>Households crossfilter/dataset</h2>
       <div id="households-by-head">
-        Filter: Households head of family (1, 2, 97) <input type="text" name="head-filter">
         <h4>Households by head group</h4>
-        <div id="result"></div>
+        <div id="chart-households-by-head" class="chart"></div>
       </div>
-
-      <div id="children-by-gender"></div>
-      <div id="households-by-children"></div>
-      <div id="households-by-poverty"></div>
     </body>
     <script src="./js/vendor/jquery.1.11.1.min.js"></script>
     <script src="./js/vendor/d3.v3.min.js"></script>

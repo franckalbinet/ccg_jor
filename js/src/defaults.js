@@ -2,8 +2,9 @@
     Stores all application configuration.
 */
 Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
-  DATASETS_URL: {
-    CHILDREN: "data/children.json",
-    HOUSEHOLDS: "data/households.json"
+  FAKED_DATASET: true,
+  DATASETS: {
+    CHILDREN: "children.json",
+    HOUSEHOLDS: "households.json"
   }
 });

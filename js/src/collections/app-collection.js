@@ -1,5 +1,8 @@
 /* Loading "tidy" data */
 Vis.Collections.App = Backbone.Collection.extend({
+
+  url: (Vis.DEFAULTS.FAKED_DATASET) ? "data/test/" : "data/",
+
   initialize: function(options) {
     Backbone.on("data:loading", function(params) { this.load(); }, this);
   },
@@ -14,14 +17,14 @@ Vis.Collections.App = Backbone.Collection.extend({
             callback(error, result);
           })
         },
-        Vis.DEFAULTS.DATASETS_URL.CHILDREN)
+        that.url + Vis.DEFAULTS.DATASETS.CHILDREN)
       .defer(
         function(url, callback) {
           d3.json(url, function(error, result) {
             callback(error, result);
           })
         },
-        Vis.DEFAULTS.DATASETS_URL.HOUSEHOLDS)
+        that.url + Vis.DEFAULTS.DATASETS.HOUSEHOLDS)
       .await(_ready);
 
     // on success

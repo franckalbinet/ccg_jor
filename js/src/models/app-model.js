@@ -1,6 +1,9 @@
 // Application model: save app. states
 Vis.Models.App = Backbone.Model.extend({
   defaults: {
+    ages: null,
+    genders: null,
+    heads: null
   },
 
   initialize: function () {
@@ -36,16 +39,19 @@ Vis.Models.App = Backbone.Model.extend({
     return this.householdKey.top(Infinity).map(function(d) { return d.hh; });
   },
 
-  // dimension filters proxy
+  // DIMENSION FILTER PROXIES
   filterByAge: function(args) {
     this.unsync();
-    this.childrenAge.filter(args);
+    var filter = (args) ? this.filterExactList(args) : null;
+    this.set("ages", args || this.getAll(this.childrenByAge, "ages"));
+    this.childrenAge.filter(filter);
     Backbone.trigger("filtering", "childrenAge");
   },
 
   filterByGender: function(args) {
     this.unsync();
     var filter = (args !== null) ? this.filterExactList(args) : null;
+    this.set("genders", args || this.getAll(this.childrenByGender, "genders"));
     this.childrenGender.filter(filter);
     Backbone.trigger("filtering", "childrenGender");
   },
@@ -53,13 +59,19 @@ Vis.Models.App = Backbone.Model.extend({
   filterByHead: function(args) {
     this.unsync();
     var filter = (args !== null) ? this.filterExactList(args) : null;
+    this.set("heads", args || this.getAll(this.householdsByHead, "heads"));
     this.householdHead.filter(filter);
     Backbone.trigger("filtering", "householdsHead");
   },
 
+  // UTILITY FUNCTIONS
   // allows filtering crossfilter dimensions by list of values
   filterExactList: function(array) {
     return function(d) { return array.indexOf(d) > -1; }
+  },
+
+  getAll: function(grp, variable) {
+    return grp.top(Infinity).map(function(d) { return d.key; });
   },
 
   // create crossfilters + associated dimensions and groups
@@ -78,6 +90,9 @@ Vis.Models.App = Backbone.Model.extend({
     this.childrenByHousehold = this.childrenHousehold.group();
     this.childrenByAge = this.childrenAge.group();
     this.childrenByGender = this.childrenGender.group();
+    // init. associated filters
+    this.set("ages", this.getAll(this.childrenByAge, "ages"));
+    this.set("genders", this.getAll(this.childrenByGender, "genders"));
 
     // dataset "households"
     // household (one) -> head, poverty, disability, ... (one)
@@ -91,11 +106,12 @@ Vis.Models.App = Backbone.Model.extend({
     this.householdsByHead = this.householdHead.group();
     this.householdsByPoverty = this.houseHoldPoverty.group();
     this.householdsByDisability = this.householdDisability.group();
+    // init. associated filters
+    this.set("heads", this.getAll(this.householdsByHead, "heads"));
 
-    // init all views
-    Backbone.trigger("filtered", null);
+    // ignite scenarios
+    Backbone.trigger("play");
 
-    // debugger;
     // dataset "incomes"
     // this.sourcesIncome = crossfilter(data.sourcesIncome);
 

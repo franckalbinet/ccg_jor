@@ -1,0 +1,10 @@
+.chart rect {
+  fill: #eee !important;
+  stroke: #ddd !important;
+}
+
+.chart rect.selected {
+  fill: steelblue !important;
+  opacity: 0.9 !important;
+  stroke: #777 !important;
+}
