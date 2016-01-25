@@ -1,13 +1,7 @@
 [
 {"hh": "A", "gender": 1, "age": 3},
-{"hh": "A", "gender": 1, "age": 5},
-{"hh": "B", "gender": 1, "age": 1},
+{"hh": "A", "gender": 1, "age": 1},
 {"hh": "B", "gender": 1, "age": 4},
-{"hh": "B", "gender": 2, "age": 8},
-{"hh": "C", "gender": 1, "age": 8},
-{"hh": "C", "gender": 2, "age": 9},
-{"hh": "C", "gender": 2, "age": 15},
-{"hh": "D", "gender": 1, "age": 2},
-{"hh": "D", "gender": 2, "age": 6},
-{"hh": "E", "gender": 2, "age": 9}
+{"hh": "C", "gender": 2, "age": 1},
+{"hh": "C", "gender": 2, "age": 15}
 ]

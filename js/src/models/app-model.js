@@ -12,8 +12,19 @@ Vis.Models.App = Backbone.Model.extend({
   },
 
   sync: function(dim) {
-    this.childrenKey.filter(this.filterExactList(this.getIntersectedKey()));
-    this.householdKey.filter(this.filterExactList(this.getIntersectedKey()));
+    if (dim === "children") {
+      this.householdKey.filter(this.filterExactList(this.getIntersectedKey(dim)));
+      console.log("Children keys after sync with children: " + this.getChildrenKey());
+      console.log("Households keys after sync with children: " + this.getHouseholdsKey());
+      // console.log("After synced: " + this.getChildrenKey());
+    }
+    if (dim === "households") {
+      this.childrenKey.filter(this.filterExactList(this.getIntersectedKey(dim)));
+      console.log("Children keys after sync with households: " + this.getChildrenKey());
+      console.log("Households keys after sync with households: " + this.getHouseholdsKey());
+    }
+    console.log("Households by Head group: ", this.householdsByHead.top(Infinity));
+    console.log("************");
     Backbone.trigger("filtered", dim);
   },
 
@@ -22,7 +33,11 @@ Vis.Models.App = Backbone.Model.extend({
     this.householdKey.filter(null);
   },
 
-  getIntersectedKey: function() {
+  getIntersectedKey: function(dim) {
+    // console.log("Before reset: " + this.getChildrenKey());
+    // if (dim === "children") this.householdKey.filter(null);
+    // if (dim === "households") this.childrenKey.filter(null);
+    // console.log("After reset: " + this.getChildrenKey());
     return _.intersection(
       this.getChildrenKey(),
       this.getHouseholdsKey()
@@ -41,27 +56,39 @@ Vis.Models.App = Backbone.Model.extend({
 
   // DIMENSION FILTER PROXIES
   filterByAge: function(args) {
+    console.log("Children keys before unsync: " + this.getChildrenKey());
     this.unsync();
+    console.log("Children keys after unsync: " + this.getChildrenKey());
     var filter = (args) ? this.filterExactList(args) : null;
     this.set("ages", args || this.getAll(this.childrenByAge, "ages"));
     this.childrenAge.filter(filter);
-    Backbone.trigger("filtering", "childrenAge");
+    console.log("Children keys after filtering age: " + this.getChildrenKey());
+    // Backbone.trigger("filtering", "childrenAge");
+    Backbone.trigger("filtering", "children");
   },
 
   filterByGender: function(args) {
+    console.log("Children keys before unsync: " + this.getChildrenKey());
     this.unsync();
+    console.log("Children keys after unsync: " + this.getChildrenKey());
     var filter = (args !== null) ? this.filterExactList(args) : null;
     this.set("genders", args || this.getAll(this.childrenByGender, "genders"));
     this.childrenGender.filter(filter);
-    Backbone.trigger("filtering", "childrenGender");
+    console.log("Children keys after filtering gender: " + this.getChildrenKey());
+    // Backbone.trigger("filtering", "childrenGender");
+    Backbone.trigger("filtering", "children");
   },
 
   filterByHead: function(args) {
+    console.log("Households keys before unsync: " + this.getHouseholdsKey());
     this.unsync();
+    console.log("Households keys after unsync: " + this.getHouseholdsKey());
     var filter = (args !== null) ? this.filterExactList(args) : null;
     this.set("heads", args || this.getAll(this.householdsByHead, "heads"));
     this.householdHead.filter(filter);
-    Backbone.trigger("filtering", "householdsHead");
+    console.log("Households keys after filtering head: " + this.getHouseholdsKey());
+    // Backbone.trigger("filtering", "householdsHead");
+    Backbone.trigger("filtering", "households");
   },
 
   // UTILITY FUNCTIONS
@@ -108,6 +135,8 @@ Vis.Models.App = Backbone.Model.extend({
     this.householdsByDisability = this.householdDisability.group();
     // init. associated filters
     this.set("heads", this.getAll(this.householdsByHead, "heads"));
+
+    debugger;
 
     // ignite scenarios
     Backbone.trigger("play");

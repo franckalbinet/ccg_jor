@@ -7,8 +7,10 @@ Vis.Views.HouseholdsHead = Backbone.View.extend({
 
     initialize: function () {
       Backbone.on("filtered", function(d) {
-        if (d !== "householdsHead") this.render();
-        if (this.myChart) this.setAesthetics();
+        // if (d !== "householdsHead") this.render();
+        this.render();
+        // if (this.myChart) this.setAesthetics();
+        // this.setAesthetics();
       }, this);
     },
 
@@ -26,6 +28,7 @@ Vis.Views.HouseholdsHead = Backbone.View.extend({
         this.mySeries.addEventHandler("click", function (e) {
           that.updateSelection(e);});
       }
+      this.setAesthetics();
       this.myChart.draw(500);
     },
 

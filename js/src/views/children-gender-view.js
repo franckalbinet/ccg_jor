@@ -7,14 +7,18 @@ Vis.Views.ChildrenGender = Backbone.View.extend({
 
     initialize: function () {
       Backbone.on("filtered", function(d) {
-        if (d !== "childrenGender") this.render();
-        if (this.myChart) this.setAesthetics();
+        //if (d !== "childrenGender") this.render();
+        this.render();
+        // if (this.myChart) this.setAesthetics();
+        // this.setAesthetics();
       }, this);
     },
 
     render: function() {
       var that = this,
           data = this.model.childrenByGender.top(Infinity);
+
+      // console.log(data);
 
       if (!this.myChart) {
         this.svg = dimple.newSvg("#chart-children-by-gender", 400, 200);
@@ -26,6 +30,7 @@ Vis.Views.ChildrenGender = Backbone.View.extend({
         this.mySeries.addEventHandler("click", function (e) {
           that.updateSelection(e);});
       }
+      this.setAesthetics();
       this.myChart.draw(500);
     },
 

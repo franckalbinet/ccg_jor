@@ -7,8 +7,10 @@ Vis.Views.ChildrenAge = Backbone.View.extend({
 
     initialize: function () {
       Backbone.on("filtered", function(d) {
-        if (d !== "childrenAge") this.render();
-        if (this.myChart) this.setAesthetics();
+        // if (d !== "childrenAge") this.render();
+        this.render();
+        // if (this.myChart) this.setAesthetics();
+        // this.setAesthetics();
       }, this);
     },
 
@@ -26,6 +28,7 @@ Vis.Views.ChildrenAge = Backbone.View.extend({
         this.mySeries.addEventHandler("click", function (e) {
           that.updateSelection(e);});
       }
+      this.setAesthetics();
       this.myChart.draw(500);
     },
 
