@@ -7,10 +7,7 @@ Vis.Views.ChildrenAge = Backbone.View.extend({
 
     initialize: function () {
       Backbone.on("filtered", function(d) {
-        // if (d !== "childrenAge") this.render();
         this.render();
-        // if (this.myChart) this.setAesthetics();
-        // this.setAesthetics();
       }, this);
     },
 
@@ -38,7 +35,6 @@ Vis.Views.ChildrenAge = Backbone.View.extend({
         d3.select("#children-by-age #chart-children-by-age rect#dimple-all-" + d + "---")
           .classed("selected", true);
       })
-
     },
 
     updateSelection: function(e) {

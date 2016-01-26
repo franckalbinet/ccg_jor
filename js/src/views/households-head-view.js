@@ -7,16 +7,16 @@ Vis.Views.HouseholdsHead = Backbone.View.extend({
 
     initialize: function () {
       Backbone.on("filtered", function(d) {
-        // if (d !== "householdsHead") this.render();
         this.render();
-        // if (this.myChart) this.setAesthetics();
-        // this.setAesthetics();
       }, this);
     },
 
     render: function() {
       var that = this,
-          data = this.model.householdsByHead.top(Infinity);
+          data = this.model.householdsByHead.top(Infinity)
+            .map(function(d) {
+              return { key: d.key, value: d.value.householdCount };
+            });
 
       if (!this.myChart) {
         this.svg = dimple.newSvg("#chart-households-by-head", 400, 200);
@@ -27,6 +27,8 @@ Vis.Views.HouseholdsHead = Backbone.View.extend({
         this.mySeries = this.myChart.addSeries(null, dimple.plot.bar);
         this.mySeries.addEventHandler("click", function (e) {
           that.updateSelection(e);});
+      } else {
+        this.myChart.data = data;
       }
       this.setAesthetics();
       this.myChart.draw(500);

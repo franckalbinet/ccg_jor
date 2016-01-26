@@ -1,5 +1,5 @@
 [
 {"hh": "A", "head": 2, "poverty": 1, "hasDis": 1},
-{"hh": "B", "head": 1, "poverty": 2, "hasDis": 1},
+{"hh": "B", "head": 1, "poverty": 2, "hasDis": 2},
 {"hh": "C", "head": 2, "poverty": 1, "hasDis": 2}
 ]
