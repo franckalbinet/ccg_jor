@@ -5,6 +5,7 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
   FAKED_DATASET: true,
   DATASETS: {
     CHILDREN: "children.json",
-    HOUSEHOLDS: "households.json"
+    HOUSEHOLDS: "households.json",
+    OUTCOMES: "outcomes.json"
   }
 });

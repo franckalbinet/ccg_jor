@@ -1,4 +1,35 @@
-.chart rect {
+/* Bootstrap specifics */
+.container {
+    width: 1040px;
+}
+h4 {
+  margin-top: 25px;
+}
+.row {
+  margin-bottom: 20px;
+}
+.row .row {
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+[class*="col-"] {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  /*background-color: #eee;
+  background-color: rgba(86,61,124,.15);
+  border: 1px solid #ddd;
+  border: 1px solid rgba(86,61,124,.2);*/
+}
+
+hr {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+.page-header h3 {
+  text-transform: uppercase;
+}
+
+/*.chart rect {
   fill: #eee !important;
   fill: steelblue !important;
   stroke: #ddd !important;
@@ -10,4 +41,4 @@
   fill: steelblue !important;
   opacity: 0.9 !important;
   stroke: #777 !important;
-}
+}*/

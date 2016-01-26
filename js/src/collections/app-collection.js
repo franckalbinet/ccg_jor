@@ -25,14 +25,22 @@ Vis.Collections.App = Backbone.Collection.extend({
           })
         },
         that.url + Vis.DEFAULTS.DATASETS.HOUSEHOLDS)
+      .defer(
+        function(url, callback) {
+          d3.json(url, function(error, result) {
+            callback(error, result);
+          })
+        },
+        that.url + Vis.DEFAULTS.DATASETS.OUTCOMES)
       .await(_ready);
 
     // on success
-    function _ready(error, children, households) {
+    function _ready(error, children, households, outcomes) {
       // coerce data
       Backbone.trigger("data:loaded", {
         children: children,
-        households: households
+        households: households,
+        outcomes: outcomes
       });
     }
   }

@@ -1,6 +1,6 @@
-// Households By Head of family View
-Vis.Views.HouseholdsHead = Backbone.View.extend({
-    el: '#households-by-head',
+// Life improvement View
+Vis.Views.LifeImprovement = Backbone.View.extend({
+    el: '#life-improvement',
 
     events: {
     },
@@ -13,24 +13,23 @@ Vis.Views.HouseholdsHead = Backbone.View.extend({
 
     render: function() {
       var that = this,
-          data = this.model.householdsByHead.top(Infinity)
-            .map(function(d) {
-              return { key: d.key, value: d.value.householdCount };
-            });
+          data = this.model.outcomesHead.top(Infinity);
 
       if (!this.myChart) {
-        this.svg = dimple.newSvg("#chart-households-by-head", 400, 200);
+        this.svg = dimple.newSvg("#chart-life-improvement", 400, 200);
         this.myChart = new dimple.chart(this.svg, data);
         this.myChart.setBounds(60, 5, 350, 120);
-        this.myChart.addMeasureAxis("x", "value");
-        this.myChart.addCategoryAxis("y", "key");
-        this.mySeries = this.myChart.addSeries(null, dimple.plot.bar);
+        this.myChart.addPctAxis("x", "hh");
+        this.myChart.addCategoryAxis("y", "round");
+        this.mySeries = this.myChart.addSeries("imp", dimple.plot.bar);
+        // myChart.addLegend(60, 10, 510, 20, "right");
         this.mySeries.addEventHandler("click", function (e) {
-          that.updateSelection(e);});
+          // that.updateSelection(e);
+        });
       } else {
         this.myChart.data = data;
       }
-      this.setAesthetics();
+      // this.setAesthetics();
       this.myChart.draw(500);
     },
 

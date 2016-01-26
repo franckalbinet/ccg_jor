@@ -11,11 +11,15 @@ $(function () {
     Vis.Models.app = new Vis.Models.App();
     Vis.Collections.app = new Vis.Collections.App();
 
-    // Views instantiation
+    // VIEWS INSTANCIATION
+    // profile
     new Vis.Views.Scenarios({model: Vis.Models.app});
     new Vis.Views.ChildrenAge({model: Vis.Models.app});
     new Vis.Views.ChildrenGender({model: Vis.Models.app});
     new Vis.Views.HouseholdsHead({model: Vis.Models.app});
+
+    // outcomes
+    new Vis.Views.LifeImprovement({model: Vis.Models.app});
 
     new Vis.Routers.App();
     Backbone.history.start();

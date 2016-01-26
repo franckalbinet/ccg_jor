@@ -1,27 +1,62 @@
+<!DOCTYPE html>
 <html lang="en">
-<head>
-      <meta http-equiv="content-type" content="text/html; charset=utf-8">
-      <link href="./css/vis.css" rel="stylesheet">
-</head>
-    <body>
-      <div id="children-by-age">
-        <!-- Filter: Children age ([1, 5]) <input type="text" name="age-filter"> -->
-        <h4>children by age group</h4>
-        <div id="chart-children-by-age" class="chart"></div>
-        <!-- <div id="result"></div> -->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Child Cash Grant - Post Distribution Monitoring</title>
+
+    <link href="./css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/custom-bootstrap.css" rel="stylesheet">
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="./css/vendor/bootstrap/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link href="./css/vis.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+
+      <div class="page-header">
+        <h3>Unconditionnal Child Cash Grant Programme</h3>
+        <p class="lead">Post Distribution Monitoring -- DRAFT</p>
       </div>
-      <div id="children-by-gender">
-        <!-- <br/>
-        Filter: Children gender (1, 2) <input type="text" name="gender-filter"> -->
-        <h4>children by gender group</h4>
-        <div id="chart-children-by-gender" class="chart"></div>
-        <!-- <div id="result"></div> -->
+
+      <div class="row">
+        <div class="col-md-6">
+          <h3>Characteristics</h3>
+          <div id="children-by-age">
+            <h4>children by age</h4>
+            <div id="chart-children-by-age" class="chart"></div>
+            <!-- <div id="result"></div> -->
+          </div>
+          <div id="children-by-gender">
+            <h4>children by gender</h4>
+            <div id="chart-children-by-gender" class="chart"></div>
+          </div>
+          <div id="households-by-head">
+            <h4>Households by head</h4>
+            <div id="chart-households-by-head" class="chart"></div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <h3>Outcomes</h3>
+          <div id="life-improvement">
+            <h4>Overall life improvement</h4>
+            <div id="chart-life-improvement" class="chart"></div>
+          </div>
+        </div>
       </div>
-      <div id="households-by-head">
-        <h4>Households by head group</h4>
-        <div id="chart-households-by-head" class="chart"></div>
-      </div>
-    </body>
+
+    </div> <!-- /container -->
     <script src="./js/vendor/jquery.1.11.1.min.js"></script>
     <script src="./js/vendor/d3.v3.min.js"></script>
     <script src="./js/vendor/queue.v1.min.js"></script>
@@ -29,9 +64,14 @@
     <script src="./js/vendor/underscore-min.js"></script>
     <script src="./js/vendor/backbone.js"></script>
     <script src="http://dimplejs.org/dist/dimple.v2.1.6.min.js"></script>
+    <script src="./js/vendor/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="./js/vendor/ie10-viewport-bug-workaround.js"></script>
     <script src="./js/vis.js"></script>
+
     <!-- Bootsrapping od specific visualization app. -->
     <script type="text/javascript">
       $(function () { Vis.initialize(); });
-   </script>
+    </script>
+  </body>
 </html>

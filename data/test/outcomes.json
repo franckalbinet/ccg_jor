@@ -1,0 +1,11 @@
+[
+{"hh": "A", "round": 1, "imp": 1, "needs": 1},
+{"hh": "A", "round": 2, "imp": 2, "needs": 1},
+{"hh": "A", "round": 3, "imp": 1, "needs": 2},
+{"hh": "B", "round": 1, "imp": 2, "needs": 2},
+{"hh": "B", "round": 2, "imp": 1, "needs": 1},
+{"hh": "B", "round": 3, "imp": 1, "needs": 1},
+{"hh": "C", "round": 1, "imp": 2, "needs": 1},
+{"hh": "C", "round": 2, "imp": 2, "needs": 1},
+{"hh": "C", "round": 3, "imp": 2, "needs": 1}
+]
