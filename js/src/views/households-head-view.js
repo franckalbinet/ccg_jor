@@ -19,9 +19,9 @@ Vis.Views.HouseholdsHead = Backbone.View.extend({
             });
 
       if (!this.myChart) {
-        this.svg = dimple.newSvg("#chart-households-by-head", 400, 200);
+        this.svg = dimple.newSvg("#chart-households-by-head", 400, 150);
         this.myChart = new dimple.chart(this.svg, data);
-        this.myChart.setBounds(60, 5, 350, 120);
+        this.myChart.setBounds(20, 5, 350, 80);
         this.myChart.addMeasureAxis("x", "value");
         this.myChart.addCategoryAxis("y", "key");
         this.mySeries = this.myChart.addSeries(null, dimple.plot.bar);

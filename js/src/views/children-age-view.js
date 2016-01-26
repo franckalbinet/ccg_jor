@@ -18,7 +18,7 @@ Vis.Views.ChildrenAge = Backbone.View.extend({
       if (!this.myChart) {
         this.svg = dimple.newSvg("#chart-children-by-age", 400, 200);
         this.myChart = new dimple.chart(this.svg, data);
-        this.myChart.setBounds(60, 5, 350, 120);
+        this.myChart.setBounds(25, 5, 350, 120);
         var x = this.myChart.addCategoryAxis("x", "key");
         this.myChart.addMeasureAxis("y", "value");
         this.mySeries = this.myChart.addSeries(null, dimple.plot.bar);

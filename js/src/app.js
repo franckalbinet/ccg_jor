@@ -20,6 +20,7 @@ $(function () {
 
     // outcomes
     new Vis.Views.LifeImprovement({model: Vis.Models.app});
+    new Vis.Views.CoveringNeeds({model: Vis.Models.app});
 
     new Vis.Routers.App();
     Backbone.history.start();

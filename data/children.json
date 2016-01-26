@@ -1,0 +1,11986 @@
+[
+  {
+    "hh": 1,
+    "gender": 1,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 1,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 1,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 1,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 1,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 2,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 2,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 2,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 2,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 2,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 2,
+    "gender": 2,
+    "age": 16,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 3,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 3,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 3,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 3,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 4,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 4,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 4,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 5,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 5,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 5,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 5,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 5,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 5,
+    "gender": 2,
+    "age": 17,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 6,
+    "gender": 2,
+    "age": 17,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 7,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 7,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 7,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 7,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 7,
+    "gender": 1,
+    "age": 16,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 7,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 8,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 8,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 8,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 8,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 8,
+    "gender": 1,
+    "age": 16,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 8,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 9,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 9,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 9,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 9,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 10,
+    "gender": 2,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 10,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 10,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 10,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 10,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 10,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 10,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 10,
+    "gender": 1,
+    "age": 16,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 1
+  },
+  {
+    "hh": 10,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 1
+  },
+  {
+    "hh": 11,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 11,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 11,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 12,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 13,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 13,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 13,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 13,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 13,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 13,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 14,
+    "gender": 2,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 14,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 14,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 16,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 16,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 16,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 16,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 16,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 17,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 17,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 17,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 17,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 19,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 19,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 20,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 20,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 20,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 1
+  },
+  {
+    "hh": 21,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 21,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 22,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 22,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 22,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 22,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 23,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 23,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 23,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 23,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 23,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 24,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 24,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 24,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 24,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 24,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 24,
+    "gender": 1,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 25,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 25,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 26,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 26,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 26,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 2,
+    "work": 2
+  },
+  {
+    "hh": 27,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 28,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 29,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 29,
+    "gender": 1,
+    "age": 16,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 30,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 30,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 30,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 30,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 30,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 31,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 31,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 32,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 32,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 32,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 32,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 32,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 32,
+    "gender": 1,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 34,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 34,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 34,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 34,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 34,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 35,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 35,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 2,
+    "work": 2
+  },
+  {
+    "hh": 35,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 2,
+    "work": 2
+  },
+  {
+    "hh": 35,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 2,
+    "work": 2
+  },
+  {
+    "hh": 35,
+    "gender": 2,
+    "age": 16,
+    "edu_rec": 1,
+    "edu_type": 2,
+    "work": 2
+  },
+  {
+    "hh": 37,
+    "gender": 2,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 37,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 37,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 37,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 38,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 38,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 39,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 40,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 40,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 41,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 41,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 41,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 41,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 41,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 41,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 43,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 43,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 1
+  },
+  {
+    "hh": 44,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 46,
+    "gender": 1,
+    "age": 1,
+    "edu_rec": 1,
+    "edu_type": 2,
+    "work": 2
+  },
+  {
+    "hh": 46,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 1,
+    "edu_type": 2,
+    "work": 2
+  },
+  {
+    "hh": 47,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 47,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 48,
+    "gender": 1,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 48,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 48,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 48,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 48,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 49,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 49,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 49,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 49,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 50,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 50,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 51,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 52,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 52,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 52,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 52,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 53,
+    "gender": 1,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 54,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 54,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 55,
+    "gender": 2,
+    "age": 17,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 56,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 56,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 56,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 56,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 56,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 56,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 57,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 57,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 57,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 58,
+    "gender": 1,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 58,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 58,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 58,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 58,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 58,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 59,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 59,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 60,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 61,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 61,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 61,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 61,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 62,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 62,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 63,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 63,
+    "gender": 1,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 63,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 64,
+    "gender": 2,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 64,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 64,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 65,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 65,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 65,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 66,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 66,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 66,
+    "gender": 2,
+    "age": 16,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 67,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 67,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 67,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 67,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 67,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 67,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 2,
+    "work": 2
+  },
+  {
+    "hh": 69,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 69,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 69,
+    "gender": 1,
+    "age": 16,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 70,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 72,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 74,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 74,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 74,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 75,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 75,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 75,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 75,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 77,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 77,
+    "gender": 2,
+    "age": 17,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 78,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 78,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 78,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 78,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 79,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 79,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 79,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 80,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 80,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 80,
+    "gender": 2,
+    "age": 16,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 80,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 81,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 81,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 2,
+    "work": 2
+  },
+  {
+    "hh": 81,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 81,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 82,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 83,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 83,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 83,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 83,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 83,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 83,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 83,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 83,
+    "gender": 2,
+    "age": 17,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 84,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 84,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 85,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 85,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 85,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 85,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 85,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 86,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 86,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 86,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 86,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 87,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 2,
+    "work": 2
+  },
+  {
+    "hh": 87,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 2,
+    "work": 2
+  },
+  {
+    "hh": 87,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 87,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 87,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 87,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 88,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 1,
+    "edu_type": 2,
+    "work": 2
+  },
+  {
+    "hh": 88,
+    "gender": 1,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 88,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 89,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 89,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 90,
+    "gender": 2,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 90,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 90,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 91,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 91,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 91,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 91,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 92,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 92,
+    "gender": 1,
+    "age": 14,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 92,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 1
+  },
+  {
+    "hh": 94,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 1,
+    "edu_type": 2,
+    "work": 2
+  },
+  {
+    "hh": 95,
+    "gender": 1,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 95,
+    "gender": 2,
+    "age": 17,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 97,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 97,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 97,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 97,
+    "gender": 2,
+    "age": 16,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 98,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 98,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 2,
+    "work": 2
+  },
+  {
+    "hh": 98,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 99,
+    "gender": 2,
+    "age": 16,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 1
+  },
+  {
+    "hh": 101,
+    "gender": 1,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 101,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 101,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 101,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 102,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 102,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 102,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 103,
+    "gender": 1,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 103,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 103,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 104,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 104,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 105,
+    "gender": 2,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 105,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 105,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 106,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 106,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 106,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 107,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 107,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 107,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 107,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 108,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 108,
+    "gender": 1,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 108,
+    "gender": 2,
+    "age": 16,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 109,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 109,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 110,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 110,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 113,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 114,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 114,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 2,
+    "work": 2
+  },
+  {
+    "hh": 117,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 117,
+    "gender": 2,
+    "age": 16,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 117,
+    "gender": 2,
+    "age": 17,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 118,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 118,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 119,
+    "gender": 2,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 119,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 119,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 120,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 120,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 121,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 121,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 121,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 121,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 121,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 122,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 123,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 123,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 123,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 123,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 123,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 124,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 124,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 124,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 126,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 126,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 126,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 128,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 128,
+    "gender": 1,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 128,
+    "gender": 2,
+    "age": 16,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 129,
+    "gender": 2,
+    "age": 17,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 129,
+    "gender": 2,
+    "age": 17,
+    "edu_rec": 1,
+    "edu_type": 2,
+    "work": 2
+  },
+  {
+    "hh": 131,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 131,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 132,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 132,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 1
+  },
+  {
+    "hh": 132,
+    "gender": 1,
+    "age": 16,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 132,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 133,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 134,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 134,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 135,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 136,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 136,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 136,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 137,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 137,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 137,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 137,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 137,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 137,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 137,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 139,
+    "gender": 1,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 139,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 139,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 139,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 140,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 140,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 140,
+    "gender": 2,
+    "age": 17,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 141,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 141,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 141,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 141,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 142,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 142,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 142,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 143,
+    "gender": 2,
+    "age": 17,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 144,
+    "gender": 1,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 144,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 144,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 144,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 145,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 145,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 146,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 146,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 146,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 146,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 146,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 147,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 147,
+    "gender": 1,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 2,
+    "work": 2
+  },
+  {
+    "hh": 149,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 149,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 149,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 150,
+    "gender": 1,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 150,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 150,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 150,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 150,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 150,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 150,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 151,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 151,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 2,
+    "work": 2
+  },
+  {
+    "hh": 152,
+    "gender": 1,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 152,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 2,
+    "work": 2
+  },
+  {
+    "hh": 152,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 152,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 153,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 153,
+    "gender": 1,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 154,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 154,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 154,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 154,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 154,
+    "gender": 1,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 154,
+    "gender": 2,
+    "age": 16,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 156,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 156,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 156,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 156,
+    "gender": 1,
+    "age": 16,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 157,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 157,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 157,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 157,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 157,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 158,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 158,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 158,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 159,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 159,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 159,
+    "gender": 2,
+    "age": 16,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 160,
+    "gender": 1,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 160,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 161,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 161,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 161,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 163,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 163,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 164,
+    "gender": 1,
+    "age": 16,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 164,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 165,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 165,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 165,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 166,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 166,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 166,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 166,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 166,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 166,
+    "gender": 2,
+    "age": 16,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 167,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 167,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 167,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 167,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 168,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 168,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 168,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 168,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 168,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 169,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 169,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 169,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 169,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 169,
+    "gender": 1,
+    "age": 16,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 170,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 170,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 170,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 171,
+    "gender": 1,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 171,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 171,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 171,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 172,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 172,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 172,
+    "gender": 2,
+    "age": 16,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 172,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 174,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 174,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 174,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 174,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 175,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 175,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 175,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 176,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 176,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 176,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 177,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 177,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 177,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 178,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 178,
+    "gender": 1,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 178,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 179,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 179,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 179,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 179,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 179,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 179,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 179,
+    "gender": 2,
+    "age": 17,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 180,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 180,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 180,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 1
+  },
+  {
+    "hh": 180,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 180,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 182,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 182,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 182,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 182,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 183,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 3
+  },
+  {
+    "hh": 184,
+    "gender": 1,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 184,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 184,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 184,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 1
+  },
+  {
+    "hh": 184,
+    "gender": 1,
+    "age": 14,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 184,
+    "gender": 2,
+    "age": 16,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 185,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 185,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 185,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 185,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 185,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 186,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 186,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 186,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 186,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 187,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 188,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 1,
+    "edu_type": 2,
+    "work": 2
+  },
+  {
+    "hh": 188,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 188,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 189,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 189,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 189,
+    "gender": 2,
+    "age": 16,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 190,
+    "gender": 2,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 190,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 190,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 190,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 191,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 191,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 191,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 191,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 191,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 191,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 191,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 192,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 192,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 192,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 192,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 193,
+    "gender": 1,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 193,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 193,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 193,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 194,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 194,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 194,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 194,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 194,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 198,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 198,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 198,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 199,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 200,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 200,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 201,
+    "gender": 1,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 201,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 202,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 202,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 202,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 202,
+    "gender": 2,
+    "age": 16,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 203,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 203,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 203,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 204,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 204,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 204,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 204,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 204,
+    "gender": 2,
+    "age": 17,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 205,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 205,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 205,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 206,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 206,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 207,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 207,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 207,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 207,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 207,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 207,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 208,
+    "gender": 2,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 208,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 208,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 208,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 208,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 208,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 208,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 208,
+    "gender": 2,
+    "age": 17,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 210,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 210,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 211,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 211,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 211,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 211,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 211,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 212,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 212,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 212,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 213,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 213,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 213,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 213,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 214,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 214,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 214,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 214,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 215,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 215,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 215,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 216,
+    "gender": 1,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 216,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 216,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 216,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 216,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 216,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 218,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 218,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 218,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 218,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 218,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 219,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 219,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 219,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 220,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 220,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 220,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 221,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 221,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 221,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 221,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 222,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 223,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 223,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 223,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 223,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 223,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 223,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 223,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 224,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 224,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 225,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 226,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 226,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 226,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 226,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 226,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 227,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 227,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 227,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 227,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 227,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 228,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 228,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 228,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 228,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 228,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 229,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 229,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 229,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 230,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 230,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 230,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 231,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 231,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 231,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 231,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 231,
+    "gender": 1,
+    "age": 16,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 233,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 233,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 233,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 234,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 234,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 234,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 234,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 235,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 235,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 3
+  },
+  {
+    "hh": 236,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 236,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 236,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 236,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 236,
+    "gender": 1,
+    "age": 16,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 237,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 237,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 238,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 238,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 238,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 238,
+    "gender": 1,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 239,
+    "gender": 2,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 239,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 239,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 239,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 239,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 239,
+    "gender": 2,
+    "age": 16,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 240,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 240,
+    "gender": 1,
+    "age": 16,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 241,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 241,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 241,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 241,
+    "gender": 1,
+    "age": 16,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 242,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 243,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 243,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 243,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 243,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 243,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 244,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 244,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 245,
+    "gender": 2,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 245,
+    "gender": 2,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 245,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 245,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 245,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 245,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 246,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 246,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 246,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 246,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 246,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 247,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 247,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 247,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 247,
+    "gender": 1,
+    "age": 16,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 247,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 248,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 248,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 248,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 248,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 248,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 249,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 249,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 249,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 250,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 250,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 250,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 250,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 251,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 251,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 251,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 252,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 252,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 252,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 252,
+    "gender": 1,
+    "age": 16,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 252,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 1
+  },
+  {
+    "hh": 253,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 253,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 253,
+    "gender": 1,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 254,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 254,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 254,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 254,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 254,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 255,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 255,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 255,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 255,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 255,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 255,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 255,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 255,
+    "gender": 2,
+    "age": 17,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 258,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 258,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 258,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 260,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 260,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 260,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 260,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 260,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 261,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 261,
+    "gender": 1,
+    "age": 16,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 264,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 264,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 264,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 264,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 264,
+    "gender": 2,
+    "age": 17,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 264,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 264,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 264,
+    "gender": 1,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 265,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 265,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 265,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 265,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 265,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 265,
+    "gender": 2,
+    "age": 16,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 265,
+    "gender": 2,
+    "age": 17,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 266,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 266,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 267,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 268,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 268,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 268,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 268,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 268,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 269,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 269,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 269,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 269,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 269,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 269,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 270,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 270,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 270,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 270,
+    "gender": 2,
+    "age": 16,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 271,
+    "gender": 2,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 271,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 271,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 271,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 271,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 271,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 273,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 273,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 273,
+    "gender": 1,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 273,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 1
+  },
+  {
+    "hh": 273,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 274,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 274,
+    "gender": 1,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 274,
+    "gender": 2,
+    "age": 17,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 276,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 276,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 276,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 276,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 276,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 277,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 277,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 278,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 278,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 278,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 278,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 279,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 279,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 279,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 279,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 279,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 280,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 280,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 280,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 281,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 281,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 282,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 282,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 283,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 283,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 283,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 285,
+    "gender": 2,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 285,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 286,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 286,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 3
+  },
+  {
+    "hh": 287,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 287,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 287,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 288,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 288,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 288,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 288,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 288,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 288,
+    "gender": 1,
+    "age": 14,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 1
+  },
+  {
+    "hh": 289,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 289,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 289,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 289,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 289,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 290,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 290,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 290,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 290,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 290,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 291,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 291,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 291,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 291,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 291,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 292,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 292,
+    "gender": 1,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 292,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 293,
+    "gender": 1,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 293,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 293,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 294,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 294,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 295,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 295,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 295,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 295,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 296,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 296,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 296,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 296,
+    "gender": 1,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 297,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 297,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 297,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 299,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 299,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 299,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 299,
+    "gender": 1,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 299,
+    "gender": 1,
+    "age": 16,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 299,
+    "gender": 2,
+    "age": 17,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 300,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 300,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 300,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 300,
+    "gender": 1,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 300,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 301,
+    "gender": 1,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 301,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 301,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 301,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 301,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 301,
+    "gender": 1,
+    "age": 14,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 301,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 302,
+    "gender": 1,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 302,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 302,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 302,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 303,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 303,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 303,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 303,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 303,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 304,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 304,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 304,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 304,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 1
+  },
+  {
+    "hh": 305,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 305,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 306,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 306,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 306,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 307,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 307,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 308,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 308,
+    "gender": 1,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 308,
+    "gender": 1,
+    "age": 16,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 308,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 309,
+    "gender": 2,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 309,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 309,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 2,
+    "work": 2
+  },
+  {
+    "hh": 309,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 310,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 310,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 310,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 310,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 2,
+    "work": 2
+  },
+  {
+    "hh": 311,
+    "gender": 2,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 311,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 311,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 313,
+    "gender": 2,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 313,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 313,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 313,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 313,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 314,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 314,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 314,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 315,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 315,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 315,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 315,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 315,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 317,
+    "gender": 2,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 317,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 317,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 319,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 319,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 319,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 319,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 319,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 319,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 320,
+    "gender": 2,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 320,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 322,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 322,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 323,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 323,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 325,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 325,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 325,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 326,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 326,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 326,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 326,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 326,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 327,
+    "gender": 2,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 327,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 327,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 328,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 328,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 329,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 329,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 329,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 329,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 330,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 330,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 330,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 330,
+    "gender": 2,
+    "age": 16,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 330,
+    "gender": 2,
+    "age": 17,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 331,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 332,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 332,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 332,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 332,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 333,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 334,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 334,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 334,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 334,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 334,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 336,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 336,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 336,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 336,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 337,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 337,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 337,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 337,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 337,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 337,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 337,
+    "gender": 2,
+    "age": 16,
+    "edu_rec": 1,
+    "edu_type": 2,
+    "work": 2
+  },
+  {
+    "hh": 337,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 338,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 338,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 338,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 338,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 339,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 339,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 340,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 341,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 341,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 341,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 342,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 342,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 342,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 342,
+    "gender": 2,
+    "age": 17,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 343,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 343,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 343,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 344,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 344,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 346,
+    "gender": 1,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 346,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 346,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 347,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 347,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 347,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 347,
+    "gender": 1,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 348,
+    "gender": 2,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 348,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 350,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 350,
+    "gender": 2,
+    "age": 17,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 351,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 352,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 352,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 352,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 353,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 353,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 353,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 353,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 354,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 354,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 355,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 355,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 356,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 356,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 357,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 357,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 357,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 358,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 358,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 358,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 359,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 359,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 359,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 359,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 360,
+    "gender": 1,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 360,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 360,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 360,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 360,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 361,
+    "gender": 2,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 361,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 362,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 362,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 362,
+    "gender": 1,
+    "age": 16,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 363,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 363,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 363,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 363,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 363,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 363,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 364,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 364,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 364,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 365,
+    "gender": 2,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 365,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 365,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 366,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 366,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 366,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 2,
+    "work": 1
+  },
+  {
+    "hh": 366,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 367,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 367,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 367,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 2,
+    "work": 1
+  },
+  {
+    "hh": 367,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 368,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 368,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 369,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 369,
+    "gender": 1,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 371,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 371,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 371,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 1
+  },
+  {
+    "hh": 371,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 371,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 371,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 372,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 372,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 372,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 372,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 374,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 374,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 374,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 375,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 376,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 376,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 376,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 376,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 376,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 377,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 377,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 377,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 377,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 377,
+    "gender": 2,
+    "age": 16,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 379,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 379,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 379,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 380,
+    "gender": 2,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 380,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 380,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 380,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 380,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 380,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 380,
+    "gender": 1,
+    "age": 14,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 380,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 382,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 382,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 383,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 383,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 383,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 2,
+    "work": 2
+  },
+  {
+    "hh": 383,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 383,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 384,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 384,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 385,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 385,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 385,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 386,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 386,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 386,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 386,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 386,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 387,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 387,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 388,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 388,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 388,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 390,
+    "gender": 1,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 390,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 390,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 390,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 390,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 391,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 391,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 391,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 391,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 391,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 392,
+    "gender": 2,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 392,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 392,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 392,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 392,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 393,
+    "gender": 1,
+    "age": 16,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 394,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 395,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 395,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 395,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 395,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 395,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 396,
+    "gender": 2,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 396,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 1
+  },
+  {
+    "hh": 396,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 396,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 396,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 397,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 397,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 397,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 397,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 397,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 398,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 398,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 398,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 398,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 398,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 398,
+    "gender": 1,
+    "age": 16,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 399,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 400,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 400,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 400,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 400,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 401,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 401,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 401,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 401,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 1
+  },
+  {
+    "hh": 401,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 402,
+    "gender": 1,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 402,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 402,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 1
+  },
+  {
+    "hh": 402,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 402,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 402,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 403,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 403,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 403,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 403,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 403,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 403,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 403,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 403,
+    "gender": 2,
+    "age": 16,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 403,
+    "gender": 2,
+    "age": 17,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 404,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 404,
+    "gender": 1,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 406,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 406,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 406,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 406,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 408,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 408,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 408,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 409,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 409,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 409,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 409,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 410,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 1
+  },
+  {
+    "hh": 410,
+    "gender": 1,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 411,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 411,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 412,
+    "gender": 2,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 412,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 412,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 412,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 412,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 413,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 413,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 413,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 414,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 414,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 1
+  },
+  {
+    "hh": 414,
+    "gender": 1,
+    "age": 14,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 414,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 415,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 415,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 415,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 415,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 416,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 416,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 416,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 417,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 417,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 417,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 417,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 418,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 418,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 418,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 418,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 418,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 418,
+    "gender": 2,
+    "age": 17,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 419,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 419,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 419,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 420,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 420,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 420,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 420,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 420,
+    "gender": 1,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 420,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 421,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 421,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 422,
+    "gender": 1,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 422,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 422,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 422,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 422,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 422,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 422,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 422,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 423,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 423,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 424,
+    "gender": 1,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 424,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 424,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 424,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 424,
+    "gender": 2,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 426,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 426,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 426,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 428,
+    "gender": 2,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 428,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 428,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 428,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 428,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 428,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 430,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 430,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 431,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 431,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 431,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 432,
+    "gender": 2,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 432,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 432,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 432,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 432,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 432,
+    "gender": 2,
+    "age": 16,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 433,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 434,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 434,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 434,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 434,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 435,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 435,
+    "gender": 1,
+    "age": 16,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 436,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 436,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 436,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 436,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 437,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 437,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 437,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 437,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 438,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 439,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 1
+  },
+  {
+    "hh": 439,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 440,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 440,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 440,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 440,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 442,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 442,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 442,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 443,
+    "gender": 1,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 443,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 443,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 445,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 445,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 445,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 445,
+    "gender": 1,
+    "age": 16,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 446,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 446,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 446,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 446,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 447,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 447,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 447,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 447,
+    "gender": 1,
+    "age": 16,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 448,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 448,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 448,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 448,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 450,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 450,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 451,
+    "gender": 2,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 451,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 451,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 452,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 452,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 1
+  },
+  {
+    "hh": 452,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 455,
+    "gender": 1,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 455,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 455,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 458,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 459,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 459,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 460,
+    "gender": 1,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 460,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 463,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 463,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 463,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 464,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 465,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 465,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 466,
+    "gender": 2,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 466,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 467,
+    "gender": 1,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 467,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 467,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 468,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 468,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 469,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 469,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 469,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 469,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 469,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 469,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 469,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 472,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 472,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 472,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 473,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 473,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 473,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 473,
+    "gender": 2,
+    "age": 17,
+    "edu_rec": 1,
+    "edu_type": 2,
+    "work": 2
+  },
+  {
+    "hh": 474,
+    "gender": 1,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 474,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 474,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 474,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 474,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 474,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 477,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 477,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 477,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 477,
+    "gender": 2,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 478,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 479,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 480,
+    "gender": 1,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 480,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 480,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 480,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 480,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 480,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 481,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 481,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 481,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 481,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 483,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 483,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 483,
+    "gender": 1,
+    "age": 7,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 483,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 484,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 484,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 484,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 485,
+    "gender": 2,
+    "age": 17,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 486,
+    "gender": 2,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 486,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 486,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 486,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 487,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 487,
+    "gender": 1,
+    "age": 16,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 488,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 488,
+    "gender": 1,
+    "age": 16,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 489,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 489,
+    "gender": 2,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 489,
+    "gender": 2,
+    "age": 17,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 490,
+    "gender": 1,
+    "age": 1,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 490,
+    "gender": 1,
+    "age": 2,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 490,
+    "gender": 1,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 490,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 490,
+    "gender": 1,
+    "age": 13,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 490,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 491,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 491,
+    "gender": 1,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 491,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 491,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 492,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 492,
+    "gender": 2,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 1
+  },
+  {
+    "hh": 492,
+    "gender": 1,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 492,
+    "gender": 2,
+    "age": 17,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 493,
+    "gender": 2,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 493,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 493,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 494,
+    "gender": 2,
+    "age": 3,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 494,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 494,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 495,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 495,
+    "gender": 2,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 495,
+    "gender": 2,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 495,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 495,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 496,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 496,
+    "gender": 1,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 496,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 496,
+    "gender": 2,
+    "age": 14,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 496,
+    "gender": 2,
+    "age": 15,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 497,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 497,
+    "gender": 1,
+    "age": 5,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 498,
+    "gender": 1,
+    "age": 8,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 498,
+    "gender": 2,
+    "age": 9,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 498,
+    "gender": 1,
+    "age": 11,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 498,
+    "gender": 1,
+    "age": 12,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 499,
+    "gender": 1,
+    "age": 4,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  },
+  {
+    "hh": 499,
+    "gender": 1,
+    "age": 6,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 500,
+    "gender": 2,
+    "age": 10,
+    "edu_rec": 1,
+    "edu_type": 1,
+    "work": 2
+  },
+  {
+    "hh": 500,
+    "gender": 1,
+    "age": 17,
+    "edu_rec": 2,
+    "edu_type": 0,
+    "work": 2
+  }
+]
