@@ -23,7 +23,7 @@ Vis.Views.ChildrenAge = Backbone.View.extend({
         this.myChart.addMeasureAxis("y", "value");
         this.mySeries = this.myChart.addSeries(null, dimple.plot.bar);
         this.mySeries.addEventHandler("click", function (e) {
-          that.updateSelection(e);});
+          that.update(e);});
       }
       this.setAesthetics();
       this.myChart.draw(500);
@@ -37,12 +37,15 @@ Vis.Views.ChildrenAge = Backbone.View.extend({
       })
     },
 
-    updateSelection: function(e) {
+    update: function(e) {
+        var filter = this.model.get("ages"),
+            clicked = e.xValue;
+
         var filter = this.model.get("ages"),
             selected = e.xValue;
 
         if (filter.indexOf(selected) === -1) { filter.push(selected); }
         else { filter = _.without(filter, selected);}
         this.model.filterByAge(filter);
-    }
+    },
 });

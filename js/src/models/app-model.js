@@ -3,7 +3,9 @@ Vis.Models.App = Backbone.Model.extend({
   defaults: {
     ages: null,
     genders: null,
-    heads: null
+    heads: null,
+    poverties: null,
+    disabilities: null
   },
 
   initialize: function () {
@@ -19,24 +21,26 @@ Vis.Models.App = Backbone.Model.extend({
 
   // DIMENSION FILTER PROXIES
   filterByAge: function(args) {
-    var filter = (args) ? this.filterExactList(args) : null;
-    this.set("ages", args || this.getKeys(this.childrenByAge));
-    this.childrenAge.filter(filter);
-    Backbone.trigger("filtering");
+    this.filterBy(args, "ages", this.childrenAge, this.childrenByAge);
   },
 
   filterByGender: function(args) {
-    var filter = (args !== null) ? this.filterExactList(args) : null;
-    this.set("genders", args || this.getKeys(this.childrenByGender));
-    this.childrenGender.filter(filter);
-    Backbone.trigger("filtering");
+    this.filterBy(args, "genders", this.childrenGender, this.childrenByGender);
   },
 
   filterByHead: function(args) {
-    var filter = (args !== null) ? this.filterExactList(args) : null;
-    this.set("heads", args || this.getKeys(this.householdsByHead));
-    this.householdsHead.filter(filter);
-    Backbone.trigger("filtering");
+    this.filterBy(args, "heads", this.householdsHead, this.householdsByHead);
+  },
+
+  filterByPoverty: function(args) {
+    this.filterBy(args,"poverties", this.householdsPoverty, this.householdsByPoverty);
+  },
+
+  filterBy: function(args, attr, dim, grp) {
+      var filter = (args !== null) ? this.filterExactList(args) : null;
+      this.set(attr, args || this.getKeys(grp));
+      dim.filter(filter);
+      Backbone.trigger("filtering");
   },
 
   // UTILITY FUNCTIONS
@@ -103,7 +107,7 @@ Vis.Models.App = Backbone.Model.extend({
       return housholdsLookUp[d.hh].head;
     });
     this.householdsPoverty = children.dimension(function(d) {
-       return housholdsLookUp[d.hh].poverty;
+       return housholdsLookUp[d.hh].pov_line;
      });
     this.householdsDisability = children.dimension(function(d) {
        return housholdsLookUp[d.hh].hasDis;
@@ -125,6 +129,8 @@ Vis.Models.App = Backbone.Model.extend({
     this.set("ages", this.getKeys(this.childrenByAge));
     this.set("genders", this.getKeys(this.childrenByGender));
     this.set("heads", this.getKeys(this.householdsByHead));
+    this.set("poverties", this.getKeys(this.householdsByPoverty));
+    this.set("disabilities", this.getKeys(this.householdsByDisability));
 
     // OUTCOMES
     var outcomes = crossfilter(data.outcomes);

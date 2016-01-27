@@ -16,5 +16,6 @@ Vis.Views.Scenarios = Backbone.View.extend({
       this.model.filterByAge(null);
       this.model.filterByGender(null);
       this.model.filterByHead(null);
+      this.model.filterByPoverty(null);
     }
   });

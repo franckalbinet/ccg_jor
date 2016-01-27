@@ -29,7 +29,7 @@ hr {
   text-transform: uppercase;
 }
 
-/*.chart rect {
+.selectable .dimple-bar {
   fill: #eee !important;
   fill: steelblue !important;
   stroke: #ddd !important;
@@ -37,8 +37,8 @@ hr {
   opacity: 0.3;
 }
 
-.chart rect.selected {
+.selectable .dimple-bar.selected {
   fill: steelblue !important;
   opacity: 0.9 !important;
   stroke: #777 !important;
-}*/
+}

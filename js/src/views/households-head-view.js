@@ -26,7 +26,7 @@ Vis.Views.HouseholdsHead = Backbone.View.extend({
         this.myChart.addCategoryAxis("y", "key");
         this.mySeries = this.myChart.addSeries(null, dimple.plot.bar);
         this.mySeries.addEventHandler("click", function (e) {
-          that.updateSelection(e);});
+          that.update(e);});
       } else {
         this.myChart.data = data;
       }
@@ -43,7 +43,7 @@ Vis.Views.HouseholdsHead = Backbone.View.extend({
 
     },
 
-    updateSelection: function(e) {
+    update: function(e) {
         var filter = this.model.get("heads"),
             selected = e.yValue;
 

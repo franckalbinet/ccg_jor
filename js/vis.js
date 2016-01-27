@@ -80,7 +80,9 @@ Vis.Models.App = Backbone.Model.extend({
   defaults: {
     ages: null,
     genders: null,
-    heads: null
+    heads: null,
+    poverties: null,
+    disabilities: null
   },
 
   initialize: function () {
@@ -96,24 +98,26 @@ Vis.Models.App = Backbone.Model.extend({
 
   // DIMENSION FILTER PROXIES
   filterByAge: function(args) {
-    var filter = (args) ? this.filterExactList(args) : null;
-    this.set("ages", args || this.getKeys(this.childrenByAge));
-    this.childrenAge.filter(filter);
-    Backbone.trigger("filtering");
+    this.filterBy(args, "ages", this.childrenAge, this.childrenByAge);
   },
 
   filterByGender: function(args) {
-    var filter = (args !== null) ? this.filterExactList(args) : null;
-    this.set("genders", args || this.getKeys(this.childrenByGender));
-    this.childrenGender.filter(filter);
-    Backbone.trigger("filtering");
+    this.filterBy(args, "genders", this.childrenGender, this.childrenByGender);
   },
 
   filterByHead: function(args) {
-    var filter = (args !== null) ? this.filterExactList(args) : null;
-    this.set("heads", args || this.getKeys(this.householdsByHead));
-    this.householdsHead.filter(filter);
-    Backbone.trigger("filtering");
+    this.filterBy(args, "heads", this.householdsHead, this.householdsByHead);
+  },
+
+  filterByPoverty: function(args) {
+    this.filterBy(args,"poverties", this.householdsPoverty, this.householdsByPoverty);
+  },
+
+  filterBy: function(args, attr, dim, grp) {
+      var filter = (args !== null) ? this.filterExactList(args) : null;
+      this.set(attr, args || this.getKeys(grp));
+      dim.filter(filter);
+      Backbone.trigger("filtering");
   },
 
   // UTILITY FUNCTIONS
@@ -180,7 +184,7 @@ Vis.Models.App = Backbone.Model.extend({
       return housholdsLookUp[d.hh].head;
     });
     this.householdsPoverty = children.dimension(function(d) {
-       return housholdsLookUp[d.hh].poverty;
+       return housholdsLookUp[d.hh].pov_line;
      });
     this.householdsDisability = children.dimension(function(d) {
        return housholdsLookUp[d.hh].hasDis;
@@ -202,6 +206,8 @@ Vis.Models.App = Backbone.Model.extend({
     this.set("ages", this.getKeys(this.childrenByAge));
     this.set("genders", this.getKeys(this.childrenByGender));
     this.set("heads", this.getKeys(this.householdsByHead));
+    this.set("poverties", this.getKeys(this.householdsByPoverty));
+    this.set("disabilities", this.getKeys(this.householdsByDisability));
 
     // OUTCOMES
     var outcomes = crossfilter(data.outcomes);
@@ -239,9 +245,48 @@ $(function () {
     // VIEWS INSTANCIATION
     // profile
     new Vis.Views.Scenarios({model: Vis.Models.app});
-    new Vis.Views.ChildrenAge({model: Vis.Models.app});
-    new Vis.Views.ChildrenGender({model: Vis.Models.app});
-    new Vis.Views.HouseholdsHead({model: Vis.Models.app});
+    // new Vis.Views.ChildrenAge({model: Vis.Models.app});
+    // new Vis.Views.ChildrenGender({model: Vis.Models.app});
+    // new Vis.Views.HouseholdsHead({model: Vis.Models.app});
+    // new Vis.Views.HouseholdsPoverty({model: Vis.Models.app});
+
+    new Vis.Views.BarChartHorizontal({
+      el: "#children-by-age",
+      model: Vis.Models.app,
+      grp: "childrenByAge",
+      attr: "ages",
+      filter: "filterByAge",
+      accessor: function(d) { return { key: d.key, value: d.value}; }
+    });
+
+    new Vis.Views.BarChartVertical({
+      el: "#children-by-gender",
+      model: Vis.Models.app,
+      grp: "childrenByGender",
+      attr: "genders",
+      filter: "filterByGender",
+      accessor: function(d) { return { key: d.key, value: d.value}; }
+    });
+
+    new Vis.Views.BarChartVertical({
+      el: "#households-by-head",
+      model: Vis.Models.app,
+      grp: "householdsByHead",
+      attr: "heads",
+      filter: "filterByHead",
+      accessor: function(d) {
+        return { key: d.key, value: d.value.householdCount}; }
+    });
+
+    new Vis.Views.BarChartVertical({
+      el: "#households-by-poverty",
+      model: Vis.Models.app,
+      grp: "householdsByPoverty",
+      attr: "poverties",
+      filter: "filterByPoverty",
+      accessor: function(d) {
+        return { key: d.key, value: d.value.householdCount}; }
+    });
 
     // outcomes
     new Vis.Views.LifeImprovement({model: Vis.Models.app});
@@ -269,6 +314,7 @@ Vis.Views.Scenarios = Backbone.View.extend({
       this.model.filterByAge(null);
       this.model.filterByGender(null);
       this.model.filterByHead(null);
+      this.model.filterByPoverty(null);
     }
   });
 // Children By Age View
@@ -296,7 +342,7 @@ Vis.Views.ChildrenAge = Backbone.View.extend({
         this.myChart.addMeasureAxis("y", "value");
         this.mySeries = this.myChart.addSeries(null, dimple.plot.bar);
         this.mySeries.addEventHandler("click", function (e) {
-          that.updateSelection(e);});
+          that.update(e);});
       }
       this.setAesthetics();
       this.myChart.draw(500);
@@ -310,14 +356,124 @@ Vis.Views.ChildrenAge = Backbone.View.extend({
       })
     },
 
-    updateSelection: function(e) {
+    update: function(e) {
+        var filter = this.model.get("ages"),
+            clicked = e.xValue;
+
         var filter = this.model.get("ages"),
             selected = e.xValue;
 
         if (filter.indexOf(selected) === -1) { filter.push(selected); }
         else { filter = _.without(filter, selected);}
         this.model.filterByAge(filter);
-    }
+    },
+});
+// Template Horizontal BarChart view
+Vis.Views.BarChartHorizontal = Backbone.View.extend({
+    events: {
+    },
+
+    initialize: function (options) {
+      _.extend(this, _.pick(options, "grp", "attr", "filter", "accessor"));
+      Backbone.on("filtered", function(d) {
+        this.render();
+      }, this);
+    },
+
+    render: function() {
+      var that = this,
+          data = this.model[this.grp].top(Infinity)
+            .map(this.accessor);
+
+      if (!this.myChart) {
+        this.svg = dimple.newSvg("#" + this.el.id + " .chart", 400, 200);
+        this.myChart = new dimple.chart(this.svg, data);
+        this.myChart.setBounds(25, 5, 350, 120);
+        var x = this.myChart.addCategoryAxis("x", "key");
+        this.myChart.addMeasureAxis("y", "value");
+        this.mySeries = this.myChart.addSeries(null, dimple.plot.bar);
+        this.mySeries.addEventHandler("click", function (e) {
+          that.update(e);});
+      } else {
+        this.myChart.data = data;
+      }
+      this.setAesthetics();
+      this.myChart.draw(500);
+    },
+
+    setAesthetics: function() {
+      var that = this;
+      d3.selectAll("#" + this.el.id + " .chart rect").classed("selected", false);
+      // this.model.get("genders").forEach(function(d) {
+      this.model.get(this.attr).forEach(function(d) {
+        d3.select("#" + that.el.id + " .chart rect#dimple-all-" + d + "---")
+          .classed("selected", true);
+      })
+    },
+
+    update: function(e) {
+      var filter = this.model.get(this.attr),
+          selected = e.xValue;
+
+      if (filter.indexOf(selected) === -1) { filter.push(selected); }
+      else { filter = _.without(filter, selected);}
+      this.model[this.filter](filter);
+    },
+});
+// Template Vertical BarChart view
+Vis.Views.BarChartVertical = Backbone.View.extend({
+    events: {
+    },
+
+    initialize: function (options) {
+      _.extend(this, _.pick(options, "grp", "attr", "filter", "accessor"));
+      Backbone.on("filtered", function(d) {
+        this.render();
+      }, this);
+    },
+
+    render: function() {
+      var that = this,
+          data = this.model[this.grp].top(Infinity)
+            .map(this.accessor);
+
+      if (!this.myChart) {
+        this.svg = dimple.newSvg("#" + this.el.id + " .chart", 400, 200);
+        this.myChart = new dimple.chart(this.svg, data);
+        this.myChart.setBounds(25, 5, 350, 120);
+        this.myChart.addMeasureAxis("x", "value");
+        this.myChart.addCategoryAxis("y", "key");
+
+        // var x = this.myChart.addCategoryAxis("x", "key");
+        // this.myChart.addMeasureAxis("y", "value");
+        this.mySeries = this.myChart.addSeries(null, dimple.plot.bar);
+        this.mySeries.addEventHandler("click", function (e) {
+          that.update(e);});
+      } else {
+        this.myChart.data = data;
+      }
+      this.setAesthetics();
+      this.myChart.draw(500);
+    },
+
+    setAesthetics: function() {
+      var that = this;
+      d3.selectAll("#" + this.el.id + " .chart rect").classed("selected", false);
+      // this.model.get("genders").forEach(function(d) {
+      this.model.get(this.attr).forEach(function(d) {
+        d3.select("#" + that.el.id + " .chart rect#dimple-all--" + d + "--")
+          .classed("selected", true);
+      })
+    },
+
+    update: function(e) {
+      var filter = this.model.get(this.attr),
+          selected = e.yValue;
+
+      if (filter.indexOf(selected) === -1) { filter.push(selected); }
+      else { filter = _.without(filter, selected);}
+      this.model[this.filter](filter);
+    },
 });
 // Children By Gender View
 Vis.Views.ChildrenGender = Backbone.View.extend({
@@ -337,29 +493,31 @@ Vis.Views.ChildrenGender = Backbone.View.extend({
           data = this.model.childrenByGender.top(Infinity);
 
       if (!this.myChart) {
-        this.svg = dimple.newSvg("#chart-children-by-gender", 400, 100);
+        // this.svg = dimple.newSvg("#chart-children-by-gender", 400, 100);
+        this.svg = dimple.newSvg("#" + this.el.id + " .chart", 400, 100);
         this.myChart = new dimple.chart(this.svg, data);
         this.myChart.setBounds(20, 5, 350, 60);
         this.myChart.addMeasureAxis("x", "value");
         this.myChart.addCategoryAxis("y", "key");
         this.mySeries = this.myChart.addSeries(null, dimple.plot.bar);
         this.mySeries.addEventHandler("click", function (e) {
-          that.updateSelection(e);});
+          that.update(e);});
       }
       this.setAesthetics();
       this.myChart.draw(500);
     },
 
     setAesthetics: function() {
-      d3.selectAll("#chart-children-by-gender rect").classed("selected", false);
+      var that = this;
+      d3.selectAll("#" + this.el.id + " .chart rect").classed("selected", false);
       this.model.get("genders").forEach(function(d) {
-        d3.select("#children-by-gender #chart-children-by-gender rect#dimple-all-" + d + "---")
+        d3.select("#" + that.el.id + " .chart rect#dimple-all--" + d + "--")
           .classed("selected", true);
       })
 
     },
 
-    updateSelection: function(e) {
+    update: function(e) {
         var filter = this.model.get("genders"),
             selected = e.yValue;
 
@@ -396,7 +554,7 @@ Vis.Views.HouseholdsHead = Backbone.View.extend({
         this.myChart.addCategoryAxis("y", "key");
         this.mySeries = this.myChart.addSeries(null, dimple.plot.bar);
         this.mySeries.addEventHandler("click", function (e) {
-          that.updateSelection(e);});
+          that.update(e);});
       } else {
         this.myChart.data = data;
       }
@@ -413,13 +571,67 @@ Vis.Views.HouseholdsHead = Backbone.View.extend({
 
     },
 
-    updateSelection: function(e) {
+    update: function(e) {
         var filter = this.model.get("heads"),
             selected = e.yValue;
 
         if (filter.indexOf(selected) === -1) { filter.push(selected); }
         else { filter = _.without(filter, selected);}
         this.model.filterByHead(filter);
+    }
+});
+// Households By Poverty Line of family View
+Vis.Views.HouseholdsPoverty = Backbone.View.extend({
+    el: '#households-by-poverty',
+
+    events: {
+    },
+
+    initialize: function () {
+      Backbone.on("filtered", function(d) {
+        this.render();
+      }, this);
+    },
+
+    render: function() {
+      var that = this,
+          data = this.model.householdsByPoverty.top(Infinity)
+            .map(function(d) {
+              return { key: d.key, value: d.value.householdCount };
+            });
+
+      if (!this.myChart) {
+        this.svg = dimple.newSvg("#chart-households-by-poverty", 400, 150);
+        this.myChart = new dimple.chart(this.svg, data);
+        this.myChart.setBounds(20, 5, 350, 80);
+        this.myChart.addMeasureAxis("x", "value");
+        this.myChart.addCategoryAxis("y", "key");
+        this.mySeries = this.myChart.addSeries(null, dimple.plot.bar);
+        this.mySeries.addEventHandler("click", function (e) {
+          that.update(e);});
+      } else {
+        this.myChart.data = data;
+      }
+      this.setAesthetics();
+      this.myChart.draw(500);
+    },
+
+    setAesthetics: function() {
+      d3.selectAll("#chart-households-by-poverty rect").classed("selected", false);
+      this.model.get("poverties").forEach(function(d) {
+        d3.select("#households-by-poverty #chart-households-by-poverty rect#dimple-all--" + d + "--")
+          .classed("selected", true);
+      })
+
+    },
+
+    update: function(e) {
+        var filter = this.model.get("poverties"),
+            selected = e.yValue;
+
+        if (filter.indexOf(selected) === -1) { filter.push(selected); }
+        else { filter = _.without(filter, selected);}
+        this.model.filterByPoverty(filter);
     }
 });
 // Life improvement View

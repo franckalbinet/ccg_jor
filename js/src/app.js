@@ -14,9 +14,48 @@ $(function () {
     // VIEWS INSTANCIATION
     // profile
     new Vis.Views.Scenarios({model: Vis.Models.app});
-    new Vis.Views.ChildrenAge({model: Vis.Models.app});
-    new Vis.Views.ChildrenGender({model: Vis.Models.app});
-    new Vis.Views.HouseholdsHead({model: Vis.Models.app});
+    // new Vis.Views.ChildrenAge({model: Vis.Models.app});
+    // new Vis.Views.ChildrenGender({model: Vis.Models.app});
+    // new Vis.Views.HouseholdsHead({model: Vis.Models.app});
+    // new Vis.Views.HouseholdsPoverty({model: Vis.Models.app});
+
+    new Vis.Views.BarChartHorizontal({
+      el: "#children-by-age",
+      model: Vis.Models.app,
+      grp: "childrenByAge",
+      attr: "ages",
+      filter: "filterByAge",
+      accessor: function(d) { return { key: d.key, value: d.value}; }
+    });
+
+    new Vis.Views.BarChartVertical({
+      el: "#children-by-gender",
+      model: Vis.Models.app,
+      grp: "childrenByGender",
+      attr: "genders",
+      filter: "filterByGender",
+      accessor: function(d) { return { key: d.key, value: d.value}; }
+    });
+
+    new Vis.Views.BarChartVertical({
+      el: "#households-by-head",
+      model: Vis.Models.app,
+      grp: "householdsByHead",
+      attr: "heads",
+      filter: "filterByHead",
+      accessor: function(d) {
+        return { key: d.key, value: d.value.householdCount}; }
+    });
+
+    new Vis.Views.BarChartVertical({
+      el: "#households-by-poverty",
+      model: Vis.Models.app,
+      grp: "householdsByPoverty",
+      attr: "poverties",
+      filter: "filterByPoverty",
+      accessor: function(d) {
+        return { key: d.key, value: d.value.householdCount}; }
+    });
 
     // outcomes
     new Vis.Views.LifeImprovement({model: Vis.Models.app});
