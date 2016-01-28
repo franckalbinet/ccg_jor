@@ -10,12 +10,9 @@ vis_src =	${vis_dir}/namespace.js\
 					${vis_dir}/models/app-model.js\
 					${vis_dir}/app.js\
 					${vis_dir}/views/scenarios-view.js\
-					${vis_dir}/views/children-age-view.js\
 					${vis_dir}/views/bar-chart-horizontal-view.js\
 					${vis_dir}/views/bar-chart-vertical-view.js\
-					${vis_dir}/views/children-gender-view.js\
-					${vis_dir}/views/households-head-view.js\
-					${vis_dir}/views/households-poverty-view.js\
+					${vis_dir}/views/households-children-view.js\
 					${vis_dir}/views/life-improvement-view.js\
 					${vis_dir}/views/covering-needs-view.js\
 

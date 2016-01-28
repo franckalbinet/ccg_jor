@@ -20,25 +20,40 @@ h4 {
   border: 1px solid #ddd;
   border: 1px solid rgba(86,61,124,.2);*/
 }
-
-hr {
-  margin-top: 40px;
-  margin-bottom: 40px;
+[class*="col-"] {
+    padding-top: 0px;
+    padding-bottom: 0px;
 }
-.page-header h3 {
+hr {
+    margin-top: 3px;
+    margin-bottom: -5px;
+}
+
+/*path.domain {
+  stroke: none !important;
+}*/
+
+.page-header h4 {
   text-transform: uppercase;
 }
+.page-header p {
+  font-size: 17px;
+}
 
+h3 {
+  font-size: 22px;
+}
 .selectable .dimple-bar {
   fill: #eee !important;
-  fill: steelblue !important;
-  stroke: #ddd !important;
-  stroke: #777 !important;
-  opacity: 0.3;
+  /*fill: steelblue !important;*/
+  /*stroke: #ddd !important;*/
+  stroke: none !important;
+  /*opacity: 0.3;*/
 }
 
 .selectable .dimple-bar.selected {
-  fill: steelblue !important;
-  opacity: 0.9 !important;
-  stroke: #777 !important;
+  /*fill: steelblue !important;*/
+  fill: rgb(128, 177, 211) !important;
+  /*opacity: 0.9 !important;*/
+  stroke: none !important;
 }

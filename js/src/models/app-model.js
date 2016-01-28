@@ -1,8 +1,11 @@
 // Application model: save app. states
 Vis.Models.App = Backbone.Model.extend({
   defaults: {
+    households: null,
     ages: null,
     genders: null,
+    educations: null,
+    works: null,
     heads: null,
     poverties: null,
     disabilities: null
@@ -28,12 +31,28 @@ Vis.Models.App = Backbone.Model.extend({
     this.filterBy(args, "genders", this.childrenGender, this.childrenByGender);
   },
 
+  filterByEducation: function(args) {
+    this.filterBy(args, "educations", this.childrenEducation, this.childrenByEducation);
+  },
+
+  filterByWork: function(args) {
+    this.filterBy(args, "works", this.childrenWork, this.childrenByWork);
+  },
+
+  filterByHousehold: function(args) {
+    this.filterBy(args,"households", this.childrenHousehold, this.childrenByHousehold);
+  },
+
   filterByHead: function(args) {
     this.filterBy(args, "heads", this.householdsHead, this.householdsByHead);
   },
 
   filterByPoverty: function(args) {
     this.filterBy(args,"poverties", this.householdsPoverty, this.householdsByPoverty);
+  },
+
+  filterByDisability: function(args) {
+    this.filterBy(args,"disabilities", this.householdsDisability, this.householdsByDisability);
   },
 
   filterBy: function(args, attr, dim, grp) {
@@ -90,6 +109,19 @@ Vis.Models.App = Backbone.Model.extend({
       return d.hh; }));
   },
 
+  getHouseholdsByChildren: function() {
+    var that = this;
+    return d3.nest()
+      .key(function(d) { return d.value; })
+      .rollup(function(leaves) {
+        return {
+          length: leaves.length,
+          hh: leaves.map(function(d) { return d.key; })
+         };
+      })
+      .entries(this.childrenByHousehold.top(Infinity));
+  },
+
   // create crossfilters + associated dimensions and groups
   bundle: function(data) {
     var that = this;
@@ -103,6 +135,9 @@ Vis.Models.App = Backbone.Model.extend({
     this.childrenAge = children.dimension(function(d) { return d.age; });
     this.childrenGender = children.dimension(function(d) { return d.gender; });
     this.childrenHousehold = children.dimension(function(d) { return d.hh; });
+    this.childrenEducation = children.dimension(function(d) { return d.edu_rec; });
+    this.childrenWork = children.dimension(function(d) { return d.work; });
+
     this.householdsHead = children.dimension(function(d) {
       return housholdsLookUp[d.hh].head;
     });
@@ -110,12 +145,14 @@ Vis.Models.App = Backbone.Model.extend({
        return housholdsLookUp[d.hh].pov_line;
      });
     this.householdsDisability = children.dimension(function(d) {
-       return housholdsLookUp[d.hh].hasDis;
+       return housholdsLookUp[d.hh].has_dis;
     });
     // groups
     this.childrenByAge = this.childrenAge.group();
     this.childrenByGender = this.childrenGender.group();
     this.childrenByHousehold = this.childrenHousehold.group();
+    this.childrenByEducation = this.childrenEducation.group();
+    this.childrenByWork = this.childrenWork.group();
     this.householdsByHead = this.householdsHead.group().reduce(
       this.reduceAddUniq(), this.reduceRemoveUniq(), this.reduceInitUniq()
     );
@@ -125,9 +162,13 @@ Vis.Models.App = Backbone.Model.extend({
     this.householdsByDisability = this.householdsDisability.group().reduce(
       this.reduceAddUniq(), this.reduceRemoveUniq(), this.reduceInitUniq()
     );
+
     // init. associated filters
     this.set("ages", this.getKeys(this.childrenByAge));
+    this.set("households", this.getKeys(this.childrenByHousehold));
     this.set("genders", this.getKeys(this.childrenByGender));
+    this.set("educations", this.getKeys(this.childrenByEducation));
+    this.set("works", this.getKeys(this.childrenByWork));
     this.set("heads", this.getKeys(this.householdsByHead));
     this.set("poverties", this.getKeys(this.householdsByPoverty));
     this.set("disabilities", this.getKeys(this.householdsByDisability));

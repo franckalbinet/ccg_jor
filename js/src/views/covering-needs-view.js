@@ -1,6 +1,6 @@
-// Life improvement View
-Vis.Views.LifeImprovement = Backbone.View.extend({
-    el: '#life-improvement',
+// Covering Basic Needs View
+Vis.Views.CoveringNeeds = Backbone.View.extend({
+    el: '#covering-needs',
 
     events: {
     },
@@ -16,12 +16,12 @@ Vis.Views.LifeImprovement = Backbone.View.extend({
           data = this.model.outcomesHead.top(Infinity);
 
       if (!this.myChart) {
-        this.svg = dimple.newSvg("#chart-life-improvement", 480, 200);
+        this.svg = dimple.newSvg("#chart-covering-needs", 480, 200);
         this.myChart = new dimple.chart(this.svg, data);
         this.myChart.setBounds(30, 20, 400, 120);
         this.myChart.addPctAxis("x", "hh");
         this.myChart.addCategoryAxis("y", "round");
-        this.mySeries = this.myChart.addSeries("imp", dimple.plot.bar);
+        this.mySeries = this.myChart.addSeries("needs", dimple.plot.bar);
         // myChart.addLegend(60, 10, 510, 20, "right");
         this.mySeries.addEventHandler("click", function (e) {
           // that.updateSelection(e);
