@@ -78,7 +78,7 @@ Vis.Collections.App = Backbone.Collection.extend({
 // Application model: save app. states
 Vis.Models.App = Backbone.Model.extend({
   defaults: {
-    households: null,
+    children: null, // [1,2,3,4,5,6,7,8,9]
     ages: null,
     genders: null,
     educations: null,
@@ -116,8 +116,25 @@ Vis.Models.App = Backbone.Model.extend({
     this.filterBy(args, "works", this.childrenWork, this.childrenByWork);
   },
 
-  filterByHousehold: function(args) {
-    this.filterBy(args,"households", this.childrenHousehold, this.childrenByHousehold);
+  filterByChildren: function(args) {
+    var that = this;
+
+    // var filter = (args !== null) ? this.filterExactList(args) : null;
+
+    this.set("children", args || this.getHouseholdsByChildren().map(
+      function(d) { return d.key; }));
+
+    var households = [];
+
+    this.getHouseholdsByChildren().forEach(function(d) {
+      if (that.get("children").indexOf(d.key) > -1) {
+        households = households.concat(d.values.hh)
+      }
+    });
+
+    this.childrenHousehold.filter(this.filterExactList(households) );
+    // debugger;
+    Backbone.trigger("filtering");
   },
 
   filterByHead: function(args) {
@@ -242,7 +259,13 @@ Vis.Models.App = Backbone.Model.extend({
 
     // init. associated filters
     this.set("ages", this.getKeys(this.childrenByAge));
-    this.set("households", this.getKeys(this.childrenByHousehold));
+
+    // debugger;
+    // this.set("households", this.getKeys(this.childrenByHousehold));
+    this.set("children", this.getHouseholdsByChildren().map(
+      function(d) { return d.key; })
+    );
+
     this.set("genders", this.getKeys(this.childrenByGender));
     this.set("educations", this.getKeys(this.childrenByEducation));
     this.set("works", this.getKeys(this.childrenByWork));
@@ -255,7 +278,6 @@ Vis.Models.App = Backbone.Model.extend({
     // dimensions
     this.outcomesHead = outcomes.dimension(function(d) { return d.hh; });
 
-    // debugger;
 
     // ignite scenarios
     Backbone.trigger("play");
@@ -397,7 +419,9 @@ Vis.Views.Scenarios = Backbone.View.extend({
     render: function() {
       // default scenario (nothing filtered);
       this.model.filterByAge(null);
-      this.model.filterByHousehold(null);
+      // this.model.filterByHousehold(null);
+      this.model.filterByChildren(null);
+
       this.model.filterByGender(null);
       this.model.filterByHead(null);
       this.model.filterByPoverty(null);
@@ -537,13 +561,15 @@ Vis.Views.HouseholdsChildren = Backbone.View.extend({
       var that = this,
           data = this.model.getHouseholdsByChildren()
           .map(function(d) {
-            return { key: +d.key, value: d.values.length};
+            return { key: d.key, value: d.values.length};
           })
           .filter(function(d) {
-            return d.key !== 0;
+            return d.key !== "0";
           });
 
-      if (!this.myChart) {
+      if (this.myChart) d3.select("#households-by-children svg").remove();
+
+      // if (!this.myChart) {
         this.svg = dimple.newSvg("#" + this.el.id + " .chart", 480, 150);
         this.myChart = new dimple.chart(this.svg, data);
         this.myChart.setBounds(50, 10, 400, 90);
@@ -557,32 +583,41 @@ Vis.Views.HouseholdsChildren = Backbone.View.extend({
         this.mySeries = this.myChart.addSeries(null, dimple.plot.bar);
         this.mySeries.addEventHandler("click", function (e) {
           that.update(e);});
-      } else {
-        this.myChart.data = data;
-      }
-      this.setAesthetics();
+      // } else {
+        // this.myChart.data = data;
+        // this.myChart.axes = [];
+        // d3.selectAll("#households-by-children .dimple-axis").remove()
+        // var x = this.myChart.addCategoryAxis("x", "key");
+        // x.title = "Children by household";
+        // var y = this.myChart.addMeasureAxis("y", "value");
+        // y.ticks = 4;
+        // y.title = "Nb. of households";
+        // x.hidden = false;
+        // y.showGridlines = false;
+
+      // }
       this.myChart.draw(500);
+      this.setAesthetics();
     },
 
     setAesthetics: function() {
       var that = this;
       d3.selectAll("#" + this.el.id + " .chart rect").classed("selected", false);
-      this.model.get("households").forEach(function(d) {
+      this.model.get("children").forEach(function(d) {
         d3.select("#" + that.el.id + " .chart rect#dimple-all-" + d + "---")
           .classed("selected", true);
       })
     },
 
     update: function(e) {
-        var filter = this.model.get("ages"),
-            clicked = e.xValue;
-
-        var filter = this.model.get("ages"),
+        var filter = this.model.get("children"),
             selected = e.xValue;
+
+        // filter = this.model.getHouseholdsByChildren()[clicked].values.hh
 
         if (filter.indexOf(selected) === -1) { filter.push(selected); }
         else { filter = _.without(filter, selected);}
-        this.model.filterByAge(filter);
+        this.model.filterByChildren(filter);
     },
 });
 // Life improvement View

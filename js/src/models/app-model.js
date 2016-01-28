@@ -1,7 +1,7 @@
 // Application model: save app. states
 Vis.Models.App = Backbone.Model.extend({
   defaults: {
-    households: null,
+    children: null, // [1,2,3,4,5,6,7,8,9]
     ages: null,
     genders: null,
     educations: null,
@@ -39,8 +39,25 @@ Vis.Models.App = Backbone.Model.extend({
     this.filterBy(args, "works", this.childrenWork, this.childrenByWork);
   },
 
-  filterByHousehold: function(args) {
-    this.filterBy(args,"households", this.childrenHousehold, this.childrenByHousehold);
+  filterByChildren: function(args) {
+    var that = this;
+
+    // var filter = (args !== null) ? this.filterExactList(args) : null;
+
+    this.set("children", args || this.getHouseholdsByChildren().map(
+      function(d) { return d.key; }));
+
+    var households = [];
+
+    this.getHouseholdsByChildren().forEach(function(d) {
+      if (that.get("children").indexOf(d.key) > -1) {
+        households = households.concat(d.values.hh)
+      }
+    });
+
+    this.childrenHousehold.filter(this.filterExactList(households) );
+    // debugger;
+    Backbone.trigger("filtering");
   },
 
   filterByHead: function(args) {
@@ -165,7 +182,13 @@ Vis.Models.App = Backbone.Model.extend({
 
     // init. associated filters
     this.set("ages", this.getKeys(this.childrenByAge));
-    this.set("households", this.getKeys(this.childrenByHousehold));
+
+    // debugger;
+    // this.set("households", this.getKeys(this.childrenByHousehold));
+    this.set("children", this.getHouseholdsByChildren().map(
+      function(d) { return d.key; })
+    );
+
     this.set("genders", this.getKeys(this.childrenByGender));
     this.set("educations", this.getKeys(this.childrenByEducation));
     this.set("works", this.getKeys(this.childrenByWork));
@@ -178,7 +201,6 @@ Vis.Models.App = Backbone.Model.extend({
     // dimensions
     this.outcomesHead = outcomes.dimension(function(d) { return d.hh; });
 
-    // debugger;
 
     // ignite scenarios
     Backbone.trigger("play");

@@ -14,7 +14,9 @@ Vis.Views.Scenarios = Backbone.View.extend({
     render: function() {
       // default scenario (nothing filtered);
       this.model.filterByAge(null);
-      this.model.filterByHousehold(null);
+      // this.model.filterByHousehold(null);
+      this.model.filterByChildren(null);
+
       this.model.filterByGender(null);
       this.model.filterByHead(null);
       this.model.filterByPoverty(null);
