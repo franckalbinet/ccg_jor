@@ -24,7 +24,7 @@ Vis.Views.LifeImprovement = Backbone.View.extend({
         this.mySeries = this.myChart.addSeries("imp", dimple.plot.bar);
         // myChart.addLegend(60, 10, 510, 20, "right");
         this.mySeries.addEventHandler("click", function (e) {
-          // that.updateSelection(e);
+          that.updateSelection(e);
         });
       } else {
         this.myChart.data = data;
@@ -42,12 +42,33 @@ Vis.Views.LifeImprovement = Backbone.View.extend({
     //
     // },
     //
-    // updateSelection: function(e) {
-    //     var filter = this.model.get("heads"),
-    //         selected = e.yValue;
-    //
-    //     if (filter.indexOf(selected) === -1) { filter.push(selected); }
-    //     else { filter = _.without(filter, selected);}
-    //     this.model.filterByHead(filter);
-    // }
+    updateSelection: function(e) {
+      var pattern = /\d+/g,
+          id = e.selectedShape.attr("id"),
+          match = id.match(pattern),
+          round = +match[1],
+          imp = +match[0];
+
+      // console.log("round: " + round);
+      // console.log("imp: " + imp);
+      //
+      // debugger;
+
+      // console.log("xValue: " + e.xValue);
+      // console.log("yValue: " + e.yValue);
+      // console.log("zValue: " + e.zValue);
+      // console.log("colorValue: " + e.colorValue);
+      // console.log("shape id: " + e.selectedShape.attr("id"));
+
+      var households = this.model.outcomesHead.top(Infinity)
+        .filter(function(d) { return (d.imp === imp && d.round === round); })
+        .map(function(d) { return d.hh; });
+
+        // var filter = this.model.get("heads"),
+        //     selected = e.yValue;
+        //
+        // if (filter.indexOf(selected) === -1) { filter.push(selected); }
+        // else { filter = _.without(filter, selected);}
+        // this.model.filterByHead(filter);
+    }
 });

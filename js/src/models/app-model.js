@@ -8,7 +8,10 @@ Vis.Models.App = Backbone.Model.extend({
     works: null,
     heads: null,
     poverties: null,
-    disabilities: null
+    disabilities: null,
+    // filtering activation attributes
+    // profilesFiltering: false,
+    // outcomesFiltering: false
   },
 
   initialize: function () {
@@ -18,6 +21,7 @@ Vis.Models.App = Backbone.Model.extend({
 
   sync: function() {
     // propagate selected houseolds to outcomes
+    // console.log(this.children.size());
     this.outcomesHead.filter( this.filterExactList(this.getHouseholds()));
     Backbone.trigger("filtered");
   },
@@ -41,9 +45,6 @@ Vis.Models.App = Backbone.Model.extend({
 
   filterByChildren: function(args) {
     var that = this;
-
-    // var filter = (args !== null) ? this.filterExactList(args) : null;
-
     this.set("children", args || this.getHouseholdsByChildren().map(
       function(d) { return d.key; }));
 
@@ -56,7 +57,6 @@ Vis.Models.App = Backbone.Model.extend({
     });
 
     this.childrenHousehold.filter(this.filterExactList(households) );
-    // debugger;
     Backbone.trigger("filtering");
   },
 
@@ -147,21 +147,21 @@ Vis.Models.App = Backbone.Model.extend({
     var housholdsLookUp = that.createLookup(data.households, "hh");
 
     // PROFILES
-    var children = crossfilter(data.children);
+    var childrenCf = crossfilter(data.children);
     // dimensions
-    this.childrenAge = children.dimension(function(d) { return d.age; });
-    this.childrenGender = children.dimension(function(d) { return d.gender; });
-    this.childrenHousehold = children.dimension(function(d) { return d.hh; });
-    this.childrenEducation = children.dimension(function(d) { return d.edu_rec; });
-    this.childrenWork = children.dimension(function(d) { return d.work; });
+    this.childrenAge = childrenCf.dimension(function(d) { return d.age; });
+    this.childrenGender = childrenCf.dimension(function(d) { return d.gender; });
+    this.childrenHousehold = childrenCf.dimension(function(d) { return d.hh; });
+    this.childrenEducation = childrenCf.dimension(function(d) { return d.edu_rec; });
+    this.childrenWork = childrenCf.dimension(function(d) { return d.work; });
 
-    this.householdsHead = children.dimension(function(d) {
+    this.householdsHead = childrenCf.dimension(function(d) {
       return housholdsLookUp[d.hh].head;
     });
-    this.householdsPoverty = children.dimension(function(d) {
+    this.householdsPoverty = childrenCf.dimension(function(d) {
        return housholdsLookUp[d.hh].pov_line;
      });
-    this.householdsDisability = children.dimension(function(d) {
+    this.householdsDisability = childrenCf.dimension(function(d) {
        return housholdsLookUp[d.hh].has_dis;
     });
     // groups
@@ -182,13 +182,9 @@ Vis.Models.App = Backbone.Model.extend({
 
     // init. associated filters
     this.set("ages", this.getKeys(this.childrenByAge));
-
-    // debugger;
-    // this.set("households", this.getKeys(this.childrenByHousehold));
     this.set("children", this.getHouseholdsByChildren().map(
       function(d) { return d.key; })
     );
-
     this.set("genders", this.getKeys(this.childrenByGender));
     this.set("educations", this.getKeys(this.childrenByEducation));
     this.set("works", this.getKeys(this.childrenByWork));
@@ -201,6 +197,7 @@ Vis.Models.App = Backbone.Model.extend({
     // dimensions
     this.outcomesHead = outcomes.dimension(function(d) { return d.hh; });
 
+    // debugger;
 
     // ignite scenarios
     Backbone.trigger("play");

@@ -33,11 +33,11 @@ hr {
   stroke: none !important;
 }*/
 
-.page-header h4 {
+.page-header h3 {
   text-transform: uppercase;
 }
 .page-header p {
-  font-size: 17px;
+  font-size: 19px;
 }
 
 h3 {
@@ -57,3 +57,11 @@ h3 {
   /*opacity: 0.9 !important;*/
   stroke: none !important;
 }
+
+/*.dimple-axis path,
+.dimple-axis line {
+  fill: none !important;
+  stroke: black !important;
+  stroke-width: 1px !important;
+  shape-rendering: crispEdges !important;
+}*/
