@@ -1,6 +1,6 @@
 /* Bootstrap specifics */
 .container {
-    width: 1040px;
+    width: 960px;
 }
 h4 {
   margin-top: 25px;
@@ -15,10 +15,7 @@ h4 {
 [class*="col-"] {
   padding-top: 15px;
   padding-bottom: 15px;
-  /*background-color: #eee;
-  background-color: rgba(86,61,124,.15);
-  border: 1px solid #ddd;
-  border: 1px solid rgba(86,61,124,.2);*/
+
 }
 [class*="col-"] {
     padding-top: 0px;
@@ -29,20 +26,131 @@ hr {
     margin-bottom: -5px;
 }
 
-/*path.domain {
-  stroke: none !important;
-}*/
+.btn {
+  font-size: 12px;
+}
+.btn.active {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
 
+/* page header */
+.page-header {
+  padding-bottom: 0px;
+  font-family: "Roboto", sans-serif;;
+  margin-bottom: 5px;
+  border-bottom: 1px solid #d0d0d0;
+}
 .page-header h3 {
+  font-weight: 700;
+  font-size: 21px;
   text-transform: uppercase;
+  margin-bottom: 0px;
 }
 .page-header p {
-  font-size: 19px;
+  font-weight: 400;
+  font-size: 18px;
+  margin-bottom: 12px;
 }
 
-h3 {
-  font-size: 22px;
+h3, h4, h5 {
+  margin-bottom: 8px;
 }
+
+/* placeholders -- for debug */
+.mute {
+  visibility: hidden;
+}
+.placeholder {
+  background-color: #eee;
+}
+.profile-chart.placeholder {
+  height: 250px;
+}
+.main-chart.placeholder {
+  height: 350px;
+}
+
+.ui-info {
+  font-size: 11px;
+  /*font-style: italic;*/
+  color: #A0A0A0;
+}
+/* section */
+.section .header {
+  border-bottom: 1px solid #d0d0d0;
+}
+.section .header h4 {
+  display: inline-block;
+  margin-top: 0px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* sub navigation */
+#sub-nav {
+  display: inline-block;
+}
+ul#sub-nav {
+  padding-left: 10px;
+}
+#sub-nav li {
+  display: inline-block;
+  margin-left: 5px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #fff;
+  border: 1px solid #333;
+}
+#sub-nav li:hover {
+  background-color: #999;
+  border: 1px solid #999;
+  width: 12px;
+  height: 12px;
+}
+#sub-nav li.active {
+  background-color: #333;
+}
+#sub-nav li.your-turn {
+  margin-left: 20px;
+  background-color: #8ac43e;
+  border: 1px solid #8ac43e;
+}
+
+/* subsection */
+.subsection .header {
+  border-bottom: 1px solid #d0d0d0;
+}
+.subsection .header h5 {
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+/* text - narrative */
+.main-text {
+  margin-top: 12px;
+  font-size: 14px;
+  font-weight: 700;
+}
+.sub-text {
+  font-size: 13px;
+  font-weight: 300;
+}
+
+/* main chart */
+.main-chart {
+  margin-top: 30px;
+}
+
+/* temp */
+.colored {
+  /*border: 1px solid #555;
+  background-color: #fefefe;*/
+  height: 600px;
+}
+
 .selectable .dimple-bar {
   fill: #eee !important;
   /*fill: steelblue !important;*/
