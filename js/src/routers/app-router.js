@@ -1,9 +1,23 @@
 // Application router
 Vis.Routers.App = Backbone.Router.extend({
+  loaded: false,
   routes: {
-    "*path": "load",
+    "page/:page/chapter/:chapter": "refresh"
   },
-  load: function (params) {
-    Backbone.trigger("data:loading", params);
+
+  refresh: function (page, chapter) {
+    var page = page || 1,
+        chapter = chapter || 1;
+
+    if(!this.loaded) {
+      $(".container").hide();
+      window.setTimeout(this.load, 1000);
+    }
+    Backbone.trigger("scenario:updating", {page: +page, chapter: +chapter});
+  },
+
+  load: function() {
+    Backbone.trigger("data:loading");
+    this.loaded = true;
   }
 });

@@ -4,12 +4,44 @@ $(function () {
   Vis.initialize = function () {
     /* Initialization sequence:
         1. the "app-router" parses hash string then dispatch "data:loading" event
+           and send scenario to model
         2. the "app-collection" loads datasets then dispatch "data:loaded" event
         3. the "app-model" creates crossfilters dimensions, grps, ...
-        4. views ...
+        4. the scenarios view listen to data:ready and new scenario to manage
+           views and filters accordingly
     */
+
     Vis.Models.app = new Vis.Models.App();
     Vis.Collections.app = new Vis.Collections.App();
+
+    // var opts = {
+    //   lines: 13 // The number of lines to draw
+    //   , length: 28 // The length of each line
+    //   , width: 14 // The line thickness
+    //   , radius: 42 // The radius of the inner circle
+    //   , scale: 1 // Scales overall size of the spinner
+    //   , corners: 1 // Corner roundness (0..1)
+    //   , color: '#000' // #rgb or #rrggbb or array of colors
+    //   , opacity: 0.25 // Opacity of the lines
+    //   , rotate: 0 // The rotation offset
+    //   , direction: 1 // 1: clockwise, -1: counterclockwise
+    //   , speed: 1 // Rounds per second
+    //   , trail: 60 // Afterglow percentage
+    //   , fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
+    //   , zIndex: 2e9 // The z-index (defaults to 2000000000)
+    //   , className: 'spinner' // The CSS class to assign to the spinner
+    //   , top: '50%' // Top position relative to parent
+    //   , left: '50%' // Left position relative to parent
+    //   , shadow: false // Whether to render a shadow
+    //   , hwaccel: false // Whether to use hardware acceleration
+    //   , position: 'absolute' // Element positioning
+    // }
+    // var target = $("body");
+    // var spinner = new Spinner(opts).spin(target);
+    // var spinner = new Spinner().spin(target);
+
+
+
 
     // VIEWS INSTANCIATION
     // profile
@@ -19,91 +51,91 @@ $(function () {
     // new Vis.Views.HouseholdsHead({model: Vis.Models.app});
     // new Vis.Views.HouseholdsPoverty({model: Vis.Models.app});
 
-    new Vis.Views.HouseholdsChildren({model: Vis.Models.app});
-
-    new Vis.Views.BarChartHorizontal({
-      el: "#children-by-age",
-      model: Vis.Models.app,
-      grp: "childrenByAge",
-      attr: "ages",
-      filter: "filterByAge",
-      accessor: function(d) { return { key: d.key, value: d.value}; },
-      xTitle: "Age",
-      yTitle: "Nb. Children"
-    });
-
-    new Vis.Views.BarChartVertical({
-      el: "#children-by-gender",
-      model: Vis.Models.app,
-      grp: "childrenByGender",
-      attr: "genders",
-      filter: "filterByGender",
-      accessor: function(d) { return { key: d.key, value: d.value}; },
-      xTitle: "Nb. Children",
-      yTitle: "Gender"
-    });
-
-    new Vis.Views.BarChartVertical({
-      el: "#households-by-head",
-      model: Vis.Models.app,
-      grp: "householdsByHead",
-      attr: "heads",
-      filter: "filterByHead",
-      accessor: function(d) {
-        return { key: d.key, value: d.value.householdCount}; },
-      yTitle: "Head",
-      xTitle: "Nb. households",
-    });
-
-    new Vis.Views.BarChartVertical({
-      el: "#households-by-poverty",
-      model: Vis.Models.app,
-      grp: "householdsByPoverty",
-      attr: "poverties",
-      filter: "filterByPoverty",
-      accessor: function(d) {
-        return  { key: d.key, value: d.value.householdCount}; },
-      yTitle: "Poverty line",
-      xTitle: "Nb. households",
-    });
-
-    new Vis.Views.BarChartVertical({
-      el: "#households-by-disability",
-      model: Vis.Models.app,
-      grp: "householdsByDisability",
-      attr: "disabilities",
-      filter: "filterByDisability",
-      accessor: function(d) {
-        return { key: d.key, value: d.value.householdCount}; },
-      yTitle: "Disability",
-      xTitle: "Nb. households",
-    });
-
-    new Vis.Views.BarChartVertical({
-      el: "#children-by-education",
-      model: Vis.Models.app,
-      grp: "childrenByEducation",
-      attr: "educations",
-      filter: "filterByEducation",
-      accessor: function(d) { return { key: d.key, value: d.value}; },
-      yTitle: "Rec. Education",
-      xTitle: "Nb. Children"
-    });
-
-    new Vis.Views.BarChartVertical({
-      el: "#children-by-work",
-      model: Vis.Models.app,
-      grp: "childrenByWork",
-      attr: "works",
-      filter: "filterByWork",
-      accessor: function(d) { return { key: d.key, value: d.value}; },
-      yTitle: "Work",
-      xTitle: "Nb. Children"
-    });
+    // new Vis.Views.HouseholdsChildren({model: Vis.Models.app});
+    //
+    // new Vis.Views.BarChartHorizontal({
+    //   el: "#children-by-age",
+    //   model: Vis.Models.app,
+    //   grp: "childrenByAge",
+    //   attr: "ages",
+    //   filter: "filterByAge",
+    //   accessor: function(d) { return { key: d.key, value: d.value}; },
+    //   xTitle: "Age",
+    //   yTitle: "Nb. Children"
+    // });
+    //
+    // new Vis.Views.BarChartVertical({
+    //   el: "#children-by-gender",
+    //   model: Vis.Models.app,
+    //   grp: "childrenByGender",
+    //   attr: "genders",
+    //   filter: "filterByGender",
+    //   accessor: function(d) { return { key: d.key, value: d.value}; },
+    //   xTitle: "Nb. Children",
+    //   yTitle: "Gender"
+    // });
+    //
+    // new Vis.Views.BarChartVertical({
+    //   el: "#households-by-head",
+    //   model: Vis.Models.app,
+    //   grp: "householdsByHead",
+    //   attr: "heads",
+    //   filter: "filterByHead",
+    //   accessor: function(d) {
+    //     return { key: d.key, value: d.value.householdCount}; },
+    //   yTitle: "Head",
+    //   xTitle: "Nb. households",
+    // });
+    //
+    // new Vis.Views.BarChartVertical({
+    //   el: "#households-by-poverty",
+    //   model: Vis.Models.app,
+    //   grp: "householdsByPoverty",
+    //   attr: "poverties",
+    //   filter: "filterByPoverty",
+    //   accessor: function(d) {
+    //     return  { key: d.key, value: d.value.householdCount}; },
+    //   yTitle: "Poverty line",
+    //   xTitle: "Nb. households",
+    // });
+    //
+    // new Vis.Views.BarChartVertical({
+    //   el: "#households-by-disability",
+    //   model: Vis.Models.app,
+    //   grp: "householdsByDisability",
+    //   attr: "disabilities",
+    //   filter: "filterByDisability",
+    //   accessor: function(d) {
+    //     return { key: d.key, value: d.value.householdCount}; },
+    //   yTitle: "Disability",
+    //   xTitle: "Nb. households",
+    // });
+    //
+    // new Vis.Views.BarChartVertical({
+    //   el: "#children-by-education",
+    //   model: Vis.Models.app,
+    //   grp: "childrenByEducation",
+    //   attr: "educations",
+    //   filter: "filterByEducation",
+    //   accessor: function(d) { return { key: d.key, value: d.value}; },
+    //   yTitle: "Rec. Education",
+    //   xTitle: "Nb. Children"
+    // });
+    //
+    // new Vis.Views.BarChartVertical({
+    //   el: "#children-by-work",
+    //   model: Vis.Models.app,
+    //   grp: "childrenByWork",
+    //   attr: "works",
+    //   filter: "filterByWork",
+    //   accessor: function(d) { return { key: d.key, value: d.value}; },
+    //   yTitle: "Work",
+    //   xTitle: "Nb. Children"
+    // });
 
     // outcomes
-    new Vis.Views.LifeImprovement({model: Vis.Models.app});
-    new Vis.Views.CoveringNeeds({model: Vis.Models.app});
+    // new Vis.Views.LifeImprovement({model: Vis.Models.app});
+    // new Vis.Views.CoveringNeeds({model: Vis.Models.app});
 
     new Vis.Routers.App();
     Backbone.history.start();

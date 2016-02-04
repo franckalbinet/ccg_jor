@@ -1,6 +1,13 @@
 // Application model: save app. states
 Vis.Models.App = Backbone.Model.extend({
   defaults: {
+    // navigation
+    scenario: null,
+
+    // data
+    ready: false,
+
+    // filters
     children: null, // [1,2,3,4,5,6,7,8,9]
     ages: null,
     genders: null,
@@ -8,13 +15,14 @@ Vis.Models.App = Backbone.Model.extend({
     works: null,
     heads: null,
     poverties: null,
-    disabilities: null,
-    // filtering activation attributes
-    // profilesFiltering: false,
-    // outcomesFiltering: false
+    disabilities: null
   },
 
   initialize: function () {
+    Backbone.on("scenario:updating", function(data) {
+      this.set("scenario", {page: data.page, chapter: data.chapter});
+    }, this);
+
     Backbone.on("data:loaded", function(data) { this.bundle(data); }, this);
     Backbone.on("filtering", function(d) { this.sync(d); }, this);
   },
@@ -197,18 +205,9 @@ Vis.Models.App = Backbone.Model.extend({
     // dimensions
     this.outcomesHead = outcomes.dimension(function(d) { return d.hh; });
 
-    // debugger;
-
-    // ignite scenarios
-    Backbone.trigger("play");
-
-    // dataset "incomes"
-    // this.sourcesIncome = crossfilter(data.sourcesIncome);
-
-    // dataset "expenditures"
-    // this.expenditures = crossfilter(data.expenditures);
-
-    // dataset "coping" (coping mechanisms)
-    // this.coping = crossfilter(data.coping);
+    this.set("ready", true);
+    $(".container").show();
+    $(".spinner").hide();
+    $(".loading").hide();
   }
 })

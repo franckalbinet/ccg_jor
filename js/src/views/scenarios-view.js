@@ -6,12 +6,15 @@ Vis.Views.Scenarios = Backbone.View.extend({
     },
 
     initialize: function () {
-      Backbone.on("play", function(d) {
-        this.render();
-      }, this);
+      this.model.on("change:ready change:scenario", function() {
+        // ensure that data is ready and scenario available
+        if (this.model.get("ready") && this.model.get("scenario")) this.render();
+        },this);
     },
 
     render: function() {
+      console.log(this.model.get("scenario"));
+
       // default scenario (nothing filtered);
       this.model.filterByAge(null);
       // this.model.filterByHousehold(null);
