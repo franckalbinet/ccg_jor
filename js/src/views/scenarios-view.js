@@ -1,30 +1,41 @@
 // Scenarios
 Vis.Views.Scenarios = Backbone.View.extend({
     el: '#scenarios',
+    hasProfileViews: false,
 
     events: {
     },
 
     initialize: function () {
-      this.model.on("change:ready change:scenario", function() {
+      this.model.on("change:initialized change:scenario", function() {
         // ensure that data is ready and scenario available
-        if (this.model.get("ready") && this.model.get("scenario")) this.render();
+        if (this.model.get("initialized") && this.model.get("scenario")) this.render();
         },this);
     },
 
     render: function() {
-      console.log(this.model.get("scenario"));
+
+      // create profile charts first time only
+      if(!this.hasProfilesViews) {
+        new Vis.Views.ChildrenAge({model: Vis.Models.app});
+        this.hasProfilesViews = true;
+      }
+
+      Backbone.trigger("brush:childrenAge", [2,8]);
 
       // default scenario (nothing filtered);
-      this.model.filterByAge(null);
-      // this.model.filterByHousehold(null);
-      this.model.filterByChildren(null);
 
-      this.model.filterByGender(null);
-      this.model.filterByHead(null);
-      this.model.filterByPoverty(null);
-      this.model.filterByDisability(null);
-      this.model.filterByEducation(null);
-      this.model.filterByWork(null);
+      // debugger;
+      // instead of setting filter - setting brush and select -mimic UI
+      // this.model.filterByAge(null);
+      // this.model.filterByHousehold(null);
+      // this.model.filterByChildren(null);
+      //
+      // this.model.filterByGender(null);
+      // this.model.filterByHead(null);
+      // this.model.filterByPoverty(null);
+      // this.model.filterByDisability(null);
+      // this.model.filterByEducation(null);
+      // this.model.filterByWork(null);
     }
   });

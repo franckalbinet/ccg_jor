@@ -5,7 +5,7 @@ Vis.Models.App = Backbone.Model.extend({
     scenario: null,
 
     // data
-    ready: false,
+    initialized: false,
 
     // filters
     children: null, // [1,2,3,4,5,6,7,8,9]
@@ -30,7 +30,8 @@ Vis.Models.App = Backbone.Model.extend({
   sync: function() {
     // propagate selected houseolds to outcomes
     // console.log(this.children.size());
-    this.outcomesHead.filter( this.filterExactList(this.getHouseholds()));
+    // console.log(this.get("ages"));
+    // this.outcomesHead.filter( this.filterExactList(this.getHouseholds()));
     Backbone.trigger("filtered");
   },
 
@@ -205,9 +206,10 @@ Vis.Models.App = Backbone.Model.extend({
     // dimensions
     this.outcomesHead = outcomes.dimension(function(d) { return d.hh; });
 
-    this.set("ready", true);
     $(".container").show();
     $(".spinner").hide();
     $(".loading").hide();
+
+    this.set("initialized", true);
   }
 })

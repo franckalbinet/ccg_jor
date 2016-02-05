@@ -34,10 +34,15 @@ hr {
   box-shadow: none;
 }
 
+/* fonts */
+h1,h2,h3,h4,h5 {
+  font-family: "Roboto", sans-serif;
+}
+
 /* page header */
 .page-header {
   padding-bottom: 0px;
-  font-family: "Roboto", sans-serif;;
+
   margin-bottom: 5px;
   border-bottom: 1px solid #d0d0d0;
 }
@@ -73,7 +78,6 @@ h3, h4, h5 {
 
 .ui-info {
   font-size: 11px;
-  /*font-style: italic;*/
   color: #A0A0A0;
 }
 /* section */
@@ -126,7 +130,7 @@ ul#sub-nav {
 .subsection .header h5 {
   margin-top: 10px;
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 700;
 }
 
 /* text - narrative */
@@ -139,6 +143,48 @@ ul#sub-nav {
   font-size: 13px;
   font-weight: 300;
 }
+
+/* Charts */
+.chart {
+  font-family: "Open", sans-serif;
+}
+.bar-chart-vert rect {
+  fill: steelblue;
+  fill-opacity: 0.8;
+}
+.bar-chart-vert rect.not-selected {
+  fill: #eee;
+}
+.bar-chart-vert .axis {
+  font: 10px sans-serif;
+}
+.bar-chart-vert .axis path,
+.bar-chart-vert .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+.bar-chart-vert .axis path {
+  display: none;
+}
+.bar-chart-vert .y.axis .tick line {
+  display: none;
+}
+.bar-chart-vert .x.axis .tick line {
+  stroke: white;
+  stroke-width: 2;
+}
+.bar-chart-vert .x.label {
+  font-size: 12px;
+}
+.bar-chart-vert .brush .extent {
+  fill: black;
+  fill-opacity: 0.1;
+}
+
+
+
+
 
 /* main chart */
 .main-chart {
