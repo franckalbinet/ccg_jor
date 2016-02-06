@@ -28,15 +28,13 @@ Vis.Views.HouseholdsChildren = Backbone.View.extend({
       });
 
       this.chart.on("filtered", function (brush) {
-        // console.log("in filtered");
         if (brush.empty()) that.model.filterByChildren(null);
       });
-
       this.render();
     },
 
     render: function() {
-      // console.log(this.model.childrenByHousehold.top(Infinity));
+      // console.log("in view: " + this.model.get("children"));
       // console.log(this.model.getHouseholdsByChildren());
       this.chart
         .data(this.model.getHouseholdsByChildren())

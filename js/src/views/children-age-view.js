@@ -28,7 +28,6 @@ Vis.Views.ChildrenAge = Backbone.View.extend({
       });
 
       this.chart.on("filtered", function (brush) {
-        // console.log("in filtered");
         if (brush.empty()) that.model.filterByAge(null);
       });
 
@@ -36,7 +35,6 @@ Vis.Views.ChildrenAge = Backbone.View.extend({
     },
 
     render: function() {
-      console.log(this.model.childrenByHousehold.top(Infinity));
       this.chart.selected(this.model.get("ages"));
       d3.select("#children-age").call(this.chart);
     },

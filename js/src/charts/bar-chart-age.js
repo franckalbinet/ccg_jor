@@ -17,7 +17,7 @@ d3.barChartAge = function() {
       title = "My title",
       brushClickReset = false,
       brush = d3.svg.brush(),
-      brushExtent = null
+      brushExtent = null,
       selected = null;
 
   var _gWidth = 400,

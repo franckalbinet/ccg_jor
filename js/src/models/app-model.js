@@ -11,8 +11,7 @@ Vis.Models.App = Backbone.Model.extend({
     children: null, // [1,2,3,4,5,6,7,8,9]
     ages: null,
     genders: null,
-    educations: null,
-    works: null,
+    locations: null,
     heads: null,
     poverties: null,
     disabilities: null
@@ -28,9 +27,6 @@ Vis.Models.App = Backbone.Model.extend({
   },
 
   sync: function() {
-    // propagate selected houseolds to outcomes
-    // console.log(this.children.size());
-    // console.log(this.get("ages"));
     // this.outcomesHead.filter( this.filterExactList(this.getHouseholds()));
     Backbone.trigger("filtered");
   },
@@ -52,11 +48,16 @@ Vis.Models.App = Backbone.Model.extend({
     this.filterBy(args, "works", this.childrenWork, this.childrenByWork);
   },
 
+  filterByLoc: function(args) {
+    this.filterBy(args, "locations", this.householdsLoc, this.householdsByLoc);
+  },
+
   filterByChildren: function(args) {
     var that = this;
-    this.set("children", args || this.getHouseholdsByChildren().map(
-      function(d) { return d.key; }));
-
+    // this.set("children", args || this.getHouseholdsByChildren().map(
+    //   function(d) { return d.key; }));
+    // to be refactored
+    this.set("children", args || [1,2,3,4,5,6,7,8,9]);
     var households = [];
 
     this.getHouseholdsByChildren().forEach(function(d) {
@@ -147,8 +148,8 @@ Vis.Models.App = Backbone.Model.extend({
           })
           .entries(this.childrenByHousehold.top(Infinity));
     return nested
-      .map(function(d) { return {key: +d.key, values: d.values}; })
-      .filter(function(d) { return d.key !== 0; });
+      .map(function(d) { return {key: +d.key, values: d.values}; });
+      // .filter(function(d) { return d.key !== 0; });
   },
 
   // create crossfilters + associated dimensions and groups
@@ -161,36 +162,40 @@ Vis.Models.App = Backbone.Model.extend({
     // PROFILES
     var childrenCf = crossfilter(data.children);
     // dimensions
-    this.childrenAge = childrenCf.dimension(function(d) { return d.age; });
-    this.childrenGender = childrenCf.dimension(function(d) { return d.gender; });
-    this.childrenHousehold = childrenCf.dimension(function(d) { return d.hh; });
-    this.childrenEducation = childrenCf.dimension(function(d) { return d.edu_rec; });
-    this.childrenWork = childrenCf.dimension(function(d) { return d.work; });
+    this.childrenAge = childrenCf.dimension(function(d) { return d.age; }); // 1
+    this.childrenGender = childrenCf.dimension(function(d) { return d.gender; }); // 2
+    this.childrenHousehold = childrenCf.dimension(function(d) { return d.hh; }); // 3
 
-    this.householdsHead = childrenCf.dimension(function(d) {
+    this.householdsHead = childrenCf.dimension(function(d) { // 4
       return housholdsLookUp[d.hh].head;
     });
-    this.householdsPoverty = childrenCf.dimension(function(d) {
+    this.householdsPoverty = childrenCf.dimension(function(d) { // 5
        return housholdsLookUp[d.hh].pov_line;
      });
-    this.householdsDisability = childrenCf.dimension(function(d) {
+    this.householdsDisability = childrenCf.dimension(function(d) {// 6
        return housholdsLookUp[d.hh].has_dis;
+    });
+    this.householdsLoc = childrenCf.dimension(function(d) { // 7
+      return housholdsLookUp[d.hh].loc;
     });
     // groups
     this.childrenByAge = this.childrenAge.group();
     this.childrenByGender = this.childrenGender.group();
     this.childrenByHousehold = this.childrenHousehold.group();
-    this.childrenByEducation = this.childrenEducation.group();
-    this.childrenByWork = this.childrenWork.group();
     this.householdsByHead = this.householdsHead.group().reduce(
       this.reduceAddUniq(), this.reduceRemoveUniq(), this.reduceInitUniq()
     );
     this.householdsByPoverty = this.householdsPoverty.group().reduce(
       this.reduceAddUniq(), this.reduceRemoveUniq(), this.reduceInitUniq()
     );
-    this.householdsByDisability = this.householdsDisability.group().reduce(
+    this.householdsByDisability = this.householdsLoc.group().reduce(
       this.reduceAddUniq(), this.reduceRemoveUniq(), this.reduceInitUniq()
     );
+    this.householdsByLoc = this.householdsDisability.group().reduce(
+      this.reduceAddUniq(), this.reduceRemoveUniq(), this.reduceInitUniq()
+    );
+
+    // debugger;
 
     // init. associated filters
     this.set("ages", this.getKeys(this.childrenByAge));
@@ -198,8 +203,7 @@ Vis.Models.App = Backbone.Model.extend({
       function(d) { return d.key; })
     );
     this.set("genders", this.getKeys(this.childrenByGender));
-    this.set("educations", this.getKeys(this.childrenByEducation));
-    this.set("works", this.getKeys(this.childrenByWork));
+    this.set("locations", this.getKeys(this.householdsByLoc));
     this.set("heads", this.getKeys(this.householdsByHead));
     this.set("poverties", this.getKeys(this.householdsByPoverty));
     this.set("disabilities", this.getKeys(this.householdsByDisability));

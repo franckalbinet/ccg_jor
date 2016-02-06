@@ -23,6 +23,7 @@ Vis.Views.Scenarios = Backbone.View.extend({
       }
 
       // Backbone.trigger("brush:childrenAge", [5,11]);
+      // Backbone.trigger("brush:householdsChildren", [2,5]);
 
       // default scenario (nothing filtered);
 

@@ -19,7 +19,7 @@ d3.barChartChildren = function() {
       title = "My title",
       brushClickReset = false,
       brush = d3.svg.brush(),
-      brushExtent = null
+      brushExtent = null,
       selected = null;
 
   var _gWidth = 400,
@@ -34,7 +34,6 @@ d3.barChartChildren = function() {
   function chart(div) {
     _gWidth = width - margins.left - margins.right;
     _gHeight = height - margins.top - margins.bottom;
-    // debugger;
     div.each(function() {
       var div = d3.select(this),
           g = div.select("g");
@@ -48,7 +47,7 @@ d3.barChartChildren = function() {
         brushExtent = null;
         _listeners.filtering(_getDataBrushed(brush));
       }
-
+      // console.log("in chart: " + selected);
       _render();
 
       function _render() {
