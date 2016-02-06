@@ -70,7 +70,7 @@ h3, h4, h5 {
   background-color: #eee;
 }
 .profile-chart.placeholder {
-  height: 250px;
+  height: 130px;
 }
 .main-chart.placeholder {
   height: 350px;
@@ -152,8 +152,14 @@ ul#sub-nav {
   fill: steelblue;
   fill-opacity: 0.8;
 }
+.bar-chart-vert rect.hovered {
+  fill: #24435C;
+}
 .bar-chart-vert rect.not-selected {
   fill: #ddd;
+}
+.bar-chart-vert rect.not-selected.hovered {
+  fill: steelblue;
 }
 .bar-chart-vert .axis {
   font: 10px sans-serif;

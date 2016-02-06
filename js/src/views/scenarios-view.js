@@ -19,6 +19,7 @@ Vis.Views.Scenarios = Backbone.View.extend({
       if(!this.hasProfilesViews) {
         new Vis.Views.HouseholdsChildren({model: Vis.Models.app});
         new Vis.Views.ChildrenAge({model: Vis.Models.app});
+        new Vis.Views.HouseholdsLocation({model: Vis.Models.app});
         this.hasProfilesViews = true;
       }
 

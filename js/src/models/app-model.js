@@ -48,8 +48,8 @@ Vis.Models.App = Backbone.Model.extend({
     this.filterBy(args, "works", this.childrenWork, this.childrenByWork);
   },
 
-  filterByLoc: function(args) {
-    this.filterBy(args, "locations", this.householdsLoc, this.householdsByLoc);
+  filterByLocation: function(args) {
+    this.filterBy(args, "locations", this.householdsLocation, this.householdsByLocation);
   },
 
   filterByChildren: function(args) {
@@ -148,8 +148,8 @@ Vis.Models.App = Backbone.Model.extend({
           })
           .entries(this.childrenByHousehold.top(Infinity));
     return nested
-      .map(function(d) { return {key: +d.key, values: d.values}; });
-      // .filter(function(d) { return d.key !== 0; });
+      .map(function(d) { return {key: +d.key, values: d.values}; })
+      .filter(function(d) { return d.key !== 0; });
   },
 
   // create crossfilters + associated dimensions and groups
@@ -175,7 +175,7 @@ Vis.Models.App = Backbone.Model.extend({
     this.householdsDisability = childrenCf.dimension(function(d) {// 6
        return housholdsLookUp[d.hh].has_dis;
     });
-    this.householdsLoc = childrenCf.dimension(function(d) { // 7
+    this.householdsLocation = childrenCf.dimension(function(d) { // 7
       return housholdsLookUp[d.hh].loc;
     });
     // groups
@@ -188,10 +188,10 @@ Vis.Models.App = Backbone.Model.extend({
     this.householdsByPoverty = this.householdsPoverty.group().reduce(
       this.reduceAddUniq(), this.reduceRemoveUniq(), this.reduceInitUniq()
     );
-    this.householdsByDisability = this.householdsLoc.group().reduce(
+    this.householdsByDisability = this.householdsDisability.group().reduce(
       this.reduceAddUniq(), this.reduceRemoveUniq(), this.reduceInitUniq()
     );
-    this.householdsByLoc = this.householdsDisability.group().reduce(
+    this.householdsByLocation = this.householdsLocation.group().reduce(
       this.reduceAddUniq(), this.reduceRemoveUniq(), this.reduceInitUniq()
     );
 
@@ -203,7 +203,7 @@ Vis.Models.App = Backbone.Model.extend({
       function(d) { return d.key; })
     );
     this.set("genders", this.getKeys(this.childrenByGender));
-    this.set("locations", this.getKeys(this.householdsByLoc));
+    this.set("locations", this.getKeys(this.householdsByLocation));
     this.set("heads", this.getKeys(this.householdsByHead));
     this.set("poverties", this.getKeys(this.householdsByPoverty));
     this.set("disabilities", this.getKeys(this.householdsByDisability));

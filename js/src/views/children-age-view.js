@@ -13,12 +13,13 @@ Vis.Views.ChildrenAge = Backbone.View.extend({
           data = this.model.childrenByAge.top(Infinity);
 
       this.chart = d3.barChartAge()
-        .width(120).height(250)
-        .margins({top: 40, right: 20, bottom: 10, left: 30})
+        .width(150).height(250)
+        .margins({top: 40, right: 20, bottom: 10, left: 45})
         .data(data)
         .x(d3.scale.linear().domain([0, d3.max(data, function(d) { return d.value; })]))
         .y(d3.scale.linear().domain([0,18]))
-        .xAxis(d3.svg.axis().orient("top").ticks(2))
+        // .xAxis(d3.svg.axis().orient("top").ticks(2))
+        .xAxis(d3.svg.axis().orient("top").tickValues([50, 100]))
         .yAxis(d3.svg.axis().orient("left").tickValues(d3.range(1,18)))
         .title("By age")
         .hasBrush(true);

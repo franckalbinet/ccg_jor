@@ -17,6 +17,9 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
     CHILDREN: "children.json",
     HOUSEHOLDS: "households.json",
     OUTCOMES: "outcomes.json"
+  },
+  LOOKUP_CODES: {
+    GOVERNORATES: {1:"Irbid", 2:"Ajloun", 3:"Jarash", 4:"Amman", 5:"Zarqa", 6:"Madaba", 11:"Mafraq", 99:"Others"}
   }
 });
 // Application router
@@ -135,8 +138,8 @@ Vis.Models.App = Backbone.Model.extend({
     this.filterBy(args, "works", this.childrenWork, this.childrenByWork);
   },
 
-  filterByLoc: function(args) {
-    this.filterBy(args, "locations", this.householdsLoc, this.householdsByLoc);
+  filterByLocation: function(args) {
+    this.filterBy(args, "locations", this.householdsLocation, this.householdsByLocation);
   },
 
   filterByChildren: function(args) {
@@ -235,8 +238,8 @@ Vis.Models.App = Backbone.Model.extend({
           })
           .entries(this.childrenByHousehold.top(Infinity));
     return nested
-      .map(function(d) { return {key: +d.key, values: d.values}; });
-      // .filter(function(d) { return d.key !== 0; });
+      .map(function(d) { return {key: +d.key, values: d.values}; })
+      .filter(function(d) { return d.key !== 0; });
   },
 
   // create crossfilters + associated dimensions and groups
@@ -262,7 +265,7 @@ Vis.Models.App = Backbone.Model.extend({
     this.householdsDisability = childrenCf.dimension(function(d) {// 6
        return housholdsLookUp[d.hh].has_dis;
     });
-    this.householdsLoc = childrenCf.dimension(function(d) { // 7
+    this.householdsLocation = childrenCf.dimension(function(d) { // 7
       return housholdsLookUp[d.hh].loc;
     });
     // groups
@@ -275,10 +278,10 @@ Vis.Models.App = Backbone.Model.extend({
     this.householdsByPoverty = this.householdsPoverty.group().reduce(
       this.reduceAddUniq(), this.reduceRemoveUniq(), this.reduceInitUniq()
     );
-    this.householdsByDisability = this.householdsLoc.group().reduce(
+    this.householdsByDisability = this.householdsDisability.group().reduce(
       this.reduceAddUniq(), this.reduceRemoveUniq(), this.reduceInitUniq()
     );
-    this.householdsByLoc = this.householdsDisability.group().reduce(
+    this.householdsByLocation = this.householdsLocation.group().reduce(
       this.reduceAddUniq(), this.reduceRemoveUniq(), this.reduceInitUniq()
     );
 
@@ -290,7 +293,7 @@ Vis.Models.App = Backbone.Model.extend({
       function(d) { return d.key; })
     );
     this.set("genders", this.getKeys(this.childrenByGender));
-    this.set("locations", this.getKeys(this.householdsByLoc));
+    this.set("locations", this.getKeys(this.householdsByLocation));
     this.set("heads", this.getKeys(this.householdsByHead));
     this.set("poverties", this.getKeys(this.householdsByPoverty));
     this.set("disabilities", this.getKeys(this.householdsByDisability));
@@ -442,6 +445,7 @@ Vis.Views.Scenarios = Backbone.View.extend({
       if(!this.hasProfilesViews) {
         new Vis.Views.HouseholdsChildren({model: Vis.Models.app});
         new Vis.Views.ChildrenAge({model: Vis.Models.app});
+        new Vis.Views.HouseholdsLocation({model: Vis.Models.app});
         this.hasProfilesViews = true;
       }
 
@@ -479,12 +483,13 @@ Vis.Views.ChildrenAge = Backbone.View.extend({
           data = this.model.childrenByAge.top(Infinity);
 
       this.chart = d3.barChartAge()
-        .width(120).height(250)
-        .margins({top: 40, right: 20, bottom: 10, left: 30})
+        .width(150).height(250)
+        .margins({top: 40, right: 20, bottom: 10, left: 45})
         .data(data)
         .x(d3.scale.linear().domain([0, d3.max(data, function(d) { return d.value; })]))
         .y(d3.scale.linear().domain([0,18]))
-        .xAxis(d3.svg.axis().orient("top").ticks(2))
+        // .xAxis(d3.svg.axis().orient("top").ticks(2))
+        .xAxis(d3.svg.axis().orient("top").tickValues([50, 100]))
         .yAxis(d3.svg.axis().orient("left").tickValues(d3.range(1,18)))
         .title("By age")
         .hasBrush(true);
@@ -639,12 +644,14 @@ Vis.Views.HouseholdsChildren = Backbone.View.extend({
           data = this.model.getHouseholdsByChildren();
 
       this.chart = d3.barChartChildren()
-        .width(120).height(158)
-        .margins({top: 40, right: 20, bottom: 10, left: 30})
+        // .width(120).height(165)
+        .width(150).height(155)
+        .margins({top: 40, right: 20, bottom: 0, left: 45})
         .data(data)
         .x(d3.scale.linear().domain([0, d3.max(data, function(d) { return d.values.length; })]))
         .y(d3.scale.linear().domain([0,10]))
-        .xAxis(d3.svg.axis().orient("top").ticks(2))
+        // .xAxis(d3.svg.axis().orient("top").ticks(2))
+        .xAxis(d3.svg.axis().orient("top").tickValues([50, 100]))
         .yAxis(d3.svg.axis().orient("left").tickValues(d3.range(1,10)))
         .title("By nb. of children")
         .hasBrush(true);
@@ -671,6 +678,73 @@ Vis.Views.HouseholdsChildren = Backbone.View.extend({
     brush: function(extent) {
       this.chart.brushExtent(extent);
       this.render();
+    }
+});
+// Households by location (governorate)
+Vis.Views.HouseholdsLocation = Backbone.View.extend({
+    el: '#households-location',
+
+    initialize: function () {
+      this.initChart();
+      Backbone.on("filtered", function(d) { this.render();}, this);
+      Backbone.on("brush:householdsLocation", function(d) { this.brush(d);}, this);
+    },
+
+    initChart: function() {
+      var that = this,
+          // data = this.model.householdsByLocation.top(Infinity);
+          data = this.getData();
+
+      // debugger;
+      // data = this.joinData(data);
+
+
+      this.chart = d3.barChartLocation()
+        .width(150).height(135)
+        .margins({top: 40, right: 20, bottom: 10, left: 45})
+        .data(data)
+        .x(d3.scale.linear().domain([0, d3.max(data, function(d) { return d.value.householdCount; })]))
+        .y(d3.scale.ordinal().domain(["Amman", "Irbid", "Mafraq", "Zarqa", "Madaba", "Jarash", "Ajloun", "Others"]))
+        .xAxis(d3.svg.axis().orient("top").tickValues([50, 100]))
+        .yAxis(d3.svg.axis().orient("left"))
+        .title("By governorate")
+        .hasBrush(false);
+
+      // this.chart.on("filtering", function (selected) {
+      //   that.model.filterByLocation(selected);
+      // });
+
+      this.chart.on("filtered", function (selected) {
+        that.model.filterByLocation(selected);
+        // if (brush.empty()) that.model.filterByLocation(null);
+      });
+      this.render();
+    },
+
+    render: function() {
+      this.chart
+        .data(this.getData())
+        .selected(this.model.get("locations"));
+      d3.select("#households-location").call(this.chart);
+    },
+
+    getData: function() {
+      var data = this.model.householdsByLocation.top(Infinity);
+      data.forEach(function(d) {
+        d.name = Vis.DEFAULTS.LOOKUP_CODES.GOVERNORATES[d.key] });
+      return data;
+    },
+
+
+    joinData: function(data) {
+      data.forEach(function(d) {
+        d.name = Vis.DEFAULTS.LOOKUP_CODES.GOVERNORATES[d.key] });
+      return data;
+    },
+
+    brush: function(extent) {
+      // this.chart.brushExtent(extent);
+      // this.render();
     }
 });
 // Life improvement View
@@ -1164,6 +1238,283 @@ d3.barChartChildren = function() {
         brush.on("brushend", function() {
           _listeners.filtered(brush);
         });
+      }
+
+      function _getDataBrushed(brush) {
+        var extent = brush.extent().map(function(d) { return Math.floor(d) + 0.5;});
+        return data
+          .map(function(d) { return d.key; })
+          .filter(function(d) {
+            return d >= extent[0] && d <= extent[1];
+          });
+      }
+    });
+  }
+
+  // Getters and Setters
+  chart.width = function(_) {
+    if (!arguments.length) return width;
+    width = _;
+    return chart;
+  };
+  chart.height = function(_) {
+    if (!arguments.length) return height;
+    height = _;
+    return chart;
+  };
+
+  chart.margins = function(_) {
+    if (!arguments.length) return margins;
+    margins = _;
+    return chart;
+  };
+  chart.data = function(_) {
+    if (!arguments.length) return data;
+    data = _;
+    return chart;
+  };
+  chart.xData = function(_) {
+    if (!arguments.length) return xData;
+    xData = _;
+    return chart;
+  };
+  chart.yData = function(_) {
+    if (!arguments.length) return yData;
+    yData = _;
+    return chart;
+  };
+  chart.elasticY = function(_) {
+    if (!arguments.length) return elasticY;
+    elasticY = _;
+    return chart;
+  };
+  chart.x = function(_) {
+    if (!arguments.length) return x;
+    x = _;
+    return chart;
+  };
+  chart.y = function(_) {
+    if (!arguments.length) return y;
+    y = _;
+    return chart;
+  };
+  chart.xAxis = function(_) {
+    if (!arguments.length) return xAxis;
+    xAxis = _;
+    return chart;
+  };
+  chart.yAxis = function(_) {
+    if (!arguments.length) return yAxis;
+    yAxis = _;
+    return chart;
+  };
+  chart.hasYAxis = function(_) {
+    if (!arguments.length) return hasYAxis;
+    hasYAxis = _;
+    return chart;
+  };
+  // chart.brushClickReset = function(_) {
+  //   if (!arguments.length) return brushClickReset;
+  //   brushClickReset = _;
+  //   return chart;
+  // };
+  // chart.clearBrush = function(_) {
+  //   if (!arguments.length) {
+  //     _gBrush.call(brush.clear());
+  //     brush.event(_gBrush);
+  //   }
+  //   return chart;
+  // };
+  // chart.roundXDomain = function(_) {
+  //   if (!arguments.length) return roundXDomain;
+  //   roundXDomain = _;
+  //   return chart;
+  // };
+  chart.hasBrush = function(_) {
+    if (!arguments.length) return hasBrush;
+    hasBrush = _;
+    return chart;
+  };
+  // chart.hasBrushLabel = function(_) {
+  //   if (!arguments.length) return hasBrushLabel;
+  //   hasBrushLabel = _;
+  //   return chart;
+  // };
+  chart.brushExtent = function(_) {
+    if (!arguments.length) return brushExtent;
+    brushExtent = _;
+    return chart;
+  };
+  chart.selected = function(_) {
+    if (!arguments.length) return selected;
+    selected = _;
+    return chart;
+  };
+  chart.title = function(_) {
+    if (!arguments.length) return title;
+    title = _;
+    return chart;
+  };
+  // chart.brushExtentToMax = function(_) {
+  //   if (!arguments.length) return brushExtentToMax;
+  //   brushExtentToMax = _;
+  //   return chart;
+  // };
+
+  chart.on = function (event, listener) {
+    _listeners.on(event, listener);
+    return chart;
+  };
+
+  return chart;
+};
+/* CREATE BAR CHART INSTANCE*/
+d3.barChartLocation = function() {
+
+  var width = 400,
+      height = 100,
+      margins = {top: 10, right: 25, bottom: 30, left: 20},
+      data = null,
+      x = null,
+      y = null,
+      elasticY = false,
+      xData = null,
+      xDomain = null,
+      yData = null,
+      barHeight = 7,
+      xAxis = d3.svg.axis().orient("bottom"),
+      yAxis = d3.svg.axis().orient("left"),
+      hasBrush = false,
+      hasYAxis = true,
+      title = "My title",
+      brushClickReset = false,
+      brush = d3.svg.brush(),
+      brushExtent = null,
+      selected = null;
+
+  var _gWidth = 400,
+      _gHeight = 100,
+      _handlesWidth = 9,
+      _gBars,
+      _gBrush,
+      _gXAxis,
+      _gYAxis,
+      _listeners = d3.dispatch("filtered", "filtering");
+
+  function chart(div) {
+    _gWidth = width - margins.left - margins.right;
+    _gHeight = height - margins.top - margins.bottom;
+    div.each(function() {
+      var div = d3.select(this),
+          g = div.select("g");
+
+      // create the skeleton chart.
+      if (g.empty()) _skeleton();
+
+      // if (brushExtent) {
+      //   brush.extent([brushExtent[0] - 0.5, brushExtent[1] - 0.5]);
+      //   _gBrush.call(brush);
+      //   brushExtent = null;
+      //   _listeners.filtering(_getDataBrushed(brush));
+      // }
+      _render();
+
+      function _render() {
+        // EXIT - ENTER - UPDATE PATTERN
+        var rects =  _gBars.selectAll("rect")
+          .data(data, function(d) { return d.key; });
+        rects.exit().remove();
+        rects.enter().append("rect")
+          .on("click", clickHandler)
+          .on("mouseover", function(d) {
+            d3.select(this).classed("hovered", true);
+          })
+          .on("mouseout", function(d) {
+            d3.select(this).classed("hovered", false);
+          })
+
+        rects
+            .classed("not-selected", function(d) {
+              return (selected.indexOf(d.key) === -1) ? true : false;
+            })
+            // .transition()
+            .attr("x", function(d) { return 0; })
+            .attr("y", function(d) {
+              return y(d.name) - barHeight/2  })
+            .attr("width", function(d) {
+              return x(d.value.householdCount); })
+            .attr("height", function(d) { return barHeight; });
+      }
+
+      function _skeleton() {
+        // set scales range
+        x.range([0 , _gWidth]);
+        // y.range([0, _gHeight]);
+        y.rangeRoundPoints([0, _gHeight], 0, 0.5);
+
+        // set brush
+        if (hasBrush) brush.y(y);
+
+        xAxis
+          .innerTickSize(-_gHeight - 10)
+          .tickPadding(15);
+
+        // set axis
+        xAxis.scale(x);
+        yAxis.scale(y);
+
+        // create chart container
+        g = div.append("svg")
+            .attr("width", width)
+            .attr("height", height)
+          .append("g")
+            .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
+
+        _gBars = g.append("g")
+            .attr("class", "bars");
+
+        // set x Axis
+        _gXAxis = g.append("g")
+            .attr("class", "x axis")
+            .call(xAxis);
+
+        // required to shift the ticks up
+        _gXAxis.selectAll("line").attr("y1", -10);
+
+        _gYAxis = g.append("g")
+            .attr("class", "y axis")
+            .call(yAxis);
+
+
+        g.append("text")
+          .attr("class", "x label")
+          .attr("text-anchor", "start")
+          .attr("x", -15)
+          .attr("y", -30)
+          .text(title);
+
+        _gBrush = g.append("g").attr("class", "brush").call(brush);
+        _gBrush.selectAll("rect").attr("width", _gWidth);
+
+        brush.on("brush", function() {
+          _listeners.filtering(_getDataBrushed(brush));
+        });
+
+        brush.on("brushend", function() {
+          _listeners.filtered(brush);
+        });
+      }
+
+      function clickHandler(d) {
+        if (selected.length > 1) {
+          _listeners.filtered([d.key]);
+        } else {
+          if (selected[0] == d.key) {
+            _listeners.filtered(null);
+          } else {
+            _listeners.filtered([d.key]);
+          }
+        }
       }
 
       function _getDataBrushed(brush) {
