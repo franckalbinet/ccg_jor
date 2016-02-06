@@ -30,7 +30,6 @@ Vis.Routers.App = Backbone.Router.extend({
     var page = page || 1,
         chapter = chapter || 1;
 
-    console.log(this.loaded);
     if(!this.loaded) {
       $(".container").hide();
       Backbone.trigger("data:loading");
@@ -224,16 +223,19 @@ Vis.Models.App = Backbone.Model.extend({
   },
 
   getHouseholdsByChildren: function() {
-    var that = this;
-    return d3.nest()
-      .key(function(d) { return d.value; })
-      .rollup(function(leaves) {
-        return {
-          length: leaves.length,
-          hh: leaves.map(function(d) { return d.key; })
-         };
-      })
-      .entries(this.childrenByHousehold.top(Infinity));
+    var that = this,
+        nested = d3.nest()
+          .key(function(d) { return d.value; })
+          .rollup(function(leaves) {
+            return {
+              length: leaves.length,
+              hh: leaves.map(function(d) { return d.key; })
+             };
+          })
+          .entries(this.childrenByHousehold.top(Infinity));
+    return nested
+      .map(function(d) { return {key: +d.key, values: d.values}; })
+      .filter(function(d) { return d.key !== 0; });
   },
 
   // create crossfilters + associated dimensions and groups
@@ -434,11 +436,12 @@ Vis.Views.Scenarios = Backbone.View.extend({
 
       // create profile charts first time only
       if(!this.hasProfilesViews) {
+        new Vis.Views.HouseholdsChildren({model: Vis.Models.app});
         new Vis.Views.ChildrenAge({model: Vis.Models.app});
         this.hasProfilesViews = true;
       }
 
-      Backbone.trigger("brush:childrenAge", [2,8]);
+      // Backbone.trigger("brush:childrenAge", [5,11]);
 
       // default scenario (nothing filtered);
 
@@ -456,7 +459,7 @@ Vis.Views.Scenarios = Backbone.View.extend({
       // this.model.filterByWork(null);
     }
   });
-// Covering Basic Needs View
+// Children by age chart
 Vis.Views.ChildrenAge = Backbone.View.extend({
     el: '#children-age',
 
@@ -470,16 +473,15 @@ Vis.Views.ChildrenAge = Backbone.View.extend({
       var that = this,
           data = this.model.childrenByAge.top(Infinity);
 
-      this.chart = d3.barChartVertical()
+      this.chart = d3.barChartAge()
         .width(120).height(250)
         .margins({top: 40, right: 20, bottom: 10, left: 30})
         .data(data)
-        .xData("value")
-        .yData("key")
         .x(d3.scale.linear().domain([0, d3.max(data, function(d) { return d.value; })]))
         .y(d3.scale.linear().domain([0,18]))
         .xAxis(d3.svg.axis().orient("top").ticks(2))
         .yAxis(d3.svg.axis().orient("left").tickValues(d3.range(1,18)))
+        .title("By age")
         .hasBrush(true);
 
       this.chart.on("filtering", function (selected) {
@@ -487,6 +489,7 @@ Vis.Views.ChildrenAge = Backbone.View.extend({
       });
 
       this.chart.on("filtered", function (brush) {
+        // console.log("in filtered");
         if (brush.empty()) that.model.filterByAge(null);
       });
 
@@ -494,6 +497,8 @@ Vis.Views.ChildrenAge = Backbone.View.extend({
     },
 
     render: function() {
+      console.log(this.model.childrenByHousehold.top(Infinity));
+      this.chart.selected(this.model.get("ages"));
       d3.select("#children-age").call(this.chart);
     },
 
@@ -616,81 +621,56 @@ Vis.Views.BarChartVertical = Backbone.View.extend({
       this.model[this.filter](filter);
     },
 });
-// Nb. households by nb. of children
+// Households by nb. children chart
 Vis.Views.HouseholdsChildren = Backbone.View.extend({
-    el: '#households-by-children',
-
-    events: {
-    },
+    el: '#households-children',
 
     initialize: function () {
-      Backbone.on("filtered", function(d) {
-        this.render();
-      }, this);
+      this.initChart();
+      Backbone.on("filtered", function(d) { this.render();}, this);
+      Backbone.on("brush:householdsChildren", function(d) { this.brush(d);}, this);
+    },
+
+    initChart: function() {
+      var that = this,
+          data = this.model.getHouseholdsByChildren();
+
+      this.chart = d3.barChartChildren()
+        .width(120).height(158)
+        .margins({top: 40, right: 20, bottom: 10, left: 30})
+        .data(data)
+        .x(d3.scale.linear().domain([0, d3.max(data, function(d) { return d.values.length; })]))
+        .y(d3.scale.linear().domain([0,10]))
+        .xAxis(d3.svg.axis().orient("top").ticks(2))
+        .yAxis(d3.svg.axis().orient("left").tickValues(d3.range(1,10)))
+        .title("By nb. of children")
+        .hasBrush(true);
+
+      this.chart.on("filtering", function (selected) {
+        that.model.filterByChildren(selected);
+      });
+
+      this.chart.on("filtered", function (brush) {
+        // console.log("in filtered");
+        if (brush.empty()) that.model.filterByChildren(null);
+      });
+
+      this.render();
     },
 
     render: function() {
-      var that = this,
-          data = this.model.getHouseholdsByChildren()
-          .map(function(d) {
-            return { key: d.key, value: d.values.length};
-          })
-          .filter(function(d) {
-            return d.key !== "0";
-          });
-
-      if (this.myChart) d3.select("#households-by-children svg").remove();
-
-      // if (!this.myChart) {
-        this.svg = dimple.newSvg("#" + this.el.id + " .chart", 480, 150);
-        this.myChart = new dimple.chart(this.svg, data);
-        this.myChart.setBounds(50, 10, 400, 90);
-        var x = this.myChart.addCategoryAxis("x", "key");
-        x.title = "Children by household";
-        var y = this.myChart.addMeasureAxis("y", "value");
-        y.ticks = 4;
-        y.title = "Nb. of households";
-        x.hidden = false;
-        y.showGridlines = false;
-        this.mySeries = this.myChart.addSeries(null, dimple.plot.bar);
-        this.mySeries.addEventHandler("click", function (e) {
-          that.update(e);});
-      // } else {
-        // this.myChart.data = data;
-        // this.myChart.axes = [];
-        // d3.selectAll("#households-by-children .dimple-axis").remove()
-        // var x = this.myChart.addCategoryAxis("x", "key");
-        // x.title = "Children by household";
-        // var y = this.myChart.addMeasureAxis("y", "value");
-        // y.ticks = 4;
-        // y.title = "Nb. of households";
-        // x.hidden = false;
-        // y.showGridlines = false;
-
-      // }
-      this.myChart.draw(500);
-      this.setAesthetics();
+      // console.log(this.model.childrenByHousehold.top(Infinity));
+      // console.log(this.model.getHouseholdsByChildren());
+      this.chart
+        .data(this.model.getHouseholdsByChildren())
+        .selected(this.model.get("children"));
+      d3.select("#households-children").call(this.chart);
     },
 
-    setAesthetics: function() {
-      var that = this;
-      d3.selectAll("#" + this.el.id + " .chart rect").classed("selected", false);
-      this.model.get("children").forEach(function(d) {
-        d3.select("#" + that.el.id + " .chart rect#dimple-all-" + d + "---")
-          .classed("selected", true);
-      })
-    },
-
-    update: function(e) {
-        var filter = this.model.get("children"),
-            selected = e.xValue;
-
-        // filter = this.model.getHouseholdsByChildren()[clicked].values.hh
-
-        if (filter.indexOf(selected) === -1) { filter.push(selected); }
-        else { filter = _.without(filter, selected);}
-        this.model.filterByChildren(filter);
-    },
+    brush: function(extent) {
+      this.chart.brushExtent(extent);
+      this.render();
+    }
 });
 // Life improvement View
 Vis.Views.LifeImprovement = Backbone.View.extend({
@@ -820,7 +800,7 @@ Vis.Views.CoveringNeeds = Backbone.View.extend({
     // }
 });
 /* CREATE BAR CHART INSTANCE*/
-d3.barChartVertical = function() {
+d3.barChartAge = function() {
 
   var width = 400,
       height = 100,
@@ -829,22 +809,21 @@ d3.barChartVertical = function() {
       x = null,
       y = null,
       elasticY = false,
-      xData = null,
       xDomain = null,
-      yData = null,
       barHeight = 7,
       xAxis = d3.svg.axis().orient("bottom"),
       yAxis = d3.svg.axis().orient("left"),
       hasBrush = false,
       hasYAxis = true,
+      title = "My title",
       brushClickReset = false,
       brush = d3.svg.brush(),
-      brushExtent = null;
+      brushExtent = null
+      selected = null;
 
   var _gWidth = 400,
       _gHeight = 100,
       _handlesWidth = 9,
-      _selected = [],
       _gBars,
       _gBrush,
       _gXAxis,
@@ -859,9 +838,15 @@ d3.barChartVertical = function() {
       var div = d3.select(this),
           g = div.select("g");
 
-      // debugger;
       // create the skeleton chart.
       if (g.empty()) _skeleton();
+
+      if (brushExtent) {
+        brush.extent([brushExtent[0] - 0.5, brushExtent[1] - 0.5]);
+        _gBrush.call(brush);
+        brushExtent = null;
+        _listeners.filtering(_getDataBrushed(brush));
+      }
 
       _render();
 
@@ -872,34 +857,27 @@ d3.barChartVertical = function() {
         rects.enter().append("rect");
         rects
             .classed("not-selected", function(d) {
-              if (hasBrush) {
-                if (_selected.indexOf(d.key) === -1) {
-                  return true;
-                } else {
-                  false;
-                }
-              }
+              if (hasBrush) return (selected.indexOf(d.key) === -1) ? true : false;
               return false;
             })
+            // .transition()
             .attr("x", function(d) { return 0; })
-            .attr("y", function(d) { return y(d[yData]) - barHeight/2  })
-            .attr("width", function(d) { return x(d[xData]); })
+            .attr("y", function(d) { return y(d.key) - barHeight/2  })
+            .attr("width", function(d) { return x(d.value); })
             .attr("height", function(d) { return barHeight; });
       }
 
       function _skeleton() {
         // set scales range
         x.range([0 , _gWidth]);
-        // x.tickValues([1, 2, 3, 5, 8, 13]);
-        // y.rangeRoundPoints([0 , _gHeight], 0, 0.5);
-        // y.rangeRoundBands([0 , _gHeight]);
         y.range([0, _gHeight]);
 
         // set brush
         if (hasBrush) brush.y(y);
 
-        xAxis.innerTickSize(-_gHeight)
-            .tickPadding(5);
+        xAxis
+          .innerTickSize(-_gHeight)
+          .tickPadding(5);
 
         // set axis
         xAxis.scale(x);
@@ -926,19 +904,261 @@ d3.barChartVertical = function() {
 
         g.append("text")
           .attr("class", "x label")
-          .attr("text-anchor", "middle")
-          .attr("x", 15)
+          .attr("text-anchor", "start")
+          .attr("x", -15)
           .attr("y", -25)
-          .text("By age");
+          .text(title);
 
         _gBrush = g.append("g").attr("class", "brush").call(brush);
         _gBrush.selectAll("rect").attr("width", _gWidth);
 
         brush.on("brush", function() {
-          _selected = _getDataBrushed(brush);
-          // console.log(brush.extent().map(function(d) { return Math.floor(d);}));
-          console.log(_selected);
-          _listeners.filtering(_selected);
+          _listeners.filtering(_getDataBrushed(brush));
+        });
+
+        brush.on("brushend", function() {
+          _listeners.filtered(brush);
+        });
+      }
+
+      function _getDataBrushed(brush) {
+        var extent = brush.extent().map(function(d) { return Math.floor(d) + 0.5;});
+        return data
+          .map(function(d) { return d.key; })
+          .filter(function(d) {
+            return d >= extent[0] && d <= extent[1];
+          });
+      }
+    });
+  }
+
+  // Getters and Setters
+  chart.width = function(_) {
+    if (!arguments.length) return width;
+    width = _;
+    return chart;
+  };
+  chart.height = function(_) {
+    if (!arguments.length) return height;
+    height = _;
+    return chart;
+  };
+
+  chart.margins = function(_) {
+    if (!arguments.length) return margins;
+    margins = _;
+    return chart;
+  };
+  chart.data = function(_) {
+    if (!arguments.length) return data;
+    data = _;
+    return chart;
+  };
+  chart.elasticY = function(_) {
+    if (!arguments.length) return elasticY;
+    elasticY = _;
+    return chart;
+  };
+  chart.x = function(_) {
+    if (!arguments.length) return x;
+    x = _;
+    return chart;
+  };
+  chart.y = function(_) {
+    if (!arguments.length) return y;
+    y = _;
+    return chart;
+  };
+  chart.xAxis = function(_) {
+    if (!arguments.length) return xAxis;
+    xAxis = _;
+    return chart;
+  };
+  chart.yAxis = function(_) {
+    if (!arguments.length) return yAxis;
+    yAxis = _;
+    return chart;
+  };
+  chart.hasYAxis = function(_) {
+    if (!arguments.length) return hasYAxis;
+    hasYAxis = _;
+    return chart;
+  };
+  // chart.brushClickReset = function(_) {
+  //   if (!arguments.length) return brushClickReset;
+  //   brushClickReset = _;
+  //   return chart;
+  // };
+  // chart.clearBrush = function(_) {
+  //   if (!arguments.length) {
+  //     _gBrush.call(brush.clear());
+  //     brush.event(_gBrush);
+  //   }
+  //   return chart;
+  // };
+  // chart.roundXDomain = function(_) {
+  //   if (!arguments.length) return roundXDomain;
+  //   roundXDomain = _;
+  //   return chart;
+  // };
+  chart.hasBrush = function(_) {
+    if (!arguments.length) return hasBrush;
+    hasBrush = _;
+    return chart;
+  };
+  // chart.hasBrushLabel = function(_) {
+  //   if (!arguments.length) return hasBrushLabel;
+  //   hasBrushLabel = _;
+  //   return chart;
+  // };
+  chart.brushExtent = function(_) {
+    if (!arguments.length) return brushExtent;
+    brushExtent = _;
+    return chart;
+  };
+  chart.selected = function(_) {
+    if (!arguments.length) return selected;
+    selected = _;
+    return chart;
+  };
+  chart.title = function(_) {
+    if (!arguments.length) return title;
+    title = _;
+    return chart;
+  };
+  // chart.brushExtentToMax = function(_) {
+  //   if (!arguments.length) return brushExtentToMax;
+  //   brushExtentToMax = _;
+  //   return chart;
+  // };
+
+  chart.on = function (event, listener) {
+    _listeners.on(event, listener);
+    return chart;
+  };
+
+  return chart;
+};
+/* CREATE BAR CHART INSTANCE*/
+d3.barChartChildren = function() {
+
+  var width = 400,
+      height = 100,
+      margins = {top: 10, right: 25, bottom: 30, left: 20},
+      data = null,
+      x = null,
+      y = null,
+      elasticY = false,
+      xData = null,
+      xDomain = null,
+      yData = null,
+      barHeight = 7,
+      xAxis = d3.svg.axis().orient("bottom"),
+      yAxis = d3.svg.axis().orient("left"),
+      hasBrush = false,
+      hasYAxis = true,
+      title = "My title",
+      brushClickReset = false,
+      brush = d3.svg.brush(),
+      brushExtent = null
+      selected = null;
+
+  var _gWidth = 400,
+      _gHeight = 100,
+      _handlesWidth = 9,
+      _gBars,
+      _gBrush,
+      _gXAxis,
+      _gYAxis,
+      _listeners = d3.dispatch("filtered", "filtering");
+
+  function chart(div) {
+    _gWidth = width - margins.left - margins.right;
+    _gHeight = height - margins.top - margins.bottom;
+    // debugger;
+    div.each(function() {
+      var div = d3.select(this),
+          g = div.select("g");
+
+      // create the skeleton chart.
+      if (g.empty()) _skeleton();
+
+      if (brushExtent) {
+        brush.extent([brushExtent[0] - 0.5, brushExtent[1] - 0.5]);
+        _gBrush.call(brush);
+        brushExtent = null;
+        _listeners.filtering(_getDataBrushed(brush));
+      }
+
+      _render();
+
+      function _render() {
+        // EXIT - ENTER - UPDATE PATTERN
+        var rects =  _gBars.selectAll("rect")
+          .data(data, function(d) { return d.key; });
+        rects.exit().remove();
+        rects.enter().append("rect");
+        rects
+            .classed("not-selected", function(d) {
+              if (hasBrush) return (selected.indexOf(d.key) === -1) ? true : false;
+              return false;
+            })
+            // .transition()
+            .attr("x", function(d) { return 0; })
+            .attr("y", function(d) {
+              return y(d.key) - barHeight/2  })
+            .attr("width", function(d) {
+              return x(d.values.length); })
+            .attr("height", function(d) { return barHeight; });
+      }
+
+      function _skeleton() {
+        // set scales range
+        x.range([0 , _gWidth]);
+        y.range([0, _gHeight]);
+
+        // set brush
+        if (hasBrush) brush.y(y);
+
+        xAxis
+          .innerTickSize(-_gHeight)
+          .tickPadding(5);
+
+        // set axis
+        xAxis.scale(x);
+        yAxis.scale(y);
+
+        // create chart container
+        g = div.append("svg")
+            .attr("width", width)
+            .attr("height", height)
+          .append("g")
+            .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
+
+        _gBars = g.append("g")
+            .attr("class", "bars");
+
+        // set x Axis
+        _gXAxis = g.append("g")
+            .attr("class", "x axis")
+            .call(xAxis);
+
+        _gYAxis = g.append("g")
+            .attr("class", "y axis")
+            .call(yAxis);
+
+        g.append("text")
+          .attr("class", "x label")
+          .attr("text-anchor", "start")
+          .attr("x", -15)
+          .attr("y", -25)
+          .text(title);
+
+        _gBrush = g.append("g").attr("class", "brush").call(brush);
+        _gBrush.selectAll("rect").attr("width", _gWidth);
+
+        brush.on("brush", function() {
+          _listeners.filtering(_getDataBrushed(brush));
         });
 
         brush.on("brushend", function() {
@@ -1049,6 +1269,16 @@ d3.barChartVertical = function() {
   chart.brushExtent = function(_) {
     if (!arguments.length) return brushExtent;
     brushExtent = _;
+    return chart;
+  };
+  chart.selected = function(_) {
+    if (!arguments.length) return selected;
+    selected = _;
+    return chart;
+  };
+  chart.title = function(_) {
+    if (!arguments.length) return title;
+    title = _;
     return chart;
   };
   // chart.brushExtentToMax = function(_) {

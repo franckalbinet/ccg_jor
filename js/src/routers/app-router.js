@@ -9,7 +9,6 @@ Vis.Routers.App = Backbone.Router.extend({
     var page = page || 1,
         chapter = chapter || 1;
 
-    console.log(this.loaded);
     if(!this.loaded) {
       $(".container").hide();
       Backbone.trigger("data:loading");

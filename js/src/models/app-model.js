@@ -136,16 +136,19 @@ Vis.Models.App = Backbone.Model.extend({
   },
 
   getHouseholdsByChildren: function() {
-    var that = this;
-    return d3.nest()
-      .key(function(d) { return d.value; })
-      .rollup(function(leaves) {
-        return {
-          length: leaves.length,
-          hh: leaves.map(function(d) { return d.key; })
-         };
-      })
-      .entries(this.childrenByHousehold.top(Infinity));
+    var that = this,
+        nested = d3.nest()
+          .key(function(d) { return d.value; })
+          .rollup(function(leaves) {
+            return {
+              length: leaves.length,
+              hh: leaves.map(function(d) { return d.key; })
+             };
+          })
+          .entries(this.childrenByHousehold.top(Infinity));
+    return nested
+      .map(function(d) { return {key: +d.key, values: d.values}; })
+      .filter(function(d) { return d.key !== 0; });
   },
 
   // create crossfilters + associated dimensions and groups

@@ -16,7 +16,8 @@ vis_src =	${vis_dir}/namespace.js\
 					${vis_dir}/views/households-children-view.js\
 					${vis_dir}/views/life-improvement-view.js\
 					${vis_dir}/views/covering-needs-view.js\
-					${vis_dir}/charts/bar-chart-vertical.js\
+					${vis_dir}/charts/bar-chart-age.js\
+					${vis_dir}/charts/bar-chart-children.js\
 
 # vis.js build
 vis.js: ${vis_src}

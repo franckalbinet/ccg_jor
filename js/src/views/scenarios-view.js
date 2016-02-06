@@ -17,11 +17,12 @@ Vis.Views.Scenarios = Backbone.View.extend({
 
       // create profile charts first time only
       if(!this.hasProfilesViews) {
+        new Vis.Views.HouseholdsChildren({model: Vis.Models.app});
         new Vis.Views.ChildrenAge({model: Vis.Models.app});
         this.hasProfilesViews = true;
       }
 
-      Backbone.trigger("brush:childrenAge", [2,8]);
+      // Backbone.trigger("brush:childrenAge", [5,11]);
 
       // default scenario (nothing filtered);
 

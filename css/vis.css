@@ -153,7 +153,7 @@ ul#sub-nav {
   fill-opacity: 0.8;
 }
 .bar-chart-vert rect.not-selected {
-  fill: #eee;
+  fill: #ddd;
 }
 .bar-chart-vert .axis {
   font: 10px sans-serif;
@@ -179,7 +179,7 @@ ul#sub-nav {
 }
 .bar-chart-vert .brush .extent {
   fill: black;
-  fill-opacity: 0.1;
+  fill-opacity: 0.05;
 }
 
 
