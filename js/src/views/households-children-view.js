@@ -38,7 +38,7 @@ Vis.Views.HouseholdsChildren = Backbone.View.extend({
       this.chart
         .data(this.model.getHouseholdsByChildren())
         .selected(this.model.get("children"));
-      d3.select("#households-children").call(this.chart);
+      d3.select(this.el).call(this.chart);
     },
 
     brush: function(extent) {

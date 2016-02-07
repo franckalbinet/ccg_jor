@@ -149,11 +149,11 @@ ul#sub-nav {
   font-family: "Open", sans-serif;
 }
 .bar-chart-vert rect {
-  fill: steelblue;
+  fill: #1f77b4;
   fill-opacity: 0.8;
 }
 .bar-chart-vert rect.hovered {
-  fill: #24435C;
+  fill: #216290;
 }
 .bar-chart-vert rect.not-selected {
   fill: #ddd;
@@ -187,6 +187,20 @@ ul#sub-nav {
   fill: black;
   fill-opacity: 0.05;
 }
+
+.bar-chart-stacked-single .y.axis .tick text {
+  display: none;
+}
+.bar-chart-stacked-single .label line {
+  stroke: #333;
+  shape-rendering: crispEdges;
+  stroke-width: 1px;
+}
+
+.bar-chart-stacked-single .legend text {
+  font-size: 11px;
+}
+
 
 
 

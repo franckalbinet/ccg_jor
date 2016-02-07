@@ -37,7 +37,7 @@ Vis.Views.HouseholdsLocation = Backbone.View.extend({
       this.chart
         .data(this.getData())
         .selected(this.model.get("locations"));
-      d3.select("#households-location").call(this.chart);
+      d3.select(this.el).call(this.chart);
     },
 
     getData: function() {

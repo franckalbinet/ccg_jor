@@ -36,7 +36,7 @@ Vis.Views.ChildrenAge = Backbone.View.extend({
 
     render: function() {
       this.chart.selected(this.model.get("ages"));
-      d3.select("#children-age").call(this.chart);
+      d3.select(this.el).call(this.chart);
     },
 
     brush: function(extent) {

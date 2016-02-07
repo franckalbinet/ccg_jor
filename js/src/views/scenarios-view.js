@@ -20,12 +20,13 @@ Vis.Views.Scenarios = Backbone.View.extend({
         new Vis.Views.HouseholdsChildren({model: Vis.Models.app});
         new Vis.Views.ChildrenAge({model: Vis.Models.app});
         new Vis.Views.HouseholdsLocation({model: Vis.Models.app});
+        new Vis.Views.HouseholdsPoverty({model: Vis.Models.app});
         this.hasProfilesViews = true;
       }
 
       // Backbone.trigger("brush:childrenAge", [5,11]);
       // Backbone.trigger("brush:householdsChildren", [2,5]);
-      Backbone.trigger("select:householdsLocation", [1]);
+      // Backbone.trigger("select:householdsLocation", [1]);
 
       // default scenario (nothing filtered);
 
