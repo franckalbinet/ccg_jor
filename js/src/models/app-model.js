@@ -54,19 +54,19 @@ Vis.Models.App = Backbone.Model.extend({
 
   filterByChildren: function(args) {
     var that = this;
-    // this.set("children", args || this.getHouseholdsByChildren().map(
-    //   function(d) { return d.key; }));
     // to be refactored
     this.set("children", args || [1,2,3,4,5,6,7,8,9]);
-    var households = [];
-
-    this.getHouseholdsByChildren().forEach(function(d) {
-      if (that.get("children").indexOf(d.key) > -1) {
-        households = households.concat(d.values.hh)
-      }
-    });
-
-    this.childrenHousehold.filter(this.filterExactList(households) );
+    if (args !== null) {
+      var households = [];
+      this.getHouseholdsByChildren().forEach(function(d) {
+        if (that.get("children").indexOf(d.key) > -1) {
+          households = households.concat(d.values.hh)
+        }
+      });
+      this.childrenHousehold.filter(this.filterExactList(households));
+    } else {
+      this.childrenHousehold.filter(null);
+    }
     Backbone.trigger("filtering");
   },
 

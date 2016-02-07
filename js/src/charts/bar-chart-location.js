@@ -19,7 +19,8 @@ d3.barChartLocation = function() {
       title = "My title",
       brushClickReset = false,
       brush = d3.svg.brush(),
-      brushExtent = null,
+      // brushExtent = null,
+      select = null,
       selected = null;
 
   var _gWidth = 400,
@@ -41,12 +42,11 @@ d3.barChartLocation = function() {
       // create the skeleton chart.
       if (g.empty()) _skeleton();
 
-      // if (brushExtent) {
-      //   brush.extent([brushExtent[0] - 0.5, brushExtent[1] - 0.5]);
-      //   _gBrush.call(brush);
-      //   brushExtent = null;
-      //   _listeners.filtering(_getDataBrushed(brush));
-      // }
+      if (select) {
+        var selection = select;
+        select = null;
+        _listeners.filtered(selection);
+      }
       _render();
 
       function _render() {
@@ -122,17 +122,6 @@ d3.barChartLocation = function() {
           .attr("x", -15)
           .attr("y", -30)
           .text(title);
-
-        _gBrush = g.append("g").attr("class", "brush").call(brush);
-        _gBrush.selectAll("rect").attr("width", _gWidth);
-
-        brush.on("brush", function() {
-          _listeners.filtering(_getDataBrushed(brush));
-        });
-
-        brush.on("brushend", function() {
-          _listeners.filtered(brush);
-        });
       }
 
       function clickHandler(d) {
@@ -250,6 +239,11 @@ d3.barChartLocation = function() {
   chart.brushExtent = function(_) {
     if (!arguments.length) return brushExtent;
     brushExtent = _;
+    return chart;
+  };
+  chart.select = function(_) {
+    if (!arguments.length) return select;
+    select = _;
     return chart;
   };
   chart.selected = function(_) {

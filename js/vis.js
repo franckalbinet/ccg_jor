@@ -144,19 +144,19 @@ Vis.Models.App = Backbone.Model.extend({
 
   filterByChildren: function(args) {
     var that = this;
-    // this.set("children", args || this.getHouseholdsByChildren().map(
-    //   function(d) { return d.key; }));
     // to be refactored
     this.set("children", args || [1,2,3,4,5,6,7,8,9]);
-    var households = [];
-
-    this.getHouseholdsByChildren().forEach(function(d) {
-      if (that.get("children").indexOf(d.key) > -1) {
-        households = households.concat(d.values.hh)
-      }
-    });
-
-    this.childrenHousehold.filter(this.filterExactList(households) );
+    if (args !== null) {
+      var households = [];
+      this.getHouseholdsByChildren().forEach(function(d) {
+        if (that.get("children").indexOf(d.key) > -1) {
+          households = households.concat(d.values.hh)
+        }
+      });
+      this.childrenHousehold.filter(this.filterExactList(households));
+    } else {
+      this.childrenHousehold.filter(null);
+    }
     Backbone.trigger("filtering");
   },
 
@@ -451,6 +451,7 @@ Vis.Views.Scenarios = Backbone.View.extend({
 
       // Backbone.trigger("brush:childrenAge", [5,11]);
       // Backbone.trigger("brush:householdsChildren", [2,5]);
+      Backbone.trigger("select:householdsLocation", [1]);
 
       // default scenario (nothing filtered);
 
@@ -488,7 +489,6 @@ Vis.Views.ChildrenAge = Backbone.View.extend({
         .data(data)
         .x(d3.scale.linear().domain([0, d3.max(data, function(d) { return d.value; })]))
         .y(d3.scale.linear().domain([0,18]))
-        // .xAxis(d3.svg.axis().orient("top").ticks(2))
         .xAxis(d3.svg.axis().orient("top").tickValues([50, 100]))
         .yAxis(d3.svg.axis().orient("left").tickValues(d3.range(1,18)))
         .title("By age")
@@ -644,13 +644,11 @@ Vis.Views.HouseholdsChildren = Backbone.View.extend({
           data = this.model.getHouseholdsByChildren();
 
       this.chart = d3.barChartChildren()
-        // .width(120).height(165)
         .width(150).height(155)
         .margins({top: 40, right: 20, bottom: 0, left: 45})
         .data(data)
         .x(d3.scale.linear().domain([0, d3.max(data, function(d) { return d.values.length; })]))
         .y(d3.scale.linear().domain([0,10]))
-        // .xAxis(d3.svg.axis().orient("top").ticks(2))
         .xAxis(d3.svg.axis().orient("top").tickValues([50, 100]))
         .yAxis(d3.svg.axis().orient("left").tickValues(d3.range(1,10)))
         .title("By nb. of children")
@@ -661,14 +659,13 @@ Vis.Views.HouseholdsChildren = Backbone.View.extend({
       });
 
       this.chart.on("filtered", function (brush) {
+        console.log("in filtered");
         if (brush.empty()) that.model.filterByChildren(null);
       });
       this.render();
     },
 
     render: function() {
-      // console.log("in view: " + this.model.get("children"));
-      // console.log(this.model.getHouseholdsByChildren());
       this.chart
         .data(this.model.getHouseholdsByChildren())
         .selected(this.model.get("children"));
@@ -687,17 +684,12 @@ Vis.Views.HouseholdsLocation = Backbone.View.extend({
     initialize: function () {
       this.initChart();
       Backbone.on("filtered", function(d) { this.render();}, this);
-      Backbone.on("brush:householdsLocation", function(d) { this.brush(d);}, this);
+      Backbone.on("select:householdsLocation", function(d) { this.select(d);}, this);
     },
 
     initChart: function() {
       var that = this,
-          // data = this.model.householdsByLocation.top(Infinity);
           data = this.getData();
-
-      // debugger;
-      // data = this.joinData(data);
-
 
       this.chart = d3.barChartLocation()
         .width(150).height(135)
@@ -716,7 +708,6 @@ Vis.Views.HouseholdsLocation = Backbone.View.extend({
 
       this.chart.on("filtered", function (selected) {
         that.model.filterByLocation(selected);
-        // if (brush.empty()) that.model.filterByLocation(null);
       });
       this.render();
     },
@@ -742,9 +733,9 @@ Vis.Views.HouseholdsLocation = Backbone.View.extend({
       return data;
     },
 
-    brush: function(extent) {
-      // this.chart.brushExtent(extent);
-      // this.render();
+    select: function(selection) {
+      this.chart.select(selection);
+      this.render();
     }
 });
 // Life improvement View
@@ -1163,7 +1154,6 @@ d3.barChartChildren = function() {
         brushExtent = null;
         _listeners.filtering(_getDataBrushed(brush));
       }
-      // console.log("in chart: " + selected);
       _render();
 
       function _render() {
@@ -1389,7 +1379,8 @@ d3.barChartLocation = function() {
       title = "My title",
       brushClickReset = false,
       brush = d3.svg.brush(),
-      brushExtent = null,
+      // brushExtent = null,
+      select = null,
       selected = null;
 
   var _gWidth = 400,
@@ -1411,12 +1402,11 @@ d3.barChartLocation = function() {
       // create the skeleton chart.
       if (g.empty()) _skeleton();
 
-      // if (brushExtent) {
-      //   brush.extent([brushExtent[0] - 0.5, brushExtent[1] - 0.5]);
-      //   _gBrush.call(brush);
-      //   brushExtent = null;
-      //   _listeners.filtering(_getDataBrushed(brush));
-      // }
+      if (select) {
+        var selection = select;
+        select = null;
+        _listeners.filtered(selection);
+      }
       _render();
 
       function _render() {
@@ -1492,17 +1482,6 @@ d3.barChartLocation = function() {
           .attr("x", -15)
           .attr("y", -30)
           .text(title);
-
-        _gBrush = g.append("g").attr("class", "brush").call(brush);
-        _gBrush.selectAll("rect").attr("width", _gWidth);
-
-        brush.on("brush", function() {
-          _listeners.filtering(_getDataBrushed(brush));
-        });
-
-        brush.on("brushend", function() {
-          _listeners.filtered(brush);
-        });
       }
 
       function clickHandler(d) {
@@ -1620,6 +1599,11 @@ d3.barChartLocation = function() {
   chart.brushExtent = function(_) {
     if (!arguments.length) return brushExtent;
     brushExtent = _;
+    return chart;
+  };
+  chart.select = function(_) {
+    if (!arguments.length) return select;
+    select = _;
     return chart;
   };
   chart.selected = function(_) {

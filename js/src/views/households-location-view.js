@@ -5,17 +5,12 @@ Vis.Views.HouseholdsLocation = Backbone.View.extend({
     initialize: function () {
       this.initChart();
       Backbone.on("filtered", function(d) { this.render();}, this);
-      Backbone.on("brush:householdsLocation", function(d) { this.brush(d);}, this);
+      Backbone.on("select:householdsLocation", function(d) { this.select(d);}, this);
     },
 
     initChart: function() {
       var that = this,
-          // data = this.model.householdsByLocation.top(Infinity);
           data = this.getData();
-
-      // debugger;
-      // data = this.joinData(data);
-
 
       this.chart = d3.barChartLocation()
         .width(150).height(135)
@@ -34,7 +29,6 @@ Vis.Views.HouseholdsLocation = Backbone.View.extend({
 
       this.chart.on("filtered", function (selected) {
         that.model.filterByLocation(selected);
-        // if (brush.empty()) that.model.filterByLocation(null);
       });
       this.render();
     },
@@ -60,8 +54,8 @@ Vis.Views.HouseholdsLocation = Backbone.View.extend({
       return data;
     },
 
-    brush: function(extent) {
-      // this.chart.brushExtent(extent);
-      // this.render();
+    select: function(selection) {
+      this.chart.select(selection);
+      this.render();
     }
 });

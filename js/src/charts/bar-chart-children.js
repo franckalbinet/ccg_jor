@@ -47,7 +47,6 @@ d3.barChartChildren = function() {
         brushExtent = null;
         _listeners.filtering(_getDataBrushed(brush));
       }
-      // console.log("in chart: " + selected);
       _render();
 
       function _render() {
