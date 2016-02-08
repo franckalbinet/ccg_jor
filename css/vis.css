@@ -150,16 +150,17 @@ ul#sub-nav {
 }
 .bar-chart-vert rect {
   fill: #1f77b4;
+  stroke: none;
   fill-opacity: 0.8;
 }
-.bar-chart-vert rect.hovered {
-  fill: #216290;
+.bar-chart-vert rect.hovered, .bar-chart-vert rect.not-selected.hovered  {
+  fill: #1f77b4;
+  stroke: #1f77b4;
+  stroke-width: 2px;
+  stroke-opacity: 0.5;
 }
 .bar-chart-vert rect.not-selected {
   fill: #ddd;
-}
-.bar-chart-vert rect.not-selected.hovered {
-  fill: steelblue;
 }
 .bar-chart-vert .axis {
   font: 10px sans-serif;
@@ -188,6 +189,16 @@ ul#sub-nav {
   fill-opacity: 0.05;
 }
 
+.bar-chart-stacked-single rect.hovered {
+  stroke: none;
+  /*stroke-width: 2px;*/
+}
+.bar-chart-stacked-single rect.not-selected {
+  fill: #ddd !important;
+}
+.bar-chart-stacked-single rect.not-selected.hovered {
+  stroke: none;
+}
 .bar-chart-stacked-single .y.axis .tick text {
   display: none;
 }
@@ -201,7 +212,12 @@ ul#sub-nav {
   font-size: 11px;
 }
 
-
+#households-head {
+  margin-top: -5px;
+}
+#children-gender {
+  margin-left: -2px;
+}
 
 
 

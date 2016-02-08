@@ -10,7 +10,8 @@ Vis.Views.HouseholdsChildren = Backbone.View.extend({
 
     initChart: function() {
       var that = this,
-          data = this.model.getHouseholdsByChildren();
+          // data = this.model.getHouseholdsByChildren();
+          data = this.getData();
 
       this.chart = d3.barChartChildren()
         .width(150).height(155)
@@ -28,7 +29,6 @@ Vis.Views.HouseholdsChildren = Backbone.View.extend({
       });
 
       this.chart.on("filtered", function (brush) {
-        console.log("in filtered");
         if (brush.empty()) that.model.filterByChildren(null);
       });
       this.render();
@@ -36,7 +36,7 @@ Vis.Views.HouseholdsChildren = Backbone.View.extend({
 
     render: function() {
       this.chart
-        .data(this.model.getHouseholdsByChildren())
+        .data(this.getData())
         .selected(this.model.get("children"));
       d3.select(this.el).call(this.chart);
     },
@@ -44,5 +44,12 @@ Vis.Views.HouseholdsChildren = Backbone.View.extend({
     brush: function(extent) {
       this.chart.brushExtent(extent);
       this.render();
-    }
+    },
+
+    getData: function() {
+      var data = this.model.getHouseholdsByChildren();
+      data = data.filter(function(d) { return d.key !== 0; });
+      return data;
+    },
+
 });

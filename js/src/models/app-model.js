@@ -57,9 +57,11 @@ Vis.Models.App = Backbone.Model.extend({
     // to be refactored
     this.set("children", args || [1,2,3,4,5,6,7,8,9]);
     if (args !== null) {
+      var _children = that.get("children");
+      _children.push(0);
       var households = [];
       this.getHouseholdsByChildren().forEach(function(d) {
-        if (that.get("children").indexOf(d.key) > -1) {
+        if (_children.indexOf(d.key) > -1) {
           households = households.concat(d.values.hh)
         }
       });
@@ -67,6 +69,7 @@ Vis.Models.App = Backbone.Model.extend({
     } else {
       this.childrenHousehold.filter(null);
     }
+    console.log(this.householdsByLocation.top(Infinity).map(function(d) { return d.value.householdCount}));
     Backbone.trigger("filtering");
   },
 
@@ -148,8 +151,8 @@ Vis.Models.App = Backbone.Model.extend({
           })
           .entries(this.childrenByHousehold.top(Infinity));
     return nested
-      .map(function(d) { return {key: +d.key, values: d.values}; })
-      .filter(function(d) { return d.key !== 0; });
+      .map(function(d) { return {key: +d.key, values: d.values}; });
+      // .filter(function(d) { return d.key !== 0; });
   },
 
   // create crossfilters + associated dimensions and groups
@@ -172,7 +175,7 @@ Vis.Models.App = Backbone.Model.extend({
     this.householdsPoverty = childrenCf.dimension(function(d) { // 5
        return housholdsLookUp[d.hh].pov_line;
      });
-    this.householdsDisability = childrenCf.dimension(function(d) {// 6
+    this.householdsDisability = childrenCf.dimension(function(d) { // 6
        return housholdsLookUp[d.hh].has_dis;
     });
     this.householdsLocation = childrenCf.dimension(function(d) { // 7

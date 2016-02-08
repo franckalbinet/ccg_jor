@@ -23,10 +23,6 @@ Vis.Views.HouseholdsLocation = Backbone.View.extend({
         .title("By governorate")
         .hasBrush(false);
 
-      // this.chart.on("filtering", function (selected) {
-      //   that.model.filterByLocation(selected);
-      // });
-
       this.chart.on("filtered", function (selected) {
         that.model.filterByLocation(selected);
       });
@@ -42,13 +38,6 @@ Vis.Views.HouseholdsLocation = Backbone.View.extend({
 
     getData: function() {
       var data = this.model.householdsByLocation.top(Infinity);
-      data.forEach(function(d) {
-        d.name = Vis.DEFAULTS.LOOKUP_CODES.GOVERNORATES[d.key] });
-      return data;
-    },
-
-
-    joinData: function(data) {
       data.forEach(function(d) {
         d.name = Vis.DEFAULTS.LOOKUP_CODES.GOVERNORATES[d.key] });
       return data;

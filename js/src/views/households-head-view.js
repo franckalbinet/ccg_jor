@@ -1,11 +1,11 @@
-// Households by poverty level
-Vis.Views.HouseholdsPoverty = Backbone.View.extend({
-    el: '#households-poverty',
+// Households by head of family
+Vis.Views.HouseholdsHead = Backbone.View.extend({
+    el: '#households-head',
 
     initialize: function () {
       this.initChart();
       Backbone.on("filtered", function(d) { this.render();}, this);
-      Backbone.on("select:householdsPoverty", function(d) { this.select(d);}, this);
+      Backbone.on("select:householdsHead", function(d) { this.select(d);}, this);
     },
 
     initChart: function() {
@@ -14,11 +14,11 @@ Vis.Views.HouseholdsPoverty = Backbone.View.extend({
 
       this.chart = d3.barChartStackedHouseholds()
         .width(150).height(150)
-        .margins({top: 40, right: 20, bottom: 0, left: 80})
+        .margins({top: 40, right: 20, bottom: 10, left: 80})
         .data(data)
-        // .color(d3.scale.ordinal().range(["#1f77b4", "#d62728"]).domain(["Severe", "High"]))
-        .color(d3.scale.ordinal().range(["#1f77b4", "#9ecae1"]).domain(["Severe", "High"]))
-        .title("By poverty level")
+        // .color(d3.scale.ordinal().range(["#1f77b4", "#d62728"]).domain(["Father", "Mother"]))
+        .color(d3.scale.ordinal().range(["#1f77b4", "#AC5353"]).domain(["Mother", "Father"]))
+        .title("By head of family")
         .hasBrush(false);
 
       // this.chart.on("filtering", function (selected) {
@@ -26,7 +26,7 @@ Vis.Views.HouseholdsPoverty = Backbone.View.extend({
       // });
 
       this.chart.on("filtered", function (selected) {
-        that.model.filterByPoverty(selected);
+        that.model.filterByHead(selected);
       });
       this.render();
     },
@@ -35,23 +35,16 @@ Vis.Views.HouseholdsPoverty = Backbone.View.extend({
       if(!this.isDataEmpty(this.getData())) {
         this.chart
           .data(this.getData())
-          .selected(this.model.get("poverties"));
+          .selected(this.model.get("heads"));
         d3.select(this.el).call(this.chart);
       }
     },
 
     getData: function() {
-      var data = this.model.householdsByPoverty.top(Infinity);
-      // filter "resilient" level 3 - not relevant
-      data = data.filter(function(d) { return d.key !== 3; });
+      var data = this.model.householdsByHead.top(Infinity);
+      data = data.filter(function(d) { return d.key !== 97; });
       data.forEach(function(d) {
-        d.name = Vis.DEFAULTS.LOOKUP_CODES.POVERTY[d.key] });
-      return data;
-    },
-
-    joinData: function(data) {
-      data.forEach(function(d) {
-        d.name = Vis.DEFAULTS.LOOKUP_CODES.GOVERNORATES[d.key] });
+        d.name = Vis.DEFAULTS.LOOKUP_CODES.HEAD[d.key] });
       return data;
     },
 
