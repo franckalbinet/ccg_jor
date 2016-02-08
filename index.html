@@ -46,27 +46,27 @@
 
       <div class="row">
         <div class="col-md-12">
-          <div class="btn-group" role="group" aria-label="...">
-            <button type="button" class="btn btn-default">1. Background</button>
-            <button type="button" class="btn btn-default">2. Overall life improvement</button>
-            <button type="button" class="btn btn-default">3. Child expenditures</button>
-            <button type="button" class="btn btn-default active">4. Coping mechanisms</button>
+          <div id="nav" class="btn-group pages" role="group" aria-label="...">
+            <button id="page-1" type="button" class="btn btn-default">1. Background</button>
+            <button id="page-2" type="button" class="btn btn-default">2. Overall life improvement</button>
+            <button id="page-3" type="button" class="btn btn-default">3. Child expenditures</button>
+            <button id="page-4" type="button" class="btn btn-default">4. Coping mechanisms</button>
           </div>
         </div>
       </div>
 
       <div class="row">
-        <div class="col-md-8 colored">
+        <div class="col-md-8">
           <div class="row section">
             <div class="col-md-12">
               <div class="header">
                 <h4>Coping mechanisms</h4>
                 <ul id="sub-nav">
-                  <li></li>
-                  <li class="active"></li>
-                  <li></li>
-                  <li></li>
-                  <li class="your-turn"></li>
+                  <li id="chapter-1"></li>
+                  <li id="chapter-2"></li>
+                  <li id="chapter-3"></li>
+                  <li id="chapter-4"></li>
+                  <li id="chapter-99" class="your-turn"></li>
                 </ul>
               </div>
             </div>
@@ -93,7 +93,7 @@
           </div>
 
         </div>
-        <div class="col-md-4 colored">
+        <div class="col-md-4">
           <div class="row section">
             <div class="col-md-12">
               <div class="header">
@@ -142,108 +142,7 @@
           </div>
         </div>
       </div>
-
-
-
-
-
-      <div class="mute">
-        <h3>Profiles</h3>
-        <hr>
-        <div class="row">
-          <div class="col-md-6">
-            <h4>Children</h4>
-            <hr>
-            <div class="row">
-              <div class="col-md-12">
-                <!-- <h5>Nb. children by age</h5> -->
-                <div id="children-by-age">
-                  <div class="chart selectable"></div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-12">
-                <!-- <h5>Nb. children by gender</h5> -->
-                <div id="children-by-gender">
-                  <div class="chart selectable"></div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-12">
-                <!-- <h5>Nb. children by education status</h5> -->
-                <div id="children-by-education">
-                  <div class="chart selectable"></div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-12">
-                <!-- <h5>Nb. children by working status</h5> -->
-                <div id="children-by-work">
-                  <div class="chart selectable"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <h4>Households</h4>
-            <hr>
-            <div class="row">
-              <div class="col-md-12">
-                <!-- <h5>Nb. households by nb. of children</h5> -->
-                <div id="households-by-children">
-                  <div class="chart selectable"></div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-12">
-                <div id="households-by-head">
-                  <!-- <h5>Nb. households by head</h5> -->
-                  <div class="chart selectable"></div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-12">
-                <!-- <h5>Nb. households by poverty line</h5> -->
-                <div id="households-by-poverty">
-                  <div class="chart selectable"></div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-12">
-                <!-- <h5>Nb. households by disability</h5> -->
-                <div id="households-by-disability">
-                  <div class="chart selectable"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <h3>Outcomes</h3>
-        <hr>
-        <div class="row">
-          <div class="col-md-6">
-            <h4>Overall life improvement</h4>
-            <hr>
-            <div id="life-improvement">
-              <div id="chart-life-improvement" class="chart"></div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <h4>Covering basic needs</h4>
-            <hr>
-            <div id="covering-needs">
-              <div id="chart-covering-needs" class="chart"></div>
-            </div>
-          </div>
-        </div>
     </div>
-
 
     </div> <!-- /container -->
     <script src="./js/vendor/jquery.1.11.1.min.js"></script>

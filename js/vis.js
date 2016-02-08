@@ -348,102 +348,11 @@ $(function () {
 
     Vis.Models.app = new Vis.Models.App();
     Vis.Collections.app = new Vis.Collections.App();
-
-    // VIEWS INSTANCIATION
-    // profile
+    Vis.Views.navigation = new Vis.Views.Navigation({model: Vis.Models.app});
     new Vis.Views.Scenarios({model: Vis.Models.app});
-    // new Vis.Views.ChildrenAge({model: Vis.Models.app});
-    // new Vis.Views.ChildrenGender({model: Vis.Models.app});
-    // new Vis.Views.HouseholdsHead({model: Vis.Models.app});
-    // new Vis.Views.HouseholdsPoverty({model: Vis.Models.app});
 
-    // new Vis.Views.HouseholdsChildren({model: Vis.Models.app});
-    //
-    // new Vis.Views.BarChartHorizontal({
-    //   el: "#children-by-age",
-    //   model: Vis.Models.app,
-    //   grp: "childrenByAge",
-    //   attr: "ages",
-    //   filter: "filterByAge",
-    //   accessor: function(d) { return { key: d.key, value: d.value}; },
-    //   xTitle: "Age",
-    //   yTitle: "Nb. Children"
-    // });
-    //
-    // new Vis.Views.BarChartVertical({
-    //   el: "#children-by-gender",
-    //   model: Vis.Models.app,
-    //   grp: "childrenByGender",
-    //   attr: "genders",
-    //   filter: "filterByGender",
-    //   accessor: function(d) { return { key: d.key, value: d.value}; },
-    //   xTitle: "Nb. Children",
-    //   yTitle: "Gender"
-    // });
-    //
-    // new Vis.Views.BarChartVertical({
-    //   el: "#households-by-head",
-    //   model: Vis.Models.app,
-    //   grp: "householdsByHead",
-    //   attr: "heads",
-    //   filter: "filterByHead",
-    //   accessor: function(d) {
-    //     return { key: d.key, value: d.value.householdCount}; },
-    //   yTitle: "Head",
-    //   xTitle: "Nb. households",
-    // });
-    //
-    // new Vis.Views.BarChartVertical({
-    //   el: "#households-by-poverty",
-    //   model: Vis.Models.app,
-    //   grp: "householdsByPoverty",
-    //   attr: "poverties",
-    //   filter: "filterByPoverty",
-    //   accessor: function(d) {
-    //     return  { key: d.key, value: d.value.householdCount}; },
-    //   yTitle: "Poverty line",
-    //   xTitle: "Nb. households",
-    // });
-    //
-    // new Vis.Views.BarChartVertical({
-    //   el: "#households-by-disability",
-    //   model: Vis.Models.app,
-    //   grp: "householdsByDisability",
-    //   attr: "disabilities",
-    //   filter: "filterByDisability",
-    //   accessor: function(d) {
-    //     return { key: d.key, value: d.value.householdCount}; },
-    //   yTitle: "Disability",
-    //   xTitle: "Nb. households",
-    // });
-    //
-    // new Vis.Views.BarChartVertical({
-    //   el: "#children-by-education",
-    //   model: Vis.Models.app,
-    //   grp: "childrenByEducation",
-    //   attr: "educations",
-    //   filter: "filterByEducation",
-    //   accessor: function(d) { return { key: d.key, value: d.value}; },
-    //   yTitle: "Rec. Education",
-    //   xTitle: "Nb. Children"
-    // });
-    //
-    // new Vis.Views.BarChartVertical({
-    //   el: "#children-by-work",
-    //   model: Vis.Models.app,
-    //   grp: "childrenByWork",
-    //   attr: "works",
-    //   filter: "filterByWork",
-    //   accessor: function(d) { return { key: d.key, value: d.value}; },
-    //   yTitle: "Work",
-    //   xTitle: "Nb. Children"
-    // });
 
-    // outcomes
-    // new Vis.Views.LifeImprovement({model: Vis.Models.app});
-    // new Vis.Views.CoveringNeeds({model: Vis.Models.app});
-
-    new Vis.Routers.App();
+    Vis.Routers.app = new Vis.Routers.App();
     Backbone.history.start();
   };
 });
@@ -451,9 +360,6 @@ $(function () {
 Vis.Views.Scenarios = Backbone.View.extend({
     el: '#scenarios',
     hasProfileViews: false,
-
-    events: {
-    },
 
     initialize: function () {
       this.model.on("change:initialized change:scenario", function() {
@@ -463,7 +369,7 @@ Vis.Views.Scenarios = Backbone.View.extend({
     },
 
     render: function() {
-
+      // console.log(this.model.get("scenario"));
       // create profile charts first time only
       if(!this.hasProfilesViews) {
         new Vis.Views.HouseholdsChildren({model: Vis.Models.app});
@@ -479,21 +385,6 @@ Vis.Views.Scenarios = Backbone.View.extend({
       // Backbone.trigger("brush:householdsChildren", [2,5]);
       // Backbone.trigger("select:householdsLocation", [1]);
       // Backbone.trigger("select:householdsPoverty", [1]);
-
-      // default scenario (nothing filtered);
-
-      // debugger;
-      // instead of setting filter - setting brush and select -mimic UI
-      // this.model.filterByAge(null);
-      // this.model.filterByHousehold(null);
-      // this.model.filterByChildren(null);
-      //
-      // this.model.filterByGender(null);
-      // this.model.filterByHead(null);
-      // this.model.filterByPoverty(null);
-      // this.model.filterByDisability(null);
-      // this.model.filterByEducation(null);
-      // this.model.filterByWork(null);
     }
   });
 // Children by age chart
@@ -1068,6 +959,52 @@ Vis.Views.CoveringNeeds = Backbone.View.extend({
     //     else { filter = _.without(filter, selected);}
     //     this.model.filterByHead(filter);
     // }
+});
+// Navigation view
+Vis.Views.Navigation = Backbone.View.extend({
+    el: '.container',
+
+    events: {
+      "click #nav": "updatePage",
+      "click #sub-nav": "updateChapter",
+    },
+
+    initialize: function () {
+      this.model.on("change:scenario", function() {
+        this.render();
+        },this);
+    },
+
+    render: function() {
+      var scenario = this.model.get("scenario"),
+          page = scenario.page,
+          chapter = scenario.chapter;
+
+      $("#nav .btn").removeClass("active");
+      $("#nav #page-" + page).addClass("active");
+
+      $("#sub-nav li").removeClass("active");
+      $("#sub-nav #chapter-" + chapter).addClass("active");
+    },
+
+    updatePage: function(e) {
+        e.preventDefault();
+        // $(e.target).blur();
+        var page = $(e.target).attr("id").split("-")[1];
+        Vis.Routers.app.navigate("#page/" + page +"/chapter/1", {trigger: true});
+    },
+
+    updateChapter: function(e) {
+      e.preventDefault();
+      var chapter = $(e.target).attr("id").split("-")[1],
+          currentPage = this.model.get("scenario").page;
+
+      Vis.Routers.app.navigate("#page/" + currentPage +"/chapter/" + chapter, {trigger: true});
+    },
+
+
+
+
 });
 /* CREATE BAR CHART INSTANCE*/
 d3.barChartAge = function() {

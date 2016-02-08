@@ -20,6 +20,7 @@ vis_src =	${vis_dir}/namespace.js\
 					${vis_dir}/views/children-gender-view.js\
 					${vis_dir}/views/life-improvement-view.js\
 					${vis_dir}/views/covering-needs-view.js\
+					${vis_dir}/views/navigation-view.js\
 					${vis_dir}/charts/bar-chart-age.js\
 					${vis_dir}/charts/bar-chart-children.js\
 					${vis_dir}/charts/bar-chart-location.js\

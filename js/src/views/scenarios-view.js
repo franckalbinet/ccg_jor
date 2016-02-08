@@ -3,9 +3,6 @@ Vis.Views.Scenarios = Backbone.View.extend({
     el: '#scenarios',
     hasProfileViews: false,
 
-    events: {
-    },
-
     initialize: function () {
       this.model.on("change:initialized change:scenario", function() {
         // ensure that data is ready and scenario available
@@ -14,7 +11,7 @@ Vis.Views.Scenarios = Backbone.View.extend({
     },
 
     render: function() {
-
+      // console.log(this.model.get("scenario"));
       // create profile charts first time only
       if(!this.hasProfilesViews) {
         new Vis.Views.HouseholdsChildren({model: Vis.Models.app});
@@ -30,20 +27,5 @@ Vis.Views.Scenarios = Backbone.View.extend({
       // Backbone.trigger("brush:householdsChildren", [2,5]);
       // Backbone.trigger("select:householdsLocation", [1]);
       // Backbone.trigger("select:householdsPoverty", [1]);
-
-      // default scenario (nothing filtered);
-
-      // debugger;
-      // instead of setting filter - setting brush and select -mimic UI
-      // this.model.filterByAge(null);
-      // this.model.filterByHousehold(null);
-      // this.model.filterByChildren(null);
-      //
-      // this.model.filterByGender(null);
-      // this.model.filterByHead(null);
-      // this.model.filterByPoverty(null);
-      // this.model.filterByDisability(null);
-      // this.model.filterByEducation(null);
-      // this.model.filterByWork(null);
     }
   });
