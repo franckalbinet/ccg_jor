@@ -16,8 +16,7 @@ Vis.Views.ChildrenGender = Backbone.View.extend({
         .width(150).height(150)
         .margins({top: 40, right: 20, bottom: 10, left: 80})
         .data(data)
-        // .color(d3.scale.ordinal().range(["#1f77b4", "#d62728"]).domain(["Father", "Mother"]))
-        .color(d3.scale.ordinal().range(["#1f77b4", "#AC5353"]).domain(["Female", "Male"]))
+        .color(d3.scale.ordinal().range(["#538dbc", "#d2766c"]).domain(["Female", "Male"]))
         .title("By gender")
         .hasBrush(false);
 

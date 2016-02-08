@@ -51,12 +51,6 @@ d3.barChartStackedHouseholds = function() {
         _listeners.filtered(selection);
       }
 
-      // if (brushExtent) {
-      //   brush.extent([brushExtent[0] - 0.5, brushExtent[1] - 0.5]);
-      //   _gBrush.call(brush);
-      //   brushExtent = null;
-      //   _listeners.filtering(_getDataBrushed(brush));
-      // }
       _render();
 
       function _render() {
@@ -67,10 +61,15 @@ d3.barChartStackedHouseholds = function() {
         rects.enter().append("rect")
           .on("click", clickHandler)
           .on("mouseover", function(d) {
-            console.log("mouseover");
+            d3.select(this)
+              .attr("width", barWidth + 1)
+              .attr("x", -0.5);
             d3.select(this).classed("hovered", true);
           })
           .on("mouseout", function(d) {
+            d3.select(this)
+              .attr("width", barWidth)
+              .attr("x", 0);
             d3.select(this).classed("hovered", false);
           });
 

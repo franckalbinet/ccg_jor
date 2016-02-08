@@ -57,9 +57,20 @@ d3.barChartLocation = function() {
         rects.enter().append("rect")
           .on("click", clickHandler)
           .on("mouseover", function(d) {
+            d3.select(this)
+              .attr("height", barHeight + 2)
+              .attr("y", function(d) {
+                return y(d.name) - barHeight/2 - 1 });
+
             d3.select(this).classed("hovered", true);
           })
           .on("mouseout", function(d) {
+            d3.select(this)
+              .attr("height", barHeight)
+              .attr("y", function(d) {
+                return y(d.name) - barHeight/2 })
+
+
             d3.select(this).classed("hovered", false);
           })
 

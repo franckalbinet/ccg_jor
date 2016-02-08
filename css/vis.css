@@ -149,16 +149,12 @@ ul#sub-nav {
   font-family: "Open", sans-serif;
 }
 .bar-chart-vert rect {
-  fill: #1f77b4;
+  fill: #538dbc;
   stroke: none;
-  fill-opacity: 0.8;
+  fill-opacity: 1;
 }
-.bar-chart-vert rect.hovered, .bar-chart-vert rect.not-selected.hovered  {
-  fill: #1f77b4;
-  stroke: #1f77b4;
-  stroke-width: 2px;
-  stroke-opacity: 0.5;
-}
+/*.bar-chart-vert rect.hovered, .bar-chart-vert rect.not-selected.hovered  {
+}*/
 .bar-chart-vert rect.not-selected {
   fill: #ddd;
 }
@@ -189,10 +185,9 @@ ul#sub-nav {
   fill-opacity: 0.05;
 }
 
-.bar-chart-stacked-single rect.hovered {
+/*.bar-chart-stacked-single rect.hovered {
   stroke: none;
-  /*stroke-width: 2px;*/
-}
+}*/
 .bar-chart-stacked-single rect.not-selected {
   fill: #ddd !important;
 }

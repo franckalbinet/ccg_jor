@@ -54,22 +54,13 @@ Vis.Models.App = Backbone.Model.extend({
 
   filterByChildren: function(args) {
     var that = this;
-    // to be refactored
     this.set("children", args || [1,2,3,4,5,6,7,8,9]);
     if (args !== null) {
-      var _children = that.get("children");
-      _children.push(0);
-      var households = [];
-      this.getHouseholdsByChildren().forEach(function(d) {
-        if (_children.indexOf(d.key) > -1) {
-          households = households.concat(d.values.hh)
-        }
-      });
-      this.childrenHousehold.filter(this.filterExactList(households));
+      var filter = this.getHouseholdsFiltered(this.get("children"));
+      this.childrenHousehold.filter(this.filterExactList(filter));
     } else {
       this.childrenHousehold.filter(null);
     }
-    console.log(this.householdsByLocation.top(Infinity).map(function(d) { return d.value.householdCount}));
     Backbone.trigger("filtering");
   },
 
@@ -134,11 +125,12 @@ Vis.Models.App = Backbone.Model.extend({
     return grp.top(Infinity).map(function(d) { return d.key; });
   },
 
-  getHouseholds: function() {
-    return _.unique(this.childrenHousehold.top(Infinity).map(function(d) {
-      return d.hh; }));
-  },
+  // getHouseholds: function() {
+  //   return _.unique(this.childrenHousehold.top(Infinity).map(function(d) {
+  //     return d.hh; }));
+  // },
 
+  // transform children -- hh to nb. households by nb. children
   getHouseholdsByChildren: function() {
     var that = this,
         nested = d3.nest()
@@ -152,12 +144,34 @@ Vis.Models.App = Backbone.Model.extend({
           .entries(this.childrenByHousehold.top(Infinity));
     return nested
       .map(function(d) { return {key: +d.key, values: d.values}; });
-      // .filter(function(d) { return d.key !== 0; });
+  },
+
+  // to get the list of all households within a particular range of nb.
+  // of children by household, ie. [1, 3]
+  getHouseholdsFiltered: function(selection) {
+    var byNbChildren = d3.nest()
+          .key(function(d) { return d.age; })
+          .rollup(function(leaves) {
+            return {
+              length: leaves.length,
+              hh: leaves.map(function(d) { return d.hh; })
+             };
+          })
+          .entries(this.data.children)
+          .map(function(d) { return {key: +d.key, values: d.values}; });
+      var households = [];
+      byNbChildren.forEach(function(d) {
+        if (selection.indexOf(d.key) > -1) {
+          households = households.concat(d.values.hh)
+        }
+      });
+    return households;
   },
 
   // create crossfilters + associated dimensions and groups
   bundle: function(data) {
     var that = this;
+    this.data = data;
 
     // lookup tables
     var housholdsLookUp = that.createLookup(data.households, "hh");
@@ -198,8 +212,6 @@ Vis.Models.App = Backbone.Model.extend({
       this.reduceAddUniq(), this.reduceRemoveUniq(), this.reduceInitUniq()
     );
 
-    // debugger;
-
     // init. associated filters
     this.set("ages", this.getKeys(this.childrenByAge));
     this.set("children", this.getHouseholdsByChildren().map(
@@ -211,6 +223,7 @@ Vis.Models.App = Backbone.Model.extend({
     this.set("poverties", this.getKeys(this.householdsByPoverty));
     this.set("disabilities", this.getKeys(this.householdsByDisability));
 
+    // this.getHouseholdsFiltered([1,2,3]);
     // OUTCOMES
     var outcomes = crossfilter(data.outcomes);
     // dimensions

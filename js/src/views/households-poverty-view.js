@@ -16,8 +16,7 @@ Vis.Views.HouseholdsPoverty = Backbone.View.extend({
         .width(150).height(150)
         .margins({top: 40, right: 20, bottom: 0, left: 80})
         .data(data)
-        // .color(d3.scale.ordinal().range(["#1f77b4", "#d62728"]).domain(["Severe", "High"]))
-        .color(d3.scale.ordinal().range(["#1f77b4", "#9ecae1"]).domain(["Severe", "High"]))
+        .color(d3.scale.ordinal().range(["#538dbc", "#b6cee2"]).domain(["Severe", "High"]))
         .title("By poverty level")
         .hasBrush(false);
 

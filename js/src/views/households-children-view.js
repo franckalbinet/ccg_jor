@@ -10,7 +10,6 @@ Vis.Views.HouseholdsChildren = Backbone.View.extend({
 
     initChart: function() {
       var that = this,
-          // data = this.model.getHouseholdsByChildren();
           data = this.getData();
 
       this.chart = d3.barChartChildren()
@@ -29,7 +28,7 @@ Vis.Views.HouseholdsChildren = Backbone.View.extend({
       });
 
       this.chart.on("filtered", function (brush) {
-        if (brush.empty()) that.model.filterByChildren(null);
+        if (brush.empty()) that.model.filterByChildren(null, null);
       });
       this.render();
     },
