@@ -360,6 +360,7 @@ $(function () {
 Vis.Views.Scenarios = Backbone.View.extend({
     el: '#scenarios',
     hasProfileViews: false,
+    currentPage: null,
 
     initialize: function () {
       this.model.on("change:initialized change:scenario", function() {
@@ -369,7 +370,10 @@ Vis.Views.Scenarios = Backbone.View.extend({
     },
 
     render: function() {
-      // console.log(this.model.get("scenario"));
+      var scenario = this.model.get("scenario"),
+          page = +scenario.page,
+          chapter = +scenario.chapter;
+
       // create profile charts first time only
       if(!this.hasProfilesViews) {
         new Vis.Views.HouseholdsChildren({model: Vis.Models.app});
@@ -380,6 +384,22 @@ Vis.Views.Scenarios = Backbone.View.extend({
         new Vis.Views.ChildrenGender({model: Vis.Models.app});
         this.hasProfilesViews = true;
       }
+
+      // switch(page) {
+      //   case 1:
+      //     // if not exist
+      //     new Vis.Views.BackgroundView({model: Vis.Models.app, chapter: chapter});
+      //     break;
+      //   case 2:
+      //     // new Vis.Views.LifeImprovementView({model: Vis.Models.app, chapter: chapter});
+      //     break;
+      //   case 3:
+      //     // new Vis.Views.ChildExpendituresView({model: Vis.Models.app, chapter: chapter});
+      //     break;
+      //   case 4:
+      //     // new Vis.Views.CopingMechanismsView({model: Vis.Models.app, chapter: chapter});
+      //     break;
+      // }
 
       // Backbone.trigger("brush:childrenAge", [5,11]);
       // Backbone.trigger("brush:householdsChildren", [2,5]);
@@ -1012,15 +1032,23 @@ Vis.Views.Navigation = Backbone.View.extend({
       switch(+page) {
         case 1:
           $("#sub-nav li").hide();
+          // temp for demo
+          $("#page-title").text("1. Background");
           break;
         case 2:
           this.hideList([3,4]);
+          // temp for demo
+          $("#page-title").text("2. Overall life improvement");
           break;
         case 3:
           this.hideList([4]);
+          // temp for demo
+          $("#page-title").text("3. Child expenditures");
           break;
         case 4:
           this.hideList([2,3,4]);
+          // temp for demo
+          $("#page-title").text("4. Coping mechanisms");
           break;
       }
     },

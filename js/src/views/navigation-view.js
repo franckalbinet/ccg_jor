@@ -50,15 +50,23 @@ Vis.Views.Navigation = Backbone.View.extend({
       switch(+page) {
         case 1:
           $("#sub-nav li").hide();
+          // temp for demo
+          $("#page-title").text("1. Background");
           break;
         case 2:
           this.hideList([3,4]);
+          // temp for demo
+          $("#page-title").text("2. Overall life improvement");
           break;
         case 3:
           this.hideList([4]);
+          // temp for demo
+          $("#page-title").text("3. Child expenditures");
           break;
         case 4:
           this.hideList([2,3,4]);
+          // temp for demo
+          $("#page-title").text("4. Coping mechanisms");
           break;
       }
     },
