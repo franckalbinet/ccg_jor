@@ -18,16 +18,12 @@ Vis.Views.Navigation = Backbone.View.extend({
           page = scenario.page,
           chapter = scenario.chapter;
 
-      $("#nav .btn").removeClass("active");
-      $("#nav #page-" + page).addClass("active");
-
-      $("#sub-nav li").removeClass("active");
-      $("#sub-nav #chapter-" + chapter).addClass("active");
+      this.updatePageBtn(page);
+      this.updateChapterList(chapter, page);
     },
 
     updatePage: function(e) {
         e.preventDefault();
-        // $(e.target).blur();
         var page = $(e.target).attr("id").split("-")[1];
         Vis.Routers.app.navigate("#page/" + page +"/chapter/1", {trigger: true});
     },
@@ -40,7 +36,34 @@ Vis.Views.Navigation = Backbone.View.extend({
       Vis.Routers.app.navigate("#page/" + currentPage +"/chapter/" + chapter, {trigger: true});
     },
 
+    updatePageBtn: function(page) {
+      $("#nav .btn").removeClass("active");
+      $("#nav #page-" + page).addClass("active");
+    },
 
+    updateChapterList: function(chapter, page) {
+      $("#sub-nav li").removeClass("active");
+      $("#sub-nav #chapter-" + chapter).addClass("active");
 
+      $("#sub-nav li").show();
 
+      switch(+page) {
+        case 1:
+          $("#sub-nav li").hide();
+          break;
+        case 2:
+          this.hideList([3,4]);
+          break;
+        case 3:
+          this.hideList([4]);
+          break;
+        case 4:
+          this.hideList([2,3,4]);
+          break;
+      }
+    },
+
+    hideList(hiddenArray) {
+      hiddenArray.forEach(function(d) { $("#sub-nav li#chapter-" + d).hide();});
+    }
 });
