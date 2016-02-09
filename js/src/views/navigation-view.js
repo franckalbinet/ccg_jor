@@ -56,17 +56,32 @@ Vis.Views.Navigation = Backbone.View.extend({
         case 2:
           this.hideList([3,4]);
           // temp for demo
-          $("#page-title").text("2. Overall life improvement");
+          $("#page-title").text("2. Education");
           break;
         case 3:
           this.hideList([4]);
           // temp for demo
-          $("#page-title").text("3. Child expenditures");
+          $("#page-title").text("3. Income patterns");
           break;
         case 4:
           this.hideList([2,3,4]);
           // temp for demo
-          $("#page-title").text("4. Coping mechanisms");
+          $("#page-title").text("4. Expenditure patterns");
+          break;
+        case 5:
+          this.hideList([2,3,4]);
+          // temp for demo
+          $("#page-title").text("5. Negative coping mechanisms");
+          break;
+        case 6:
+          this.hideList([2,3]);
+          // temp for demo
+          $("#page-title").text("6. Living conditions");
+          break;
+        case 7:
+          this.hideList([2,3]);
+          // temp for demo
+          $("#page-title").text("7. Psychological wellbeing");
           break;
       }
     },
