@@ -322,9 +322,9 @@ Vis.Models.App = Backbone.Model.extend({
 
     // this.getHouseholdsFiltered([1,2,3]);
     // OUTCOMES
-    var outcomes = crossfilter(data.outcomes);
+    // var outcomes = crossfilter(data.outcomes);
     // dimensions
-    this.outcomesHead = outcomes.dimension(function(d) { return d.hh; });
+    // this.outcomesHead = outcomes.dimension(function(d) { return d.hh; });
 
     $(".container").show();
     $(".spinner").hide();
@@ -348,42 +348,68 @@ $(function () {
 
     Vis.Models.app = new Vis.Models.App();
     Vis.Collections.app = new Vis.Collections.App();
-    Vis.Views.navigation = new Vis.Views.Navigation({model: Vis.Models.app});
-    new Vis.Views.Scenarios({model: Vis.Models.app});
-
+    new Vis.Views.Navigation({model: Vis.Models.app});
+    new Vis.Views.App({model: Vis.Models.app});
 
     Vis.Routers.app = new Vis.Routers.App();
     Backbone.history.start();
   };
 });
-// Scenarios
-Vis.Views.Scenarios = Backbone.View.extend({
-    el: '#scenarios',
-    hasProfileViews: false,
+// main application view
+Vis.Views.App = Backbone.View.extend({
+    el: '#container',
+    isViewsCreated: false,
     currentPage: null,
 
     initialize: function () {
       this.model.on("change:initialized change:scenario", function() {
         // ensure that data is ready and scenario available
-        if (this.model.get("initialized") && this.model.get("scenario")) this.render();
-        },this);
+        if (this.model.get("initialized") && this.model.get("scenario")) {
+          if(!this.isViewsCreated) {
+            this.initProfileViews();
+            this.initOutcomeViews();
+            this.isViewsCreated = true;
+          }
+        }
+      }, this);
     },
 
-    render: function() {
+    initProfileViews: function() {
+      new Vis.Views.HouseholdsChildren({model: Vis.Models.app});
+      new Vis.Views.ChildrenAge({model: Vis.Models.app});
+      new Vis.Views.HouseholdsLocation({model: Vis.Models.app});
+      new Vis.Views.HouseholdsPoverty({model: Vis.Models.app});
+      new Vis.Views.HouseholdsHead({model: Vis.Models.app});
+      new Vis.Views.ChildrenGender({model: Vis.Models.app});
+    },
+
+    initOutcomeViews: function() {
       var scenario = this.model.get("scenario"),
           page = +scenario.page,
           chapter = +scenario.chapter;
 
-      // create profile charts first time only
-      if(!this.hasProfilesViews) {
-        new Vis.Views.HouseholdsChildren({model: Vis.Models.app});
-        new Vis.Views.ChildrenAge({model: Vis.Models.app});
-        new Vis.Views.HouseholdsLocation({model: Vis.Models.app});
-        new Vis.Views.HouseholdsPoverty({model: Vis.Models.app});
-        new Vis.Views.HouseholdsHead({model: Vis.Models.app});
-        new Vis.Views.ChildrenGender({model: Vis.Models.app});
-        this.hasProfilesViews = true;
-      }
+      new Vis.Views.Background({model: Vis.Models.app});
+      new Vis.Views.Education({model: Vis.Models.app});
+      new Vis.Views.IncomeExpenditure({model: Vis.Models.app});
+      new Vis.Views.CopingMechanism({model: Vis.Models.app});
+      new Vis.Views.LivingCondition({model: Vis.Models.app});
+    }
+
+    // render: function() {
+    //   var scenario = this.model.get("scenario"),
+    //       page = +scenario.page,
+    //       chapter = +scenario.chapter;
+    //
+    //   // create profile charts first time only
+    //   if(!this.hasProfilesViews) {
+    //     new Vis.Views.HouseholdsChildren({model: Vis.Models.app});
+    //     new Vis.Views.ChildrenAge({model: Vis.Models.app});
+    //     new Vis.Views.HouseholdsLocation({model: Vis.Models.app});
+    //     new Vis.Views.HouseholdsPoverty({model: Vis.Models.app});
+    //     new Vis.Views.HouseholdsHead({model: Vis.Models.app});
+    //     new Vis.Views.ChildrenGender({model: Vis.Models.app});
+    //     this.hasProfilesViews = true;
+    //   }
 
       // switch(page) {
       //   case 1:
@@ -405,8 +431,80 @@ Vis.Views.Scenarios = Backbone.View.extend({
       // Backbone.trigger("brush:householdsChildren", [2,5]);
       // Backbone.trigger("select:householdsLocation", [1]);
       // Backbone.trigger("select:householdsPoverty", [1]);
-    }
+    // }
   });
+// Navigation view
+Vis.Views.Navigation = Backbone.View.extend({
+    el: '.container',
+
+    events: {
+      "click #nav": "updatePage",
+      "click #sub-nav": "updateChapter",
+    },
+
+    initialize: function () {
+      this.model.on("change:scenario", function() {
+        this.render();
+        },this);
+    },
+
+    render: function() {
+      var scenario = this.model.get("scenario"),
+          page = scenario.page,
+          chapter = scenario.chapter;
+
+      this.updatePageBtn(page);
+      this.updateChapterList(chapter, page);
+    },
+
+    updatePage: function(e) {
+        e.preventDefault();
+        var page = $(e.target).attr("id").split("-")[1];
+        Vis.Routers.app.navigate("#page/" + page +"/chapter/1", {trigger: true});
+    },
+
+    updateChapter: function(e) {
+      e.preventDefault();
+      var chapter = $(e.target).attr("id").split("-")[1],
+          currentPage = this.model.get("scenario").page;
+
+      Vis.Routers.app.navigate("#page/" + currentPage +"/chapter/" + chapter, {trigger: true});
+    },
+
+    updatePageBtn: function(page) {
+      $("#nav .btn").removeClass("active");
+      $("#nav #page-" + page).addClass("active");
+    },
+
+    updateChapterList: function(chapter, page) {
+      $("#sub-nav li").removeClass("active");
+      $("#sub-nav #chapter-" + chapter).addClass("active");
+
+      $("#sub-nav li").show();
+
+      switch(+page) {
+        case 1:
+          $("#sub-nav li").hide();
+          break;
+        case 2:
+          this.hideList([3,4]);
+          break;
+        case 3:
+          this.hideList([4]);
+          break;
+        case 4:
+          this.hideList([2,3,4]);
+          break;
+        case 5:
+          this.hideList([2,3,4]);
+          break;
+      }
+    },
+
+    hideList(hiddenArray) {
+      hiddenArray.forEach(function(d) { $("#sub-nav li#chapter-" + d).hide();});
+    }
+});
 // Children by age chart
 Vis.Views.ChildrenAge = Backbone.View.extend({
     el: '#children-age',
@@ -452,120 +550,6 @@ Vis.Views.ChildrenAge = Backbone.View.extend({
       this.chart.brushExtent(extent);
       this.render();
     }
-});
-// Template Horizontal BarChart view
-Vis.Views.BarChartHorizontal = Backbone.View.extend({
-    events: {
-    },
-
-    initialize: function (options) {
-      _.extend(this, _.pick(options, "grp", "attr", "filter", "accessor",
-        "yTitle", "xTitle"));
-
-      Backbone.on("filtered", function(d) {
-        this.render();
-      }, this);
-    },
-
-    render: function() {
-      var that = this,
-          data = this.model[this.grp].top(Infinity)
-            .map(this.accessor);
-
-      if (!this.myChart) {
-        this.svg = dimple.newSvg("#" + this.el.id + " .chart", 480, 150);
-        this.myChart = new dimple.chart(this.svg, data);
-        this.myChart.setBounds(45, 10, 400, 90);
-        var x = this.myChart.addCategoryAxis("x", "key");
-        x.title = this.xTitle;
-        var y = this.myChart.addMeasureAxis("y", "value");
-        y.title = this.yTitle;
-        y.ticks = 4;
-        x.hidden = false;
-        y.showGridlines = false;
-        this.mySeries = this.myChart.addSeries(null, dimple.plot.bar);
-        this.mySeries.addEventHandler("click", function (e) {
-          that.update(e);});
-      } else {
-        this.myChart.data = data;
-      }
-      this.setAesthetics();
-      this.myChart.draw(500);
-    },
-
-    setAesthetics: function() {
-      var that = this;
-      d3.selectAll("#" + this.el.id + " .chart rect").classed("selected", false);
-      this.model.get(this.attr).forEach(function(d) {
-        d3.select("#" + that.el.id + " .chart rect#dimple-all-" + d + "---")
-          .classed("selected", true);
-      })
-    },
-
-    update: function(e) {
-      var filter = this.model.get(this.attr),
-          selected = e.xValue;
-
-      if (filter.indexOf(selected) === -1) { filter.push(selected); }
-      else { filter = _.without(filter, selected);}
-      this.model[this.filter](filter);
-    },
-});
-// Template Vertical BarChart view
-Vis.Views.BarChartVertical = Backbone.View.extend({
-    events: {
-    },
-
-    initialize: function (options) {
-      _.extend(this, _.pick(options, "grp", "attr", "filter", "accessor",
-        "yTitle", "xTitle"));
-
-      Backbone.on("filtered", function(d) {
-        this.render();
-      }, this);
-    },
-
-    render: function() {
-      var that = this,
-          data = this.model[this.grp].top(Infinity)
-            .map(this.accessor);
-
-      if (!this.myChart) {
-        this.svg = dimple.newSvg("#" + this.el.id + " .chart", 480, 120);
-        this.myChart = new dimple.chart(this.svg, data);
-        this.myChart.setBounds(40, 20, 400, 60);
-        var x = this.myChart.addMeasureAxis("x", "value");
-        x.title = this.xTitle;
-        var y = this.myChart.addCategoryAxis("y", "key");
-        y.title = this.yTitle;
-        x.showGridlines = false;
-        this.mySeries = this.myChart.addSeries(null, dimple.plot.bar);
-        this.mySeries.addEventHandler("click", function (e) {
-          that.update(e);});
-      } else {
-        this.myChart.data = data;
-      }
-      this.setAesthetics();
-      this.myChart.draw(500);
-    },
-
-    setAesthetics: function() {
-      var that = this;
-      d3.selectAll("#" + this.el.id + " .chart rect").classed("selected", false);
-      this.model.get(this.attr).forEach(function(d) {
-        d3.select("#" + that.el.id + " .chart rect#dimple-all--" + d + "--")
-          .classed("selected", true);
-      })
-    },
-
-    update: function(e) {
-      var filter = this.model.get(this.attr),
-          selected = e.yValue;
-
-      if (filter.indexOf(selected) === -1) { filter.push(selected); }
-      else { filter = _.without(filter, selected);}
-      this.model[this.filter](filter);
-    },
 });
 // Households by nb. children chart
 Vis.Views.HouseholdsChildren = Backbone.View.extend({
@@ -853,213 +837,99 @@ Vis.Views.ChildrenGender = Backbone.View.extend({
       return (nullLength === data.length);
     }
 });
-// Life improvement View
-Vis.Views.LifeImprovement = Backbone.View.extend({
-    el: '#life-improvement',
-
-    events: {
-    },
-
-    initialize: function () {
-      Backbone.on("filtered", function(d) {
-        this.render();
-      }, this);
-    },
-
-    render: function() {
-      var that = this,
-          data = this.model.outcomesHead.top(Infinity);
-
-      if (!this.myChart) {
-        this.svg = dimple.newSvg("#chart-life-improvement", 480, 200);
-        this.myChart = new dimple.chart(this.svg, data);
-        this.myChart.setBounds(30, 20, 400, 120);
-        this.myChart.addPctAxis("x", "hh");
-        this.myChart.addCategoryAxis("y", "round");
-        this.mySeries = this.myChart.addSeries("imp", dimple.plot.bar);
-        // myChart.addLegend(60, 10, 510, 20, "right");
-        this.mySeries.addEventHandler("click", function (e) {
-          that.updateSelection(e);
-        });
-      } else {
-        this.myChart.data = data;
-      }
-      // this.setAesthetics();
-      this.myChart.draw(500);
-    },
-
-    // setAesthetics: function() {
-    //   d3.selectAll("#chart-households-by-head rect").classed("selected", false);
-    //   this.model.get("heads").forEach(function(d) {
-    //     d3.select("#households-by-head #chart-households-by-head rect#dimple-all--" + d + "--")
-    //       .classed("selected", true);
-    //   })
-    //
-    // },
-    //
-    updateSelection: function(e) {
-      var pattern = /\d+/g,
-          id = e.selectedShape.attr("id"),
-          match = id.match(pattern),
-          round = +match[1],
-          imp = +match[0];
-
-      // console.log("round: " + round);
-      // console.log("imp: " + imp);
-      //
-      // debugger;
-
-      // console.log("xValue: " + e.xValue);
-      // console.log("yValue: " + e.yValue);
-      // console.log("zValue: " + e.zValue);
-      // console.log("colorValue: " + e.colorValue);
-      // console.log("shape id: " + e.selectedShape.attr("id"));
-
-      var households = this.model.outcomesHead.top(Infinity)
-        .filter(function(d) { return (d.imp === imp && d.round === round); })
-        .map(function(d) { return d.hh; });
-
-        // var filter = this.model.get("heads"),
-        //     selected = e.yValue;
-        //
-        // if (filter.indexOf(selected) === -1) { filter.push(selected); }
-        // else { filter = _.without(filter, selected);}
-        // this.model.filterByHead(filter);
-    }
-});
-// Covering Basic Needs View
-Vis.Views.CoveringNeeds = Backbone.View.extend({
-    el: '#covering-needs',
-
-    events: {
-    },
-
-    initialize: function () {
-      Backbone.on("filtered", function(d) {
-        this.render();
-      }, this);
-    },
-
-    render: function() {
-      var that = this,
-          data = this.model.outcomesHead.top(Infinity);
-
-      if (!this.myChart) {
-        this.svg = dimple.newSvg("#chart-covering-needs", 480, 200);
-        this.myChart = new dimple.chart(this.svg, data);
-        this.myChart.setBounds(30, 20, 400, 120);
-        this.myChart.addPctAxis("x", "hh");
-        this.myChart.addCategoryAxis("y", "round");
-        this.mySeries = this.myChart.addSeries("needs", dimple.plot.bar);
-        // myChart.addLegend(60, 10, 510, 20, "right");
-        this.mySeries.addEventHandler("click", function (e) {
-          // that.updateSelection(e);
-        });
-      } else {
-        this.myChart.data = data;
-      }
-      // this.setAesthetics();
-      this.myChart.draw(500);
-    },
-
-    // setAesthetics: function() {
-    //   d3.selectAll("#chart-households-by-head rect").classed("selected", false);
-    //   this.model.get("heads").forEach(function(d) {
-    //     d3.select("#households-by-head #chart-households-by-head rect#dimple-all--" + d + "--")
-    //       .classed("selected", true);
-    //   })
-    //
-    // },
-    //
-    // updateSelection: function(e) {
-    //     var filter = this.model.get("heads"),
-    //         selected = e.yValue;
-    //
-    //     if (filter.indexOf(selected) === -1) { filter.push(selected); }
-    //     else { filter = _.without(filter, selected);}
-    //     this.model.filterByHead(filter);
-    // }
-});
-// Navigation view
-Vis.Views.Navigation = Backbone.View.extend({
+// Background view -- 1
+Vis.Views.Background = Backbone.View.extend({
     el: '.container',
 
-    events: {
-      "click #nav": "updatePage",
-      "click #sub-nav": "updateChapter",
-    },
-
     initialize: function () {
+      this.setTitle(this.model.get("scenario").page);
       this.model.on("change:scenario", function() {
         this.render();
         },this);
     },
 
     render: function() {
-      var scenario = this.model.get("scenario"),
-          page = scenario.page,
-          chapter = scenario.chapter;
-
-      this.updatePageBtn(page);
-      this.updateChapterList(chapter, page);
+        this.setTitle(this.model.get("scenario").page);
     },
 
-    updatePage: function(e) {
-        e.preventDefault();
-        var page = $(e.target).attr("id").split("-")[1];
-        Vis.Routers.app.navigate("#page/" + page +"/chapter/1", {trigger: true});
+    setTitle: function(page) {
+      if (page === 1) $("#page-title").text("Background");
+    }
+});
+// Coping mechanism view
+Vis.Views.CopingMechanism = Backbone.View.extend({
+    el: '.container',
+
+    initialize: function () {
+      this.setTitle(this.model.get("scenario").page);
+      this.model.on("change:scenario", function() {
+        this.render();
+        },this);
     },
 
-    updateChapter: function(e) {
-      e.preventDefault();
-      var chapter = $(e.target).attr("id").split("-")[1],
-          currentPage = this.model.get("scenario").page;
-
-      Vis.Routers.app.navigate("#page/" + currentPage +"/chapter/" + chapter, {trigger: true});
+    render: function() {
+        this.setTitle(this.model.get("scenario").page);
     },
 
-    updatePageBtn: function(page) {
-      $("#nav .btn").removeClass("active");
-      $("#nav #page-" + page).addClass("active");
+    setTitle: function(page) {
+      if (page === 4) $("#page-title").text("Negative coping mechanisms");
+    }
+});
+// Education view
+Vis.Views.Education = Backbone.View.extend({
+    el: '.container',
+
+    initialize: function () {
+      this.setTitle(this.model.get("scenario").page);
+      this.model.on("change:scenario", function() {
+        this.render();
+        },this);
     },
 
-    updateChapterList: function(chapter, page) {
-      $("#sub-nav li").removeClass("active");
-      $("#sub-nav #chapter-" + chapter).addClass("active");
-
-      $("#sub-nav li").show();
-
-      switch(+page) {
-        case 1:
-          $("#sub-nav li").hide();
-          // temp for demo
-          $("#page-title").text("Background");
-          break;
-        case 2:
-          this.hideList([3,4]);
-          // temp for demo
-          $("#page-title").text("Education");
-          break;
-        case 3:
-          this.hideList([4]);
-          // temp for demo
-          $("#page-title").text("Income & expenditure patterns");
-          break;
-        case 4:
-          this.hideList([2,3,4]);
-          // temp for demo
-          $("#page-title").text("Negative coping mechanisms");
-          break;
-        case 5:
-          this.hideList([2,3,4]);
-          // temp for demo
-          $("#page-title").text("Living conditions & psychological wellbeing");
-          break;
-      }
+    render: function() {
+        this.setTitle(this.model.get("scenario").page);
     },
 
-    hideList(hiddenArray) {
-      hiddenArray.forEach(function(d) { $("#sub-nav li#chapter-" + d).hide();});
+    setTitle: function(page) {
+      if (page === 2) $("#page-title").text("Education");
+    }
+});
+// Income & expenditure view
+Vis.Views.IncomeExpenditure = Backbone.View.extend({
+    el: '.container',
+
+    initialize: function () {
+      this.setTitle(this.model.get("scenario").page);
+      this.model.on("change:scenario", function() {
+        this.render();
+        },this);
+    },
+
+    render: function() {
+        this.setTitle(this.model.get("scenario").page);
+    },
+
+    setTitle: function(page) {
+      if (page === 3) $("#page-title").text("Income & expenditure patterns");
+    }
+});
+// Living condition view
+Vis.Views.LivingCondition = Backbone.View.extend({
+    el: '.container',
+
+    initialize: function () {
+      this.setTitle(this.model.get("scenario").page);
+      this.model.on("change:scenario", function() {
+        this.render();
+        },this);
+    },
+
+    render: function() {
+        this.setTitle(this.model.get("scenario").page);
+    },
+
+    setTitle: function(page) {
+      if (page === 5) $("#page-title").text("Living conditions & psychological wellbeing");
     }
 });
 /* CREATE BAR CHART INSTANCE*/

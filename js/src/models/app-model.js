@@ -225,9 +225,9 @@ Vis.Models.App = Backbone.Model.extend({
 
     // this.getHouseholdsFiltered([1,2,3]);
     // OUTCOMES
-    var outcomes = crossfilter(data.outcomes);
+    // var outcomes = crossfilter(data.outcomes);
     // dimensions
-    this.outcomesHead = outcomes.dimension(function(d) { return d.hh; });
+    // this.outcomesHead = outcomes.dimension(function(d) { return d.hh; });
 
     $(".container").show();
     $(".spinner").hide();

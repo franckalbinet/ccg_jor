@@ -32,7 +32,6 @@ ul, ol {
 }
 .btn {
   font-size: 12px;
-  /*font-weight: bold;*/
   padding: 5px 10px;
 }
 .btn.active {
@@ -45,6 +44,7 @@ ul, ol {
 
 /* font-awesome icons */
 .fa-4 {
+  pointer-events: none;
   margin-right: 4px;
   font-size: 14px;
   color: #555;
