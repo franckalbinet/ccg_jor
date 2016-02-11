@@ -1,13 +1,14 @@
 /* Global Vis object
 	 Set up global application namespace using object literals.
 */
-var Vis = Vis   || {};
-Vis.DEFAULTS 		|| (Vis.DEFAULTS = {});
-Vis.Routers     || (Vis.Routers = {});
-Vis.Templates 	|| (Vis.Templates = {});
-Vis.Models 			|| (Vis.Models = {});
-Vis.Collections || (Vis.Collections = {});
-Vis.Views 			|| (Vis.Views = {});
+var Vis = Vis		|| {};
+Vis.DEFAULTS		|| (Vis.DEFAULTS = {});
+Vis.Routers			|| (Vis.Routers = {});
+Vis.Templates		|| (Vis.Templates = {});
+Vis.Utils				|| (Vis.Utils = {});
+Vis.Models			|| (Vis.Models = {});
+Vis.Collections	|| (Vis.Collections = {});
+Vis.Views				|| (Vis.Views = {});
 /*  Default/config values
     Stores all application configuration.
 */
@@ -25,6 +26,26 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
     POVERTY: {1:"High", 2:"Severe"},
     HEAD: {1:"Father", 2:"Mother"},
     GENDER: {1:"Male", 2:"Female"}
+  }
+});
+/*  Utilities functions*/
+Vis.utils = _.extend(Vis.DEFAULTS, {
+  // timer
+  Timer: function(callback, delay) {
+      var timerId, start, remaining = delay;
+
+      this.pause = function() {
+          window.clearTimeout(timerId);
+          remaining -= new Date() - start;
+      };
+
+      this.resume = function() {
+          start = new Date();
+          window.clearTimeout(timerId);
+          timerId = window.setTimeout(callback, remaining);
+      };
+
+      this.resume();
   }
 });
 // Application router
@@ -968,13 +989,83 @@ Vis.Views.LivingCondition = Backbone.View.extend({
 Vis.Views.TimeLineNavigation = Backbone.View.extend({
     el: '#time-line-navigation',
 
+    timer: null,
+    paused: false,
+
+    events: {
+      "click button": "toggleBtn",
+      // if clicked pause pause timer
+      // if clicked play reinstantiate a new timer or resume
+      // if new scenario reinstantiate a new timer
+    },
     initialize: function () {
+      this.initChart();
+      this.model.on("change:scenario", function() {
+        this.render();
+        },this);
+      // this.render();
+    },
+
+    initChart: function() {
+      var that = this,
+          data = this.getData();
+
+      this.chart = d3.timeLineNavigation()
+        .width(500).height(80)
+        .margins({top: 20, right: 20, bottom: 20, left: 20})
+        .data(data)
+        .x(d3.time.scale().domain(d3.extent(data, function(d) { return d.time; })))
+
       this.render();
+      // this.play();
     },
 
     render: function() {
-      // console.log(this.model.getMilestones());
+      this.chart
+        .data(this.getData())
+        .elapsed(this.model.get("scenario"));
+      d3.select(this.el).select(".chart").call(this.chart);
+    },
+
+    getData: function() {
+      return this.model.getMilestones();
+    },
+
+    play: function() {
+      if (!this.paused) {
+        // get scenario timing
+        this.timer = new Vis.utils.Timer(function() {
+          // and navigate to next when elapsed
+          alert("Done!");
+        }, 1000);
+      } else {
+        this.timer.resume();
+      }
+      this.paused = false;
+    },
+
+    pause: function() {
+      this.timer.pause();
+      this.paused = true;
+    },
+
+    toggleBtn: function(e) {
+      e.preventDefault();
+      var btn = $(e.currentTarget);
+      btn.blur();
+
+      if(btn.hasClass("play")) {
+        // debugger;
+        btn.removeClass("play").addClass("pause");
+        btn.find("span").html("Play");
+        btn.find("i").removeClass("fa-pause").addClass("fa-play");
+      } else {
+        btn.removeClass("pause").addClass("play");
+        btn.find("span").html("Pause");
+        btn.find("i").removeClass("fa-play").addClass("fa-pause");
+      }
     }
+
 
 });
 /* CREATE BAR CHART INSTANCE*/
@@ -2335,6 +2426,7 @@ d3.timeLineNavigation = function() {
       data = null,
       x = null,
       y = null,
+      elapsed = null,
       elasticY = false,
       xData = null,
       xDomain = null,
@@ -2369,49 +2461,50 @@ d3.timeLineNavigation = function() {
       // create the skeleton chart.
       if (g.empty()) _skeleton();
 
-      if (brushExtent) {
-        brush.extent([brushExtent[0] - 0.5, brushExtent[1] - 0.5]);
-        _gBrush.call(brush);
-        brushExtent = null;
-        _listeners.filtering(_getDataBrushed(brush));
-      }
+      // if (brushExtent) {
+      //   brush.extent([brushExtent[0] - 0.5, brushExtent[1] - 0.5]);
+      //   _gBrush.call(brush);
+      //   brushExtent = null;
+      //   _listeners.filtering(_getDataBrushed(brush));
+      // }
       _render();
 
       function _render() {
         // EXIT - ENTER - UPDATE PATTERN
-        var rects =  _gBars.selectAll("rect")
-          .data(data, function(d) { return d.key; });
-        rects.exit().remove();
-        rects.enter().append("rect");
-        rects
-            .classed("not-selected", function(d) {
-              if (hasBrush) return (selected.indexOf(d.key) === -1) ? true : false;
-              return false;
+        var circles =  _gCircles.selectAll("circle")
+          .data(data);
+        circles.exit().remove();
+        circles.enter().append("circle");
+        circles
+            .classed("elapsed", function(d) {
+              var page = elapsed.page,
+                  chapter = elapsed.chapter;
+              // debugger;
+              return (+(d.page + d.chapter) <= (10 * page + chapter)) ?
+                true : false;
             })
             // .transition()
-            .attr("x", function(d) { return 0; })
-            .attr("y", function(d) {
-              return y(d.key) - barHeight/2  })
-            .attr("width", function(d) {
-              return x(d.values.length); })
-            .attr("height", function(d) { return barHeight; });
+            .attr("cx", function(d) {
+              return x(d.time); })
+            .attr("cy", 0)
+            .attr("r", function(d) { return (d.isMain) ? 6:3; });
       }
 
       function _skeleton() {
         // set scales range
         x.range([0 , _gWidth]);
-        y.range([0, _gHeight]);
+        // y.range([0, _gHeight]);
 
         // set brush
-        if (hasBrush) brush.y(y);
+        // if (hasBrush) brush.y(y);
 
-        xAxis
-          .innerTickSize(-_gHeight)
-          .tickPadding(5);
+        // xAxis
+        //   .innerTickSize(-_gHeight)
+        //   .tickPadding(5);
 
         // set axis
-        xAxis.scale(x);
-        yAxis.scale(y);
+        // xAxis.scale(x);
+        // yAxis.scale(y);
 
         // create chart container
         g = div.append("svg")
@@ -2420,45 +2513,45 @@ d3.timeLineNavigation = function() {
           .append("g")
             .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
 
-        _gBars = g.append("g")
-            .attr("class", "bars");
+        _gCircles = g.append("g")
+            .attr("class", "circles");
 
         // set x Axis
-        _gXAxis = g.append("g")
-            .attr("class", "x axis")
-            .call(xAxis);
+        // _gXAxis = g.append("g")
+        //     .attr("class", "x axis")
+        //     .call(xAxis);
+        //
+        // _gYAxis = g.append("g")
+        //     .attr("class", "y axis")
+        //     .call(yAxis);
 
-        _gYAxis = g.append("g")
-            .attr("class", "y axis")
-            .call(yAxis);
+        // g.append("text")
+        //   .attr("class", "x label")
+        //   .attr("text-anchor", "start")
+        //   .attr("x", -15)
+        //   .attr("y", -25)
+        //   .text(title);
 
-        g.append("text")
-          .attr("class", "x label")
-          .attr("text-anchor", "start")
-          .attr("x", -15)
-          .attr("y", -25)
-          .text(title);
-
-        _gBrush = g.append("g").attr("class", "brush").call(brush);
-        _gBrush.selectAll("rect").attr("width", _gWidth);
-
-        brush.on("brush", function() {
-          _listeners.filtering(_getDataBrushed(brush));
-        });
-
-        brush.on("brushend", function() {
-          _listeners.filtered(brush);
-        });
+        // _gBrush = g.append("g").attr("class", "brush").call(brush);
+        // _gBrush.selectAll("rect").attr("width", _gWidth);
+        //
+        // brush.on("brush", function() {
+        //   _listeners.filtering(_getDataBrushed(brush));
+        // });
+        //
+        // brush.on("brushend", function() {
+        //   _listeners.filtered(brush);
+        // });
       }
 
-      function _getDataBrushed(brush) {
-        var extent = brush.extent().map(function(d) { return Math.floor(d) + 0.5;});
-        return data
-          .map(function(d) { return d.key; })
-          .filter(function(d) {
-            return d >= extent[0] && d <= extent[1];
-          });
-      }
+      // function _getDataBrushed(brush) {
+      //   var extent = brush.extent().map(function(d) { return Math.floor(d) + 0.5;});
+      //   return data
+      //     .map(function(d) { return d.key; })
+      //     .filter(function(d) {
+      //       return d >= extent[0] && d <= extent[1];
+      //     });
+      // }
     });
   }
 
@@ -2554,6 +2647,11 @@ d3.timeLineNavigation = function() {
   chart.brushExtent = function(_) {
     if (!arguments.length) return brushExtent;
     brushExtent = _;
+    return chart;
+  };
+  chart.elapsed = function(_) {
+    if (!arguments.length) return elapsed;
+    elapsed = _;
     return chart;
   };
   chart.selected = function(_) {

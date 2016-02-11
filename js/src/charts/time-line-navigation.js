@@ -7,6 +7,7 @@ d3.timeLineNavigation = function() {
       data = null,
       x = null,
       y = null,
+      elapsed = null,
       elasticY = false,
       xData = null,
       xDomain = null,
@@ -41,49 +42,50 @@ d3.timeLineNavigation = function() {
       // create the skeleton chart.
       if (g.empty()) _skeleton();
 
-      if (brushExtent) {
-        brush.extent([brushExtent[0] - 0.5, brushExtent[1] - 0.5]);
-        _gBrush.call(brush);
-        brushExtent = null;
-        _listeners.filtering(_getDataBrushed(brush));
-      }
+      // if (brushExtent) {
+      //   brush.extent([brushExtent[0] - 0.5, brushExtent[1] - 0.5]);
+      //   _gBrush.call(brush);
+      //   brushExtent = null;
+      //   _listeners.filtering(_getDataBrushed(brush));
+      // }
       _render();
 
       function _render() {
         // EXIT - ENTER - UPDATE PATTERN
-        var rects =  _gBars.selectAll("rect")
-          .data(data, function(d) { return d.key; });
-        rects.exit().remove();
-        rects.enter().append("rect");
-        rects
-            .classed("not-selected", function(d) {
-              if (hasBrush) return (selected.indexOf(d.key) === -1) ? true : false;
-              return false;
+        var circles =  _gCircles.selectAll("circle")
+          .data(data);
+        circles.exit().remove();
+        circles.enter().append("circle");
+        circles
+            .classed("elapsed", function(d) {
+              var page = elapsed.page,
+                  chapter = elapsed.chapter;
+              // debugger;
+              return (+(d.page + d.chapter) <= (10 * page + chapter)) ?
+                true : false;
             })
             // .transition()
-            .attr("x", function(d) { return 0; })
-            .attr("y", function(d) {
-              return y(d.key) - barHeight/2  })
-            .attr("width", function(d) {
-              return x(d.values.length); })
-            .attr("height", function(d) { return barHeight; });
+            .attr("cx", function(d) {
+              return x(d.time); })
+            .attr("cy", 0)
+            .attr("r", function(d) { return (d.isMain) ? 6:3; });
       }
 
       function _skeleton() {
         // set scales range
         x.range([0 , _gWidth]);
-        y.range([0, _gHeight]);
+        // y.range([0, _gHeight]);
 
         // set brush
-        if (hasBrush) brush.y(y);
+        // if (hasBrush) brush.y(y);
 
-        xAxis
-          .innerTickSize(-_gHeight)
-          .tickPadding(5);
+        // xAxis
+        //   .innerTickSize(-_gHeight)
+        //   .tickPadding(5);
 
         // set axis
-        xAxis.scale(x);
-        yAxis.scale(y);
+        // xAxis.scale(x);
+        // yAxis.scale(y);
 
         // create chart container
         g = div.append("svg")
@@ -92,45 +94,45 @@ d3.timeLineNavigation = function() {
           .append("g")
             .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
 
-        _gBars = g.append("g")
-            .attr("class", "bars");
+        _gCircles = g.append("g")
+            .attr("class", "circles");
 
         // set x Axis
-        _gXAxis = g.append("g")
-            .attr("class", "x axis")
-            .call(xAxis);
+        // _gXAxis = g.append("g")
+        //     .attr("class", "x axis")
+        //     .call(xAxis);
+        //
+        // _gYAxis = g.append("g")
+        //     .attr("class", "y axis")
+        //     .call(yAxis);
 
-        _gYAxis = g.append("g")
-            .attr("class", "y axis")
-            .call(yAxis);
+        // g.append("text")
+        //   .attr("class", "x label")
+        //   .attr("text-anchor", "start")
+        //   .attr("x", -15)
+        //   .attr("y", -25)
+        //   .text(title);
 
-        g.append("text")
-          .attr("class", "x label")
-          .attr("text-anchor", "start")
-          .attr("x", -15)
-          .attr("y", -25)
-          .text(title);
-
-        _gBrush = g.append("g").attr("class", "brush").call(brush);
-        _gBrush.selectAll("rect").attr("width", _gWidth);
-
-        brush.on("brush", function() {
-          _listeners.filtering(_getDataBrushed(brush));
-        });
-
-        brush.on("brushend", function() {
-          _listeners.filtered(brush);
-        });
+        // _gBrush = g.append("g").attr("class", "brush").call(brush);
+        // _gBrush.selectAll("rect").attr("width", _gWidth);
+        //
+        // brush.on("brush", function() {
+        //   _listeners.filtering(_getDataBrushed(brush));
+        // });
+        //
+        // brush.on("brushend", function() {
+        //   _listeners.filtered(brush);
+        // });
       }
 
-      function _getDataBrushed(brush) {
-        var extent = brush.extent().map(function(d) { return Math.floor(d) + 0.5;});
-        return data
-          .map(function(d) { return d.key; })
-          .filter(function(d) {
-            return d >= extent[0] && d <= extent[1];
-          });
-      }
+      // function _getDataBrushed(brush) {
+      //   var extent = brush.extent().map(function(d) { return Math.floor(d) + 0.5;});
+      //   return data
+      //     .map(function(d) { return d.key; })
+      //     .filter(function(d) {
+      //       return d >= extent[0] && d <= extent[1];
+      //     });
+      // }
     });
   }
 
@@ -226,6 +228,11 @@ d3.timeLineNavigation = function() {
   chart.brushExtent = function(_) {
     if (!arguments.length) return brushExtent;
     brushExtent = _;
+    return chart;
+  };
+  chart.elapsed = function(_) {
+    if (!arguments.length) return elapsed;
+    elapsed = _;
     return chart;
   };
   chart.selected = function(_) {
