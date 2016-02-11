@@ -27,6 +27,7 @@ vis_src =	${vis_dir}/namespace.js\
 					${vis_dir}/charts/bar-chart-location.js\
 					${vis_dir}/charts/bar-chart-stacked-households.js\
 					${vis_dir}/charts/bar-chart-stacked-children.js\
+					${vis_dir}/templates/app-templates.js\
 
 # vis.js build
 vis.js: ${vis_src}

@@ -168,6 +168,20 @@ Vis.Models.App = Backbone.Model.extend({
     return households;
   },
 
+  getMainTextTemplateId: function(page, chapter) {
+    return this.data.templates
+      .filter(function(d) {
+        return +d.page === +page && +d.chapter === +chapter; })[0]
+      .mainText;
+  },
+
+  getSubTextTemplateId: function(page, chapter) {
+    return this.data.templates
+      .filter(function(d) {
+        return +d.page === +page && +d.chapter === +chapter; })[0]
+      .subText;
+  },
+
   // create crossfilters + associated dimensions and groups
   bundle: function(data) {
     var that = this;
@@ -223,6 +237,7 @@ Vis.Models.App = Backbone.Model.extend({
     this.set("poverties", this.getKeys(this.householdsByPoverty));
     this.set("disabilities", this.getKeys(this.householdsByDisability));
 
+    // debugger;
     // this.getHouseholdsFiltered([1,2,3]);
     // OUTCOMES
     // var outcomes = crossfilter(data.outcomes);

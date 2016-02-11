@@ -147,12 +147,12 @@ ul#sub-nav {
 }
 
 /* text - narrative */
-.main-text {
+#main-text {
   margin-top: 12px;
   font-size: 14px;
   font-weight: 700;
 }
-.sub-text {
+#sub-text {
   font-size: 13px;
   font-weight: 300;
 }

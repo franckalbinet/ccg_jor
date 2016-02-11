@@ -16,7 +16,8 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
   DATASETS: {
     CHILDREN: "children.json",
     HOUSEHOLDS: "households.json",
-    OUTCOMES: "outcomes.json"
+    OUTCOMES: "outcomes.json",
+    TEMPLATES: "templates.json"
   },
   LOOKUP_CODES: {
     GOVERNORATES: {1:"Irbid", 2:"Ajloun", 3:"Jarash", 4:"Amman", 5:"Zarqa", 6:"Madaba", 11:"Mafraq", 99:"Others"},
@@ -82,15 +83,23 @@ Vis.Collections.App = Backbone.Collection.extend({
           })
         },
         that.url + Vis.DEFAULTS.DATASETS.OUTCOMES)
+      .defer(
+        function(url, callback) {
+          d3.json(url, function(error, result) {
+            callback(error, result);
+          })
+        },
+        that.url + Vis.DEFAULTS.DATASETS.TEMPLATES)
       .await(_ready);
 
     // on success
-    function _ready(error, children, households, outcomes) {
+    function _ready(error, children, households, outcomes, templates) {
       // coerce data
       Backbone.trigger("data:loaded", {
         children: children,
         households: households,
-        outcomes: outcomes
+        outcomes: outcomes,
+        templates: templates
       });
     }
   }
@@ -265,6 +274,20 @@ Vis.Models.App = Backbone.Model.extend({
     return households;
   },
 
+  getMainTextTemplateId: function(page, chapter) {
+    return this.data.templates
+      .filter(function(d) {
+        return +d.page === +page && +d.chapter === +chapter; })[0]
+      .mainText;
+  },
+
+  getSubTextTemplateId: function(page, chapter) {
+    return this.data.templates
+      .filter(function(d) {
+        return +d.page === +page && +d.chapter === +chapter; })[0]
+      .subText;
+  },
+
   // create crossfilters + associated dimensions and groups
   bundle: function(data) {
     var that = this;
@@ -320,6 +343,7 @@ Vis.Models.App = Backbone.Model.extend({
     this.set("poverties", this.getKeys(this.householdsByPoverty));
     this.set("disabilities", this.getKeys(this.householdsByDisability));
 
+    // debugger;
     // this.getHouseholdsFiltered([1,2,3]);
     // OUTCOMES
     // var outcomes = crossfilter(data.outcomes);
@@ -842,18 +866,36 @@ Vis.Views.Background = Backbone.View.extend({
     el: '.container',
 
     initialize: function () {
-      this.setTitle(this.model.get("scenario").page);
+      this.render();
       this.model.on("change:scenario", function() {
         this.render();
         },this);
     },
 
     render: function() {
-        this.setTitle(this.model.get("scenario").page);
+      var scenario = this.model.get("scenario"),
+          page = scenario.page,
+          chapter = scenario.chapter;
+
+      if (page === 1) {
+        this.setTitle(page);
+        this.setMainText(page, chapter);
+        this.setSubText(page, chapter);
+      }
     },
 
     setTitle: function(page) {
-      if (page === 1) $("#page-title").text("Background");
+      $("#page-title").text("Background");
+    },
+
+    setMainText: function(page, chapter) {
+      var id = this.model.getMainTextTemplateId(page, chapter);
+      $("#main-text").html(_.template(Vis.Templates["main-text"][id]));
+    },
+
+    setSubText: function(page, chapter) {
+      var id = this.model.getSubTextTemplateId(page, chapter);
+      $("#sub-text").html(_.template(Vis.Templates["sub-text"][id]));
     }
 });
 // Coping mechanism view
@@ -2281,3 +2323,15 @@ d3.barChartStackedChildren = function() {
 
   return chart;
 };
+// Underscore Templates
+Vis.Templates["main-text"] =[
+  "<p>This is my first variant of main text</p>", // 0
+  "<p>This is my second variant of main text</p>", // 1
+  "<p>This is my third variant of main text</p>", // 2
+];
+
+Vis.Templates["sub-text"] =[
+  "<p>This is my first variant of sub text</p>", // 0
+  "<p>This is my second variant of sub text</p>", // 1
+  "<p>This is my third variant of sub text</p>", // 2
+];
