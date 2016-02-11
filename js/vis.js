@@ -17,7 +17,8 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
     CHILDREN: "children.json",
     HOUSEHOLDS: "households.json",
     OUTCOMES: "outcomes.json",
-    TEMPLATES: "templates.json"
+    TEMPLATES: "templates.json",
+    MILESTONES: "milestones.json"
   },
   LOOKUP_CODES: {
     GOVERNORATES: {1:"Irbid", 2:"Ajloun", 3:"Jarash", 4:"Amman", 5:"Zarqa", 6:"Madaba", 11:"Mafraq", 99:"Others"},
@@ -90,16 +91,33 @@ Vis.Collections.App = Backbone.Collection.extend({
           })
         },
         that.url + Vis.DEFAULTS.DATASETS.TEMPLATES)
+      .defer(
+        function(url, callback) {
+          d3.json(url, function(error, result) {
+            callback(error, result);
+          })
+        },
+        that.url + Vis.DEFAULTS.DATASETS.MILESTONES)
       .await(_ready);
 
     // on success
-    function _ready(error, children, households, outcomes, templates) {
+    function _ready(error, children, households, outcomes, templates, milestones) {
+      var that = this;
+
       // coerce data
+      var timeFormatter = d3.time.format("%L");
+      milestones.forEach(function(d) {
+        d.time = timeFormatter.parse(d.time.toString()),
+        d.page = d.page.toString(),
+        d.chapter = d.chapter.toString()
+      });
+
       Backbone.trigger("data:loaded", {
         children: children,
         households: households,
         outcomes: outcomes,
-        templates: templates
+        templates: templates,
+        milestones: milestones
       });
     }
   }
@@ -288,6 +306,10 @@ Vis.Models.App = Backbone.Model.extend({
       .subText;
   },
 
+  getMilestones: function() {
+    return this.data.milestones;
+  },
+
   // create crossfilters + associated dimensions and groups
   bundle: function(data) {
     var that = this;
@@ -390,6 +412,7 @@ Vis.Views.App = Backbone.View.extend({
         // ensure that data is ready and scenario available
         if (this.model.get("initialized") && this.model.get("scenario")) {
           if(!this.isViewsCreated) {
+            new Vis.Views.TimeLineNavigation({model: Vis.Models.app});
             this.initProfileViews();
             this.initOutcomeViews();
             this.isViewsCreated = true;
@@ -419,43 +442,10 @@ Vis.Views.App = Backbone.View.extend({
       new Vis.Views.LivingCondition({model: Vis.Models.app});
     }
 
-    // render: function() {
-    //   var scenario = this.model.get("scenario"),
-    //       page = +scenario.page,
-    //       chapter = +scenario.chapter;
-    //
-    //   // create profile charts first time only
-    //   if(!this.hasProfilesViews) {
-    //     new Vis.Views.HouseholdsChildren({model: Vis.Models.app});
-    //     new Vis.Views.ChildrenAge({model: Vis.Models.app});
-    //     new Vis.Views.HouseholdsLocation({model: Vis.Models.app});
-    //     new Vis.Views.HouseholdsPoverty({model: Vis.Models.app});
-    //     new Vis.Views.HouseholdsHead({model: Vis.Models.app});
-    //     new Vis.Views.ChildrenGender({model: Vis.Models.app});
-    //     this.hasProfilesViews = true;
-    //   }
-
-      // switch(page) {
-      //   case 1:
-      //     // if not exist
-      //     new Vis.Views.BackgroundView({model: Vis.Models.app, chapter: chapter});
-      //     break;
-      //   case 2:
-      //     // new Vis.Views.LifeImprovementView({model: Vis.Models.app, chapter: chapter});
-      //     break;
-      //   case 3:
-      //     // new Vis.Views.ChildExpendituresView({model: Vis.Models.app, chapter: chapter});
-      //     break;
-      //   case 4:
-      //     // new Vis.Views.CopingMechanismsView({model: Vis.Models.app, chapter: chapter});
-      //     break;
-      // }
-
       // Backbone.trigger("brush:childrenAge", [5,11]);
       // Backbone.trigger("brush:householdsChildren", [2,5]);
       // Backbone.trigger("select:householdsLocation", [1]);
       // Backbone.trigger("select:householdsPoverty", [1]);
-    // }
   });
 // Navigation view
 Vis.Views.Navigation = Backbone.View.extend({
@@ -973,6 +963,19 @@ Vis.Views.LivingCondition = Backbone.View.extend({
     setTitle: function(page) {
       if (page === 5) $("#page-title").text("Living conditions & psychological wellbeing");
     }
+});
+// Background view -- 1
+Vis.Views.TimeLineNavigation = Backbone.View.extend({
+    el: '#time-line-navigation',
+
+    initialize: function () {
+      this.render();
+    },
+
+    render: function() {
+      // console.log(this.model.getMilestones());
+    }
+
 });
 /* CREATE BAR CHART INSTANCE*/
 d3.barChartAge = function() {
@@ -2315,6 +2318,259 @@ d3.barChartStackedChildren = function() {
     title = _;
     return chart;
   };
+
+  chart.on = function (event, listener) {
+    _listeners.on(event, listener);
+    return chart;
+  };
+
+  return chart;
+};
+/* CREATE TIME LINE NAVIGATION INSTANCE*/
+d3.timeLineNavigation = function() {
+
+  var width = 400,
+      height = 100,
+      margins = {top: 10, right: 25, bottom: 30, left: 20},
+      data = null,
+      x = null,
+      y = null,
+      elasticY = false,
+      xData = null,
+      xDomain = null,
+      yData = null,
+      barHeight = 7,
+      xAxis = d3.svg.axis().orient("bottom"),
+      yAxis = d3.svg.axis().orient("left"),
+      hasBrush = false,
+      hasYAxis = true,
+      title = "My title",
+      brushClickReset = false,
+      brush = d3.svg.brush(),
+      brushExtent = null,
+      selected = null;
+
+  var _gWidth = 400,
+      _gHeight = 100,
+      _handlesWidth = 9,
+      _gBars,
+      _gBrush,
+      _gXAxis,
+      _gYAxis,
+      _listeners = d3.dispatch("filtered", "filtering");
+
+  function chart(div) {
+    _gWidth = width - margins.left - margins.right;
+    _gHeight = height - margins.top - margins.bottom;
+    div.each(function() {
+      var div = d3.select(this),
+          g = div.select("g");
+
+      // create the skeleton chart.
+      if (g.empty()) _skeleton();
+
+      if (brushExtent) {
+        brush.extent([brushExtent[0] - 0.5, brushExtent[1] - 0.5]);
+        _gBrush.call(brush);
+        brushExtent = null;
+        _listeners.filtering(_getDataBrushed(brush));
+      }
+      _render();
+
+      function _render() {
+        // EXIT - ENTER - UPDATE PATTERN
+        var rects =  _gBars.selectAll("rect")
+          .data(data, function(d) { return d.key; });
+        rects.exit().remove();
+        rects.enter().append("rect");
+        rects
+            .classed("not-selected", function(d) {
+              if (hasBrush) return (selected.indexOf(d.key) === -1) ? true : false;
+              return false;
+            })
+            // .transition()
+            .attr("x", function(d) { return 0; })
+            .attr("y", function(d) {
+              return y(d.key) - barHeight/2  })
+            .attr("width", function(d) {
+              return x(d.values.length); })
+            .attr("height", function(d) { return barHeight; });
+      }
+
+      function _skeleton() {
+        // set scales range
+        x.range([0 , _gWidth]);
+        y.range([0, _gHeight]);
+
+        // set brush
+        if (hasBrush) brush.y(y);
+
+        xAxis
+          .innerTickSize(-_gHeight)
+          .tickPadding(5);
+
+        // set axis
+        xAxis.scale(x);
+        yAxis.scale(y);
+
+        // create chart container
+        g = div.append("svg")
+            .attr("width", width)
+            .attr("height", height)
+          .append("g")
+            .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
+
+        _gBars = g.append("g")
+            .attr("class", "bars");
+
+        // set x Axis
+        _gXAxis = g.append("g")
+            .attr("class", "x axis")
+            .call(xAxis);
+
+        _gYAxis = g.append("g")
+            .attr("class", "y axis")
+            .call(yAxis);
+
+        g.append("text")
+          .attr("class", "x label")
+          .attr("text-anchor", "start")
+          .attr("x", -15)
+          .attr("y", -25)
+          .text(title);
+
+        _gBrush = g.append("g").attr("class", "brush").call(brush);
+        _gBrush.selectAll("rect").attr("width", _gWidth);
+
+        brush.on("brush", function() {
+          _listeners.filtering(_getDataBrushed(brush));
+        });
+
+        brush.on("brushend", function() {
+          _listeners.filtered(brush);
+        });
+      }
+
+      function _getDataBrushed(brush) {
+        var extent = brush.extent().map(function(d) { return Math.floor(d) + 0.5;});
+        return data
+          .map(function(d) { return d.key; })
+          .filter(function(d) {
+            return d >= extent[0] && d <= extent[1];
+          });
+      }
+    });
+  }
+
+  // Getters and Setters
+  chart.width = function(_) {
+    if (!arguments.length) return width;
+    width = _;
+    return chart;
+  };
+  chart.height = function(_) {
+    if (!arguments.length) return height;
+    height = _;
+    return chart;
+  };
+
+  chart.margins = function(_) {
+    if (!arguments.length) return margins;
+    margins = _;
+    return chart;
+  };
+  chart.data = function(_) {
+    if (!arguments.length) return data;
+    data = _;
+    return chart;
+  };
+  chart.xData = function(_) {
+    if (!arguments.length) return xData;
+    xData = _;
+    return chart;
+  };
+  chart.yData = function(_) {
+    if (!arguments.length) return yData;
+    yData = _;
+    return chart;
+  };
+  chart.elasticY = function(_) {
+    if (!arguments.length) return elasticY;
+    elasticY = _;
+    return chart;
+  };
+  chart.x = function(_) {
+    if (!arguments.length) return x;
+    x = _;
+    return chart;
+  };
+  chart.y = function(_) {
+    if (!arguments.length) return y;
+    y = _;
+    return chart;
+  };
+  chart.xAxis = function(_) {
+    if (!arguments.length) return xAxis;
+    xAxis = _;
+    return chart;
+  };
+  chart.yAxis = function(_) {
+    if (!arguments.length) return yAxis;
+    yAxis = _;
+    return chart;
+  };
+  chart.hasYAxis = function(_) {
+    if (!arguments.length) return hasYAxis;
+    hasYAxis = _;
+    return chart;
+  };
+  // chart.brushClickReset = function(_) {
+  //   if (!arguments.length) return brushClickReset;
+  //   brushClickReset = _;
+  //   return chart;
+  // };
+  // chart.clearBrush = function(_) {
+  //   if (!arguments.length) {
+  //     _gBrush.call(brush.clear());
+  //     brush.event(_gBrush);
+  //   }
+  //   return chart;
+  // };
+  // chart.roundXDomain = function(_) {
+  //   if (!arguments.length) return roundXDomain;
+  //   roundXDomain = _;
+  //   return chart;
+  // };
+  chart.hasBrush = function(_) {
+    if (!arguments.length) return hasBrush;
+    hasBrush = _;
+    return chart;
+  };
+  // chart.hasBrushLabel = function(_) {
+  //   if (!arguments.length) return hasBrushLabel;
+  //   hasBrushLabel = _;
+  //   return chart;
+  // };
+  chart.brushExtent = function(_) {
+    if (!arguments.length) return brushExtent;
+    brushExtent = _;
+    return chart;
+  };
+  chart.selected = function(_) {
+    if (!arguments.length) return selected;
+    selected = _;
+    return chart;
+  };
+  chart.title = function(_) {
+    if (!arguments.length) return title;
+    title = _;
+    return chart;
+  };
+  // chart.brushExtentToMax = function(_) {
+  //   if (!arguments.length) return brushExtentToMax;
+  //   brushExtentToMax = _;
+  //   return chart;
+  // };
 
   chart.on = function (event, listener) {
     _listeners.on(event, listener);

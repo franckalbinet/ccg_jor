@@ -1,0 +1,9 @@
+[
+{"time": 0, "title": "Background", "isMain": true, "page": 1, "chapter": 1},
+{"time": 10, "title": "Education", "isMain": true, "page": 2, "chapter": 1},
+{"time": 30, "title": "Income patterns", "isMain": true, "page": 3, "chapter": 1},
+{"time": 50, "title": "Expenditure patterns", "isMain": true, "page": 4, "chapter": 1},
+{"time": 90, "title": "Negative coping mechanims", "isMain": true, "page": 5, "chapter": 1},
+{"time": 110, "title": "Living conditions", "isMain": true, "page": 6, "chapter": 1},
+{"time": 110, "title": "Psychological wellbeing", "isMain": true, "page": 7, "chapter": 1}
+]

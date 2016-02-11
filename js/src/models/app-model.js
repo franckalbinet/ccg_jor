@@ -182,6 +182,10 @@ Vis.Models.App = Backbone.Model.extend({
       .subText;
   },
 
+  getMilestones: function() {
+    return this.data.milestones;
+  },
+
   // create crossfilters + associated dimensions and groups
   bundle: function(data) {
     var that = this;

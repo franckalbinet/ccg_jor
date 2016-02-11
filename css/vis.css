@@ -235,11 +235,15 @@ ul#sub-nav {
   margin-top: 30px;
 }
 
-/* temp */
-/*.colored {
-  height: 600px;
-}*/
+/* time line navigation */
+#time-line-navigation {
+  background-color: #eee;
+  height: 50px;
+}
 
+
+
+/* dimple related - might be all removed */
 .selectable .dimple-bar {
   fill: #eee !important;
   /*fill: steelblue !important;*/

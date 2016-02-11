@@ -7,7 +7,8 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
     CHILDREN: "children.json",
     HOUSEHOLDS: "households.json",
     OUTCOMES: "outcomes.json",
-    TEMPLATES: "templates.json"
+    TEMPLATES: "templates.json",
+    MILESTONES: "milestones.json"
   },
   LOOKUP_CODES: {
     GOVERNORATES: {1:"Irbid", 2:"Ajloun", 3:"Jarash", 4:"Amman", 5:"Zarqa", 6:"Madaba", 11:"Mafraq", 99:"Others"},
