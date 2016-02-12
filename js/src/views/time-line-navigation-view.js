@@ -16,6 +16,7 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
       this.btnToPause($("#time-line-navigation .btn"));
       this.model.on("change:scenario", function() {
         var milestone = this.findMilestone();
+        this.cursor = milestone.time.getMilliseconds();
         that.render();
         if(this.isLast()) {
           this.btnToPause($("#time-line-navigation .btn"));
@@ -30,8 +31,8 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
           data = this.getData();
 
       this.chart = d3.timeLineNavigation()
-        .width(500).height(80)
-        .margins({top: 20, right: 20, bottom: 20, left: 20})
+        .width(480).height(120)
+        .margins({top: 40, right: 40, bottom: 40, left: 40})
         .data(data)
         .x(d3.time.scale().domain(d3.extent(data, function(d) { return d.time; })));
 
@@ -83,8 +84,6 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
         this.btnToPlay(btn);
         if(this.isLast()) {
           Vis.Routers.app.navigate("#page/1/chapter/1", {trigger: true});
-          // this.stop()
-          // this.cursor = 0;
         }
         this.start();
       }

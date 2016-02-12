@@ -235,7 +235,8 @@ ul#sub-nav {
 
 
 /* time line navigation */
-#time-line-navigation {
+#time-line-navigation .btn {
+  margin-top: 25px;
 }
 
 #time-line-navigation span {
@@ -253,7 +254,21 @@ ul#sub-nav {
   stroke-width: 1px;
 }
 #time-line-navigation circle.elapsed {
-  fill: #aaa
+  fill: #333;
+}
+#time-line-navigation line {
+  fill: none;
+  stroke: #aaa;
+  stroke-width: 1px;
+  shape-rendering: crispEdges;
+}
+#time-line-navigation text {
+  font-size: 10px;
+  color: #333;
+}
+#time-line-navigation text.elapsed {
+  font-weight: bold;
+  color: #333;
 }
 
 

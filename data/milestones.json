@@ -1,13 +1,13 @@
 [
 {"time": 0, "title": "Background", "isMain": true, "page": 1, "chapter": 1},
 {"time": 5, "title": "Education", "isMain": true, "page": 2, "chapter": 1},
-{"time": 10, "title": "By children", "isMain": false, "page": 2, "chapter": 2},
-{"time": 15, "title": "By hh", "isMain": false, "page": 2, "chapter": 3},
-{"time": 20, "title": "Income patterns", "isMain": true, "page": 3, "chapter": 1},
-{"time": 25, "title": "Expenditure patterns", "isMain": true, "page": 4, "chapter": 1},
-{"time": 30, "title": "Negative coping mechanims", "isMain": true, "page": 5, "chapter": 1},
-{"time": 35, "title": "Negative coping mechanims", "isMain": false, "page": 5, "chapter": 2},
-{"time": 40, "title": "Living conditions", "isMain": true, "page": 6, "chapter": 1},
-{"time": 45, "title": "Psychological wellbeing", "isMain": true, "page": 7, "chapter": 1},
-{"time": 50, "title": "Psychological wellbeing", "isMain": false, "page": 7, "chapter": 2}
+{"time": 15, "title": "By children", "isMain": false, "page": 2, "chapter": 2},
+{"time": 25, "title": "By hh", "isMain": false, "page": 2, "chapter": 3},
+{"time": 40, "title": "Income patterns", "isMain": true, "page": 3, "chapter": 1},
+{"time": 55, "title": "Expenditure patterns", "isMain": true, "page": 4, "chapter": 1},
+{"time": 80, "title": "Negative coping mechanims", "isMain": true, "page": 5, "chapter": 1},
+{"time": 85, "title": "Negative coping mechanims", "isMain": false, "page": 5, "chapter": 2},
+{"time": 100, "title": "Living conditions", "isMain": true, "page": 6, "chapter": 1},
+{"time": 130, "title": "Psychological wellbeing", "isMain": true, "page": 7, "chapter": 1},
+{"time": 140, "title": "Psychological wellbeing", "isMain": false, "page": 7, "chapter": 2}
 ]

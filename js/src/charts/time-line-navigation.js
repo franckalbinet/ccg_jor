@@ -51,7 +51,7 @@ d3.timeLineNavigation = function() {
       _render();
 
       function _render() {
-        // EXIT - ENTER - UPDATE PATTERN
+        // EXIT - ENTER - UPDATE PATTERN - CIRCLES
         var circles =  _gCircles.selectAll("circle")
           .data(data);
         circles.exit().remove();
@@ -60,7 +60,6 @@ d3.timeLineNavigation = function() {
             .classed("elapsed", function(d) {
               var page = elapsed.page,
                   chapter = elapsed.chapter;
-              // debugger;
               return (+(d.page + d.chapter) <= (10 * page + chapter)) ?
                 true : false;
             })
@@ -69,6 +68,43 @@ d3.timeLineNavigation = function() {
               return x(d.time); })
             .attr("cy", 0)
             .attr("r", function(d) { return (d.isMain) ? 6:3; });
+
+        // EXIT - ENTER - UPDATE PATTERN - Ticks
+        var lines =  _gTicks.selectAll("line")
+          .data(data.filter(function(d) { return d.isMain === true; }));
+        lines.exit().remove();
+        lines.enter().append("line");
+        lines
+            .attr("x1", function(d) { return x(d.time); })
+            .attr("y1", function(d,i) {
+              return (i%2 == 0) ? 14 : -14;
+            })
+            .attr("x2", function(d) { return x(d.time); })
+            .attr("y2", function(d,i) {
+              return (i%2 == 0) ? 10 : -10;
+            });
+
+
+        // EXIT - ENTER - UPDATE PATTERN - Labels
+        var labels =  _gLabels.selectAll("text")
+          .data(data.filter(function(d) { return d.isMain === true; }));
+        labels.exit().remove();
+        labels.enter().append("text");
+        labels
+            .text(function(d) { return d.title})
+            .attr("text-anchor", "middle")
+            .attr("x", function(d) { return x(d.time); })
+            .attr("y", function(d,i) {
+              return (i%2 == 0) ? 24 : -24;
+            })
+            .classed("elapsed", function(d) {
+              var page = elapsed.page,
+                  chapter = elapsed.chapter;
+              // return (+(d.page + d.chapter) <= (10 * page + chapter)) ?
+              return (d.page == page) ?
+                true : false;
+            })
+
       }
 
       function _skeleton() {
@@ -96,6 +132,12 @@ d3.timeLineNavigation = function() {
 
         _gCircles = g.append("g")
             .attr("class", "circles");
+
+        _gTicks = g.append("g")
+            .attr("class", "ticks");
+
+        _gLabels = g.append("g")
+            .attr("class", "labels");
 
         // set x Axis
         // _gXAxis = g.append("g")
