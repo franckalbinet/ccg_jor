@@ -95,7 +95,7 @@ d3.timeLineNavigation = function() {
             .attr("text-anchor", "middle")
             .attr("x", function(d) { return x(d.time); })
             .attr("y", function(d,i) {
-              return (i%2 == 0) ? 24 : -24;
+              return (i%2 == 0) ? 24 : -18;
             })
             .classed("elapsed", function(d) {
               var page = elapsed.page,

@@ -1062,8 +1062,8 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
           data = this.getData();
 
       this.chart = d3.timeLineNavigation()
-        .width(480).height(120)
-        .margins({top: 40, right: 40, bottom: 40, left: 40})
+        .width(550).height(60)
+        .margins({top: 30, right: 40, bottom: 10, left: 40})
         .data(data)
         .x(d3.time.scale().domain(d3.extent(data, function(d) { return d.time; })));
 
@@ -2604,7 +2604,7 @@ d3.timeLineNavigation = function() {
             .attr("text-anchor", "middle")
             .attr("x", function(d) { return x(d.time); })
             .attr("y", function(d,i) {
-              return (i%2 == 0) ? 24 : -24;
+              return (i%2 == 0) ? 24 : -18;
             })
             .classed("elapsed", function(d) {
               var page = elapsed.page,
