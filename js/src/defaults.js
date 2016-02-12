@@ -8,6 +8,7 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
     HOUSEHOLDS: "households.json",
     OUTCOMES: "outcomes.json",
     TEMPLATES: "templates.json",
+    INCOMES: "incomes.json",
     MILESTONES: "milestones.json"
   },
   LOOKUP_CODES: {

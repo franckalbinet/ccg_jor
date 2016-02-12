@@ -19,6 +19,7 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
     HOUSEHOLDS: "households.json",
     OUTCOMES: "outcomes.json",
     TEMPLATES: "templates.json",
+    INCOMES: "incomes.json",
     MILESTONES: "milestones.json"
   },
   LOOKUP_CODES: {
@@ -30,7 +31,6 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
 });
 /*  Utilities functions*/
 Vis.utils = _.extend(Vis.DEFAULTS, {
-  // timer
   Timer: function(callback, delay) {
       var timerId, start, remaining = delay;
 
@@ -43,6 +43,10 @@ Vis.utils = _.extend(Vis.DEFAULTS, {
           start = new Date();
           window.clearTimeout(timerId);
           timerId = window.setTimeout(callback, remaining);
+      };
+
+      this.clear = function() {
+        window.clearTimeout(timerId);
       };
 
       this.resume();
@@ -119,10 +123,17 @@ Vis.Collections.App = Backbone.Collection.extend({
           })
         },
         that.url + Vis.DEFAULTS.DATASETS.MILESTONES)
+      .defer(
+        function(url, callback) {
+          d3.json(url, function(error, result) {
+            callback(error, result);
+          })
+        },
+        that.url + Vis.DEFAULTS.DATASETS.INCOMES)
       .await(_ready);
 
     // on success
-    function _ready(error, children, households, outcomes, templates, milestones) {
+    function _ready(error, children, households, outcomes, templates, milestones, incomes) {
       var that = this;
 
       // coerce data
@@ -138,6 +149,7 @@ Vis.Collections.App = Backbone.Collection.extend({
         households: households,
         outcomes: outcomes,
         templates: templates,
+        incomes: incomes,
         milestones: milestones
       });
     }
@@ -270,10 +282,10 @@ Vis.Models.App = Backbone.Model.extend({
     return grp.top(Infinity).map(function(d) { return d.key; });
   },
 
-  // getHouseholds: function() {
-  //   return _.unique(this.childrenHousehold.top(Infinity).map(function(d) {
-  //     return d.hh; }));
-  // },
+  getHouseholds: function() {
+    return _.unique(this.childrenHousehold.top(Infinity).map(function(d) {
+      return d.hh; }));
+  },
 
   // transform children -- hh to nb. households by nb. children
   getHouseholdsByChildren: function() {
@@ -329,6 +341,18 @@ Vis.Models.App = Backbone.Model.extend({
 
   getMilestones: function() {
     return this.data.milestones;
+  },
+
+  getIncomes: function() {
+    var that = this
+        data = this.data.incomes.filter(function(d) {
+          return that.getHouseholds().indexOf(d.hh) !== -1; });
+
+    return d3.nest()
+            .key(function(d) { return d.income; })
+            .key(function(d) { return d.round; })
+            .rollup(function(leaves) { return leaves.length; })
+            .entries(data);
   },
 
   // create crossfilters + associated dimensions and groups
@@ -415,7 +439,7 @@ $(function () {
 
     Vis.Models.app = new Vis.Models.App();
     Vis.Collections.app = new Vis.Collections.App();
-    new Vis.Views.Navigation({model: Vis.Models.app});
+    // new Vis.Views.Navigation({model: Vis.Models.app});
     new Vis.Views.App({model: Vis.Models.app});
 
     Vis.Routers.app = new Vis.Routers.App();
@@ -458,9 +482,10 @@ Vis.Views.App = Backbone.View.extend({
 
       new Vis.Views.Background({model: Vis.Models.app});
       new Vis.Views.Education({model: Vis.Models.app});
-      new Vis.Views.IncomeExpenditure({model: Vis.Models.app});
-      new Vis.Views.CopingMechanism({model: Vis.Models.app});
-      new Vis.Views.LivingCondition({model: Vis.Models.app});
+      new Vis.Views.Incomes({model: Vis.Models.app});
+      // new Vis.Views.IncomeExpenditure({model: Vis.Models.app});
+      // new Vis.Views.CopingMechanism({model: Vis.Models.app});
+      // new Vis.Views.LivingCondition({model: Vis.Models.app});
     }
 
       // Backbone.trigger("brush:childrenAge", [5,11]);
@@ -947,25 +972,6 @@ Vis.Views.Education = Backbone.View.extend({
       if (page === 2) $("#page-title").text("Education");
     }
 });
-// Income & expenditure view
-Vis.Views.IncomeExpenditure = Backbone.View.extend({
-    el: '.container',
-
-    initialize: function () {
-      this.setTitle(this.model.get("scenario").page);
-      this.model.on("change:scenario", function() {
-        this.render();
-        },this);
-    },
-
-    render: function() {
-        this.setTitle(this.model.get("scenario").page);
-    },
-
-    setTitle: function(page) {
-      if (page === 3) $("#page-title").text("Income & expenditure patterns");
-    }
-});
 // Living condition view
 Vis.Views.LivingCondition = Backbone.View.extend({
     el: '.container',
@@ -985,25 +991,69 @@ Vis.Views.LivingCondition = Backbone.View.extend({
       if (page === 5) $("#page-title").text("Living conditions & psychological wellbeing");
     }
 });
+// Incomes view
+Vis.Views.Incomes = Backbone.View.extend({
+    el: '.container',
+
+    initialize: function () {
+      // this.setTitle(this.model.get("scenario").page);
+      this.dispatch(this.model.get("scenario"));
+      this.model.on("change:scenario", function() {
+        this.dispatch(this.model.get("scenario"));
+        },this);
+    },
+
+    dispatch: function(scenario) {
+      var scenario = this.model.get("scenario");
+      if (scenario.page === 3) {
+        switch(scenario.chapter) {
+          case 1:
+              this.render();
+              break;
+          case 2:
+              // code block
+              break;
+          default:
+              // default code block
+        }
+      }
+    },
+
+    render: function() {
+      // var data = this.model.getIncomes();
+      // debugger;
+        // this.setTitle(this.model.get("scenario").page);
+    },
+
+    setTitle: function(page) {
+      // if (page === 3) $("#page-title").text("Income & expenditure patterns");
+    }
+});
 // Background view -- 1
 Vis.Views.TimeLineNavigation = Backbone.View.extend({
     el: '#time-line-navigation',
 
+    clock: null,
+    cursor: 0,
     timer: null,
-    paused: false,
+    last: false,
 
     events: {
-      "click button": "toggleBtn",
-      // if clicked pause pause timer
-      // if clicked play reinstantiate a new timer or resume
-      // if new scenario reinstantiate a new timer
+      "click button": "clickHandler",
     },
     initialize: function () {
+      var that = this;
       this.initChart();
+      this.btnToPause($("#time-line-navigation .btn"));
       this.model.on("change:scenario", function() {
-        this.render();
+        var milestone = this.findMilestone();
+        that.render();
+        if(this.isLast()) {
+          this.btnToPause($("#time-line-navigation .btn"));
+          this.stop()
+          this.cursor = 0;
+        }
         },this);
-      // this.render();
     },
 
     initChart: function() {
@@ -1014,10 +1064,9 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
         .width(500).height(80)
         .margins({top: 20, right: 20, bottom: 20, left: 20})
         .data(data)
-        .x(d3.time.scale().domain(d3.extent(data, function(d) { return d.time; })))
+        .x(d3.time.scale().domain(d3.extent(data, function(d) { return d.time; })));
 
       this.render();
-      // this.play();
     },
 
     render: function() {
@@ -1031,42 +1080,84 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
       return this.model.getMilestones();
     },
 
-    play: function() {
-      if (!this.paused) {
-        // get scenario timing
-        this.timer = new Vis.utils.Timer(function() {
-          // and navigate to next when elapsed
-          alert("Done!");
-        }, 1000);
-      } else {
-        this.timer.resume();
+    start: function() {
+      var that = this;
+      if(!this.clock) {
+        this.clock = setInterval(
+          function() {
+            var idx = that.getTimes().indexOf(that.cursor);
+            console.log(that.cursor);
+            if (idx !== -1) {
+              var milestone = that.getData()[idx];
+              Vis.Routers.app.navigate("#page/" + milestone.page + "/chapter/" + milestone.chapter, {trigger: true});
+            }
+            that.cursor += 5;
+          }
+          , 500);
       }
-      this.paused = false;
     },
 
-    pause: function() {
-      this.timer.pause();
-      this.paused = true;
+    stop: function() {
+      window.clearInterval(this.clock);
+      this.clock = null;
     },
 
-    toggleBtn: function(e) {
+    clickHandler: function(e) {
       e.preventDefault();
       var btn = $(e.currentTarget);
       btn.blur();
 
-      if(btn.hasClass("play")) {
-        // debugger;
-        btn.removeClass("play").addClass("pause");
-        btn.find("span").html("Play");
-        btn.find("i").removeClass("fa-pause").addClass("fa-play");
+      if (btn.hasClass("play")) {
+        this.btnToPause(btn);
+        this.stop();
       } else {
-        btn.removeClass("pause").addClass("play");
-        btn.find("span").html("Pause");
-        btn.find("i").removeClass("fa-play").addClass("fa-pause");
+        this.btnToPlay(btn);
+        if(this.isLast()) {
+          Vis.Routers.app.navigate("#page/1/chapter/1", {trigger: true});
+          // this.stop()
+          // this.cursor = 0;
+        }
+        this.start();
       }
+    },
+
+
+    btnToPause: function(btn) {
+      btn.removeClass("play").addClass("pause");
+      btn.find("span").html("Play");
+      btn.find("i").removeClass("fa-pause").addClass("fa-play");
+    },
+
+    btnToPlay: function(btn) {
+      btn.removeClass("pause").addClass("play");
+      btn.find("span").html("Pause");
+      btn.find("i").removeClass("fa-play").addClass("fa-pause");
+    },
+
+    isPaused: function() {
+      return $("#time-line-navigation .btn").hasClass("pause");
+    },
+
+    isLast: function() {
+      var page = this.model.get("scenario").page,
+          chapter = this.model.get("scenario").chapter,
+          idx = _.findIndex(this.getData(), function(d) {
+            return +d.chapter === chapter && +d.page === page ; } );
+
+      return (idx === this.getData().length - 1);
+    },
+
+    getTimes: function() {
+      return this.getData().map(function(d) { return d.time.getMilliseconds(); });
+    },
+
+    findMilestone: function() {
+      var page = this.model.get("scenario").page,
+          chapter = this.model.get("scenario").chapter;
+
+          return this.getData().filter(function(d) {
+            return +d.chapter === chapter && +d.page === page ; })[0];
     }
-
-
 });
 /* CREATE BAR CHART INSTANCE*/
 d3.barChartAge = function() {

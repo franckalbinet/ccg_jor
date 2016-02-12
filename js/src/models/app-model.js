@@ -125,10 +125,10 @@ Vis.Models.App = Backbone.Model.extend({
     return grp.top(Infinity).map(function(d) { return d.key; });
   },
 
-  // getHouseholds: function() {
-  //   return _.unique(this.childrenHousehold.top(Infinity).map(function(d) {
-  //     return d.hh; }));
-  // },
+  getHouseholds: function() {
+    return _.unique(this.childrenHousehold.top(Infinity).map(function(d) {
+      return d.hh; }));
+  },
 
   // transform children -- hh to nb. households by nb. children
   getHouseholdsByChildren: function() {
@@ -184,6 +184,18 @@ Vis.Models.App = Backbone.Model.extend({
 
   getMilestones: function() {
     return this.data.milestones;
+  },
+
+  getIncomes: function() {
+    var that = this
+        data = this.data.incomes.filter(function(d) {
+          return that.getHouseholds().indexOf(d.hh) !== -1; });
+
+    return d3.nest()
+            .key(function(d) { return d.income; })
+            .key(function(d) { return d.round; })
+            .rollup(function(leaves) { return leaves.length; })
+            .entries(data);
   },
 
   // create crossfilters + associated dimensions and groups

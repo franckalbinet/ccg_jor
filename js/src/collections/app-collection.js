@@ -46,10 +46,17 @@ Vis.Collections.App = Backbone.Collection.extend({
           })
         },
         that.url + Vis.DEFAULTS.DATASETS.MILESTONES)
+      .defer(
+        function(url, callback) {
+          d3.json(url, function(error, result) {
+            callback(error, result);
+          })
+        },
+        that.url + Vis.DEFAULTS.DATASETS.INCOMES)
       .await(_ready);
 
     // on success
-    function _ready(error, children, households, outcomes, templates, milestones) {
+    function _ready(error, children, households, outcomes, templates, milestones, incomes) {
       var that = this;
 
       // coerce data
@@ -65,6 +72,7 @@ Vis.Collections.App = Backbone.Collection.extend({
         households: households,
         outcomes: outcomes,
         templates: templates,
+        incomes: incomes,
         milestones: milestones
       });
     }

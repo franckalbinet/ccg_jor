@@ -2,21 +2,27 @@
 Vis.Views.TimeLineNavigation = Backbone.View.extend({
     el: '#time-line-navigation',
 
+    clock: null,
+    cursor: 0,
     timer: null,
-    paused: false,
+    last: false,
 
     events: {
-      "click button": "toggleBtn",
-      // if clicked pause pause timer
-      // if clicked play reinstantiate a new timer or resume
-      // if new scenario reinstantiate a new timer
+      "click button": "clickHandler",
     },
     initialize: function () {
+      var that = this;
       this.initChart();
+      this.btnToPause($("#time-line-navigation .btn"));
       this.model.on("change:scenario", function() {
-        this.render();
+        var milestone = this.findMilestone();
+        that.render();
+        if(this.isLast()) {
+          this.btnToPause($("#time-line-navigation .btn"));
+          this.stop()
+          this.cursor = 0;
+        }
         },this);
-      // this.render();
     },
 
     initChart: function() {
@@ -27,10 +33,9 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
         .width(500).height(80)
         .margins({top: 20, right: 20, bottom: 20, left: 20})
         .data(data)
-        .x(d3.time.scale().domain(d3.extent(data, function(d) { return d.time; })))
+        .x(d3.time.scale().domain(d3.extent(data, function(d) { return d.time; })));
 
       this.render();
-      // this.play();
     },
 
     render: function() {
@@ -44,40 +49,82 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
       return this.model.getMilestones();
     },
 
-    play: function() {
-      if (!this.paused) {
-        // get scenario timing
-        this.timer = new Vis.utils.Timer(function() {
-          // and navigate to next when elapsed
-          alert("Done!");
-        }, 1000);
-      } else {
-        this.timer.resume();
+    start: function() {
+      var that = this;
+      if(!this.clock) {
+        this.clock = setInterval(
+          function() {
+            var idx = that.getTimes().indexOf(that.cursor);
+            console.log(that.cursor);
+            if (idx !== -1) {
+              var milestone = that.getData()[idx];
+              Vis.Routers.app.navigate("#page/" + milestone.page + "/chapter/" + milestone.chapter, {trigger: true});
+            }
+            that.cursor += 5;
+          }
+          , 500);
       }
-      this.paused = false;
     },
 
-    pause: function() {
-      this.timer.pause();
-      this.paused = true;
+    stop: function() {
+      window.clearInterval(this.clock);
+      this.clock = null;
     },
 
-    toggleBtn: function(e) {
+    clickHandler: function(e) {
       e.preventDefault();
       var btn = $(e.currentTarget);
       btn.blur();
 
-      if(btn.hasClass("play")) {
-        // debugger;
-        btn.removeClass("play").addClass("pause");
-        btn.find("span").html("Play");
-        btn.find("i").removeClass("fa-pause").addClass("fa-play");
+      if (btn.hasClass("play")) {
+        this.btnToPause(btn);
+        this.stop();
       } else {
-        btn.removeClass("pause").addClass("play");
-        btn.find("span").html("Pause");
-        btn.find("i").removeClass("fa-play").addClass("fa-pause");
+        this.btnToPlay(btn);
+        if(this.isLast()) {
+          Vis.Routers.app.navigate("#page/1/chapter/1", {trigger: true});
+          // this.stop()
+          // this.cursor = 0;
+        }
+        this.start();
       }
+    },
+
+
+    btnToPause: function(btn) {
+      btn.removeClass("play").addClass("pause");
+      btn.find("span").html("Play");
+      btn.find("i").removeClass("fa-pause").addClass("fa-play");
+    },
+
+    btnToPlay: function(btn) {
+      btn.removeClass("pause").addClass("play");
+      btn.find("span").html("Pause");
+      btn.find("i").removeClass("fa-play").addClass("fa-pause");
+    },
+
+    isPaused: function() {
+      return $("#time-line-navigation .btn").hasClass("pause");
+    },
+
+    isLast: function() {
+      var page = this.model.get("scenario").page,
+          chapter = this.model.get("scenario").chapter,
+          idx = _.findIndex(this.getData(), function(d) {
+            return +d.chapter === chapter && +d.page === page ; } );
+
+      return (idx === this.getData().length - 1);
+    },
+
+    getTimes: function() {
+      return this.getData().map(function(d) { return d.time.getMilliseconds(); });
+    },
+
+    findMilestone: function() {
+      var page = this.model.get("scenario").page,
+          chapter = this.model.get("scenario").chapter;
+
+          return this.getData().filter(function(d) {
+            return +d.chapter === chapter && +d.page === page ; })[0];
     }
-
-
 });

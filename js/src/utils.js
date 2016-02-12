@@ -1,6 +1,5 @@
 /*  Utilities functions*/
 Vis.utils = _.extend(Vis.DEFAULTS, {
-  // timer
   Timer: function(callback, delay) {
       var timerId, start, remaining = delay;
 
@@ -13,6 +12,10 @@ Vis.utils = _.extend(Vis.DEFAULTS, {
           start = new Date();
           window.clearTimeout(timerId);
           timerId = window.setTimeout(callback, remaining);
+      };
+
+      this.clear = function() {
+        window.clearTimeout(timerId);
       };
 
       this.resume();

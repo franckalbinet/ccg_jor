@@ -12,17 +12,17 @@ vis_src =	${vis_dir}/namespace.js\
 					${vis_dir}/app.js\
 					${vis_dir}/views/app-view.js\
 					${vis_dir}/views/navigation-view.js\
-					${vis_dir}/views/children-age-view.js\
-					${vis_dir}/views/households-children-view.js\
-					${vis_dir}/views/households-location-view.js\
-					${vis_dir}/views/households-poverty-view.js\
-					${vis_dir}/views/households-head-view.js\
-					${vis_dir}/views/children-gender-view.js\
-					${vis_dir}/views/background-view.js\
-					${vis_dir}/views/coping-mechanism-view.js\
-					${vis_dir}/views/education-view.js\
-					${vis_dir}/views/income-expenditure-view.js\
-					${vis_dir}/views/living-condition-view.js\
+					${vis_dir}/views/profile/children-age-view.js\
+					${vis_dir}/views/profile/households-children-view.js\
+					${vis_dir}/views/profile/households-location-view.js\
+					${vis_dir}/views/profile/households-poverty-view.js\
+					${vis_dir}/views/profile/households-head-view.js\
+					${vis_dir}/views/profile/children-gender-view.js\
+					${vis_dir}/views/outcomes/background-view.js\
+					${vis_dir}/views/outcomes/coping-mechanism-view.js\
+					${vis_dir}/views/outcomes/education-view.js\
+					${vis_dir}/views/outcomes/living-condition-view.js\
+					${vis_dir}/views/outcomes/incomes-view.js\
 					${vis_dir}/views/time-line-navigation-view.js\
 					${vis_dir}/charts/bar-chart-age.js\
 					${vis_dir}/charts/bar-chart-children.js\

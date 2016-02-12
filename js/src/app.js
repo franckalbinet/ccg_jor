@@ -13,7 +13,7 @@ $(function () {
 
     Vis.Models.app = new Vis.Models.App();
     Vis.Collections.app = new Vis.Collections.App();
-    new Vis.Views.Navigation({model: Vis.Models.app});
+    // new Vis.Views.Navigation({model: Vis.Models.app});
     new Vis.Views.App({model: Vis.Models.app});
 
     Vis.Routers.app = new Vis.Routers.App();
