@@ -28,6 +28,7 @@ Vis.Models.App = Backbone.Model.extend({
 
   sync: function() {
     // this.outcomesHead.filter( this.filterExactList(this.getHouseholds()));
+    this.incomesHousehold.filter( this.filterExactList(this.getHouseholds()));
     Backbone.trigger("filtered");
   },
 
@@ -121,6 +122,24 @@ Vis.Models.App = Backbone.Model.extend({
     }
   },
 
+  reduceAddIncome: function() {
+    return function(p, v) {
+      p.filter(function(d) { return d.round == v.round; })[0].count += 1;
+      return p;
+    }
+  },
+  reduceRemoveIncome: function() {
+    return function(p, v) {
+      p.filter(function(d) { return d.round == v.round; })[0].count -= 1;
+      return p;
+    }
+  },
+  reduceInitIncome: function() {
+    return function() {
+      return [{round: 1, count: 0}, {round: 2, count: 0}, {round: 3, count: 0}];
+    }
+  },
+
   getKeys: function(grp) {
     return grp.top(Infinity).map(function(d) { return d.key; });
   },
@@ -186,17 +205,21 @@ Vis.Models.App = Backbone.Model.extend({
     return this.data.milestones;
   },
 
-  getIncomes: function() {
-    var that = this
-        data = this.data.incomes.filter(function(d) {
-          return that.getHouseholds().indexOf(d.hh) !== -1; });
+  // getIncomes: function() {
+  //   // var that = this
+  //   //     data = this.data.incomes.filter(function(d) {
+  //   //       return that.getHouseholds().indexOf(d.hh) !== -1; });
+  //   //
+  //   // return d3.nest()
+  //   //         .key(function(d) { return d.income; })
+  //   //         .key(function(d) { return d.round; })
+  //   //         .rollup(function(leaves) { return leaves.length; })
+  //   //         .entries(data);
+  //
+  //   // insanely faster version
+  //   return this.incomesByType.top(Infinity);
+  // },
 
-    return d3.nest()
-            .key(function(d) { return d.income; })
-            .key(function(d) { return d.round; })
-            .rollup(function(leaves) { return leaves.length; })
-            .entries(data);
-  },
 
   // create crossfilters + associated dimensions and groups
   bundle: function(data) {
@@ -253,9 +276,16 @@ Vis.Models.App = Backbone.Model.extend({
     this.set("poverties", this.getKeys(this.householdsByPoverty));
     this.set("disabilities", this.getKeys(this.householdsByDisability));
 
-    // debugger;
-    // this.getHouseholdsFiltered([1,2,3]);
     // OUTCOMES
+    // incomes
+    var incomesCf = crossfilter(data.incomes);
+    this.incomesHousehold = incomesCf.dimension(function(d) { return d.hh; });
+    this.incomesType = incomesCf.dimension(function(d) { return d.income; });
+    this.incomesByType = this.incomesType.group().reduce(
+      this.reduceAddIncome(), this.reduceRemoveIncome(), this.reduceInitIncome()
+    );
+
+    // debugger;
     // var outcomes = crossfilter(data.outcomes);
     // dimensions
     // this.outcomesHead = outcomes.dimension(function(d) { return d.hh; });

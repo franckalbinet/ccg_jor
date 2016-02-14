@@ -35,6 +35,7 @@ Vis.Views.App = Backbone.View.extend({
       new Vis.Views.Background({model: Vis.Models.app});
       new Vis.Views.Education({model: Vis.Models.app});
       new Vis.Views.Incomes({model: Vis.Models.app});
+
       // new Vis.Views.IncomeExpenditure({model: Vis.Models.app});
       // new Vis.Views.CopingMechanism({model: Vis.Models.app});
       // new Vis.Views.LivingCondition({model: Vis.Models.app});

@@ -104,7 +104,7 @@ h1,h2,h3,h4,h5 {
 }
 .outcomes #time-line {
   height: 100%;
-  background-color: #eee;
+  /*background-color: #eee;*/
 }
 .focus-group {
   height: 100%;
@@ -114,7 +114,7 @@ h1,h2,h3,h4,h5 {
   font-size: 14px;
   font-weight: 700;
 }
-.focus-group .quote {
+.focus-group #quote {
   font-size: 12px;
   font-weight: 300;
 }
@@ -229,6 +229,35 @@ h1,h2,h3,h4,h5 {
   margin-top: 30px;
 }
 
+/* main multi series time line*/
+#time-line {
+  font-size: 11px;
+}
+#time-line .axis path {
+  fill: none;
+  stroke: none;
+}
+#time-line .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+#time-line .x.axis path {
+  display: none;
+}
+#time-line .line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1px;
+}
+#time-line circle {
+  fill: steelblue;
+}
+
+
+
+
+
 /* time line navigation */
 #time-line-navigation .btn {
   margin-top: 16px;
@@ -250,6 +279,7 @@ h1,h2,h3,h4,h5 {
 }
 #time-line-navigation circle.elapsed {
   fill: #333;
+  stroke: none;
 }
 #time-line-navigation line {
   fill: none;

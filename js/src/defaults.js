@@ -15,6 +15,7 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
     GOVERNORATES: {1:"Irbid", 2:"Ajloun", 3:"Jarash", 4:"Amman", 5:"Zarqa", 6:"Madaba", 11:"Mafraq", 99:"Others"},
     POVERTY: {1:"High", 2:"Severe"},
     HEAD: {1:"Father", 2:"Mother"},
-    GENDER: {1:"Male", 2:"Female"}
+    GENDER: {1:"Male", 2:"Female"},
+    INCOME: {1:"UN cash assistance", 2:"WFP voucher", 5:"Paid labour", 99:"Other"}
   }
 });

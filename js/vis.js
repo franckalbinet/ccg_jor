@@ -26,7 +26,8 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
     GOVERNORATES: {1:"Irbid", 2:"Ajloun", 3:"Jarash", 4:"Amman", 5:"Zarqa", 6:"Madaba", 11:"Mafraq", 99:"Others"},
     POVERTY: {1:"High", 2:"Severe"},
     HEAD: {1:"Father", 2:"Mother"},
-    GENDER: {1:"Male", 2:"Female"}
+    GENDER: {1:"Male", 2:"Female"},
+    INCOME: {1:"UN cash assistance", 2:"WFP voucher", 5:"Paid labour", 99:"Other"}
   }
 });
 /*  Utilities functions*/
@@ -185,6 +186,7 @@ Vis.Models.App = Backbone.Model.extend({
 
   sync: function() {
     // this.outcomesHead.filter( this.filterExactList(this.getHouseholds()));
+    this.incomesHousehold.filter( this.filterExactList(this.getHouseholds()));
     Backbone.trigger("filtered");
   },
 
@@ -278,6 +280,24 @@ Vis.Models.App = Backbone.Model.extend({
     }
   },
 
+  reduceAddIncome: function() {
+    return function(p, v) {
+      p.filter(function(d) { return d.round == v.round; })[0].count += 1;
+      return p;
+    }
+  },
+  reduceRemoveIncome: function() {
+    return function(p, v) {
+      p.filter(function(d) { return d.round == v.round; })[0].count -= 1;
+      return p;
+    }
+  },
+  reduceInitIncome: function() {
+    return function() {
+      return [{round: 1, count: 0}, {round: 2, count: 0}, {round: 3, count: 0}];
+    }
+  },
+
   getKeys: function(grp) {
     return grp.top(Infinity).map(function(d) { return d.key; });
   },
@@ -343,17 +363,21 @@ Vis.Models.App = Backbone.Model.extend({
     return this.data.milestones;
   },
 
-  getIncomes: function() {
-    var that = this
-        data = this.data.incomes.filter(function(d) {
-          return that.getHouseholds().indexOf(d.hh) !== -1; });
+  // getIncomes: function() {
+  //   // var that = this
+  //   //     data = this.data.incomes.filter(function(d) {
+  //   //       return that.getHouseholds().indexOf(d.hh) !== -1; });
+  //   //
+  //   // return d3.nest()
+  //   //         .key(function(d) { return d.income; })
+  //   //         .key(function(d) { return d.round; })
+  //   //         .rollup(function(leaves) { return leaves.length; })
+  //   //         .entries(data);
+  //
+  //   // insanely faster version
+  //   return this.incomesByType.top(Infinity);
+  // },
 
-    return d3.nest()
-            .key(function(d) { return d.income; })
-            .key(function(d) { return d.round; })
-            .rollup(function(leaves) { return leaves.length; })
-            .entries(data);
-  },
 
   // create crossfilters + associated dimensions and groups
   bundle: function(data) {
@@ -410,9 +434,16 @@ Vis.Models.App = Backbone.Model.extend({
     this.set("poverties", this.getKeys(this.householdsByPoverty));
     this.set("disabilities", this.getKeys(this.householdsByDisability));
 
-    // debugger;
-    // this.getHouseholdsFiltered([1,2,3]);
     // OUTCOMES
+    // incomes
+    var incomesCf = crossfilter(data.incomes);
+    this.incomesHousehold = incomesCf.dimension(function(d) { return d.hh; });
+    this.incomesType = incomesCf.dimension(function(d) { return d.income; });
+    this.incomesByType = this.incomesType.group().reduce(
+      this.reduceAddIncome(), this.reduceRemoveIncome(), this.reduceInitIncome()
+    );
+
+    // debugger;
     // var outcomes = crossfilter(data.outcomes);
     // dimensions
     // this.outcomesHead = outcomes.dimension(function(d) { return d.hh; });
@@ -483,6 +514,7 @@ Vis.Views.App = Backbone.View.extend({
       new Vis.Views.Background({model: Vis.Models.app});
       new Vis.Views.Education({model: Vis.Models.app});
       new Vis.Views.Incomes({model: Vis.Models.app});
+
       // new Vis.Views.IncomeExpenditure({model: Vis.Models.app});
       // new Vis.Views.CopingMechanism({model: Vis.Models.app});
       // new Vis.Views.LivingCondition({model: Vis.Models.app});
@@ -1001,6 +1033,7 @@ Vis.Views.Incomes = Backbone.View.extend({
       this.model.on("change:scenario", function() {
         this.dispatch(this.model.get("scenario"));
         },this);
+      Backbone.on("filtered", function(d) { this.render();}, this);
     },
 
     dispatch: function(scenario) {
@@ -1008,7 +1041,7 @@ Vis.Views.Incomes = Backbone.View.extend({
       if (scenario.page === 3) {
         switch(scenario.chapter) {
           case 1:
-              this.render();
+              this.initChart();
               break;
           case 2:
               // code block
@@ -1020,9 +1053,36 @@ Vis.Views.Incomes = Backbone.View.extend({
     },
 
     render: function() {
-      // var data = this.model.getIncomes();
-      // debugger;
-        // this.setTitle(this.model.get("scenario").page);
+      // this.setTitle(this.model.get("scenario").page);
+      // console.log(this.getData()[0].value.map(function(d) {return d.count; }));
+      this.chart
+        .data(this.getData())
+        .relativeTo(this.getTotalHouseholds())
+      d3.select("#time-line").call(this.chart);
+    },
+
+    initChart: function() {
+      var that = this,
+          data = this.getData(),
+          total = this.getTotalHouseholds();
+
+      this.chart = d3.multiSeriesTimeLine()
+        .width(600).height(350)
+        .margins({top: 40, right: 120, bottom: 40, left: 45})
+        .data(data)
+        .relativeTo(total);
+
+      this.render();
+    },
+
+    getData: function() {
+      return this.model.incomesByType.top(Infinity);
+      // return this.model.getIncomes();
+    },
+
+    getTotalHouseholds: function() {
+      return _.unique(this.model.incomesHousehold.top(Infinity).map(function(d) {
+         return d.hh })).length;
     },
 
     setTitle: function(page) {
@@ -2809,15 +2869,367 @@ d3.timeLineNavigation = function() {
 
   return chart;
 };
+/* CREATE MULTI SERIES TIME LINE CHART INSTANCE*/
+d3.multiSeriesTimeLine = function() {
+
+  var width = 400,
+      height = 100,
+      margins = {top: 10, right: 25, bottom: 30, left: 20},
+      data = null,
+      relativeTo = null,
+      // x = d3.scale.linear(),
+      x = d3.scale.ordinal(),
+      y = d3.scale.linear(),
+      elasticY = false,
+      xDomain = null,
+      xAxis = d3.svg.axis().orient("bottom"),
+      yAxis = d3.svg.axis().orient("left").tickValues([0, 25, 50, 75, 100]),
+      // yAxis = d3.svg.axis().orient("left").ticks(4),
+      hasBrush = false,
+      hasYAxis = true,
+      title = "My title",
+      brushClickReset = false,
+      brush = d3.svg.brush(),
+      brushExtent = null,
+      selected = null;
+
+  var _gWidth = 400,
+      _gHeight = 100,
+      _handlesWidth = 9,
+      _gBrush,
+      _gXAxis,
+      _gYAxis,
+      _line,
+      _listeners = d3.dispatch("filtered", "filtering");
+
+  function chart(div) {
+    _gWidth = width - margins.left - margins.right;
+    _gHeight = height - margins.top - margins.bottom;
+
+    div.each(function() {
+      var div = d3.select(this),
+          g = div.select("g");
+
+      x.domain(getXDomain());
+      // y.domain([0, getYExtent()[1]]);
+      y.domain([0, 100]);
+      // y.domain([0, 100]);
+
+      // console.log(y.domain());
+
+      // create the skeleton chart.
+      if (g.empty()) _skeleton();
+
+      _gYAxis.call(yAxis);
+
+      // if (brushExtent) {
+      //   brush.extent([brushExtent[0] - 0.5, brushExtent[1] - 0.5]);
+      //   _gBrush.call(brush);
+      //   brushExtent = null;
+      //   _listeners.filtering(_getDataBrushed(brush));
+      // }
+
+      data.forEach(function(d) {
+        d.valueId = d.value.map(function(v) {
+          return v.count; }).join("-"); });
+
+      // console.log(isDataEmpty());
+      if (!isDataEmpty()) _render();
+
+      function _render() {
+
+        // container
+        var item = g.selectAll(".item")
+            .data(data, function(d) {
+              return d.key;
+            });
+        item.enter()
+            .append("g")
+            .attr("class", "item");
+        item.exit().remove();
+
+        // lines
+        var line = item.selectAll(".line")
+          .data(function(d) { return [d];}, function(d) { return d.valueId; });
+
+        line.enter().append("path").attr("class", "line");
+
+        line.exit().remove();
+
+        line
+          .transition()
+          .attr("d", function(d) {
+            return _line(d.value);
+          });
+
+        // circles
+        var circles = item.selectAll(".points")
+          // .data(function(d){ return d.value}, function(d) { return d.valueId; });
+          .data(function(d){ return d.value});
+
+        circles.enter().append("circle").attr("class", "points");
+
+        circles.exit().remove();
+
+        circles
+          .attr("r", function(d) {
+            return 3})
+            .attr("cx", function(d) {
+              return x(d.round); })
+          .transition()
+          .attr("cy", function(d) {
+            return y(toPercentage(d.count)); });
+
+        // text
+        // var texts = item.selectAll("")
+        var texts = item.selectAll("text")
+          .data(function(d) {
+            return [{name: d.key, value: d.value[d.value.length - 1]}]});
+
+        texts.enter().append("text")
+          .text(function(d) {
+            return Vis.DEFAULTS.LOOKUP_CODES.INCOME[d.name]; });
+
+        texts.exit().remove();
+
+        texts
+          .transition()
+          .attr("transform", function(d) {
+            return "translate(" + x(d.value.round) + "," + y(toPercentage(d.value.count)) + ")"; })
+          .attr("x", 5)
+          .attr("dy", ".35em");
+      }
+
+      function _skeleton() {
+        // set scales range
+        x.rangePoints([0 , _gWidth]);
+        y.range([_gHeight, 0]);
+
+        // set brush
+        // if (hasBrush) brush.y(y);
+
+        // xAxis
+        //   .innerTickSize(-_gHeight)
+        //   .tickPadding(5);
+
+        // set axis
+        xAxis.scale(x);
+        yAxis.scale(y).tickFormat(function(d) { return d + "%"; });
+
+        _line = d3.svg.line()
+          .interpolate("linear")
+          .x(function(d) { return x(d.round); })
+          .y(function(d) { return y(toPercentage(d.count)); });
+
+        // create chart container
+        g = div.append("svg")
+            .attr("width", width)
+            .attr("height", height)
+          .append("g")
+            .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
+
+        // _gLines = g.append("g")
+        //     .attr("class", "lines");
+
+        // set x Axis
+        _gXAxis = g.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + _gHeight + ")")
+            .call(xAxis);
+
+        _gYAxis = g.append("g")
+            .attr("class", "y axis")
+            .call(yAxis);
+
+        // g.append("text")
+        //   .attr("class", "x label")
+        //   .attr("text-anchor", "start")
+        //   .attr("x", -15)
+        //   .attr("y", -25)
+        //   .text(title);
+        //
+        // _gBrush = g.append("g").attr("class", "brush").call(brush);
+        // _gBrush.selectAll("rect").attr("width", _gWidth);
+        //
+        // brush.on("brush", function() {
+        //   _listeners.filtering(_getDataBrushed(brush));
+        // });
+        //
+        // brush.on("brushend", function() {
+        //   _listeners.filtered(brush);
+        // });
+      }
+
+      function isDataEmpty() {
+        var length = data.filter(function(d) {return d.valueId != "0-0-0"}).length;
+        return (length == 0) ? true : false;
+      }
+
+      function getXDomain() {
+         return data[0].value.map(function(d) { return d.round; });
+      }
+
+      function getYExtent() {
+        var values = [];
+        data.forEach(function(d) {
+          values = values.concat(d.value.map(function(v) {
+            return v.count; })) });
+        return d3.extent(values.map(function(d) { return toPercentage(d); }));
+      }
+
+      function toPercentage(val) {
+        return Math.round((val/relativeTo)*100);
+      }
+
+      function _getDataBrushed(brush) {
+        var extent = brush.extent().map(function(d) { return Math.floor(d) + 0.5;});
+        return data
+          .map(function(d) { return d.key; })
+          .filter(function(d) {
+            return d >= extent[0] && d <= extent[1];
+          });
+      }
+    });
+  }
+
+  // Getters and Setters
+  chart.width = function(_) {
+    if (!arguments.length) return width;
+    width = _;
+    return chart;
+  };
+  chart.height = function(_) {
+    if (!arguments.length) return height;
+    height = _;
+    return chart;
+  };
+
+  chart.margins = function(_) {
+    if (!arguments.length) return margins;
+    margins = _;
+    return chart;
+  };
+  chart.data = function(_) {
+    if (!arguments.length) return data;
+    data = _;
+    return chart;
+  };
+  chart.relativeTo = function(_) {
+    if (!arguments.length) return relativeTo;
+    relativeTo = _;
+    return chart;
+  };
+  chart.elasticY = function(_) {
+    if (!arguments.length) return elasticY;
+    elasticY = _;
+    return chart;
+  };
+  chart.x = function(_) {
+    if (!arguments.length) return x;
+    x = _;
+    return chart;
+  };
+  chart.y = function(_) {
+    if (!arguments.length) return y;
+    y = _;
+    return chart;
+  };
+  chart.xAxis = function(_) {
+    if (!arguments.length) return xAxis;
+    xAxis = _;
+    return chart;
+  };
+  chart.yAxis = function(_) {
+    if (!arguments.length) return yAxis;
+    yAxis = _;
+    return chart;
+  };
+  chart.hasYAxis = function(_) {
+    if (!arguments.length) return hasYAxis;
+    hasYAxis = _;
+    return chart;
+  };
+  // chart.brushClickReset = function(_) {
+  //   if (!arguments.length) return brushClickReset;
+  //   brushClickReset = _;
+  //   return chart;
+  // };
+  // chart.clearBrush = function(_) {
+  //   if (!arguments.length) {
+  //     _gBrush.call(brush.clear());
+  //     brush.event(_gBrush);
+  //   }
+  //   return chart;
+  // };
+  // chart.roundXDomain = function(_) {
+  //   if (!arguments.length) return roundXDomain;
+  //   roundXDomain = _;
+  //   return chart;
+  // };
+  chart.hasBrush = function(_) {
+    if (!arguments.length) return hasBrush;
+    hasBrush = _;
+    return chart;
+  };
+  // chart.hasBrushLabel = function(_) {
+  //   if (!arguments.length) return hasBrushLabel;
+  //   hasBrushLabel = _;
+  //   return chart;
+  // };
+  chart.brushExtent = function(_) {
+    if (!arguments.length) return brushExtent;
+    brushExtent = _;
+    return chart;
+  };
+  chart.selected = function(_) {
+    if (!arguments.length) return selected;
+    selected = _;
+    return chart;
+  };
+  chart.title = function(_) {
+    if (!arguments.length) return title;
+    title = _;
+    return chart;
+  };
+  // chart.brushExtentToMax = function(_) {
+  //   if (!arguments.length) return brushExtentToMax;
+  //   brushExtentToMax = _;
+  //   return chart;
+  // };
+
+  chart.on = function (event, listener) {
+    _listeners.on(event, listener);
+    return chart;
+  };
+
+  return chart;
+};
 // Underscore Templates
 Vis.Templates["main-text"] =[
-  "<p>This is my first variant of main text</p>", // 0
-  "<p>This is my second variant of main text</p>", // 1
-  "<p>This is my third variant of main text</p>", // 2
+  "<p>Families have shown a strong commitment to education from the beginning of the CCG despite economic hardship.</p>",
+  "<p>All families showed a heavy reliance on assistance from WFP, UNHCR and UNICEF, highlighting their vulnerability in the face of fluctuations in these income sources.</p>",
+  "<p>The level of expenditure on rent and utilities has gradually increased over time, whilst expenditure levels in all other areas have declined, demonstrating the need for increased levels of UNHCR assistance, as implemented in November.</p>",
+  "<p>Reducing the quality and then quantity of food consumed are the two most commonly adopted negative coping mechanisms throughout.</p>",
+  "<p>According to 97% of the sampled families, the CCG has made a positive contribution to their overall living conditions by the final point of data collection, which shows that many families feel they would be worse off without it given the clear fall in other assistance levels.</p>",
+  "<p>This has resulted in reduced stress and anxiety for many caregivers and therefore improved feelings of psychological wellbeing.</p>"
 ];
 
 Vis.Templates["sub-text"] =[
-  "<p>This is my first variant of sub text</p>", // 0
-  "<p>This is my second variant of sub text</p>", // 1
-  "<p>This is my third variant of sub text</p>", // 2
+  "<p>Enrolment levels have increased 4 percentage points over the three waves of data collection, ending at the highest level of 83% of school-aged children enrolled in education of some form.</p>",
+  "<p>The data shows continued reduction int the reporting of income through paid labour over the life time of the project, standing at only 8% of families at the final point of data collection.</p>",
+  "<p>All negative coping strategies examined by this survey showed an increase in adoption over time, with the exceptions of depleting savings, borrowing money and selling WFP vouchers.</p>",
+  "<p>The most commonly reported ways in which families feel this improvement have remained consistent throughout: increased ability to pay the rent, give small allowances to children for school, and to buy children essential clothing and shoes.</p>",
+  "<p>Children in this dataset have shown consistently high knowledge regarding the CCG and high levels of participation with caregivers in determining needs and allocating funds. In FGDs caregivers have reported feelings of increased empowerment in their children, as well as themselves due to their ability to meet some of their children’s needs.</p>"
+];
+
+Vis.Templates["quotes"] =[
+  "<p>Enrolment levels have increased 4 percentage points over the three waves of data collection, ending at the highest level of 83% of school-aged children enrolled in education of some form.</p>",
+  "<p>The data shows continued reduction int the reporting of income through paid labour over the life time of the project, standing at only 8% of families at the final point of data collection.</p>",
+  "<p>All negative coping strategies examined by this survey showed an increase in adoption over time, with the exceptions of depleting savings, borrowing money and selling WFP vouchers.</p>",
+  "<p>The most commonly reported ways in which families feel this improvement have remained consistent throughout: increased ability to pay the rent, give small allowances to children for school, and to buy children essential clothing and shoes.</p>",
+  "<p>Children in this dataset have shown consistently high knowledge regarding the CCG and high levels of participation with caregivers in determining needs and allocating funds. In FGDs caregivers have reported feelings of increased empowerment in their children, as well as themselves due to their ability to meet some of their children’s needs.</p>"
+];
+
+Vis.Templates["quotes-ref"] =[
+  "Focus Group Discussion I.1"
 ];
