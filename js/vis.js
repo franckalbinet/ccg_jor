@@ -1215,7 +1215,7 @@ Vis.Views.Incomes = Backbone.View.extend({
         $("#time-line").show();
         switch(scenario.chapter) {
           case 1:
-              this.initChart();
+              if (!this.chart) this.initChart();
               break;
           case 2:
               // code block
@@ -1429,7 +1429,10 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
         .width(550).height(60)
         .margins({top: 30, right: 40, bottom: 10, left: 40})
         .data(data)
-        .x(d3.time.scale().domain(d3.extent(data, function(d) { return d.time; })));
+        .x(d3.time.scale().domain(d3.extent(data, function(d) { return d.time; })))
+        .on("browsing", function(scenario) {
+          Backbone.trigger("scenario:updating", scenario);
+        })
 
       this.render();
     },
@@ -2899,11 +2902,12 @@ d3.timeLineNavigation = function() {
   var _gWidth = 400,
       _gHeight = 100,
       _handlesWidth = 9,
+      _wasElapsed = null,
       _gBars,
       _gBrush,
       _gXAxis,
       _gYAxis,
-      _listeners = d3.dispatch("filtered", "filtering");
+      _listeners = d3.dispatch("browsing");
 
   function chart(div) {
     _gWidth = width - margins.left - margins.right;
@@ -2936,11 +2940,31 @@ d3.timeLineNavigation = function() {
               return (+(d.page + d.chapter) <= (10 * page + chapter)) ?
                 true : false;
             })
-            // .transition()
             .attr("cx", function(d) {
               return x(d.time); })
             .attr("cy", 0)
-            .attr("r", function(d) { return (d.isMain) ? 6:3; });
+            .attr("r", function(d) { return (d.isMain) ? 6:3; })
+            .on("mouseover", function(d) {
+              if (d.isMain) {
+                _wasElapsed = d3.select(this).classed("elapsed");
+                d3.select(this)
+                .transition(100)
+                .attr("r", 8);
+              }
+            })
+            .on("mouseout", function(d) {
+              if (d.isMain) {
+                var _isElapsed = d3.select(this).classed("elapsed");
+                d3.select(this)
+                .classed("elapsed", _wasElapsed || _isElapsed)
+                .transition(100)
+                .attr("r", 6);
+              }
+            })
+            .on("click", function(d) {
+              d3.select(this).classed("elapsed", true)
+              _listeners.browsing({page: +d.page, chapter: +d.chapter});
+            });
 
         // EXIT - ENTER - UPDATE PATTERN - Ticks
         var lines =  _gTicks.selectAll("line")
@@ -3221,6 +3245,7 @@ d3.multiSeriesTimeLine = function() {
 
       // console.log(y.domain());
 
+      // console.log("in multi series time line");
       // create the skeleton chart.
       if (g.empty()) _skeleton();
 

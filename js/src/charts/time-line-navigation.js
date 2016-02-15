@@ -26,11 +26,12 @@ d3.timeLineNavigation = function() {
   var _gWidth = 400,
       _gHeight = 100,
       _handlesWidth = 9,
+      _wasElapsed = null,
       _gBars,
       _gBrush,
       _gXAxis,
       _gYAxis,
-      _listeners = d3.dispatch("filtered", "filtering");
+      _listeners = d3.dispatch("browsing");
 
   function chart(div) {
     _gWidth = width - margins.left - margins.right;
@@ -63,11 +64,31 @@ d3.timeLineNavigation = function() {
               return (+(d.page + d.chapter) <= (10 * page + chapter)) ?
                 true : false;
             })
-            // .transition()
             .attr("cx", function(d) {
               return x(d.time); })
             .attr("cy", 0)
-            .attr("r", function(d) { return (d.isMain) ? 6:3; });
+            .attr("r", function(d) { return (d.isMain) ? 6:3; })
+            .on("mouseover", function(d) {
+              if (d.isMain) {
+                _wasElapsed = d3.select(this).classed("elapsed");
+                d3.select(this)
+                .transition(100)
+                .attr("r", 8);
+              }
+            })
+            .on("mouseout", function(d) {
+              if (d.isMain) {
+                var _isElapsed = d3.select(this).classed("elapsed");
+                d3.select(this)
+                .classed("elapsed", _wasElapsed || _isElapsed)
+                .transition(100)
+                .attr("r", 6);
+              }
+            })
+            .on("click", function(d) {
+              d3.select(this).classed("elapsed", true)
+              _listeners.browsing({page: +d.page, chapter: +d.chapter});
+            });
 
         // EXIT - ENTER - UPDATE PATTERN - Ticks
         var lines =  _gTicks.selectAll("line")

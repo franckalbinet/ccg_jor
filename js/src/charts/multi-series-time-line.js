@@ -46,6 +46,7 @@ d3.multiSeriesTimeLine = function() {
 
       // console.log(y.domain());
 
+      // console.log("in multi series time line");
       // create the skeleton chart.
       if (g.empty()) _skeleton();
 

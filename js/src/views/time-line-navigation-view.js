@@ -34,7 +34,10 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
         .width(550).height(60)
         .margins({top: 30, right: 40, bottom: 10, left: 40})
         .data(data)
-        .x(d3.time.scale().domain(d3.extent(data, function(d) { return d.time; })));
+        .x(d3.time.scale().domain(d3.extent(data, function(d) { return d.time; })))
+        .on("browsing", function(scenario) {
+          Backbone.trigger("scenario:updating", scenario);
+        })
 
       this.render();
     },

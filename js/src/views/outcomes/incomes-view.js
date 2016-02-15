@@ -24,7 +24,7 @@ Vis.Views.Incomes = Backbone.View.extend({
         $("#time-line").show();
         switch(scenario.chapter) {
           case 1:
-              this.initChart();
+              if (!this.chart) this.initChart();
               break;
           case 2:
               // code block

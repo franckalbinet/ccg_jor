@@ -273,7 +273,7 @@ h1,h2,h3,h4,h5 {
 }
 
 #time-line-navigation circle {
-  fill: none;
+  fill: white;
   stroke: #aaa;
   stroke-width: 1px;
 }
