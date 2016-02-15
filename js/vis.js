@@ -20,6 +20,7 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
     OUTCOMES: "outcomes.json",
     TEMPLATES: "templates.json",
     INCOMES: "incomes.json",
+    EXPENDITURES: "expenditures.json",
     MILESTONES: "milestones.json"
   },
   LOOKUP_CODES: {
@@ -27,7 +28,11 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
     POVERTY: {1:"High", 2:"Severe"},
     HEAD: {1:"Father", 2:"Mother"},
     GENDER: {1:"Male", 2:"Female"},
-    INCOME: {1:"UN cash assistance", 2:"WFP voucher", 5:"Paid labour", 99:"Other"}
+    INCOME: {1:"UN cash assistance", 2:"WFP voucher", 5:"Paid labour", 99:"Other"},
+    EXPENDITURES: {1:"Rent", 2:"Utilities", 3:"Communications", 4:"Food", 5:"Education", 6:"Health care services [adults]",
+                   7:"Medicine [adults]", 8:"Health care services [children]", 9:"Medicine [children]", 10:"Transportation",
+                  11:"Debt payoff", 12:"Savings", 13:"Other children expenditures", 97:"Other"},
+    EXPENDITURES_CHILD_MOST: {1:"Education", 2:"Health", 3:"Food", 99:"Other"},
   }
 });
 /*  Utilities functions*/
@@ -110,13 +115,6 @@ Vis.Collections.App = Backbone.Collection.extend({
           })
         },
         that.url + Vis.DEFAULTS.DATASETS.OUTCOMES)
-      // .defer(
-      //   function(url, callback) {
-      //     d3.json(url, function(error, result) {
-      //       callback(error, result);
-      //     })
-      //   },
-      //   that.url + Vis.DEFAULTS.DATASETS.TEMPLATES)
       .defer(
         function(url, callback) {
           d3.json(url, function(error, result) {
@@ -131,10 +129,17 @@ Vis.Collections.App = Backbone.Collection.extend({
           })
         },
         that.url + Vis.DEFAULTS.DATASETS.INCOMES)
+      .defer(
+        function(url, callback) {
+          d3.json(url, function(error, result) {
+            callback(error, result);
+          })
+        },
+        that.url + Vis.DEFAULTS.DATASETS.EXPENDITURES)
       .await(_ready);
 
     // on success
-    function _ready(error, children, households, outcomes, milestones, incomes) {
+    function _ready(error, children, households, outcomes, milestones, incomes, expenditures) {
       var that = this;
 
       // coerce data
@@ -150,6 +155,7 @@ Vis.Collections.App = Backbone.Collection.extend({
         households: households,
         outcomes: outcomes,
         incomes: incomes,
+        expenditures: expenditures,
         milestones: milestones
       });
     }
@@ -184,8 +190,9 @@ Vis.Models.App = Backbone.Model.extend({
   },
 
   sync: function() {
-    // this.outcomesHead.filter( this.filterExactList(this.getHouseholds()));
     this.incomesHousehold.filter( this.filterExactList(this.getHouseholds()));
+    this.expendituresHousehold.filter( this.filterExactList(this.getHouseholds()));
+    this.expendituresChildMostHousehold.filter( this.filterExactList(this.getHouseholds()));
     Backbone.trigger("filtered");
   },
 
@@ -279,19 +286,19 @@ Vis.Models.App = Backbone.Model.extend({
     }
   },
 
-  reduceAddIncome: function() {
+  reduceAddType: function() {
     return function(p, v) {
       p.filter(function(d) { return d.round == v.round; })[0].count += 1;
       return p;
     }
   },
-  reduceRemoveIncome: function() {
+  reduceRemoveType: function() {
     return function(p, v) {
       p.filter(function(d) { return d.round == v.round; })[0].count -= 1;
       return p;
     }
   },
-  reduceInitIncome: function() {
+  reduceInitType: function() {
     return function() {
       return [{round: 1, count: 0}, {round: 2, count: 0}, {round: 3, count: 0}];
     }
@@ -371,26 +378,9 @@ Vis.Models.App = Backbone.Model.extend({
       .subText;
   },
 
-
   getMilestones: function() {
     return this.data.milestones;
   },
-
-  // getIncomes: function() {
-  //   // var that = this
-  //   //     data = this.data.incomes.filter(function(d) {
-  //   //       return that.getHouseholds().indexOf(d.hh) !== -1; });
-  //   //
-  //   // return d3.nest()
-  //   //         .key(function(d) { return d.income; })
-  //   //         .key(function(d) { return d.round; })
-  //   //         .rollup(function(leaves) { return leaves.length; })
-  //   //         .entries(data);
-  //
-  //   // insanely faster version
-  //   return this.incomesByType.top(Infinity);
-  // },
-
 
   // create crossfilters + associated dimensions and groups
   bundle: function(data) {
@@ -453,13 +443,26 @@ Vis.Models.App = Backbone.Model.extend({
     this.incomesHousehold = incomesCf.dimension(function(d) { return d.hh; });
     this.incomesType = incomesCf.dimension(function(d) { return d.income; });
     this.incomesByType = this.incomesType.group().reduce(
-      this.reduceAddIncome(), this.reduceRemoveIncome(), this.reduceInitIncome()
+      this.reduceAddType(), this.reduceRemoveType(), this.reduceInitType()
+    );
+
+    // expenditures
+    var expendituresCf = crossfilter(data.expenditures);
+    this.expendituresHousehold = expendituresCf.dimension(function(d) { return d.hh; });
+    this.expendituresType = expendituresCf.dimension(function(d) { return d.exp; });
+    this.expendituresByType = this.expendituresType.group().reduce(
+      this.reduceAddType(), this.reduceRemoveType(), this.reduceInitType()
+    );
+
+    // expenditures children most
+    var expendituresChildMostCf = crossfilter(data.outcomes);
+    this.expendituresChildMostHousehold = expendituresChildMostCf.dimension(function(d) { return d.hh; });
+    this.expendituresChildMostType = expendituresChildMostCf.dimension(function(d) { return d.exp_child_most; });
+    this.expendituresChildMostByType = this.expendituresChildMostType.group().reduce(
+      this.reduceAddType(), this.reduceRemoveType(), this.reduceInitType()
     );
 
     // debugger;
-    // var outcomes = crossfilter(data.outcomes);
-    // dimensions
-    // this.outcomesHead = outcomes.dimension(function(d) { return d.hh; });
 
     $(".container").show();
     $(".spinner").hide();
@@ -960,6 +963,7 @@ Vis.Views.Background = Backbone.View.extend({
           that = this;
 
       if (scenario.page === 1) {
+        this.clearCharts();
         $(".profile").hide();
         // set text content
         ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {
@@ -967,7 +971,7 @@ Vis.Views.Background = Backbone.View.extend({
         });
 
         $("#pending").hide();
-        $("#time-line").hide();
+        $("#main-chart").hide();
         switch(scenario.chapter) {
           case 1:
               // this.initChart();
@@ -1002,6 +1006,11 @@ Vis.Views.Background = Backbone.View.extend({
           template = _.template(Vis.Templates[attr][id]);
 
       $("#" + attr).html(template());
+    },
+
+    clearCharts: function() {
+      if (this.chart) this.chart = null;
+      if(!d3.select(".time-line svg").empty()) d3.select(".time-line svg").remove();
     }
 });
 // Coping mechanisms view
@@ -1021,6 +1030,7 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
           that = this;
 
       if (scenario.page === 5) {
+        this.clearCharts();
         $(".profile").show();
         // set text content
         ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {
@@ -1028,7 +1038,7 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
         });
 
         $("#pending").show();
-        $("#time-line").hide();
+        $("#main-chart").hide();
 
         switch(scenario.chapter) {
           case 1:
@@ -1064,6 +1074,11 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
           template = _.template(Vis.Templates[attr][id]);
 
       $("#" + attr).html(template());
+    },
+
+    clearCharts: function() {
+      if (this.chart) this.chart = null;
+      if(!d3.select(".time-line svg").empty()) d3.select(".time-line svg").remove();
     }
 });
 // Education view
@@ -1083,6 +1098,7 @@ Vis.Views.Education = Backbone.View.extend({
           that = this;
 
       if (scenario.page === 2) {
+        this.clearCharts();
         $(".profile").show();
         // set text content
         ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {
@@ -1125,6 +1141,11 @@ Vis.Views.Education = Backbone.View.extend({
           template = _.template(Vis.Templates[attr][id]);
 
       $("#" + attr).html(template());
+    },
+
+    clearCharts: function() {
+      if (this.chart) this.chart = null;
+      if(!d3.select(".time-line svg").empty()) d3.select(".time-line svg").remove();
     }
 });
 // Living conditions view
@@ -1144,6 +1165,7 @@ Vis.Views.LivingConditions = Backbone.View.extend({
           that = this;
 
       if (scenario.page === 6) {
+        this.clearCharts();
         $(".profile").show();
         // set text content
         ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {
@@ -1151,7 +1173,7 @@ Vis.Views.LivingConditions = Backbone.View.extend({
         });
 
         $("#pending").show();
-        $("#time-line").hide();
+        $("#main-chart").hide();
 
         switch(scenario.chapter) {
           case 1:
@@ -1187,6 +1209,11 @@ Vis.Views.LivingConditions = Backbone.View.extend({
           template = _.template(Vis.Templates[attr][id]);
 
       $("#" + attr).html(template());
+    },
+
+    clearCharts: function() {
+      if (this.chart) this.chart = null;
+      if(!d3.select(".time-line svg").empty()) d3.select(".time-line svg").remove();
     }
 });
 // Incomes view
@@ -1194,28 +1221,34 @@ Vis.Views.Incomes = Backbone.View.extend({
     el: '.container',
 
     initialize: function () {
-      // this.setTitle(this.model.get("scenario").page);
+      var that = this;
       this.dispatch(this.model.get("scenario"));
       this.model.on("change:scenario", function() {
         this.dispatch(this.model.get("scenario"));
         },this);
-      Backbone.on("filtered", function(d) { this.render();}, this);
+      Backbone.on("filtered", function(d) {
+        if (that.model.get("scenario").page === 3) this.render();
+        }, this);
     },
 
     dispatch: function(scenario) {
       var scenario = this.model.get("scenario"),
           that = this;
+
+
       if (scenario.page === 3) {
+        this.clearCharts();
         $(".profile").show();
         // set text content
         ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {
           that.setTextContent(d);
         });
         $("#pending").hide();
-        $("#time-line").show();
+        $("#main-chart").show();
         switch(scenario.chapter) {
           case 1:
-              if (!this.chart) this.initChart();
+              // if (this.chart) this.chart = null;
+              this.initChart();
               break;
           case 2:
               // code block
@@ -1230,7 +1263,7 @@ Vis.Views.Incomes = Backbone.View.extend({
       this.chart
         .data(this.getData())
         .relativeTo(this.getTotalHouseholds())
-      d3.select("#time-line").call(this.chart);
+      d3.select("#main-chart").call(this.chart);
     },
 
     initChart: function() {
@@ -1242,22 +1275,14 @@ Vis.Views.Incomes = Backbone.View.extend({
         .width(600).height(350)
         .margins({top: 40, right: 120, bottom: 40, left: 45})
         .data(data)
-        .relativeTo(total);
+        .relativeTo(total)
+        .lookUp(Vis.DEFAULTS.LOOKUP_CODES.INCOME);
 
       this.render();
     },
 
     getData: function() {
       return this.model.incomesByType.top(Infinity);
-      // return this.model.getIncomes();
-    },
-
-    setTextContent: function(attr) {
-      var scenario = this.model.get("scenario")
-          id = this.model.getTemplateId(scenario.page, scenario.chapter, attr),
-          template = _.template(Vis.Templates[attr][id]);
-
-      $("#" + attr).html(template());
     },
 
     getTotalHouseholds: function() {
@@ -1265,8 +1290,17 @@ Vis.Views.Incomes = Backbone.View.extend({
          return d.hh })).length;
     },
 
-    setTitle: function(page) {
-      // if (page === 3) $("#page-title").text("Income & expenditure patterns");
+    setTextContent: function(attr) {
+      var scenario = this.model.get("scenario")
+      id = this.model.getTemplateId(scenario.page, scenario.chapter, attr),
+      template = _.template(Vis.Templates[attr][id]);
+
+      $("#" + attr).html(template());
+    },
+
+    clearCharts: function() {
+      if (this.chart) this.chart = null;
+      if(!d3.select(".time-line svg").empty()) d3.select(".time-line svg").remove();
     }
 });
 // Expenditures view
@@ -1274,53 +1308,111 @@ Vis.Views.Expenditures = Backbone.View.extend({
     el: '.container',
 
     initialize: function () {
-      this.dispatch(this.model.get("scenario"));
+      var that = this;
+
+      if (that.model.get("scenario").page === 4) this.preRender(this.model.get("scenario").chapter);
+
       this.model.on("change:scenario", function() {
-        this.dispatch(this.model.get("scenario"));
+        if (that.model.get("scenario").page === 4) this.preRender(that.model.get("scenario").chapter);
         },this);
-      Backbone.on("filtered", function(d) { this.render();}, this);
+
+      Backbone.on("filtered", function(d) {
+        if (that.model.get("scenario").page === 4) this.render(that.model.get("scenario").chapter);
+        }, this);
     },
 
-    dispatch: function(scenario) {
-      var scenario = this.model.get("scenario"),
-          that = this;
+    preRender: function(chapter) {
+      var that = this;
 
-      if (scenario.page === 4) {
-        $(".profile").show();
-        // set text content
-        ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {
-          that.setTextContent(d);
-        });
+      this.clearCharts();
 
-        $("#pending").show();
-        $("#time-line").hide();
+      $(".profile").show();
 
-        switch(scenario.chapter) {
+      // set text content
+      ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {
+        that.setTextContent(d);
+      });
+
+      $("#pending").hide();
+
+      $("#main-chart").show();
+
+      this.initChart(chapter);
+    },
+
+    initChart: function(chapter) {
+      var that = this,
+          data = this.getData(chapter),
+          total = this.getTotalHouseholds(chapter);
+
+      switch(chapter) {
           case 1:
-              // this.initChart();
-              break;
+            this.chart = d3.multiSeriesTimeLine()
+              .width(600).height(350)
+              .margins({top: 40, right: 160, bottom: 40, left: 45})
+              .data(data)
+              .relativeTo(total)
+              .lookUp(Vis.DEFAULTS.LOOKUP_CODES.EXPENDITURES);
+            break;
           case 2:
-              // code block
-              break;
+            this.chart = d3.multiSeriesTimeLine()
+              .width(600).height(350)
+              .margins({top: 40, right: 160, bottom: 40, left: 45})
+              .data(data)
+              .relativeTo(total)
+              .lookUp(Vis.DEFAULTS.LOOKUP_CODES.EXPENDITURES_CHILD_MOST);
+            break;
           default:
-              // default code block
+            console.log("no matching case.")
         }
+      this.render(chapter);
+    },
+
+    render: function(chapter) {
+      switch(chapter) {
+          case 1:
+            this.chart
+              .data(this.getData(chapter))
+              .relativeTo(this.getTotalHouseholds(chapter))
+            d3.select("#main-chart").call(this.chart);
+            break;
+          case 2:
+            this.chart
+              .data(this.getData(chapter))
+              .relativeTo(this.getTotalHouseholds(chapter))
+            d3.select("#main-chart").call(this.chart);
+            break;
+          default:
+            console.log("no matching case.")
+        }
+    },
+
+    getData: function(chapter) {
+      switch(chapter) {
+          case 1:
+            return this.model.expendituresByType.top(Infinity);
+            break;
+          case 2:
+            return this.model.expendituresChildMostByType.top(Infinity);
+            break;
+          default:
+            console.log("no matching case.")
+        }
+    },
+
+    getTotalHouseholds: function(chapter) {
+      switch(chapter) {
+        case 1:
+          return _.unique(this.model.expendituresHousehold.top(Infinity)
+                  .map(function(d) { return d.hh })).length;
+          break;
+        case 2:
+          return _.unique(this.model.expendituresChildMostHousehold.top(Infinity)
+                  .map(function(d) { return d.hh })).length;
+          break;
+        default:
+          console.log("no matching case.")
       }
-    },
-
-    render: function() {
-    },
-
-    initChart: function() {
-    },
-
-    getData: function() {
-      return this.model.incomesByType.top(Infinity);
-    },
-
-    getTotalHouseholds: function() {
-      return _.unique(this.model.incomesHousehold.top(Infinity).map(function(d) {
-         return d.hh })).length;
     },
 
     setTextContent: function(attr) {
@@ -1329,6 +1421,11 @@ Vis.Views.Expenditures = Backbone.View.extend({
           template = _.template(Vis.Templates[attr][id]);
 
       $("#" + attr).html(template());
+    },
+
+    clearCharts: function() {
+      if (this.chart) this.chart = null;
+      if(!d3.select(".time-line svg").empty()) d3.select(".time-line svg").remove();
     }
 });
 // Psychological wellbeing view
@@ -1349,13 +1446,14 @@ Vis.Views.PsychologicalWellbeing = Backbone.View.extend({
 
     if (scenario.page === 7) {
       $(".profile").show();
+      this.clearCharts();
       // set text content
       ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {
         that.setTextContent(d);
       });
 
       $("#pending").show();
-      $("#time-line").hide();
+      $("#main-chart").hide();
 
       switch(scenario.chapter) {
         case 1:
@@ -1391,6 +1489,11 @@ Vis.Views.PsychologicalWellbeing = Backbone.View.extend({
         template = _.template(Vis.Templates[attr][id]);
 
     $("#" + attr).html(template());
+  },
+
+  clearCharts: function() {
+    if (this.chart) this.chart = null;
+    if(!d3.select(".time-line svg").empty()) d3.select(".time-line svg").remove();
   }
 });
 // Background view -- 1
@@ -1431,7 +1534,7 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
         .data(data)
         .x(d3.time.scale().domain(d3.extent(data, function(d) { return d.time; })))
         .on("browsing", function(scenario) {
-          Backbone.trigger("scenario:updating", scenario);
+          Vis.Routers.app.navigate("page/" + scenario.page + "/chapter/" + scenario.chapter, {trigger: true});
         })
 
       this.render();
@@ -3205,7 +3308,7 @@ d3.multiSeriesTimeLine = function() {
       margins = {top: 10, right: 25, bottom: 30, left: 20},
       data = null,
       relativeTo = null,
-      // x = d3.scale.linear(),
+      lookUp = null,
       x = d3.scale.ordinal(),
       y = d3.scale.linear(),
       elasticY = false,
@@ -3239,34 +3342,20 @@ d3.multiSeriesTimeLine = function() {
           g = div.select("g");
 
       x.domain(getXDomain());
-      // y.domain([0, getYExtent()[1]]);
       y.domain([0, 100]);
-      // y.domain([0, 100]);
 
-      // console.log(y.domain());
-
-      // console.log("in multi series time line");
       // create the skeleton chart.
       if (g.empty()) _skeleton();
 
       _gYAxis.call(yAxis);
 
-      // if (brushExtent) {
-      //   brush.extent([brushExtent[0] - 0.5, brushExtent[1] - 0.5]);
-      //   _gBrush.call(brush);
-      //   brushExtent = null;
-      //   _listeners.filtering(_getDataBrushed(brush));
-      // }
-
       data.forEach(function(d) {
         d.valueId = d.value.map(function(v) {
           return v.count; }).join("-"); });
 
-      // console.log(isDataEmpty());
       if (!isDataEmpty()) _render();
 
       function _render() {
-
         // container
         var item = g.selectAll(".item")
             .data(data, function(d) {
@@ -3317,7 +3406,7 @@ d3.multiSeriesTimeLine = function() {
 
         texts.enter().append("text")
           .text(function(d) {
-            return Vis.DEFAULTS.LOOKUP_CODES.INCOME[d.name]; });
+            return lookUp[d.name]; });
 
         texts.exit().remove();
 
@@ -3333,13 +3422,6 @@ d3.multiSeriesTimeLine = function() {
         // set scales range
         x.rangePoints([0 , _gWidth]);
         y.range([_gHeight, 0]);
-
-        // set brush
-        // if (hasBrush) brush.y(y);
-
-        // xAxis
-        //   .innerTickSize(-_gHeight)
-        //   .tickPadding(5);
 
         // set axis
         xAxis.scale(x);
@@ -3357,9 +3439,6 @@ d3.multiSeriesTimeLine = function() {
           .append("g")
             .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
 
-        // _gLines = g.append("g")
-        //     .attr("class", "lines");
-
         // set x Axis
         _gXAxis = g.append("g")
             .attr("class", "x axis")
@@ -3370,23 +3449,6 @@ d3.multiSeriesTimeLine = function() {
             .attr("class", "y axis")
             .call(yAxis);
 
-        // g.append("text")
-        //   .attr("class", "x label")
-        //   .attr("text-anchor", "start")
-        //   .attr("x", -15)
-        //   .attr("y", -25)
-        //   .text(title);
-        //
-        // _gBrush = g.append("g").attr("class", "brush").call(brush);
-        // _gBrush.selectAll("rect").attr("width", _gWidth);
-        //
-        // brush.on("brush", function() {
-        //   _listeners.filtering(_getDataBrushed(brush));
-        // });
-        //
-        // brush.on("brushend", function() {
-        //   _listeners.filtered(brush);
-        // });
       }
 
       function isDataEmpty() {
@@ -3478,23 +3540,12 @@ d3.multiSeriesTimeLine = function() {
     hasYAxis = _;
     return chart;
   };
-  // chart.brushClickReset = function(_) {
-  //   if (!arguments.length) return brushClickReset;
-  //   brushClickReset = _;
-  //   return chart;
-  // };
-  // chart.clearBrush = function(_) {
-  //   if (!arguments.length) {
-  //     _gBrush.call(brush.clear());
-  //     brush.event(_gBrush);
-  //   }
-  //   return chart;
-  // };
-  // chart.roundXDomain = function(_) {
-  //   if (!arguments.length) return roundXDomain;
-  //   roundXDomain = _;
-  //   return chart;
-  // };
+  chart.lookUp = function(_) {
+    if (!arguments.length) return lookUp;
+    lookUp = _;
+    return chart;
+  };
+
   chart.hasBrush = function(_) {
     if (!arguments.length) return hasBrush;
     hasBrush = _;

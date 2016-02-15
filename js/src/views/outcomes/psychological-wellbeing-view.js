@@ -16,13 +16,14 @@ Vis.Views.PsychologicalWellbeing = Backbone.View.extend({
 
     if (scenario.page === 7) {
       $(".profile").show();
+      this.clearCharts();
       // set text content
       ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {
         that.setTextContent(d);
       });
 
       $("#pending").show();
-      $("#time-line").hide();
+      $("#main-chart").hide();
 
       switch(scenario.chapter) {
         case 1:
@@ -58,5 +59,10 @@ Vis.Views.PsychologicalWellbeing = Backbone.View.extend({
         template = _.template(Vis.Templates[attr][id]);
 
     $("#" + attr).html(template());
+  },
+
+  clearCharts: function() {
+    if (this.chart) this.chart = null;
+    if(!d3.select(".time-line svg").empty()) d3.select(".time-line svg").remove();
   }
 });

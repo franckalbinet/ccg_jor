@@ -36,7 +36,7 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
         .data(data)
         .x(d3.time.scale().domain(d3.extent(data, function(d) { return d.time; })))
         .on("browsing", function(scenario) {
-          Backbone.trigger("scenario:updating", scenario);
+          Vis.Routers.app.navigate("page/" + scenario.page + "/chapter/" + scenario.chapter, {trigger: true});
         })
 
       this.render();

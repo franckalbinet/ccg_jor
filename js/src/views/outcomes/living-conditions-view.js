@@ -15,6 +15,7 @@ Vis.Views.LivingConditions = Backbone.View.extend({
           that = this;
 
       if (scenario.page === 6) {
+        this.clearCharts();
         $(".profile").show();
         // set text content
         ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {
@@ -22,7 +23,7 @@ Vis.Views.LivingConditions = Backbone.View.extend({
         });
 
         $("#pending").show();
-        $("#time-line").hide();
+        $("#main-chart").hide();
 
         switch(scenario.chapter) {
           case 1:
@@ -58,5 +59,10 @@ Vis.Views.LivingConditions = Backbone.View.extend({
           template = _.template(Vis.Templates[attr][id]);
 
       $("#" + attr).html(template());
+    },
+
+    clearCharts: function() {
+      if (this.chart) this.chart = null;
+      if(!d3.select(".time-line svg").empty()) d3.select(".time-line svg").remove();
     }
 });

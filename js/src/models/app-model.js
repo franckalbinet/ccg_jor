@@ -27,8 +27,9 @@ Vis.Models.App = Backbone.Model.extend({
   },
 
   sync: function() {
-    // this.outcomesHead.filter( this.filterExactList(this.getHouseholds()));
     this.incomesHousehold.filter( this.filterExactList(this.getHouseholds()));
+    this.expendituresHousehold.filter( this.filterExactList(this.getHouseholds()));
+    this.expendituresChildMostHousehold.filter( this.filterExactList(this.getHouseholds()));
     Backbone.trigger("filtered");
   },
 
@@ -122,19 +123,19 @@ Vis.Models.App = Backbone.Model.extend({
     }
   },
 
-  reduceAddIncome: function() {
+  reduceAddType: function() {
     return function(p, v) {
       p.filter(function(d) { return d.round == v.round; })[0].count += 1;
       return p;
     }
   },
-  reduceRemoveIncome: function() {
+  reduceRemoveType: function() {
     return function(p, v) {
       p.filter(function(d) { return d.round == v.round; })[0].count -= 1;
       return p;
     }
   },
-  reduceInitIncome: function() {
+  reduceInitType: function() {
     return function() {
       return [{round: 1, count: 0}, {round: 2, count: 0}, {round: 3, count: 0}];
     }
@@ -214,26 +215,9 @@ Vis.Models.App = Backbone.Model.extend({
       .subText;
   },
 
-
   getMilestones: function() {
     return this.data.milestones;
   },
-
-  // getIncomes: function() {
-  //   // var that = this
-  //   //     data = this.data.incomes.filter(function(d) {
-  //   //       return that.getHouseholds().indexOf(d.hh) !== -1; });
-  //   //
-  //   // return d3.nest()
-  //   //         .key(function(d) { return d.income; })
-  //   //         .key(function(d) { return d.round; })
-  //   //         .rollup(function(leaves) { return leaves.length; })
-  //   //         .entries(data);
-  //
-  //   // insanely faster version
-  //   return this.incomesByType.top(Infinity);
-  // },
-
 
   // create crossfilters + associated dimensions and groups
   bundle: function(data) {
@@ -296,13 +280,26 @@ Vis.Models.App = Backbone.Model.extend({
     this.incomesHousehold = incomesCf.dimension(function(d) { return d.hh; });
     this.incomesType = incomesCf.dimension(function(d) { return d.income; });
     this.incomesByType = this.incomesType.group().reduce(
-      this.reduceAddIncome(), this.reduceRemoveIncome(), this.reduceInitIncome()
+      this.reduceAddType(), this.reduceRemoveType(), this.reduceInitType()
+    );
+
+    // expenditures
+    var expendituresCf = crossfilter(data.expenditures);
+    this.expendituresHousehold = expendituresCf.dimension(function(d) { return d.hh; });
+    this.expendituresType = expendituresCf.dimension(function(d) { return d.exp; });
+    this.expendituresByType = this.expendituresType.group().reduce(
+      this.reduceAddType(), this.reduceRemoveType(), this.reduceInitType()
+    );
+
+    // expenditures children most
+    var expendituresChildMostCf = crossfilter(data.outcomes);
+    this.expendituresChildMostHousehold = expendituresChildMostCf.dimension(function(d) { return d.hh; });
+    this.expendituresChildMostType = expendituresChildMostCf.dimension(function(d) { return d.exp_child_most; });
+    this.expendituresChildMostByType = this.expendituresChildMostType.group().reduce(
+      this.reduceAddType(), this.reduceRemoveType(), this.reduceInitType()
     );
 
     // debugger;
-    // var outcomes = crossfilter(data.outcomes);
-    // dimensions
-    // this.outcomesHead = outcomes.dimension(function(d) { return d.hh; });
 
     $(".container").show();
     $(".spinner").hide();

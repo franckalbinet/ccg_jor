@@ -102,7 +102,8 @@ h1,h2,h3,h4,h5 {
 .outcomes {
   height: 100%;
 }
-.outcomes #time-line {
+/*.outcomes #time-line {*/
+.outcomes #main-chart {
   height: 100%;
   /*background-color: #eee;*/
 }
@@ -230,27 +231,27 @@ h1,h2,h3,h4,h5 {
 }
 
 /* main multi series time line*/
-#time-line {
+.time-line {
   font-size: 11px;
 }
-#time-line .axis path {
+.time-line .axis path {
   fill: none;
   stroke: none;
 }
-#time-line .axis line {
+.time-line .axis line {
   fill: none;
   stroke: #000;
   shape-rendering: crispEdges;
 }
-#time-line .x.axis path {
+.time-line .x.axis path {
   display: none;
 }
-#time-line .line {
+.time-line .line {
   fill: none;
   stroke: steelblue;
   stroke-width: 1px;
 }
-#time-line circle {
+.time-line circle {
   fill: steelblue;
 }
 

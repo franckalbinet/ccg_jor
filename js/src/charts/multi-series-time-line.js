@@ -6,7 +6,7 @@ d3.multiSeriesTimeLine = function() {
       margins = {top: 10, right: 25, bottom: 30, left: 20},
       data = null,
       relativeTo = null,
-      // x = d3.scale.linear(),
+      lookUp = null,
       x = d3.scale.ordinal(),
       y = d3.scale.linear(),
       elasticY = false,
@@ -40,34 +40,20 @@ d3.multiSeriesTimeLine = function() {
           g = div.select("g");
 
       x.domain(getXDomain());
-      // y.domain([0, getYExtent()[1]]);
       y.domain([0, 100]);
-      // y.domain([0, 100]);
 
-      // console.log(y.domain());
-
-      // console.log("in multi series time line");
       // create the skeleton chart.
       if (g.empty()) _skeleton();
 
       _gYAxis.call(yAxis);
 
-      // if (brushExtent) {
-      //   brush.extent([brushExtent[0] - 0.5, brushExtent[1] - 0.5]);
-      //   _gBrush.call(brush);
-      //   brushExtent = null;
-      //   _listeners.filtering(_getDataBrushed(brush));
-      // }
-
       data.forEach(function(d) {
         d.valueId = d.value.map(function(v) {
           return v.count; }).join("-"); });
 
-      // console.log(isDataEmpty());
       if (!isDataEmpty()) _render();
 
       function _render() {
-
         // container
         var item = g.selectAll(".item")
             .data(data, function(d) {
@@ -118,7 +104,7 @@ d3.multiSeriesTimeLine = function() {
 
         texts.enter().append("text")
           .text(function(d) {
-            return Vis.DEFAULTS.LOOKUP_CODES.INCOME[d.name]; });
+            return lookUp[d.name]; });
 
         texts.exit().remove();
 
@@ -134,13 +120,6 @@ d3.multiSeriesTimeLine = function() {
         // set scales range
         x.rangePoints([0 , _gWidth]);
         y.range([_gHeight, 0]);
-
-        // set brush
-        // if (hasBrush) brush.y(y);
-
-        // xAxis
-        //   .innerTickSize(-_gHeight)
-        //   .tickPadding(5);
 
         // set axis
         xAxis.scale(x);
@@ -158,9 +137,6 @@ d3.multiSeriesTimeLine = function() {
           .append("g")
             .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
 
-        // _gLines = g.append("g")
-        //     .attr("class", "lines");
-
         // set x Axis
         _gXAxis = g.append("g")
             .attr("class", "x axis")
@@ -171,23 +147,6 @@ d3.multiSeriesTimeLine = function() {
             .attr("class", "y axis")
             .call(yAxis);
 
-        // g.append("text")
-        //   .attr("class", "x label")
-        //   .attr("text-anchor", "start")
-        //   .attr("x", -15)
-        //   .attr("y", -25)
-        //   .text(title);
-        //
-        // _gBrush = g.append("g").attr("class", "brush").call(brush);
-        // _gBrush.selectAll("rect").attr("width", _gWidth);
-        //
-        // brush.on("brush", function() {
-        //   _listeners.filtering(_getDataBrushed(brush));
-        // });
-        //
-        // brush.on("brushend", function() {
-        //   _listeners.filtered(brush);
-        // });
       }
 
       function isDataEmpty() {
@@ -279,23 +238,12 @@ d3.multiSeriesTimeLine = function() {
     hasYAxis = _;
     return chart;
   };
-  // chart.brushClickReset = function(_) {
-  //   if (!arguments.length) return brushClickReset;
-  //   brushClickReset = _;
-  //   return chart;
-  // };
-  // chart.clearBrush = function(_) {
-  //   if (!arguments.length) {
-  //     _gBrush.call(brush.clear());
-  //     brush.event(_gBrush);
-  //   }
-  //   return chart;
-  // };
-  // chart.roundXDomain = function(_) {
-  //   if (!arguments.length) return roundXDomain;
-  //   roundXDomain = _;
-  //   return chart;
-  // };
+  chart.lookUp = function(_) {
+    if (!arguments.length) return lookUp;
+    lookUp = _;
+    return chart;
+  };
+
   chart.hasBrush = function(_) {
     if (!arguments.length) return hasBrush;
     hasBrush = _;

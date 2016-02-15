@@ -3,28 +3,34 @@ Vis.Views.Incomes = Backbone.View.extend({
     el: '.container',
 
     initialize: function () {
-      // this.setTitle(this.model.get("scenario").page);
+      var that = this;
       this.dispatch(this.model.get("scenario"));
       this.model.on("change:scenario", function() {
         this.dispatch(this.model.get("scenario"));
         },this);
-      Backbone.on("filtered", function(d) { this.render();}, this);
+      Backbone.on("filtered", function(d) {
+        if (that.model.get("scenario").page === 3) this.render();
+        }, this);
     },
 
     dispatch: function(scenario) {
       var scenario = this.model.get("scenario"),
           that = this;
+
+
       if (scenario.page === 3) {
+        this.clearCharts();
         $(".profile").show();
         // set text content
         ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {
           that.setTextContent(d);
         });
         $("#pending").hide();
-        $("#time-line").show();
+        $("#main-chart").show();
         switch(scenario.chapter) {
           case 1:
-              if (!this.chart) this.initChart();
+              // if (this.chart) this.chart = null;
+              this.initChart();
               break;
           case 2:
               // code block
@@ -39,7 +45,7 @@ Vis.Views.Incomes = Backbone.View.extend({
       this.chart
         .data(this.getData())
         .relativeTo(this.getTotalHouseholds())
-      d3.select("#time-line").call(this.chart);
+      d3.select("#main-chart").call(this.chart);
     },
 
     initChart: function() {
@@ -51,22 +57,14 @@ Vis.Views.Incomes = Backbone.View.extend({
         .width(600).height(350)
         .margins({top: 40, right: 120, bottom: 40, left: 45})
         .data(data)
-        .relativeTo(total);
+        .relativeTo(total)
+        .lookUp(Vis.DEFAULTS.LOOKUP_CODES.INCOME);
 
       this.render();
     },
 
     getData: function() {
       return this.model.incomesByType.top(Infinity);
-      // return this.model.getIncomes();
-    },
-
-    setTextContent: function(attr) {
-      var scenario = this.model.get("scenario")
-          id = this.model.getTemplateId(scenario.page, scenario.chapter, attr),
-          template = _.template(Vis.Templates[attr][id]);
-
-      $("#" + attr).html(template());
     },
 
     getTotalHouseholds: function() {
@@ -74,7 +72,16 @@ Vis.Views.Incomes = Backbone.View.extend({
          return d.hh })).length;
     },
 
-    setTitle: function(page) {
-      // if (page === 3) $("#page-title").text("Income & expenditure patterns");
+    setTextContent: function(attr) {
+      var scenario = this.model.get("scenario")
+      id = this.model.getTemplateId(scenario.page, scenario.chapter, attr),
+      template = _.template(Vis.Templates[attr][id]);
+
+      $("#" + attr).html(template());
+    },
+
+    clearCharts: function() {
+      if (this.chart) this.chart = null;
+      if(!d3.select(".time-line svg").empty()) d3.select(".time-line svg").remove();
     }
 });
