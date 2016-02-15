@@ -56,7 +56,7 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
         this.clock = setInterval(
           function() {
             var idx = that.getTimes().indexOf(that.cursor);
-            console.log(that.cursor);
+            // console.log(that.cursor);
             if (idx !== -1) {
               var milestone = that.getData()[idx];
               Vis.Routers.app.navigate("#page/" + milestone.page + "/chapter/" + milestone.chapter, {trigger: true});

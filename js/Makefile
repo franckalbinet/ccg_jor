@@ -19,10 +19,12 @@ vis_src =	${vis_dir}/namespace.js\
 					${vis_dir}/views/profile/households-head-view.js\
 					${vis_dir}/views/profile/children-gender-view.js\
 					${vis_dir}/views/outcomes/background-view.js\
-					${vis_dir}/views/outcomes/coping-mechanism-view.js\
+					${vis_dir}/views/outcomes/coping-mechanisms-view.js\
 					${vis_dir}/views/outcomes/education-view.js\
-					${vis_dir}/views/outcomes/living-condition-view.js\
+					${vis_dir}/views/outcomes/living-conditions-view.js\
 					${vis_dir}/views/outcomes/incomes-view.js\
+					${vis_dir}/views/outcomes/expenditures-view.js\
+					${vis_dir}/views/outcomes/psychological-wellbeing-view.js\
 					${vis_dir}/views/time-line-navigation-view.js\
 					${vis_dir}/charts/bar-chart-age.js\
 					${vis_dir}/charts/bar-chart-children.js\

@@ -35,10 +35,11 @@ Vis.Views.App = Backbone.View.extend({
       new Vis.Views.Background({model: Vis.Models.app});
       new Vis.Views.Education({model: Vis.Models.app});
       new Vis.Views.Incomes({model: Vis.Models.app});
+      new Vis.Views.Expenditures({model: Vis.Models.app});
+      new Vis.Views.CopingMechanisms({model: Vis.Models.app});
+      new Vis.Views.LivingConditions({model: Vis.Models.app});
+      new Vis.Views.PsychologicalWellbeing({model: Vis.Models.app});
 
-      // new Vis.Views.IncomeExpenditure({model: Vis.Models.app});
-      // new Vis.Views.CopingMechanism({model: Vis.Models.app});
-      // new Vis.Views.LivingCondition({model: Vis.Models.app});
     }
 
       // Backbone.trigger("brush:childrenAge", [5,11]);

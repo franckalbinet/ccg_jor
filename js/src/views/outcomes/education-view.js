@@ -3,17 +3,59 @@ Vis.Views.Education = Backbone.View.extend({
     el: '.container',
 
     initialize: function () {
-      this.setTitle(this.model.get("scenario").page);
+      this.dispatch(this.model.get("scenario"));
       this.model.on("change:scenario", function() {
-        this.render();
+        this.dispatch(this.model.get("scenario"));
         },this);
+      Backbone.on("filtered", function(d) { this.render();}, this);
+    },
+
+    dispatch: function(scenario) {
+      var scenario = this.model.get("scenario"),
+          that = this;
+
+      if (scenario.page === 2) {
+        $(".profile").show();
+        // set text content
+        ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {
+          that.setTextContent(d);
+        });
+        $("#pending").show();
+        $("#pending").html("<p style='font-weight: 11px; color: #999;'>Interactive chart will be available there ...</p>");
+
+        switch(scenario.chapter) {
+          case 1:
+              // this.initChart();
+              break;
+          case 2:
+              // code block
+              break;
+          default:
+              // default code block
+        }
+      }
     },
 
     render: function() {
-        this.setTitle(this.model.get("scenario").page);
     },
 
-    setTitle: function(page) {
-      if (page === 2) $("#page-title").text("Education");
+    initChart: function() {
+    },
+
+    getData: function() {
+      return this.model.incomesByType.top(Infinity);
+    },
+
+    getTotalHouseholds: function() {
+      return _.unique(this.model.incomesHousehold.top(Infinity).map(function(d) {
+         return d.hh })).length;
+    },
+
+    setTextContent: function(attr) {
+      var scenario = this.model.get("scenario")
+          id = this.model.getTemplateId(scenario.page, scenario.chapter, attr),
+          template = _.template(Vis.Templates[attr][id]);
+
+      $("#" + attr).html(template());
     }
 });

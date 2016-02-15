@@ -1,37 +1,61 @@
-// Background view -- 1
+// Incomes view
 Vis.Views.Background = Backbone.View.extend({
     el: '.container',
 
     initialize: function () {
-      this.render();
+      this.dispatch(this.model.get("scenario"));
       this.model.on("change:scenario", function() {
-        this.render();
+        this.dispatch(this.model.get("scenario"));
         },this);
+      Backbone.on("filtered", function(d) { this.render();}, this);
     },
 
-    render: function() {
+    dispatch: function(scenario) {
       var scenario = this.model.get("scenario"),
-          page = scenario.page,
-          chapter = scenario.chapter;
+          that = this;
 
-      if (page === 1) {
-        this.setTitle(page);
-        this.setMainText(page, chapter);
-        this.setSubText(page, chapter);
+      if (scenario.page === 1) {
+        $(".profile").hide();
+        // set text content
+        ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {
+          that.setTextContent(d);
+        });
+
+        $("#pending").hide();
+        $("#time-line").hide();
+        switch(scenario.chapter) {
+          case 1:
+              // this.initChart();
+              break;
+          case 2:
+              // code block
+              break;
+          default:
+              // default code block
+        }
       }
     },
 
-    setTitle: function(page) {
-      $("#page-title").text("Background");
+    render: function() {
     },
 
-    setMainText: function(page, chapter) {
-      var id = this.model.getMainTextTemplateId(page, chapter);
-      $("#main-text").html(_.template(Vis.Templates["main-text"][id]));
+    initChart: function() {
     },
 
-    setSubText: function(page, chapter) {
-      var id = this.model.getSubTextTemplateId(page, chapter);
-      $("#sub-text").html(_.template(Vis.Templates["sub-text"][id]));
+    getData: function() {
+      return this.model.incomesByType.top(Infinity);
+    },
+
+    getTotalHouseholds: function() {
+      return _.unique(this.model.incomesHousehold.top(Infinity).map(function(d) {
+         return d.hh })).length;
+    },
+
+    setTextContent: function(attr) {
+      var scenario = this.model.get("scenario")
+          id = this.model.getTemplateId(scenario.page, scenario.chapter, attr),
+          template = _.template(Vis.Templates[attr][id]);
+
+      $("#" + attr).html(template());
     }
 });

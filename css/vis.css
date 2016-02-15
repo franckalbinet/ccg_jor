@@ -110,7 +110,7 @@ h1,h2,h3,h4,h5 {
   height: 100%;
 }
 .focus-group .reference {
-  padding-top: 5px;
+  /*padding-top: 5px;*/
   font-size: 14px;
   font-weight: 700;
 }
@@ -149,7 +149,7 @@ h1,h2,h3,h4,h5 {
 #main-text {
   /*margin-top: 12px;*/
   width: 450px;
-  font-size: 17px;
+  font-size: 16px;
   /*font-weight: 700;*/
 }
 #sub-text {

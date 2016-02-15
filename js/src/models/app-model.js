@@ -187,19 +187,33 @@ Vis.Models.App = Backbone.Model.extend({
     return households;
   },
 
+  getTemplateId: function(page, chapter, attr) {
+    return this.data.milestones
+      .filter(function(d) {
+        return +d.page === +page && +d.chapter === +chapter; })[0][attr];
+  },
+
   getMainTextTemplateId: function(page, chapter) {
-    return this.data.templates
+    return this.data.milestones
       .filter(function(d) {
         return +d.page === +page && +d.chapter === +chapter; })[0]
       .mainText;
   },
 
   getSubTextTemplateId: function(page, chapter) {
-    return this.data.templates
+    return this.data.milestones
       .filter(function(d) {
         return +d.page === +page && +d.chapter === +chapter; })[0]
       .subText;
   },
+
+  getQuoteTemplateId: function(page, chapter) {
+    return this.data.milestones
+      .filter(function(d) {
+        return +d.page === +page && +d.chapter === +chapter; })[0]
+      .subText;
+  },
+
 
   getMilestones: function() {
     return this.data.milestones;
