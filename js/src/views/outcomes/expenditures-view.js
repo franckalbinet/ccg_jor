@@ -54,13 +54,24 @@ Vis.Views.Expenditures = Backbone.View.extend({
               .width(455).height(350)
               .margins({top: 40, right: 160, bottom: 40, left: 200})
               .data(data)
-              // .color(d3.scale.ordinal().range(["#E3D3D5", "#AECDE7", "#CCDDAF", "#C1C0AB"]).domain([1, 2, 3, 99]))
               .color(d3.scale.ordinal().range(["#A999A4", "#C0B491", "#EDDAC3", "#80A6B1"]).domain([1, 2, 3, 99]))
-              // .color(d3.scale.ordinal().range(["#A999A4", "#C0B491", "#E59138", "#80A6B1"]).domain([1, 2, 3, 99]))
               .relativeTo(total)
               .title("Children-specific expenditures [Mostly spent each month]")
               .xTitle("Wave")
               .lookUp(Vis.DEFAULTS.LOOKUP_CODES.EXPENDITURES_CHILD_MOST);
+            break;
+          case 3:
+            this.chart = d3.barChartMultiStacked()
+              .width(455).height(350)
+              .margins({top: 40, right: 160, bottom: 40, left: 200})
+              .data(data)
+              .color(d3.scale.ordinal().range(['#003950','#567888','#a1bdc5', "#B45B49"]).domain([1, 2, 3, 4]))
+              // .color(d3.scale.ordinal().range(['#3c5f6b','#6d8d97','#a1bdc5', "#B45B49"]).domain([1, 2, 3, 4]))
+              // .color(d3.scale.ordinal().range(['#486280','#748fa2','#a1bdc5', "#B45B49"]).domain([1, 2, 3, 4]))
+              .relativeTo(total)
+              .title("Covering of children basic needs")
+              .xTitle("Wave")
+              .lookUp(Vis.DEFAULTS.LOOKUP_CODES.BASIC_NEEDS);
             break;
           default:
             console.log("no matching case.")
@@ -82,6 +93,12 @@ Vis.Views.Expenditures = Backbone.View.extend({
               .relativeTo(this.getTotalHouseholds(chapter))
             d3.select("#main-chart").call(this.chart);
             break;
+          case 3:
+            this.chart
+              .data(this.getData(chapter))
+              .relativeTo(this.getTotalHouseholds(chapter))
+            d3.select("#main-chart").call(this.chart);
+            break;
           default:
             console.log("no matching case.")
         }
@@ -95,6 +112,9 @@ Vis.Views.Expenditures = Backbone.View.extend({
           case 2:
             return this.model.expendituresChildMostByRound.top(Infinity);
             break;
+          case 3:
+            return this.model.basicNeedsByRound.top(Infinity);
+            break;
           default:
             console.log("no matching case.")
         }
@@ -107,7 +127,11 @@ Vis.Views.Expenditures = Backbone.View.extend({
                   .map(function(d) { return d.hh })).length;
           break;
         case 2:
-          return _.unique(this.model.expendituresChildMostHousehold.top(Infinity)
+          return _.unique(this.model.outcomesHousehold.top(Infinity)
+                  .map(function(d) { return d.hh })).length;
+          break;
+        case 3:
+          return _.unique(this.model.outcomesHousehold.top(Infinity)
                   .map(function(d) { return d.hh })).length;
           break;
         default:

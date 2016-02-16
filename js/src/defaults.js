@@ -22,5 +22,7 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
                    7:"Medicine [adults]", 8:"Health care services [children]", 9:"Medicine [children]", 10:"Transportation",
                   11:"Debt payoff", 12:"Savings", 13:"Other children expenditures", 97:"Other"},
     EXPENDITURES_CHILD_MOST: {1:"Education", 2:"Health", 3:"Food", 99:"Other"},
+    LIVING_CONDITIONS: {1:"Yes", 2:"No, not at all"},
+    BASIC_NEEDS: {1:"Significantly", 2:"Moderatly", 3:"Slightly", 4: "Not at all"}
   }
 });

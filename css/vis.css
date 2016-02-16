@@ -171,7 +171,8 @@ h1,h2,h3,h4,h5 {
 }
 
 .bar-chart-vert rect.not-selected {
-  fill: #ddd;
+  /*fill: #ddd;*/
+  fill: #eee;
 }
 .bar-chart-vert .axis {
   font: 10px sans-serif;
@@ -235,6 +236,9 @@ h1,h2,h3,h4,h5 {
 #main-chart {
   font-size: 11px;
 }
+#main-chart rect {
+  opacity: 0.8;
+}
 #main-chart .axis path {
   fill: none;
   stroke: none;
@@ -284,7 +288,8 @@ h1,h2,h3,h4,h5 {
   stroke-width: 1px;
 }
 #time-line-navigation circle.elapsed {
-  fill: #333;
+  /*fill: #333;*/
+  fill: #555;
   stroke: none;
 }
 #time-line-navigation line {

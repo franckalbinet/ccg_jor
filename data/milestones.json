@@ -6,9 +6,8 @@
 {"time": 40, "title": "Income patterns", "isMain": true, "page": 3, "chapter": 1, "main-text": 2, "sub-text": 2, "quote": 2, "quote-ref": 2},
 {"time": 55, "title": "Expenditure patterns", "isMain": true, "page": 4, "chapter": 1, "main-text": 3, "sub-text": 3, "quote": 3, "quote-ref": 3},
 {"time": 70, "title": "Expenditure patterns children specifics - mostly spent", "isMain": false, "page": 4, "chapter": 2, "main-text": 3, "sub-text": 3, "quote": 3, "quote-ref": 3},
-{"time": 90, "title": "Negative coping mechanims", "isMain": true, "page": 5, "chapter": 1, "main-text": 4, "sub-text": 4, "quote": 4, "quote-ref": 4},
-{"time": 95, "title": "Negative coping mechanims", "isMain": false, "page": 5, "chapter": 2, "main-text": 4, "sub-text": 4, "quote": 4, "quote-ref": 4},
-{"time": 110, "title": "Living conditions", "isMain": true, "page": 6, "chapter": 1, "main-text": 5, "sub-text": 5, "quote": 5, "quote-ref": 5},
-{"time": 130, "title": "Psychological wellbeing", "isMain": true, "page": 7, "chapter": 1, "main-text": 6, "sub-text": 6, "quote": 6, "quote-ref": 6},
-{"time": 140, "title": "Psychological wellbeing", "isMain": false, "page": 7, "chapter": 2, "main-text": 6, "sub-text": 6, "quote": 6, "quote-ref": 6}
+{"time": 90, "title": "Covering basic needs", "isMain": false, "page": 4, "chapter": 3, "main-text": 3, "sub-text": 3, "quote": 3, "quote-ref": 3},
+{"time": 100, "title": "Negative coping mechanims", "isMain": true, "page": 5, "chapter": 1, "main-text": 4, "sub-text": 4, "quote": 4, "quote-ref": 4},
+{"time": 120, "title": "Living conditions", "isMain": true, "page": 6, "chapter": 1, "main-text": 5, "sub-text": 5, "quote": 5, "quote-ref": 5},
+{"time": 140, "title": "Concluding remarks", "isMain": true, "page": 7, "chapter": 1, "main-text": 6, "sub-text": 6, "quote": 6, "quote-ref": 6}
 ]

@@ -29,7 +29,7 @@ Vis.Models.App = Backbone.Model.extend({
   sync: function() {
     this.incomesHousehold.filter( this.filterExactList(this.getHouseholds()));
     this.expendituresHousehold.filter( this.filterExactList(this.getHouseholds()));
-    this.expendituresChildMostHousehold.filter( this.filterExactList(this.getHouseholds()));
+    this.outcomesHousehold.filter( this.filterExactList(this.getHouseholds()));
     Backbone.trigger("filtered");
   },
 
@@ -309,16 +309,31 @@ Vis.Models.App = Backbone.Model.extend({
       this.reduceAddType(), this.reduceRemoveType(), this.reduceInitType()
     );
 
+    // outcomes crossfilter [ 1 - 1 relation with households]
+    var outcomesCf = crossfilter(data.outcomes);
+    this.outcomesHousehold = outcomesCf.dimension(function(d) { return d.hh; });
+
     // expenditures children most
-    var expendituresChildMostCf = crossfilter(data.outcomes);
-    this.expendituresChildMostHousehold = expendituresChildMostCf.dimension(function(d) { return d.hh; });
-    this.expendituresChildMostRound = expendituresChildMostCf.dimension(function(d) { return d.round; });
-    var categories = _.unique(data.outcomes.map(function(d) { return d.exp_child_most; }))
+    this.expendituresChildMostRound = outcomesCf.dimension(function(d) { return d.round; });
+    var catExpChildMost = _.unique(data.outcomes.map(function(d) { return d.exp_child_most; }))
     this.expendituresChildMostByRound = this.expendituresChildMostRound.group().reduce(
-      this.reduceAddRound("exp_child_most"), this.reduceRemoveRound("exp_child_most"), this.reduceInitRound(categories)
+      this.reduceAddRound("exp_child_most"), this.reduceRemoveRound("exp_child_most"), this.reduceInitRound(catExpChildMost)
     );
 
-    // debugger;
+    // living conditions
+    this.livingConditionsRound = outcomesCf.dimension(function(d) { return d.round; });
+    var catLivingConditions = _.unique(data.outcomes.map(function(d) { return d.imp; }))
+    this.livingConditionsByRound = this.expendituresChildMostRound.group().reduce(
+      this.reduceAddRound("imp"), this.reduceRemoveRound("imp"), this.reduceInitRound(catLivingConditions)
+    );
+
+    // covers basic children needs
+    this.basicNeedsRound = outcomesCf.dimension(function(d) { return d.round; });
+    var catBasicNeeds = _.unique(data.outcomes.map(function(d) { return d.needs; }))
+    this.basicNeedsByRound = this.expendituresChildMostRound.group().reduce(
+      this.reduceAddRound("needs"), this.reduceRemoveRound("needs"), this.reduceInitRound(catBasicNeeds)
+    );
+
 
     $(".container").show();
     $(".spinner").hide();

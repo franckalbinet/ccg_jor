@@ -5,7 +5,7 @@ Vis.Templates["main-text"] =[
   "<p><strong>All families showed a heavy reliance on assistance from WFP, UNHCR and UNICEF</strong>, highlighting their vulnerability in the face of fluctuations in these income sources.</p>",
   "<p><strong>The level of expenditure on rent and utilities has gradually increased over time</strong>, whilst expenditure levels in all other areas have declined, demonstrating the need for increased levels of UNHCR assistance, as implemented in November.</p>",
   "<p><strong>Reducing the quality and then quantity of food consumed are the two most commonly adopted negative coping mechanisms throughout.</strong></p>",
-  "<p><strong>According to 97% of the sampled families, the Child Cash Grant programme has made a positive contribution to their overall living conditions</strong> by the final point of data collection, which shows that many families feel they would be worse off without it given the clear fall in other assistance levels.</p>",
+  "<p><strong>According to 97% of the sampled families, the Child Cash Grant programme has made a positive contribution to their overall living conditions</strong> ... </p>",
   "<p>The programme has resulted in reduced stress and anxiety for many caregivers and therefore <strong>improved feelings of psychological wellbeing.</strong></p>"
 ];
 
