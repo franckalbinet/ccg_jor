@@ -50,11 +50,16 @@ Vis.Views.Expenditures = Backbone.View.extend({
               .lookUp(Vis.DEFAULTS.LOOKUP_CODES.EXPENDITURES);
             break;
           case 2:
-            this.chart = d3.multiSeriesTimeLine()
-              .width(600).height(350)
-              .margins({top: 40, right: 160, bottom: 40, left: 45})
+            this.chart = d3.barChartMultiStacked()
+              .width(455).height(350)
+              .margins({top: 40, right: 160, bottom: 40, left: 200})
               .data(data)
+              // .color(d3.scale.ordinal().range(["#E3D3D5", "#AECDE7", "#CCDDAF", "#C1C0AB"]).domain([1, 2, 3, 99]))
+              .color(d3.scale.ordinal().range(["#A999A4", "#C0B491", "#EDDAC3", "#80A6B1"]).domain([1, 2, 3, 99]))
+              // .color(d3.scale.ordinal().range(["#A999A4", "#C0B491", "#E59138", "#80A6B1"]).domain([1, 2, 3, 99]))
               .relativeTo(total)
+              .title("Children-specific expenditures [Mostly spent each month]")
+              .xTitle("Wave")
               .lookUp(Vis.DEFAULTS.LOOKUP_CODES.EXPENDITURES_CHILD_MOST);
             break;
           default:
@@ -88,7 +93,7 @@ Vis.Views.Expenditures = Backbone.View.extend({
             return this.model.expendituresByType.top(Infinity);
             break;
           case 2:
-            return this.model.expendituresChildMostByType.top(Infinity);
+            return this.model.expendituresChildMostByRound.top(Infinity);
             break;
           default:
             console.log("no matching case.")
@@ -120,6 +125,6 @@ Vis.Views.Expenditures = Backbone.View.extend({
 
     clearCharts: function() {
       if (this.chart) this.chart = null;
-      if(!d3.select(".time-line svg").empty()) d3.select(".time-line svg").remove();
+      if(!d3.select("#main-chart svg").empty()) d3.select("#main-chart svg").remove();
     }
 });

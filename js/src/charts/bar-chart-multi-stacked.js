@@ -5,17 +5,23 @@ d3.barChartMultiStacked = function() {
       height = 100,
       margins = {top: 10, right: 25, bottom: 30, left: 20},
       data = null,
+      x = d3.scale.ordinal(),
       y = d3.scale.linear(),
       color,
+      relativeTo = null,
       elasticY = false,
       xData = null,
       xDomain = null,
+      lookUp = null,
       barHeight = 7,
       barWidth = 11,
-      yAxis = d3.svg.axis().orient("left"),
+      xAxis = d3.svg.axis().orient("bottom"),
+      yAxis = d3.svg.axis().orient("left").tickValues([0, 25, 50, 75, 100]),
+      // yAxis = d3.svg.axis().orient("left"),
       hasBrush = false,
       hasYAxis = true,
       title = "My title",
+      xTitle = "My title",
       brushClickReset = false,
       brush = d3.svg.brush(),
       brushExtent = null,
@@ -51,98 +57,112 @@ d3.barChartMultiStacked = function() {
         _listeners.filtered(selection);
       }
 
-      _render();
+      if (!isDataEmpty()) _render();
 
       function _render() {
-        // EXIT - ENTER - UPDATE PATTERN
-        var rects =  _gBars.selectAll("rect")
-          .data(data, function(d) { return d.key; });
-        rects.exit().remove();
-        rects.enter().append("rect")
-          .on("click", clickHandler)
-          .on("mouseover", function(d) {
-            d3.select(this)
-              .attr("width", barWidth + 1)
-              .attr("x", -0.5);
-            d3.select(this).classed("hovered", true);
+
+        // // container
+        // var item = g.selectAll(".item")
+        //     .data(data, function(d) {
+        //       return d.key;
+        //     });
+        // item.enter()
+        //     .append("g")
+        //     .attr("class", "item");
+        // item.exit().remove();
+        //
+        // // lines
+        // var line = item.selectAll(".line")
+        //   .data(function(d) { return [d];}, function(d) { return d.valueId; });
+        //
+        // line.enter().append("path").attr("class", "line");
+        //
+        // line.exit().remove();
+        //
+        // line
+        //   .transition()
+        //   .attr("d", function(d) {
+        //     return _line(d.value);
+        //   });
+
+        // container
+        var round = g.selectAll(".round")
+            .data(data, function(d) { return d.joinId; });
+
+        round.enter()
+            .append("g")
+            .attr("class", "round")
+            .attr("transform", function(d) { return "translate(" + x(d.key) + ",0)"; });
+
+        round.exit().remove();
+
+        // rect
+        var rect = round.selectAll("rect")
+            .data(function(d) { return d.stacked; });
+
+        rect.enter().append("rect");
+
+        rect.exit().remove();
+
+        rect
+          .attr("width", x.rangeBand())
+          .style("fill", function(d) {
+            return color(d.name);
           })
-          .on("mouseout", function(d) {
-            d3.select(this)
-              .attr("width", barWidth)
-              .attr("x", 0);
-            d3.select(this).classed("hovered", false);
-          });
+          .transition()
+          .attr("height", function(d) { return y(toPercentage(d.y0)) - y(toPercentage(d.y1)); })
+          .attr("y", function(d) {
+            return y(toPercentage(d.y1)); });
 
-
-        rects
-            .classed("not-selected", function(d) {
-              return (selected.indexOf(d.key) === -1) ? true : false;
-            })
-            .attr("x", function(d) { return 0; })
-            .attr("width", function(d) {
-              return barWidth; })
-            .transition(50)
-            .attr("y", function(d) {
-              return y(d.y1); })
-            .attr("height", function(d) {
-              return y(d.y0) - y(d.y1); })
-            .style("fill", function(d) { return color(d.name); });
-
-        _gLabel
-          .transition(50)
-          .attr("transform", "translate(" + 0 + "," + y(data[0].y1) + ")");
-        _gLabel.select("text").text(data[0].y1 + "%");
       }
 
       function _transformData(data) {
-        var y0 = y1 = 0;
-
-        data.sort(function(a, b) { return b.key - a.key; });
+        data.forEach(function(d) {
+            var y0 = 0;
+            d.stacked = color.domain().map(function(name) {
+              var bar = d.value.filter(function(v) { return v.category == name; })[0];
+              return {name: bar.category, y0: y0, y1: y0 += bar.count}; });
+            d.total = d.stacked[d.stacked.length - 1].y1;
+          });
 
         data.forEach(function(d) {
-          y0 = y1;
-          d.y0 = y0;
-          d.y1 = y1 += d.value;
-        })
-
-        data.forEach(function(d) {
-          d.y0 = Math.round((d.y0 / data[data.length-1].y1) * 100);
-          d.y1 = Math.round((d.y1 / data[data.length-1].y1) * 100);
-        })
+          d.joinId = d.value.map(function(v) {
+            return v.category + "-" + v.count; }).join("--"); });
 
         return data;
       }
 
       function _skeleton() {
-        // set scales range
-        y.rangeRound([_gHeight, 0]);
-        y.domain([0, 100]);
 
-        yAxis.tickValues([50, 100]).tickFormat(function(d) { return d + " %"; });
+        // set scales range and domains
+        x.domain([1,2,3]);
+        // x.rangePoints([0 , _gWidth]);
+
+        // x.rangeRoundBands([0, _gWidth], .1);
+        x.rangeRoundBands([0, _gWidth], .1);
+        y.domain([0, 100]);
+        y.range([_gHeight, 0]);
+
+        yAxis.tickValues([25, 50, 75, 100]).tickFormat(function(d) { return d + " %"; });
         yAxis.scale(y);
+        xAxis.scale(x);
 
         // create chart container
         g = div.append("svg")
+            .classed("bar-chart-multi-stacked", true)
             .attr("width", width)
             .attr("height", height)
           .append("g")
             .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
 
-        _gBars = g.append("g")
-            .attr("class", "bars");
-
         _gYAxis = g.append("g")
             .attr("class", "y axis")
             .call(yAxis);
 
-        // label showing intermediate percentage
-        _gLabel = g.append("g").attr("class", "label");
-        _gLabel.append("line")
-          .attr("x1", barWidth).attr("y1", 0)
-          .attr("x2", barWidth + 8).attr("y2", 0)
-        _gLabel.append("text")
-          .attr("x", barWidth + 12).attr("y", 0)
-          .attr("dy", +3);
+        _gXAxis = g.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + (_gHeight + 3) + ")")
+            .call(xAxis);
 
         // legend
         _gLegend = g.append("g").attr("class", "legends");
@@ -154,25 +174,34 @@ d3.barChartMultiStacked = function() {
             .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
         legend.append("rect")
-            // .attr("x", width - 18)
-            .attr("x", -60)
-            .attr("y", 25)
+            .attr("x", _gWidth + 50)
+            .attr("y", _gHeight / 5)
             .attr("width", 14)
             .attr("height", 14)
             .style("fill", color);
 
         legend.append("text")
-            .attr("x", -42)
-            .attr("y", 32)
-            .attr("dy", ".35em")
+            .attr("x", _gWidth + 50 + 20)
+            .attr("y", _gHeight / 5)
+            .attr("dy", "1em")
             .style("text-anchor", "start")
-            .text(function(d) { return d; });
+            .text(function(d) { return lookUp[d] ; });
+
+        var deltaX = d3.selectAll(".bar-chart-multi-stacked .x.axis path.domain")
+          .attr("d").split("H")[1].split("V")[0];
 
         g.append("text")
-          .attr("class", "x label")
-          .attr("text-anchor", "start")
-          .attr("x", -60)
-          .attr("y", -25)
+          .attr("class", "x title")
+          .attr("text-anchor", "middle")
+          .attr("x", +deltaX / 2)
+          .attr("y", _gHeight + 40)
+          .text(xTitle);
+
+        g.append("text")
+          .attr("class", "main title")
+          .attr("text-anchor", "middle")
+          .attr("x", +deltaX / 2)
+          .attr("y", -30)
           .text(title);
       }
 
@@ -186,6 +215,18 @@ d3.barChartMultiStacked = function() {
             _listeners.filtered([d.key]);
           }
         }
+      }
+
+      function isDataEmpty() {
+        var countAll = 0;
+        data.forEach( function(d) {
+          countAll += d3.sum(d.joinId.split("--").map(function(v) { return +v.split("-")[1]; }));
+        })
+        return (countAll) ? false : true;
+      }
+
+      function toPercentage(val) {
+        return Math.round((val/relativeTo)*100);
       }
 
       function _getDataBrushed(brush) {
@@ -251,7 +292,11 @@ d3.barChartMultiStacked = function() {
     yAxis = _;
     return chart;
   };
-
+  chart.relativeTo = function(_) {
+    if (!arguments.length) return relativeTo;
+    relativeTo = _;
+    return chart;
+  };
   chart.hasBrush = function(_) {
     if (!arguments.length) return hasBrush;
     hasBrush = _;
@@ -275,6 +320,16 @@ d3.barChartMultiStacked = function() {
   chart.title = function(_) {
     if (!arguments.length) return title;
     title = _;
+    return chart;
+  };
+  chart.xTitle = function(_) {
+    if (!arguments.length) return xTitle;
+    xTitle = _;
+    return chart;
+  };
+  chart.lookUp = function(_) {
+    if (!arguments.length) return lookUp;
+    lookUp = _;
     return chart;
   };
 

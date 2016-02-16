@@ -141,6 +141,24 @@ Vis.Models.App = Backbone.Model.extend({
     }
   },
 
+  reduceAddRound: function(category) {
+    return function(p, v) {
+      p.filter(function(d) { return d.category == v[category]; })[0].count += 1;
+      return p;
+    }
+  },
+  reduceRemoveRound: function(category) {
+    return function(p, v) {
+      p.filter(function(d) { return d.category == v[category]; })[0].count -= 1;
+      return p;
+    }
+  },
+  reduceInitRound: function(categories) {
+    return function() {
+      return categories.map(function(d) { return {category: d, count: 0}; });
+    }
+  },
+
   getKeys: function(grp) {
     return grp.top(Infinity).map(function(d) { return d.key; });
   },
@@ -294,9 +312,10 @@ Vis.Models.App = Backbone.Model.extend({
     // expenditures children most
     var expendituresChildMostCf = crossfilter(data.outcomes);
     this.expendituresChildMostHousehold = expendituresChildMostCf.dimension(function(d) { return d.hh; });
-    this.expendituresChildMostType = expendituresChildMostCf.dimension(function(d) { return d.exp_child_most; });
-    this.expendituresChildMostByType = this.expendituresChildMostType.group().reduce(
-      this.reduceAddType(), this.reduceRemoveType(), this.reduceInitType()
+    this.expendituresChildMostRound = expendituresChildMostCf.dimension(function(d) { return d.round; });
+    var categories = _.unique(data.outcomes.map(function(d) { return d.exp_child_most; }))
+    this.expendituresChildMostByRound = this.expendituresChildMostRound.group().reduce(
+      this.reduceAddRound("exp_child_most"), this.reduceRemoveRound("exp_child_most"), this.reduceInitRound(categories)
     );
 
     // debugger;

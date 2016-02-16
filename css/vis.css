@@ -165,6 +165,7 @@ h1,h2,h3,h4,h5 {
 }
 .bar-chart-vert rect {
   fill: #538dbc;
+  fill: #5e5e66;
   stroke: none;
   fill-opacity: 1;
 }
@@ -231,28 +232,32 @@ h1,h2,h3,h4,h5 {
 }
 
 /* main multi series time line*/
-.time-line {
+#main-chart {
   font-size: 11px;
 }
-.time-line .axis path {
+#main-chart .axis path {
   fill: none;
   stroke: none;
 }
-.time-line .axis line {
+#main-chart .axis line {
   fill: none;
   stroke: #000;
   shape-rendering: crispEdges;
 }
-.time-line .x.axis path {
+#main-chart .x.axis path {
   display: none;
 }
-.time-line .line {
+#main-chart .line {
   fill: none;
   stroke: steelblue;
   stroke-width: 1px;
 }
-.time-line circle {
+#main-chart circle {
   fill: steelblue;
+}
+#main-chart .main.title {
+  font-size: 13px;
+  font-weight: 700;
 }
 
 

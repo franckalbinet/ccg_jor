@@ -16,7 +16,8 @@ Vis.Views.HouseholdsHead = Backbone.View.extend({
         .width(150).height(150)
         .margins({top: 40, right: 20, bottom: 10, left: 80})
         .data(data)
-        .color(d3.scale.ordinal().range(["#538dbc", "#d2766c"]).domain(["Mother", "Father"]))
+        // .color(d3.scale.ordinal().range(["#538dbc", "#d2766c"]).domain(["Female", "Male"]))
+        .color(d3.scale.ordinal().range(["#5e5e66", "#80a6b1"]).domain(["Female", "Male"]))
         .title("By head of family")
         .hasBrush(false);
 

@@ -33,6 +33,7 @@ vis_src =	${vis_dir}/namespace.js\
 					${vis_dir}/charts/bar-chart-stacked-children.js\
 					${vis_dir}/charts/time-line-navigation.js\
 					${vis_dir}/charts/multi-series-time-line.js\
+					${vis_dir}/charts/bar-chart-multi-stacked.js\
 					${vis_dir}/templates/app-templates.js\
 
 # vis.js build

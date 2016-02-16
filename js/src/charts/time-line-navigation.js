@@ -69,21 +69,20 @@ d3.timeLineNavigation = function() {
             .attr("cy", 0)
             .attr("r", function(d) { return (d.isMain) ? 6:3; })
             .on("mouseover", function(d) {
-              if (d.isMain) {
-                _wasElapsed = d3.select(this).classed("elapsed");
+                var _wasElapsed = d3.select(this).classed("elapsed"),
+                    radius = (d.isMain) ? 8 : 5;
                 d3.select(this)
                 .transition(100)
-                .attr("r", 8);
-              }
+                .attr("r", radius);
             })
             .on("mouseout", function(d) {
-              if (d.isMain) {
-                var _isElapsed = d3.select(this).classed("elapsed");
+                var _isElapsed = d3.select(this).classed("elapsed"),
+                    radius = (d.isMain) ? 6 : 3;
+
                 d3.select(this)
                 .classed("elapsed", _wasElapsed || _isElapsed)
                 .transition(100)
-                .attr("r", 6);
-              }
+                .attr("r", radius);
             })
             .on("click", function(d) {
               d3.select(this).classed("elapsed", true)

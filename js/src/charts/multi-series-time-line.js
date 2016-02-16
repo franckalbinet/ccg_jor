@@ -132,6 +132,7 @@ d3.multiSeriesTimeLine = function() {
 
         // create chart container
         g = div.append("svg")
+            .classed("time-line", true)
             .attr("width", width)
             .attr("height", height)
           .append("g")

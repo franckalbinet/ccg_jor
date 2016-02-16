@@ -82,6 +82,6 @@ Vis.Views.Incomes = Backbone.View.extend({
 
     clearCharts: function() {
       if (this.chart) this.chart = null;
-      if(!d3.select(".time-line svg").empty()) d3.select(".time-line svg").remove();
+      if(!d3.select("#main-chart svg").empty()) d3.select("#main-chart svg").remove();
     }
 });
