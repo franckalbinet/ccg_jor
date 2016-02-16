@@ -46,7 +46,13 @@ Vis.Views.Expenditures = Backbone.View.extend({
               .width(600).height(350)
               .margins({top: 40, right: 160, bottom: 40, left: 45})
               .data(data)
+              .color(d3.scale.ordinal().range(
+                ["#003950","#745114","#88a3b6","#917E8A","#E59138","#6D8378",
+                 "#5E6666","#4C4322","#B45B49","#804D00","#706B5A","#AEB883",
+                 "#5F1D00","#A999A4"]).domain([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 97]))
               .relativeTo(total)
+              .title("Expenditures that people who receive the Cash Grant spend it on")
+              .xTitle("Wave")
               .lookUp(Vis.DEFAULTS.LOOKUP_CODES.EXPENDITURES);
             break;
           case 2:
@@ -98,6 +104,7 @@ Vis.Views.Expenditures = Backbone.View.extend({
               .data(this.getData(chapter))
               .relativeTo(this.getTotalHouseholds(chapter))
             d3.select("#main-chart").call(this.chart);
+            d3.selectAll(".bar-chart-multi-stacked rect").style("opacity", 0.7);
             break;
           default:
             console.log("no matching case.")
@@ -140,11 +147,13 @@ Vis.Views.Expenditures = Backbone.View.extend({
     },
 
     setTextContent: function(attr) {
+
       var scenario = this.model.get("scenario")
           id = this.model.getTemplateId(scenario.page, scenario.chapter, attr),
           template = _.template(Vis.Templates[attr][id]);
 
       $("#" + attr).html(template());
+
     },
 
     clearCharts: function() {

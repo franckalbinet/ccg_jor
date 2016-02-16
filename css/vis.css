@@ -102,10 +102,8 @@ h1,h2,h3,h4,h5 {
 .outcomes {
   height: 100%;
 }
-/*.outcomes #time-line {*/
 .outcomes #main-chart {
   height: 100%;
-  /*background-color: #eee;*/
 }
 .focus-group {
   height: 100%;
@@ -166,13 +164,14 @@ h1,h2,h3,h4,h5 {
 .bar-chart-vert rect {
   fill: #538dbc;
   fill: #5e5e66;
+  /*fill: #7A7A85;*/
   stroke: none;
   fill-opacity: 1;
 }
 
 .bar-chart-vert rect.not-selected {
   /*fill: #ddd;*/
-  fill: #eee;
+  fill: #ddd;
 }
 .bar-chart-vert .axis {
   font: 10px sans-serif;
@@ -237,7 +236,7 @@ h1,h2,h3,h4,h5 {
   font-size: 11px;
 }
 #main-chart rect {
-  opacity: 0.8;
+  /*opacity: 0.8;*/
 }
 #main-chart .axis path {
   fill: none;
@@ -254,7 +253,9 @@ h1,h2,h3,h4,h5 {
 #main-chart .line {
   fill: none;
   stroke: steelblue;
-  stroke-width: 1px;
+  stroke-width: 1.5px;
+  shape-rendering: auto;
+  stroke-opacity: 0.3;
 }
 #main-chart circle {
   fill: steelblue;

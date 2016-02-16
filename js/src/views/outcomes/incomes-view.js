@@ -56,8 +56,11 @@ Vis.Views.Incomes = Backbone.View.extend({
       this.chart = d3.multiSeriesTimeLine()
         .width(600).height(350)
         .margins({top: 40, right: 120, bottom: 40, left: 45})
+        .color(d3.scale.ordinal().range(["#5e5e66", "#e59138", "#6d8378", "#b45b49"]).domain([1, 2, 5, 99]))
         .data(data)
         .relativeTo(total)
+        .title("Main sources of income")
+        .xTitle("Wave")
         .lookUp(Vis.DEFAULTS.LOOKUP_CODES.INCOME);
 
       this.render();

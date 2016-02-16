@@ -1363,8 +1363,11 @@ Vis.Views.Incomes = Backbone.View.extend({
       this.chart = d3.multiSeriesTimeLine()
         .width(600).height(350)
         .margins({top: 40, right: 120, bottom: 40, left: 45})
+        .color(d3.scale.ordinal().range(["#5e5e66", "#e59138", "#6d8378", "#b45b49"]).domain([1, 2, 5, 99]))
         .data(data)
         .relativeTo(total)
+        .title("Main sources of income")
+        .xTitle("Wave")
         .lookUp(Vis.DEFAULTS.LOOKUP_CODES.INCOME);
 
       this.render();
@@ -1440,7 +1443,13 @@ Vis.Views.Expenditures = Backbone.View.extend({
               .width(600).height(350)
               .margins({top: 40, right: 160, bottom: 40, left: 45})
               .data(data)
+              .color(d3.scale.ordinal().range(
+                ["#003950","#745114","#88a3b6","#917E8A","#E59138","#6D8378",
+                 "#5E6666","#4C4322","#B45B49","#804D00","#706B5A","#AEB883",
+                 "#5F1D00","#A999A4"]).domain([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 97]))
               .relativeTo(total)
+              .title("Expenditures that people who receive the Cash Grant spend it on")
+              .xTitle("Wave")
               .lookUp(Vis.DEFAULTS.LOOKUP_CODES.EXPENDITURES);
             break;
           case 2:
@@ -1492,6 +1501,7 @@ Vis.Views.Expenditures = Backbone.View.extend({
               .data(this.getData(chapter))
               .relativeTo(this.getTotalHouseholds(chapter))
             d3.select("#main-chart").call(this.chart);
+            d3.selectAll(".bar-chart-multi-stacked rect").style("opacity", 0.7);
             break;
           default:
             console.log("no matching case.")
@@ -1534,11 +1544,13 @@ Vis.Views.Expenditures = Backbone.View.extend({
     },
 
     setTextContent: function(attr) {
+
       var scenario = this.model.get("scenario")
           id = this.model.getTemplateId(scenario.page, scenario.chapter, attr),
           template = _.template(Vis.Templates[attr][id]);
 
       $("#" + attr).html(template());
+
     },
 
     clearCharts: function() {
@@ -3426,6 +3438,7 @@ d3.multiSeriesTimeLine = function() {
       data = null,
       relativeTo = null,
       lookUp = null,
+      color = null,
       x = d3.scale.ordinal(),
       y = d3.scale.linear(),
       elasticY = false,
@@ -3436,6 +3449,7 @@ d3.multiSeriesTimeLine = function() {
       hasBrush = false,
       hasYAxis = true,
       title = "My title",
+      xTitle = "My title",
       brushClickReset = false,
       brush = d3.svg.brush(),
       brushExtent = null,
@@ -3492,6 +3506,8 @@ d3.multiSeriesTimeLine = function() {
         line.exit().remove();
 
         line
+          .style("stroke", function(d) {
+            return color(d.key); })
           .transition()
           .attr("d", function(d) {
             return _line(d.value);
@@ -3507,8 +3523,11 @@ d3.multiSeriesTimeLine = function() {
         circles.exit().remove();
 
         circles
+          .style("fill", function(d) {
+            var parent = d3.select(this).node().parentNode.__data__;
+            return color(parent.key); })
           .attr("r", function(d) {
-            return 3})
+            return 3.5})
             .attr("cx", function(d) {
               return x(d.round); })
           .transition()
@@ -3517,22 +3536,22 @@ d3.multiSeriesTimeLine = function() {
 
         // text
         // var texts = item.selectAll("")
-        var texts = item.selectAll("text")
-          .data(function(d) {
-            return [{name: d.key, value: d.value[d.value.length - 1]}]});
-
-        texts.enter().append("text")
-          .text(function(d) {
-            return lookUp[d.name]; });
-
-        texts.exit().remove();
-
-        texts
-          .transition()
-          .attr("transform", function(d) {
-            return "translate(" + x(d.value.round) + "," + y(toPercentage(d.value.count)) + ")"; })
-          .attr("x", 5)
-          .attr("dy", ".35em");
+        // var texts = item.selectAll("text")
+        //   .data(function(d) {
+        //     return [{name: d.key, value: d.value[d.value.length - 1]}]});
+        //
+        // texts.enter().append("text")
+        //   .text(function(d) {
+        //     return lookUp[d.name]; });
+        //
+        // texts.exit().remove();
+        //
+        // texts
+        //   .transition()
+        //   .attr("transform", function(d) {
+        //     return "translate(" + x(d.value.round) + "," + y(toPercentage(d.value.count)) + ")"; })
+        //   .attr("x", 5)
+        //   .attr("dy", ".35em");
       }
 
       function _skeleton() {
@@ -3566,6 +3585,23 @@ d3.multiSeriesTimeLine = function() {
         _gYAxis = g.append("g")
             .attr("class", "y axis")
             .call(yAxis);
+
+        var deltaX = d3.selectAll(".time-line .x.axis path.domain")
+          .attr("d").split("H")[1].split("V")[0];
+
+        g.append("text")
+          .attr("class", "x title")
+          .attr("text-anchor", "middle")
+          .attr("x", +deltaX / 2)
+          .attr("y", _gHeight + 40)
+          .text(xTitle);
+
+        g.append("text")
+          .attr("class", "main title")
+          .attr("text-anchor", "middle")
+          .attr("x", +deltaX / 2)
+          .attr("y", -30)
+          .text(title);
 
       }
 
@@ -3664,6 +3700,12 @@ d3.multiSeriesTimeLine = function() {
     return chart;
   };
 
+  chart.color = function(_) {
+    if (!arguments.length) return color;
+    color = _;
+    return chart;
+  };
+
   chart.hasBrush = function(_) {
     if (!arguments.length) return hasBrush;
     hasBrush = _;
@@ -3687,6 +3729,11 @@ d3.multiSeriesTimeLine = function() {
   chart.title = function(_) {
     if (!arguments.length) return title;
     title = _;
+    return chart;
+  };
+  chart.xTitle = function(_) {
+    if (!arguments.length) return xTitle;
+    xTitle = _;
     return chart;
   };
   // chart.brushExtentToMax = function(_) {
