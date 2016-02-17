@@ -147,7 +147,6 @@ Vis.Views.Expenditures = Backbone.View.extend({
     },
 
     setTextContent: function(attr) {
-
       var scenario = this.model.get("scenario")
           id = this.model.getTemplateId(scenario.page, scenario.chapter, attr),
           template = _.template(Vis.Templates[attr][id]);
@@ -158,6 +157,7 @@ Vis.Views.Expenditures = Backbone.View.extend({
 
     clearCharts: function() {
       if (this.chart) this.chart = null;
-      if(!d3.select("#main-chart svg").empty()) d3.select("#main-chart svg").remove();
+      // if(!d3.select("#main-chart svg").empty()) d3.select("#main-chart svg").remove();
+      if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
     }
 });

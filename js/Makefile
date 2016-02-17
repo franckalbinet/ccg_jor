@@ -11,7 +11,6 @@ vis_src =	${vis_dir}/namespace.js\
 					${vis_dir}/models/app-model.js\
 					${vis_dir}/app.js\
 					${vis_dir}/views/app-view.js\
-					${vis_dir}/views/navigation-view.js\
 					${vis_dir}/views/profile/children-age-view.js\
 					${vis_dir}/views/profile/households-children-view.js\
 					${vis_dir}/views/profile/households-location-view.js\
@@ -34,6 +33,7 @@ vis_src =	${vis_dir}/namespace.js\
 					${vis_dir}/charts/time-line-navigation.js\
 					${vis_dir}/charts/multi-series-time-line.js\
 					${vis_dir}/charts/bar-chart-multi-stacked.js\
+					${vis_dir}/charts/heatmap.js\
 					${vis_dir}/templates/app-templates.js\
 
 # vis.js build

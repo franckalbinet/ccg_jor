@@ -62,6 +62,7 @@ Vis.Views.Education = Backbone.View.extend({
 
     clearCharts: function() {
       if (this.chart) this.chart = null;
-      if(!d3.select("#main-chart svg").empty()) d3.select("#main-chart svg").remove();
+      // if(!d3.select("#main-chart svg").empty()) d3.select("#main-chart svg").remove();
+      if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
     }
 });

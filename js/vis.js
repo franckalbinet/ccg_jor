@@ -21,6 +21,8 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
     TEMPLATES: "templates.json",
     INCOMES: "incomes.json",
     EXPENDITURES: "expenditures.json",
+    CURRENT_COPING_MECHANISMS: "current_coping_mechanisms.json",
+    STOPPED_COPING_MECHANISMS: "stopped_coping_mechanisms.json",
     MILESTONES: "milestones.json"
   },
   LOOKUP_CODES: {
@@ -34,7 +36,13 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
                   11:"Debt payoff", 12:"Savings", 13:"Other children expenditures", 97:"Other"},
     EXPENDITURES_CHILD_MOST: {1:"Education", 2:"Health", 3:"Food", 99:"Other"},
     LIVING_CONDITIONS: {1:"Yes", 2:"No, not at all"},
-    BASIC_NEEDS: {1:"Significantly", 2:"Moderatly", 3:"Slightly", 4: "Not at all"}
+    BASIC_NEEDS: {1:"Significantly", 2:"Moderatly", 3:"Slightly", 4: "Not at all"},
+    COPING_MECHANISMS: {1:"Reduce accomodation costs by any means",2:"Reducing food intake [portion size or nb. of meals]",
+                        3:"Choosing less preferred but cheaper food options",4:"Receiving cash assistance from family members [remittances]",
+                        5:"Receiving humanitarian assistance from NGOs/CBOs",6:"Selling properties/assets",7:"Selling food voucher",8:"Working more than one job",
+                        9:"Borrowing money",10:"Using your savings",11:"Asking for money ",12:"Dropping children out of school",13:"Let your children work [child labor]",
+                        14: "Let your children ask for money",15:"Reduction of essential expenditure on health",16:"Reduction of essential expenditure on education",
+                        17:"Immigrate to another country for residency",18:"Move back to the refugee camp",19:"Return to Syria",97:"Other"}
   }
 });
 /*  Utilities functions*/
@@ -138,10 +146,24 @@ Vis.Collections.App = Backbone.Collection.extend({
           })
         },
         that.url + Vis.DEFAULTS.DATASETS.EXPENDITURES)
+      .defer(
+        function(url, callback) {
+          d3.json(url, function(error, result) {
+            callback(error, result);
+          })
+        },
+        that.url + Vis.DEFAULTS.DATASETS.CURRENT_COPING_MECHANISMS)
+      .defer(
+        function(url, callback) {
+          d3.json(url, function(error, result) {
+            callback(error, result);
+          })
+        },
+        that.url + Vis.DEFAULTS.DATASETS.STOPPED_COPING_MECHANISMS)
       .await(_ready);
 
     // on success
-    function _ready(error, children, households, outcomes, milestones, incomes, expenditures) {
+    function _ready(error, children, households, outcomes, milestones, incomes, expenditures, current_coping, stopped_coping) {
       var that = this;
 
       // coerce data
@@ -158,6 +180,8 @@ Vis.Collections.App = Backbone.Collection.extend({
         outcomes: outcomes,
         incomes: incomes,
         expenditures: expenditures,
+        current_coping: current_coping,
+        stopped_coping: stopped_coping,
         milestones: milestones
       });
     }
@@ -195,6 +219,8 @@ Vis.Models.App = Backbone.Model.extend({
     this.incomesHousehold.filter( this.filterExactList(this.getHouseholds()));
     this.expendituresHousehold.filter( this.filterExactList(this.getHouseholds()));
     this.outcomesHousehold.filter( this.filterExactList(this.getHouseholds()));
+    this.currentCopingHousehold.filter( this.filterExactList(this.getHouseholds()));
+    this.stoppedCopingHousehold.filter( this.filterExactList(this.getHouseholds()));
     Backbone.trigger("filtered");
   },
 
@@ -499,6 +525,25 @@ Vis.Models.App = Backbone.Model.extend({
       this.reduceAddRound("needs"), this.reduceRemoveRound("needs"), this.reduceInitRound(catBasicNeeds)
     );
 
+    // current coping mechanisms
+    var currentCopingCf = crossfilter(data.current_coping);
+    this.currentCopingHousehold = currentCopingCf.dimension(function(d) { return d.hh; });
+    this.currentCopingRound = currentCopingCf.dimension(function(d) { return d.round; });
+    this.currentCopingType = currentCopingCf.dimension(function(d) { return d.curr_cop; });
+    this.currentCopingByType = this.currentCopingType.group().reduce(
+      this.reduceAddType(), this.reduceRemoveType(), this.reduceInitType()
+    );
+
+    // stopped coping mechanisms
+    var stoppedCopingCf = crossfilter(data.stopped_coping);
+    this.stoppedCopingHousehold = stoppedCopingCf.dimension(function(d) { return d.hh; });
+    this.stoppedCopingRound = stoppedCopingCf.dimension(function(d) { return d.round; });
+    this.stoppedCopingType = stoppedCopingCf.dimension(function(d) { return d.stop_cop; });
+    this.stoppedCopingByType = this.stoppedCopingType.group().reduce(
+      this.reduceAddType(), this.reduceRemoveType(), this.reduceInitType()
+    );
+
+    // debugger;
 
     $(".container").show();
     $(".spinner").hide();
@@ -578,78 +623,6 @@ Vis.Views.App = Backbone.View.extend({
       // Backbone.trigger("select:householdsLocation", [1]);
       // Backbone.trigger("select:householdsPoverty", [1]);
   });
-// Navigation view
-Vis.Views.Navigation = Backbone.View.extend({
-    el: '.container',
-
-    events: {
-      "click #nav": "updatePage",
-      "click #sub-nav": "updateChapter",
-    },
-
-    initialize: function () {
-      this.model.on("change:scenario", function() {
-        this.render();
-        },this);
-    },
-
-    render: function() {
-      var scenario = this.model.get("scenario"),
-          page = scenario.page,
-          chapter = scenario.chapter;
-
-      this.updatePageBtn(page);
-      this.updateChapterList(chapter, page);
-    },
-
-    updatePage: function(e) {
-        e.preventDefault();
-        var page = $(e.target).attr("id").split("-")[1];
-        Vis.Routers.app.navigate("#page/" + page +"/chapter/1", {trigger: true});
-    },
-
-    updateChapter: function(e) {
-      e.preventDefault();
-      var chapter = $(e.target).attr("id").split("-")[1],
-          currentPage = this.model.get("scenario").page;
-
-      Vis.Routers.app.navigate("#page/" + currentPage +"/chapter/" + chapter, {trigger: true});
-    },
-
-    updatePageBtn: function(page) {
-      $("#nav .btn").removeClass("active");
-      $("#nav #page-" + page).addClass("active");
-    },
-
-    updateChapterList: function(chapter, page) {
-      $("#sub-nav li").removeClass("active");
-      $("#sub-nav #chapter-" + chapter).addClass("active");
-
-      $("#sub-nav li").show();
-
-      switch(+page) {
-        case 1:
-          $("#sub-nav li").hide();
-          break;
-        case 2:
-          this.hideList([3,4]);
-          break;
-        case 3:
-          this.hideList([4]);
-          break;
-        case 4:
-          this.hideList([2,3,4]);
-          break;
-        case 5:
-          this.hideList([2,3,4]);
-          break;
-      }
-    },
-
-    hideList(hiddenArray) {
-      hiddenArray.forEach(function(d) { $("#sub-nav li#chapter-" + d).hide();});
-    }
-});
 // Children by age chart
 Vis.Views.ChildrenAge = Backbone.View.extend({
     el: '#children-age',
@@ -1048,76 +1021,180 @@ Vis.Views.Background = Backbone.View.extend({
 
     clearCharts: function() {
       if (this.chart) this.chart = null;
-      if(!d3.select("#main-chart svg").empty()) d3.select("#main-chart svg").remove();
+      // if(!d3.select("#main-chart svg").empty()) d3.select("#main-chart svg").remove();
+      if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
     }
 });
 // Coping mechanisms view
 Vis.Views.CopingMechanisms = Backbone.View.extend({
-    el: '.container',
+  el: '.container',
 
-    initialize: function () {
-      this.dispatch(this.model.get("scenario"));
-      this.model.on("change:scenario", function() {
-        this.dispatch(this.model.get("scenario"));
-        },this);
-      Backbone.on("filtered", function(d) { this.render();}, this);
-    },
+  initialize: function () {
+    var that = this;
 
-    dispatch: function(scenario) {
-      var scenario = this.model.get("scenario"),
-          that = this;
+    this.chart = new Array(2);
 
-      if (scenario.page === 5) {
-        this.clearCharts();
-        $(".profile").show();
-        // set text content
-        ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {
-          that.setTextContent(d);
-        });
+    if (that.model.get("scenario").page === 5) this.preRender(this.model.get("scenario").chapter);
 
-        $("#pending").show();
-        $("#main-chart").hide();
+    this.model.on("change:scenario", function() {
+      if (that.model.get("scenario").page === 5) this.preRender(that.model.get("scenario").chapter);
+      },this);
 
-        switch(scenario.chapter) {
-          case 1:
-              // this.initChart();
-              break;
-          case 2:
-              // code block
-              break;
-          default:
-              // default code block
-        }
+    Backbone.on("filtered", function(d) {
+      if (that.model.get("scenario").page === 5) this.render(that.model.get("scenario").chapter);
+      }, this);
+  },
+
+  preRender: function(chapter) {
+    var that = this;
+
+    this.clearCharts();
+
+    $(".profile").show();
+
+    // set text content
+    ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {
+      that.setTextContent(d);
+    });
+
+    $("#pending").hide();
+
+    $("#main-chart").show();
+
+    this.initChart(chapter);
+  },
+
+  initChart: function(chapter) {
+    var that = this;
+        // data = this.getData(chapter),
+        // total = this.getTotalHouseholds(chapter);
+
+    switch(chapter) {
+        case 1:
+          this.chart[0] = d3.heatmap()
+            .id(0)
+            .width(100).height(330)
+            .margins({top: 30, right: 0, bottom: 40, left: 5})
+            .data(this.getData(chapter, 0))
+            .color(d3.scale.threshold()
+              .domain([10,20,30,40,50,60,70,80,90,100.1])
+               .range(['#f6eae9','#eed2cc','#e4b9b1','#daa295','#ce8a7c','#c27362','#b45b49','#9a4d3e','#7e4033','#643228']))
+            .relativeTo(this.getTotalHouseholds(chapter, 0))
+            .title("Currently used")
+            // .titleDeltaY(-15)
+            .xTitle("Wave")
+            // .xTitleDeltaX()
+            .hasNames(false)
+            .lookUp(Vis.DEFAULTS.LOOKUP_CODES.COPING_MECHANISMS);
+
+          this.chart[1] = d3.heatmap()
+            .id(1)
+            .width(440).height(380)
+            .margins({top: 30, right: 340, bottom: 40, left: 5})
+            .data(this.getData(chapter, 1))
+            .color(d3.scale.threshold()
+              // .domain([1,5,10,40,50,60,70,80,90,100.1])
+              .domain([10,20,30,40,50,60,70,80,90,100.1])
+              .range(['#dae6e9','#c2d1d6','#abbdc5','#94a8b3','#7d94a2','#668190','#506e80','#395c6f','#224a5f','#003950']))
+            .relativeTo(this.getTotalHouseholds(chapter, 1))
+            .title("Stopped")
+            // .titleDeltaY(-15)
+            // .xTitleDeltaX()
+            .xTitle("")
+            .hasNames(true)
+            .lookUp(Vis.DEFAULTS.LOOKUP_CODES.COPING_MECHANISMS);
+          break;
+        case 2:
+          break;
+        case 4:
+          break;
+        default:
+          console.log("no matching case.")
       }
-    },
+    this.render(chapter);
+  },
 
-    render: function() {
-    },
+  render: function(chapter) {
+    switch(chapter) {
+        case 1:
+          this.chart[0]
+            .data(this.getData(chapter, 0))
+            .relativeTo(this.getTotalHouseholds(chapter, 0))
+          d3.select("#main-chart").call(this.chart[0]);
 
-    initChart: function() {
-    },
+          this.chart[1]
+            .data(this.getData(chapter, 1))
+            .relativeTo(this.getTotalHouseholds(chapter, 1))
+          d3.select("#main-chart").call(this.chart[1]);
+          break;
+        case 2:
+          break;
+        case 4:
+          break;
+        default:
+          console.log("no matching case.")
+      }
+  },
 
-    getData: function() {
-      return this.model.incomesByType.top(Infinity);
-    },
+  getData: function(chapter, index) {
+    switch(chapter) {
+        case 1:
+          if(index == 0) {
+            return this.model.currentCopingByType.top(Infinity);
+          } else {
+            return this.model.stoppedCopingByType.top(Infinity);
+          }
+          // return (index == 0) ?
+          //   this.model.currentCopingByType.top(Infinity):
+          //   this.model.stoppedCopingByType.top(Infinity);
+          break;
+        case 2:
+          break;
+        case 4:
+          break;
+        default:
+          console.log("no matching case.")
+      }
+  },
 
-    getTotalHouseholds: function() {
-      return _.unique(this.model.incomesHousehold.top(Infinity).map(function(d) {
-         return d.hh })).length;
-    },
-
-    setTextContent: function(attr) {
-      var scenario = this.model.get("scenario")
-          id = this.model.getTemplateId(scenario.page, scenario.chapter, attr),
-          template = _.template(Vis.Templates[attr][id]);
-
-      $("#" + attr).html(template());
-    },
-
-    clearCharts: function() {
-      if (this.chart) this.chart = null;
-      if(!d3.select("#main-chart svg").empty()) d3.select("#main-chart svg").remove();
+  getTotalHouseholds: function(chapter, index) {
+    switch(chapter) {
+      case 1:
+        if (index == 0) {
+          return _.unique(this.model.currentCopingHousehold.top(Infinity)
+            .map(function(d) { return d.hh })).length;
+        } else {
+          return _.unique(this.model.stoppedCopingHousehold.top(Infinity)
+            .map(function(d) { return d.hh })).length;
+        }
+        break;
+      case 2:
+        // return _.unique(this.model.outcomesHousehold.top(Infinity)
+        //         .map(function(d) { return d.hh })).length;
+        break;
+      case 4:
+        // return _.unique(this.model.outcomesHousehold.top(Infinity)
+        //         .map(function(d) { return d.hh })).length;
+        break;
+      default:
+        console.log("no matching case.")
     }
+  },
+
+  setTextContent: function(attr) {
+    var scenario = this.model.get("scenario")
+        id = this.model.getTemplateId(scenario.page, scenario.chapter, attr),
+        template = _.template(Vis.Templates[attr][id]);
+
+    $("#" + attr).html(template());
+
+  },
+
+  clearCharts: function() {
+    // if (this.chart) this.chart = null;
+    if (this.chart) this.chart = new Array(2);
+    if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
+  }
 });
 // Education view
 Vis.Views.Education = Backbone.View.extend({
@@ -1183,7 +1260,8 @@ Vis.Views.Education = Backbone.View.extend({
 
     clearCharts: function() {
       if (this.chart) this.chart = null;
-      if(!d3.select("#main-chart svg").empty()) d3.select("#main-chart svg").remove();
+      // if(!d3.select("#main-chart svg").empty()) d3.select("#main-chart svg").remove();
+      if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
     }
 });
 // Living conditions view
@@ -1302,7 +1380,8 @@ Vis.Views.LivingConditions = Backbone.View.extend({
 
   clearCharts: function() {
     if (this.chart) this.chart = null;
-    if(!d3.select("#main-chart svg").empty()) d3.select("#main-chart svg").remove();
+    // if(!d3.select("#main-chart svg").empty()) d3.select("#main-chart svg").remove();
+    if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
   }
 });
 // Incomes view
@@ -1392,7 +1471,8 @@ Vis.Views.Incomes = Backbone.View.extend({
 
     clearCharts: function() {
       if (this.chart) this.chart = null;
-      if(!d3.select("#main-chart svg").empty()) d3.select("#main-chart svg").remove();
+      // if(!d3.select("#main-chart svg").empty()) d3.select("#main-chart svg").remove();
+      if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
     }
 });
 // Expenditures view
@@ -1544,7 +1624,6 @@ Vis.Views.Expenditures = Backbone.View.extend({
     },
 
     setTextContent: function(attr) {
-
       var scenario = this.model.get("scenario")
           id = this.model.getTemplateId(scenario.page, scenario.chapter, attr),
           template = _.template(Vis.Templates[attr][id]);
@@ -1555,7 +1634,8 @@ Vis.Views.Expenditures = Backbone.View.extend({
 
     clearCharts: function() {
       if (this.chart) this.chart = null;
-      if(!d3.select("#main-chart svg").empty()) d3.select("#main-chart svg").remove();
+      // if(!d3.select("#main-chart svg").empty()) d3.select("#main-chart svg").remove();
+      if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
     }
 });
 // Psychological wellbeing view
@@ -1623,7 +1703,8 @@ Vis.Views.PsychologicalWellbeing = Backbone.View.extend({
 
   clearCharts: function() {
     if (this.chart) this.chart = null;
-    if(!d3.select(".time-line svg").empty()) d3.select(".time-line svg").remove();
+    // if(!d3.select(".time-line svg").empty()) d3.select(".time-line svg").remove();
+    if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
   }
 });
 // Background view -- 1
@@ -4078,6 +4159,354 @@ d3.barChartMultiStacked = function() {
   chart.xTitle = function(_) {
     if (!arguments.length) return xTitle;
     xTitle = _;
+    return chart;
+  };
+  chart.lookUp = function(_) {
+    if (!arguments.length) return lookUp;
+    lookUp = _;
+    return chart;
+  };
+
+  chart.on = function (event, listener) {
+    _listeners.on(event, listener);
+    return chart;
+  };
+
+  return chart;
+};
+/* CREATE BAR CHART MULTI STACKED INSTANCE*/
+d3.heatmap = function() {
+  var width = 400,
+      height = 100,
+      margins = {top: 10, right: 25, bottom: 30, left: 20},
+      data = null,
+      x = d3.scale.ordinal(),
+      y = d3.scale.ordinal(),
+      color,
+      id = null,
+      relativeTo = null,
+      elasticY = false,
+      xData = null,
+      xDomain = null,
+      lookUp = null,
+      hasNames = true,
+      barHeight = 7,
+      barWidth = 11,
+      xAxis = d3.svg.axis().orient("bottom"),
+      yAxis = d3.svg.axis().orient("left").tickValues([0, 25, 50, 75, 100]),
+      // yAxis = d3.svg.axis().orient("left"),
+      hasBrush = false,
+      hasYAxis = true,
+      title = "My title",
+      xTitle = "My title",
+      brushClickReset = false,
+      brush = d3.svg.brush(),
+      brushExtent = null,
+      select = null,
+      selected = null;
+
+  var _gWidth = 400,
+      _gHeight = 100,
+      _handlesWidth = 9,
+      _yCategories = null,
+      _gCells,
+      _gNames,
+      _gBrush,
+      _gXAxis,
+      _gYAxis,
+      _gLabel,
+      _gLegend,
+      _listeners = d3.dispatch("filtered", "filtering");
+
+  function chart(div) {
+    _gWidth = width - margins.left - margins.right;
+    _gHeight = height - margins.top - margins.bottom;
+    div.each(function() {
+      var div = d3.select(this),
+          g = div.select(".heatmap #id-" + id + " g");
+          // g = div.select("g");
+
+      data = _transformData(data);
+
+      // create the skeleton chart.
+      if (g.empty()) _skeleton();
+
+      // if (select) {
+      //   var selection = select;
+      //   select = null;
+      //   _listeners.filtered(selection);
+      // }
+
+      if (!isDataEmpty()) _render();
+
+      function _render() {
+        // join
+        var cells = _gCells.selectAll(".cell")
+              .data(data, function(d) {
+                return d.joinId; });
+
+        // enter
+        cells
+          .enter()
+            .append("rect")
+            .attr("class", "cell")
+            .attr("width", x.rangeBand())
+            .attr("height", y.rangeBand());
+
+        // exit
+        cells.exit().remove();
+
+        // update
+        cells
+          .attr("x", function(d) {
+            return x(d.round); })
+          .attr("y", function(d) {
+            return y(d.key); })
+          .attr("fill", function(d) { return color(toPercentage(d.count)); });
+      }
+
+      function _transformData(data) {
+        var flatData = [];
+
+        if(!_yCategories) _yCategories = _.without(data.map(function(d) {
+          return d.key; }).sort(function(a, b) { return a - b; }), 97);
+
+        data.filter(function(d) { return d!== 97; }).forEach(function(d) {
+          d.value.forEach(function(v) { return v.key = d.key });
+          flatData.push(d.value);
+        });
+
+        flatData = _.flatten(flatData);
+        flatData.forEach(function(d) { return d.joinId = _.values(d).join("-");});
+
+        return flatData;
+      }
+
+      function _skeleton() {
+        // set scales range and domains
+        x.domain([1,2,3]);
+        x.rangeBands([0, _gWidth]);
+
+        y.domain(_yCategories);
+        y.rangeBands([_gHeight, 0]);
+
+        // yAxis.tickValues([25, 50, 75, 100]).tickFormat(function(d) { return d + " %"; });
+        // yAxis.scale(y);
+        xAxis.scale(x);
+
+        // create chart container
+        g = div
+            .append("div").classed("heatmap", true)
+            .append("svg")
+            .attr("id", "id-" + id)
+            .attr("width", width)
+            .attr("height", height)
+          .append("g")
+            .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
+
+        // g = div.append("svg")
+        //     .classed("heatmap", true)
+        //     .attr("id", "id-" + id)
+        //     .attr("width", width)
+        //     .attr("height", height)
+        //   .append("g")
+        //     .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
+
+        _gCells = g.append("g")
+            .attr("class", "cells");
+
+        // _gYAxis = g.append("g")
+        //     .attr("class", "y axis")
+        //     .call(yAxis);
+
+        _gXAxis = g.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + (_gHeight + 3) + ")")
+            .call(xAxis);
+
+        // names
+        if (hasNames) {
+          _gNames = g.append("g")
+              .attr("class", "names");
+
+          _gNames.selectAll("name")
+                .data(_yCategories)
+              .enter()
+                .append("text")
+                .attr("x", _gWidth + 10)
+                .attr("y", function(d) { return y(d); })
+                .attr("dy", "1.1em")
+                .style("text-anchor", "start")
+                .text(function(d) { return lookUp[d] ; });
+        }
+
+        // legend
+        // _gLegend = g.append("g").attr("class", "legends");
+
+        // var legend = _gLegend.selectAll(".legend")
+        //     .data(color.domain().slice().reverse())
+        //   .enter().append("g")
+        //     .attr("class", "legend")
+        //     .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+        //
+        // legend.append("rect")
+        //     .attr("x", _gWidth + 50)
+        //     .attr("y", _gHeight / 5)
+        //     .attr("width", 14)
+        //     .attr("height", 14)
+        //     .style("fill", color);
+        //
+        // legend.append("text")
+        //     .attr("x", _gWidth + 50 + 20)
+        //     .attr("y", _gHeight / 5)
+        //     .attr("dy", "1em")
+        //     .style("text-anchor", "start")
+        //     .text(function(d) { return lookUp[d] ; });
+
+        var deltaX = d3.select(".heatmap #id-" + id + " .x.axis path.domain")
+          .attr("d").split("H")[1].split("V")[0];
+
+        g.append("text")
+          .attr("class", "x title")
+          .attr("text-anchor", "middle")
+          .attr("x", +deltaX / 2)
+          .attr("y", _gHeight + 40)
+          .text(xTitle);
+
+        g.append("text")
+          .attr("class", "main title")
+          .attr("text-anchor", "middle")
+          .attr("x", +deltaX / 2)
+          .attr("y", -15)
+          .text(title);
+      }
+
+      function clickHandler(d) {
+        if (selected.length > 1) {
+          _listeners.filtered([d.key]);
+        } else {
+          if (selected[0] == d.key) {
+            _listeners.filtered(null);
+          } else {
+            _listeners.filtered([d.key]);
+          }
+        }
+      }
+
+      function isDataEmpty() {
+        return (d3.sum(data.map(function(d) { return d.count; }))) ? false : true;
+      }
+
+      function toPercentage(val) {
+        return Math.round((val/relativeTo)*100);
+      }
+
+      function _getDataBrushed(brush) {
+        var extent = brush.extent().map(function(d) { return Math.floor(d) + 0.5;});
+        return data
+          .map(function(d) { return d.key; })
+          .filter(function(d) {
+            return d >= extent[0] && d <= extent[1];
+          });
+      }
+    });
+  }
+
+  // Getters and Setters
+  chart.width = function(_) {
+    if (!arguments.length) return width;
+    width = _;
+    return chart;
+  };
+  chart.height = function(_) {
+    if (!arguments.length) return height;
+    height = _;
+    return chart;
+  };
+
+  chart.margins = function(_) {
+    if (!arguments.length) return margins;
+    margins = _;
+    return chart;
+  };
+  chart.data = function(_) {
+    if (!arguments.length) return data;
+    data = _;
+    return chart;
+  };
+  chart.xData = function(_) {
+    if (!arguments.length) return xData;
+    xData = _;
+    return chart;
+  };
+  chart.yData = function(_) {
+    if (!arguments.length) return yData;
+    yData = _;
+    return chart;
+  };
+  chart.elasticY = function(_) {
+    if (!arguments.length) return elasticY;
+    elasticY = _;
+    return chart;
+  };
+  chart.y = function(_) {
+    if (!arguments.length) return y;
+    y = _;
+    return chart;
+  };
+  chart.color = function(_) {
+    if (!arguments.length) return color;
+    color = _;
+    return chart;
+  };
+  chart.yAxis = function(_) {
+    if (!arguments.length) return yAxis;
+    yAxis = _;
+    return chart;
+  };
+  chart.relativeTo = function(_) {
+    if (!arguments.length) return relativeTo;
+    relativeTo = _;
+    return chart;
+  };
+  chart.hasBrush = function(_) {
+    if (!arguments.length) return hasBrush;
+    hasBrush = _;
+    return chart;
+  };
+  chart.brushExtent = function(_) {
+    if (!arguments.length) return brushExtent;
+    brushExtent = _;
+    return chart;
+  };
+  chart.selected = function(_) {
+    if (!arguments.length) return selected;
+    selected = _;
+    return chart;
+  };
+  chart.select = function(_) {
+    if (!arguments.length) return select;
+    select = _;
+    return chart;
+  };
+  chart.title = function(_) {
+    if (!arguments.length) return title;
+    title = _;
+    return chart;
+  };
+  chart.hasNames = function(_) {
+    if (!arguments.length) return hasNames;
+    hasNames = _;
+    return chart;
+  };
+  chart.xTitle = function(_) {
+    if (!arguments.length) return xTitle;
+    xTitle = _;
+    return chart;
+  };
+  chart.id = function(_) {
+    if (!arguments.length) return id;
+    id = _;
     return chart;
   };
   chart.lookUp = function(_) {

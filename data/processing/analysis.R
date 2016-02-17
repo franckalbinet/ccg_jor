@@ -233,11 +233,40 @@ sink("expenditures.json")
 cat(expenditures_json)
 sink()
 
+# PREPARE CURRENTLY USED COPING MECHANISMS - Q23
+current_coping <- select(data, Serial, ROUND, Q23)
+split_Q23 <- strsplit(as.character(current_coping$Q23), split = " ")
+serial <- rep(current_coping$Serial, sapply(split_Q23, length))
+round <- rep(current_coping$ROUND, sapply(split_Q23, length))
+current_coping_single <- data.frame(serial = serial, round = round, Q23 = unlist(split_Q23))
+current_coping_single <- tbl_df(current_coping_single)
+# merge  0,21 to 97 [other]
+current_coping_single$Q23 <- as.numeric(levels(current_coping_single$Q23))[current_coping_single$Q23]
+current_coping_single$Q23[current_coping_single$Q23 %in% c(0,21)] <- 97
 
-# PREPARE EXPENDITURES CHILDREN MOST DATASET Q16 - merged
+names(current_coping_single) <- c("hh","round","curr_cop")
+current_coping_json <- toJSON(unname(split(current_coping_single, 1:nrow(current_coping_single))))
+sink("current_coping_mechanisms.json")
+cat(current_coping_json)
+sink()
 
+# PREPARE STOPPED COPING MECHANISMS - Q25
+stopped_coping <- select(data, Serial, ROUND, Q25)
+split_Q25 <- strsplit(as.character(stopped_coping$Q25), split = " ")
+serial <- rep(stopped_coping$Serial, sapply(split_Q25, length))
+round <- rep(stopped_coping$ROUND, sapply(split_Q25, length))
+stopped_coping_single <- data.frame(serial = serial, round = round, Q25 = unlist(split_Q25))
+stopped_coping_single <- tbl_df(stopped_coping_single)
 
+# merge  0, 20, 21 to 97 [other]
+stopped_coping_single$Q25 <- as.numeric(levels(stopped_coping_single$Q25))[stopped_coping_single$Q25]
+stopped_coping_single$Q25[stopped_coping_single$Q25 %in% c(0,20,21, 99)] <- 97
 
+names(stopped_coping_single) <- c("hh","round","stop_cop")
+stopped_coping_json <- toJSON(unname(split(stopped_coping_single, 1:nrow(stopped_coping_single))))
+sink("stopped_coping_mechanisms.json")
+cat(stopped_coping_json)
+sink()
 
 
 # # households cutting back on education reduction - Q25 item 12

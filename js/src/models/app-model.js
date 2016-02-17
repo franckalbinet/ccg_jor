@@ -30,6 +30,8 @@ Vis.Models.App = Backbone.Model.extend({
     this.incomesHousehold.filter( this.filterExactList(this.getHouseholds()));
     this.expendituresHousehold.filter( this.filterExactList(this.getHouseholds()));
     this.outcomesHousehold.filter( this.filterExactList(this.getHouseholds()));
+    this.currentCopingHousehold.filter( this.filterExactList(this.getHouseholds()));
+    this.stoppedCopingHousehold.filter( this.filterExactList(this.getHouseholds()));
     Backbone.trigger("filtered");
   },
 
@@ -334,6 +336,25 @@ Vis.Models.App = Backbone.Model.extend({
       this.reduceAddRound("needs"), this.reduceRemoveRound("needs"), this.reduceInitRound(catBasicNeeds)
     );
 
+    // current coping mechanisms
+    var currentCopingCf = crossfilter(data.current_coping);
+    this.currentCopingHousehold = currentCopingCf.dimension(function(d) { return d.hh; });
+    this.currentCopingRound = currentCopingCf.dimension(function(d) { return d.round; });
+    this.currentCopingType = currentCopingCf.dimension(function(d) { return d.curr_cop; });
+    this.currentCopingByType = this.currentCopingType.group().reduce(
+      this.reduceAddType(), this.reduceRemoveType(), this.reduceInitType()
+    );
+
+    // stopped coping mechanisms
+    var stoppedCopingCf = crossfilter(data.stopped_coping);
+    this.stoppedCopingHousehold = stoppedCopingCf.dimension(function(d) { return d.hh; });
+    this.stoppedCopingRound = stoppedCopingCf.dimension(function(d) { return d.round; });
+    this.stoppedCopingType = stoppedCopingCf.dimension(function(d) { return d.stop_cop; });
+    this.stoppedCopingByType = this.stoppedCopingType.group().reduce(
+      this.reduceAddType(), this.reduceRemoveType(), this.reduceInitType()
+    );
+
+    // debugger;
 
     $(".container").show();
     $(".spinner").hide();
