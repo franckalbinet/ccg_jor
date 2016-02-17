@@ -77,6 +77,8 @@ d3.multiSeriesTimeLine = function() {
         line
           .style("stroke", function(d) {
             return color(d.key); })
+          // .style("stroke-dasharray", function(d) {
+          //   return (d.key > 8) ? "3,3" : "none";})
           .transition()
           .attr("d", function(d) {
             return _line(d.value);

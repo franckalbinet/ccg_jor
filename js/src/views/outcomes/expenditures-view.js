@@ -66,7 +66,7 @@ Vis.Views.Expenditures = Backbone.View.extend({
               .xTitle("Wave")
               .lookUp(Vis.DEFAULTS.LOOKUP_CODES.EXPENDITURES_CHILD_MOST);
             break;
-          case 3:
+          case 4:
             this.chart = d3.barChartMultiStacked()
               .width(455).height(350)
               .margins({top: 40, right: 160, bottom: 40, left: 200})
@@ -99,7 +99,7 @@ Vis.Views.Expenditures = Backbone.View.extend({
               .relativeTo(this.getTotalHouseholds(chapter))
             d3.select("#main-chart").call(this.chart);
             break;
-          case 3:
+          case 4:
             this.chart
               .data(this.getData(chapter))
               .relativeTo(this.getTotalHouseholds(chapter))
@@ -119,7 +119,7 @@ Vis.Views.Expenditures = Backbone.View.extend({
           case 2:
             return this.model.expendituresChildMostByRound.top(Infinity);
             break;
-          case 3:
+          case 4:
             return this.model.basicNeedsByRound.top(Infinity);
             break;
           default:
@@ -137,7 +137,7 @@ Vis.Views.Expenditures = Backbone.View.extend({
           return _.unique(this.model.outcomesHousehold.top(Infinity)
                   .map(function(d) { return d.hh })).length;
           break;
-        case 3:
+        case 4:
           return _.unique(this.model.outcomesHousehold.top(Infinity)
                   .map(function(d) { return d.hh })).length;
           break;
