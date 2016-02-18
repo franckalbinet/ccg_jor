@@ -116,7 +116,7 @@ data <- pdm[pdm$Serial %in% common_serials,]
 # switching to dplyr now
 data <- tbl_df(data)
 
-# PREPARE CHILDREN DATASET
+# PREPARE CHILDREN DATASET - PROFILE (select last round only)
 data_round3 <- filter(data, ROUND == 3) # using round 3 as reference
 # write a function for that, please !
 c1 <- select(data_round3, Serial, D4A.1:D4E.1)
@@ -161,6 +161,45 @@ children_json <- toJSON(unname(split(children, 1:nrow(children))))
 sink("children.json")
 cat(children_json)
 sink()
+
+
+# PREPARE EDUCATION DATASET 
+# write a function for that, please !
+c1 <- select(data, Serial, D4A.1:D4E.1, ROUND, D5, M4)
+names(c1) <- c("hh","gender","age", "edu_rec", "edu_type", "work", "round", "head", "pov_line")
+c2 <- select(data, Serial, D4A.2:D4E.2, ROUND, D5, M4)
+names(c2) <- c("hh","gender","age", "edu_rec", "edu_type", "work", "round", "head", "pov_line")
+c3 <- select(data, Serial, D4A.3:D4E.3, ROUND, D5, M4)
+names(c3) <- c("hh","gender","age", "edu_rec", "edu_type", "work", "round", "head", "pov_line")
+c4 <- select(data, Serial, D4A.4:D4E.4, ROUND, D5, M4)
+names(c4) <- c("hh","gender","age", "edu_rec", "edu_type", "work", "round", "head", "pov_line")
+c5 <- select(data, Serial, D4A.5:D4E.5, ROUND, D5, M4)
+names(c5) <- c("hh","gender","age", "edu_rec", "edu_type", "work", "round", "head", "pov_line")
+c6 <- select(data, Serial, D4A.6:D4E.6, ROUND, D5, M4)
+names(c6) <- c("hh","gender","age", "edu_rec", "edu_type", "work", "round", "head", "pov_line")
+c7 <- select(data, Serial, D4A.7:D4E.7, ROUND, D5, M4)
+names(c7) <- c("hh","gender","age", "edu_rec", "edu_type", "work", "round", "head", "pov_line")
+c8 <- select(data, Serial, D4A.8:D4E.8, ROUND, D5, M4)
+names(c8) <- c("hh","gender","age", "edu_rec", "edu_type", "work", "round", "head", "pov_line")
+c9 <- select(data, Serial, D4A.9:D4E.9, ROUND, D5, M4)
+names(c9) <- c("hh","gender","age", "edu_rec", "edu_type", "work", "round", "head", "pov_line")
+
+edu <- bind_rows(c1,c2,c3,c4,c5,c6,c7,c8,c9)
+edu <- filter(edu, age != "U")
+edu <- select(edu, hh, gender, age, edu_rec, round, head, pov_line)
+
+edu <- mutate(edu, age = as.numeric(age)) # coerce as.numeric
+
+# ceiling age < 1 to round them to 1 -- coding is wierd anyway: 0.11, 0.6, ...
+edu <- mutate(edu, age = ceiling(age))
+
+# export to json
+edu_json <- toJSON(unname(split(edu, 1:nrow(edu))))
+
+sink("education.json")
+cat(edu_json)
+sink()
+
 
 
 # PREPARE HOUSEHOLDS DATASET (hh: Serial, D5: head, M4: pov_line, D6: has_dis, S2: location)
