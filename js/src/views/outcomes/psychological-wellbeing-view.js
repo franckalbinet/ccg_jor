@@ -15,7 +15,9 @@ Vis.Views.PsychologicalWellbeing = Backbone.View.extend({
         that = this;
 
     if (scenario.page === 7) {
-      $(".profile").show();
+      
+
+      $(".profile").hide();
       this.clearCharts();
       // set text content
       ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {

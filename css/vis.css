@@ -280,6 +280,15 @@ h1,h2,h3,h4,h5 {
   fill: #222;
 }
 
+#main-chart .bar-chart-education rect {
+  fill: #80A6B1;
+}
+#main-chart .bar-chart-education .figures text {
+  fill: #333;
+  font-weight: 700;
+  font-size: 12px;
+}
+
 
 /* time line navigation */
 #time-line-navigation .btn {

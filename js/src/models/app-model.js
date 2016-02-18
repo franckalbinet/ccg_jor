@@ -354,6 +354,18 @@ Vis.Models.App = Backbone.Model.extend({
       this.reduceAddType(), this.reduceRemoveType(), this.reduceInitType()
     );
 
+    // education
+    var educationCf = crossfilter(data.education);
+    this.educationAge = educationCf.dimension(function(d) { return d.age; });
+    this.educationGender = educationCf.dimension(function(d) { return d.gender; });
+    this.educationPoverty = educationCf.dimension(function(d) { return d.pov_line; });
+    this.educationHead = educationCf.dimension(function(d) { return d.head; });
+    this.educationRound = educationCf.dimension(function(d) { return d.round; });
+    this.educationByRound = this.educationRound.group().reduce(
+      this.reduceAddRound("edu_rec"), this.reduceRemoveRound("edu_rec"), this.reduceInitRound([1,2])
+    );
+    this.educationAge.filter([6,18]);
+
     // debugger;
 
     $(".container").show();

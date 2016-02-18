@@ -19,6 +19,9 @@ Vis.Views.Incomes = Backbone.View.extend({
 
 
       if (scenario.page === 3) {
+        $("#households-children").show();
+        $("#children-gender").hide();
+
         this.clearCharts();
         $(".profile").show();
         // set text content

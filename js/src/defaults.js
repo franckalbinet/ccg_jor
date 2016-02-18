@@ -12,6 +12,7 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
     EXPENDITURES: "expenditures.json",
     CURRENT_COPING_MECHANISMS: "current_coping_mechanisms.json",
     STOPPED_COPING_MECHANISMS: "stopped_coping_mechanisms.json",
+    EDUCATION: "education.json",
     MILESTONES: "milestones.json"
   },
   LOOKUP_CODES: {

@@ -15,6 +15,10 @@ Vis.Views.Background = Backbone.View.extend({
           that = this;
 
       if (scenario.page === 1) {
+
+        $("#households-children").hide();
+        $("#children-gender").hide();
+
         this.clearCharts();
         $(".profile").hide();
         // set text content

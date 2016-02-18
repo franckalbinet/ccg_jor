@@ -23,6 +23,7 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
     EXPENDITURES: "expenditures.json",
     CURRENT_COPING_MECHANISMS: "current_coping_mechanisms.json",
     STOPPED_COPING_MECHANISMS: "stopped_coping_mechanisms.json",
+    EDUCATION: "education.json",
     MILESTONES: "milestones.json"
   },
   LOOKUP_CODES: {
@@ -160,10 +161,17 @@ Vis.Collections.App = Backbone.Collection.extend({
           })
         },
         that.url + Vis.DEFAULTS.DATASETS.STOPPED_COPING_MECHANISMS)
+      .defer(
+        function(url, callback) {
+          d3.json(url, function(error, result) {
+            callback(error, result);
+          })
+        },
+        that.url + Vis.DEFAULTS.DATASETS.EDUCATION)
       .await(_ready);
 
     // on success
-    function _ready(error, children, households, outcomes, milestones, incomes, expenditures, current_coping, stopped_coping) {
+    function _ready(error, children, households, outcomes, milestones, incomes, expenditures, current_coping, stopped_coping, education) {
       var that = this;
 
       // coerce data
@@ -182,6 +190,7 @@ Vis.Collections.App = Backbone.Collection.extend({
         expenditures: expenditures,
         current_coping: current_coping,
         stopped_coping: stopped_coping,
+        education: education,
         milestones: milestones
       });
     }
@@ -542,6 +551,18 @@ Vis.Models.App = Backbone.Model.extend({
     this.stoppedCopingByType = this.stoppedCopingType.group().reduce(
       this.reduceAddType(), this.reduceRemoveType(), this.reduceInitType()
     );
+
+    // education
+    var educationCf = crossfilter(data.education);
+    this.educationAge = educationCf.dimension(function(d) { return d.age; });
+    this.educationGender = educationCf.dimension(function(d) { return d.gender; });
+    this.educationPoverty = educationCf.dimension(function(d) { return d.pov_line; });
+    this.educationHead = educationCf.dimension(function(d) { return d.head; });
+    this.educationRound = educationCf.dimension(function(d) { return d.round; });
+    this.educationByRound = this.educationRound.group().reduce(
+      this.reduceAddRound("edu_rec"), this.reduceRemoveRound("edu_rec"), this.reduceInitRound([1,2])
+    );
+    this.educationAge.filter([6,18]);
 
     // debugger;
 
@@ -918,9 +939,10 @@ Vis.Views.ChildrenGender = Backbone.View.extend({
 
       this.chart = d3.barChartStackedChildren()
         .width(150).height(150)
-        .margins({top: 40, right: 20, bottom: 10, left: 80})
+        .margins({top: 40, right: 20, bottom: 1, left: 80})
         .data(data)
-        .color(d3.scale.ordinal().range(["#538dbc", "#d2766c"]).domain(["Female", "Male"]))
+        .color(d3.scale.ordinal().range(["#5e5e66", "#80a6b1"]).domain(["Female", "Male"]))
+        // .color(d3.scale.ordinal().range(["#538dbc", "#d2766c"]).domain(["Female", "Male"]))
         .title("By gender")
         .hasBrush(false);
 
@@ -974,6 +996,10 @@ Vis.Views.Background = Backbone.View.extend({
           that = this;
 
       if (scenario.page === 1) {
+
+        $("#households-children").hide();
+        $("#children-gender").hide();
+
         this.clearCharts();
         $(".profile").hide();
         // set text content
@@ -1047,6 +1073,9 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
 
   preRender: function(chapter) {
     var that = this;
+
+    $("#households-children").show();
+    $("#children-gender").hide();
 
     this.clearCharts();
 
@@ -1198,71 +1227,131 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
 });
 // Education view
 Vis.Views.Education = Backbone.View.extend({
-    el: '.container',
+  el: '.container',
 
-    initialize: function () {
-      this.dispatch(this.model.get("scenario"));
-      this.model.on("change:scenario", function() {
-        this.dispatch(this.model.get("scenario"));
-        },this);
-      Backbone.on("filtered", function(d) { this.render();}, this);
-    },
+  initialize: function () {
+    var that = this;
 
-    dispatch: function(scenario) {
-      var scenario = this.model.get("scenario"),
-          that = this;
+    if (that.model.get("scenario").page === 2) this.preRender(this.model.get("scenario").chapter);
 
-      if (scenario.page === 2) {
-        this.clearCharts();
-        $(".profile").show();
-        // set text content
-        ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {
-          that.setTextContent(d);
-        });
-        $("#pending").show();
-        $("#pending").html("<p style='font-weight: 11px; color: #999;'>Interactive chart will be available there ...</p>");
+    this.model.on("change:scenario", function() {
+      if (that.model.get("scenario").page === 2) this.preRender(that.model.get("scenario").chapter);
+      },this);
 
-        switch(scenario.chapter) {
-          case 1:
-              // this.initChart();
-              break;
-          case 2:
-              // code block
-              break;
-          default:
-              // default code block
-        }
+    Backbone.on("filtered", function(d) {
+      if (that.model.get("scenario").page === 2) this.render(that.model.get("scenario").chapter);
+      }, this);
+  },
+
+  preRender: function(chapter) {
+    var that = this;
+
+    this.clearCharts();
+
+    $(".profile").show();
+
+    // set text content
+    ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {
+      that.setTextContent(d);
+    });
+
+    $("#pending").hide();
+
+    $("#main-chart").show();
+
+    $("#households-children").hide();
+    $("#children-gender").show();
+
+
+    this.initChart(chapter);
+  },
+
+  initChart: function(chapter) {
+    var that = this,
+        data = this.getData(chapter);
+        // total = this.getTotalHouseholds(chapter);
+
+    switch(chapter) {
+        case 1:
+          this.chart = d3.barChartEducation()
+            .width(600).height(350)
+            .margins({top: 40, right: 240, bottom: 40, left: 140})
+            .data(data)
+            .title("Education attendance among school-aged children")
+            .xTitle("Wave");
+
+          break;
+        case 2:
+          break;
+        case 4:
+          this.chart = d3.barChartMultiStacked()
+          break;
+        default:
+          console.log("no matching case.")
       }
-    },
+    this.render(chapter);
+  },
 
-    render: function() {
-    },
+  render: function(chapter) {
+    switch(chapter) {
+        case 1:
+          this.chart
+            .data(this.getData(chapter))
+            // .relativeTo(this.getTotalHouseholds(chapter))
+          d3.select("#main-chart").call(this.chart);
+          break;
+        case 2:
+          break;
+        case 4:
+          break;
+        default:
+          console.log("no matching case.")
+      }
+  },
 
-    initChart: function() {
-    },
+  getData: function(chapter) {
+    switch(chapter) {
+        case 1:
+          return this.model.educationByRound.top(Infinity);
+          break;
+        case 2:
+          break;
+        case 4:
+          break;
+        default:
+          console.log("no matching case.")
+      }
+  },
 
-    getData: function() {
-      return this.model.incomesByType.top(Infinity);
-    },
-
-    getTotalHouseholds: function() {
-      return _.unique(this.model.incomesHousehold.top(Infinity).map(function(d) {
-         return d.hh })).length;
-    },
-
-    setTextContent: function(attr) {
-      var scenario = this.model.get("scenario")
-          id = this.model.getTemplateId(scenario.page, scenario.chapter, attr),
-          template = _.template(Vis.Templates[attr][id]);
-
-      $("#" + attr).html(template());
-    },
-
-    clearCharts: function() {
-      if (this.chart) this.chart = null;
-      // if(!d3.select("#main-chart svg").empty()) d3.select("#main-chart svg").remove();
-      if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
+  getTotalHouseholds: function(chapter) {
+    switch(chapter) {
+      case 1:
+        return _.unique(this.model.expendituresHousehold.top(Infinity)
+                .map(function(d) { return d.hh })).length;
+        break;
+      case 2:
+        break;
+      case 4:
+        break;
+      default:
+        console.log("no matching case.")
     }
+  },
+
+  setTextContent: function(attr) {
+    var scenario = this.model.get("scenario")
+        id = this.model.getTemplateId(scenario.page, scenario.chapter, attr),
+        template = _.template(Vis.Templates[attr][id]);
+
+    $("#" + attr).html(template());
+
+  },
+
+  clearCharts: function() {
+    if (this.chart) this.chart = null;
+    // if(!d3.select("#main-chart svg").empty()) d3.select("#main-chart svg").remove();
+    if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
+  }
 });
 // Living conditions view
 Vis.Views.LivingConditions = Backbone.View.extend({
@@ -1284,6 +1373,9 @@ Vis.Views.LivingConditions = Backbone.View.extend({
 
   preRender: function(chapter) {
     var that = this;
+
+    $("#households-children").show();
+    $("#children-gender").hide();
 
     this.clearCharts();
 
@@ -1405,6 +1497,9 @@ Vis.Views.Incomes = Backbone.View.extend({
 
 
       if (scenario.page === 3) {
+        $("#households-children").show();
+        $("#children-gender").hide();
+
         this.clearCharts();
         $(".profile").show();
         // set text content
@@ -1495,6 +1590,9 @@ Vis.Views.Expenditures = Backbone.View.extend({
 
     preRender: function(chapter) {
       var that = this;
+
+      $("#households-children").show();
+      $("#children-gender").hide();
 
       this.clearCharts();
 
@@ -1655,7 +1753,9 @@ Vis.Views.PsychologicalWellbeing = Backbone.View.extend({
         that = this;
 
     if (scenario.page === 7) {
-      $(".profile").show();
+      
+
+      $(".profile").hide();
       this.clearCharts();
       // set text content
       ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {
@@ -4515,6 +4615,245 @@ d3.heatmap = function() {
     return chart;
   };
 
+  chart.on = function (event, listener) {
+    _listeners.on(event, listener);
+    return chart;
+  };
+
+  return chart;
+};
+/* CREATE BAR CHART INSTANCE*/
+d3.barChartEducation = function() {
+  var width = 400,
+      height = 100,
+      margins = {top: 10, right: 25, bottom: 30, left: 20},
+      data = null,
+      x = d3.scale.ordinal(),
+      y = d3.scale.linear(),
+      elasticY = false,
+      xDomain = null,
+      title = "",
+      xTitle = "",
+      barHeight = 7,
+      xAxis = d3.svg.axis().orient("bottom"),
+      yAxis = d3.svg.axis().orient("left"),
+      hasBrush = false,
+      hasYAxis = true,
+      title = "My title",
+      brushClickReset = false,
+      brush = d3.svg.brush(),
+      brushExtent = null,
+      selected = null;
+
+  var _gWidth = 400,
+      _gHeight = 100,
+      _handlesWidth = 9,
+      _gBars,
+      _gFigures,
+      _gBrush,
+      _gXAxis,
+      _gYAxis,
+      _listeners = d3.dispatch("filtered", "filtering");
+
+  function chart(div) {
+    _gWidth = width - margins.left - margins.right;
+    _gHeight = height - margins.top - margins.bottom;
+
+    div.each(function() {
+      var div = d3.select(this),
+          g = div.select("g");
+
+      data = _transformData(data);
+
+      // create the skeleton chart.
+      if (g.empty()) _skeleton();
+
+      if (!isDataEmpty()) _render();
+
+      function _render() {
+        // EXIT - ENTER - UPDATE PATTERN - BARS
+        var rects =  _gBars.selectAll("rect")
+          .data(data, function(d) { return d.joinId; });
+        rects.exit().remove();
+        rects.enter().append("rect");
+        rects
+            // .transition()
+            .attr("x", function(d) {
+              return x(d.key) })
+            .attr("y", function(d) {
+              return y(d.rate)  })
+            .attr("width", x.rangeBand())
+            .attr("height", function(d) {
+              return _gHeight - y(d.rate); });
+
+        // EXIT - ENTER - UPDATE PATTERN - FIGURES
+        var figures =  _gFigures.selectAll("text")
+          .data(data, function(d) { return d.joinId; });
+        figures.exit().remove();
+        figures.enter().append("text");
+        figures
+            // .transition()
+            .attr("text-anchor", "middle")
+            .text(function(d) {
+              return d.rate + "%"})
+            .attr("x", function(d) {
+              return x(d.key) + x.rangeBand() / 2 })
+            .attr("y", function(d) {
+              return y(d.rate) - 10  });
+      }
+
+      function _transformData(data) {
+        data.forEach(function(d) {
+          var attended = d.value.filter(function(v) {
+            return v.category == 1; })[0].count;
+
+          var notAttended = d.value.filter(function(v) {
+            return v.category == 2; })[0].count;
+          d.rate = Math.ceil((attended/(attended+notAttended))*100);
+        });
+        data.forEach(function(d) { d.joinId = [d.key, d.rate].join("-"); });
+        return data;
+      }
+
+      function isDataEmpty() {
+        var countAll = [];
+        data.forEach(function(d) {
+          countAll.push(d3.sum(d.value.map(function(v) { return v.count; }))) });
+        countAll = d3.sum(countAll);
+        return (countAll) ? false : true;
+      }
+
+      function _skeleton() {
+        x.domain([1,2,3]);
+        x.rangeRoundBands([0, _gWidth], .4);
+        y.domain([0, 100]);
+        y.range([_gHeight, 0]);
+
+        yAxis.tickValues([25, 50, 75, 100]).tickFormat(function(d) { return d + " %"; });
+        yAxis.scale(y);
+        xAxis.scale(x);
+
+        // create chart container
+        g = div.append("svg")
+            .classed("bar-chart-education", true)
+            .attr("width", width)
+            .attr("height", height)
+          .append("g")
+            .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
+
+        _gBars = g.append("g")
+            .attr("class", "bars");
+
+        _gFigures = g.append("g")
+            .attr("class", "figures");
+
+        // _gYAxis = g.append("g")
+        //     .attr("class", "y axis")
+        //     .call(yAxis);
+
+        _gXAxis = g.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + (_gHeight + 3) + ")")
+            .call(xAxis);
+
+        var deltaX = d3.selectAll(".bar-chart-education .x.axis path.domain")
+          .attr("d").split("H")[1].split("V")[0];
+
+        g.append("text")
+          .attr("class", "x title")
+          .attr("text-anchor", "middle")
+          .attr("x", +deltaX / 2)
+          .attr("y", _gHeight + 40)
+          .text(xTitle);
+
+        g.append("text")
+          .attr("class", "main title")
+          .attr("text-anchor", "middle")
+          .attr("x", +deltaX / 2)
+          .attr("y", -25)
+          .text(title);
+      }
+    });
+  }
+
+  // Getters and Setters
+  chart.width = function(_) {
+    if (!arguments.length) return width;
+    width = _;
+    return chart;
+  };
+  chart.height = function(_) {
+    if (!arguments.length) return height;
+    height = _;
+    return chart;
+  };
+
+  chart.margins = function(_) {
+    if (!arguments.length) return margins;
+    margins = _;
+    return chart;
+  };
+  chart.data = function(_) {
+    if (!arguments.length) return data;
+    data = _;
+    return chart;
+  };
+  chart.elasticY = function(_) {
+    if (!arguments.length) return elasticY;
+    elasticY = _;
+    return chart;
+  };
+  chart.x = function(_) {
+    if (!arguments.length) return x;
+    x = _;
+    return chart;
+  };
+  chart.y = function(_) {
+    if (!arguments.length) return y;
+    y = _;
+    return chart;
+  };
+  chart.xAxis = function(_) {
+    if (!arguments.length) return xAxis;
+    xAxis = _;
+    return chart;
+  };
+  chart.yAxis = function(_) {
+    if (!arguments.length) return yAxis;
+    yAxis = _;
+    return chart;
+  };
+  chart.hasYAxis = function(_) {
+    if (!arguments.length) return hasYAxis;
+    hasYAxis = _;
+    return chart;
+  };
+  chart.hasBrush = function(_) {
+    if (!arguments.length) return hasBrush;
+    hasBrush = _;
+    return chart;
+  };
+
+  chart.brushExtent = function(_) {
+    if (!arguments.length) return brushExtent;
+    brushExtent = _;
+    return chart;
+  };
+  chart.selected = function(_) {
+    if (!arguments.length) return selected;
+    selected = _;
+    return chart;
+  };
+  chart.title = function(_) {
+    if (!arguments.length) return title;
+    title = _;
+    return chart;
+  };
+  chart.xTitle = function(_) {
+    if (!arguments.length) return xTitle;
+    xTitle = _;
+    return chart;
+  };
   chart.on = function (event, listener) {
     _listeners.on(event, listener);
     return chart;

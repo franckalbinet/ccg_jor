@@ -34,6 +34,7 @@ vis_src =	${vis_dir}/namespace.js\
 					${vis_dir}/charts/multi-series-time-line.js\
 					${vis_dir}/charts/bar-chart-multi-stacked.js\
 					${vis_dir}/charts/heatmap.js\
+					${vis_dir}/charts/bar-chart-education.js\
 					${vis_dir}/templates/app-templates.js\
 
 # vis.js build

@@ -67,10 +67,17 @@ Vis.Collections.App = Backbone.Collection.extend({
           })
         },
         that.url + Vis.DEFAULTS.DATASETS.STOPPED_COPING_MECHANISMS)
+      .defer(
+        function(url, callback) {
+          d3.json(url, function(error, result) {
+            callback(error, result);
+          })
+        },
+        that.url + Vis.DEFAULTS.DATASETS.EDUCATION)
       .await(_ready);
 
     // on success
-    function _ready(error, children, households, outcomes, milestones, incomes, expenditures, current_coping, stopped_coping) {
+    function _ready(error, children, households, outcomes, milestones, incomes, expenditures, current_coping, stopped_coping, education) {
       var that = this;
 
       // coerce data
@@ -89,6 +96,7 @@ Vis.Collections.App = Backbone.Collection.extend({
         expenditures: expenditures,
         current_coping: current_coping,
         stopped_coping: stopped_coping,
+        education: education,
         milestones: milestones
       });
     }

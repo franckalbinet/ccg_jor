@@ -19,6 +19,9 @@ Vis.Views.LivingConditions = Backbone.View.extend({
   preRender: function(chapter) {
     var that = this;
 
+    $("#households-children").show();
+    $("#children-gender").hide();
+
     this.clearCharts();
 
     $(".profile").show();
