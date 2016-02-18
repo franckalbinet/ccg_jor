@@ -254,6 +254,26 @@ sink("incomes.json")
 cat(incomes_json)
 sink()
 
+
+# PREPARE ECONOMIC CONTRIBUTOR DATASET D8 [1: Father, 2: Mother, 3: Other adult, 4: Child over 16, 5: Child under 16, 6: None]
+eco_contrib <- select(data, Serial, ROUND, D8)
+split_D8 <- strsplit(as.character(eco_contrib$D8), split = " ")
+serial <- rep(eco_contrib$Serial, sapply(split_D8, length))
+round <- rep(eco_contrib$ROUND, sapply(split_D8, length))
+eco_contrib_single <- data.frame(serial = serial, round = round, D8 = unlist(split_D8))
+eco_contrib_single <- tbl_df(eco_contrib_single)
+
+eco_contrib_single$D8 <- as.numeric(levels(eco_contrib_single$D8))[eco_contrib_single$D8]
+eco_contrib_single$D8[eco_contrib_single$D8 %in% c(0)] <- 6
+
+names(eco_contrib_single) <- c("hh","round","eco_contrib")
+eco_contrib_json <- toJSON(unname(split(eco_contrib_single, 1:nrow(eco_contrib_single))))
+sink("eco_contributors.json")
+cat(eco_contrib_json)
+sink()
+
+
+
 # PREPARE EXPENDITURES DATASET 
 expenditures <- select(data, Serial, ROUND, Q12)
 split_Q12 <- strsplit(as.character(expenditures$Q12), split = " ")

@@ -13,6 +13,7 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
     CURRENT_COPING_MECHANISMS: "current_coping_mechanisms.json",
     STOPPED_COPING_MECHANISMS: "stopped_coping_mechanisms.json",
     EDUCATION: "education.json",
+    ECO_CONTRIBUTORS: "eco_contributors.json",
     MILESTONES: "milestones.json"
   },
   LOOKUP_CODES: {
@@ -21,6 +22,7 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
     HEAD: {1:"Father", 2:"Mother"},
     GENDER: {1:"Male", 2:"Female"},
     INCOME: {1:"UN cash assistance", 2:"WFP voucher", 5:"Paid labour", 99:"Other"},
+    ECO_CONTRIBUTORS: {1:"Father",2:"Mother",3:"Other adult",4:"Child over 16",5:"Child under 16",6:"None"},
     EXPENDITURES: {1:"Rent", 2:"Utilities", 3:"Communications", 4:"Food", 5:"Education", 6:"Health care services [adults]",
                    7:"Medicine [adults]", 8:"Health care services [children]", 9:"Medicine [children]", 10:"Transportation",
                   11:"Debt payoff", 12:"Savings", 13:"Other children expenditures", 97:"Other"},

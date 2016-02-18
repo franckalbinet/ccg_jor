@@ -32,6 +32,7 @@ Vis.Models.App = Backbone.Model.extend({
     this.outcomesHousehold.filter( this.filterExactList(this.getHouseholds()));
     this.currentCopingHousehold.filter( this.filterExactList(this.getHouseholds()));
     this.stoppedCopingHousehold.filter( this.filterExactList(this.getHouseholds()));
+    this.ecoContribHousehold.filter( this.filterExactList(this.getHouseholds()));
     Backbone.trigger("filtered");
   },
 
@@ -303,6 +304,14 @@ Vis.Models.App = Backbone.Model.extend({
       this.reduceAddType(), this.reduceRemoveType(), this.reduceInitType()
     );
 
+    // economical contributor
+    var ecoContribCf = crossfilter(data.ecoContributors);
+    this.ecoContribHousehold = ecoContribCf.dimension(function(d) { return d.hh; });
+    this.ecoContribType = ecoContribCf.dimension(function(d) { return d.eco_contrib; });
+    this.ecoContribByType = this.ecoContribType.group().reduce(
+      this.reduceAddType(), this.reduceRemoveType(), this.reduceInitType()
+    );
+
     // expenditures
     var expendituresCf = crossfilter(data.expenditures);
     this.expendituresHousehold = expendituresCf.dimension(function(d) { return d.hh; });
@@ -337,7 +346,7 @@ Vis.Models.App = Backbone.Model.extend({
     );
 
     // current coping mechanisms
-    var currentCopingCf = crossfilter(data.current_coping);
+    var currentCopingCf = crossfilter(data.currentCoping);
     this.currentCopingHousehold = currentCopingCf.dimension(function(d) { return d.hh; });
     this.currentCopingRound = currentCopingCf.dimension(function(d) { return d.round; });
     this.currentCopingType = currentCopingCf.dimension(function(d) { return d.curr_cop; });
@@ -346,7 +355,7 @@ Vis.Models.App = Backbone.Model.extend({
     );
 
     // stopped coping mechanisms
-    var stoppedCopingCf = crossfilter(data.stopped_coping);
+    var stoppedCopingCf = crossfilter(data.stoppedCoping);
     this.stoppedCopingHousehold = stoppedCopingCf.dimension(function(d) { return d.hh; });
     this.stoppedCopingRound = stoppedCopingCf.dimension(function(d) { return d.round; });
     this.stoppedCopingType = stoppedCopingCf.dimension(function(d) { return d.stop_cop; });

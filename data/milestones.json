@@ -5,6 +5,7 @@
 {"time": 15, "title": "By children", "isMain": false, "page": 2, "chapter": 2, "main-text": 8, "sub-text": 8, "quote": 7, "quote-ref": 7},
 {"time": 20, "title": "By hh", "isMain": false, "page": 2, "chapter": 3, "main-text": 8, "sub-text": 8, "quote": 7, "quote-ref": 7},
 {"time": 25, "title": "Income patterns", "isMain": true, "page": 3, "chapter": 1, "main-text": 2, "sub-text": 2, "quote": 2, "quote-ref": 2},
+{"time": 30, "title": "Income / economic contributors", "isMain": false, "page": 3, "chapter": 2, "main-text": 2, "sub-text": 2, "quote": 2, "quote-ref": 2},
 {"time": 35, "title": "Expenditure patterns", "isMain": true, "page": 4, "chapter": 1, "main-text": 3, "sub-text": 3, "quote": 3, "quote-ref": 3},
 {"time": 40, "title": "Expenditure patterns children specifics - mostly spent", "isMain": false, "page": 4, "chapter": 2, "main-text": 9, "sub-text": 3, "quote": 7, "quote-ref": 7},
 {"time": 45, "title": "Expenditure patterns children specifics - all", "isMain": false, "page": 4, "chapter": 3, "main-text": 10, "sub-text": 3, "quote": 7, "quote-ref": 7},

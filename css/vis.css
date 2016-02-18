@@ -273,6 +273,7 @@ h1,h2,h3,h4,h5 {
 #main-chart .heatmap rect {
   stroke: none;
   fill-opacity: 0.85;
+  /*fill-opacity: 1;*/
 }
 #main-chart .heatmap .names text {
   font-family: Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
