@@ -30,6 +30,7 @@ d3.multiSeriesTimeLine = function() {
       _gBrush,
       _gXAxis,
       _gYAxis,
+      _gLegend,
       _line,
       _listeners = d3.dispatch("filtered", "filtering");
 
@@ -173,6 +174,38 @@ d3.multiSeriesTimeLine = function() {
           .attr("x", +deltaX / 2)
           .attr("y", -30)
           .text(title);
+
+        _gLegend = g.append("g").attr("class", "legends");
+
+        var legend = _gLegend.selectAll(".legend")
+            .data(color.domain().slice())
+          .enter().append("g")
+            .attr("class", "legend")
+            .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+        legend.append("line")
+            .attr("x1", _gWidth + 50)
+            .attr("x2", _gWidth + 75)
+            .attr("y1", 0)
+            .attr("y2", 0)
+            // .attr("y1", _gHeight / 5)
+            // .attr("y2", _gHeight / 5)
+            .style("stroke", color);
+
+        legend.append("circle")
+            .attr("cx", _gWidth + 63)
+            // .attr("cy", _gHeight / 5)
+            .attr("cy", 0)
+            .attr("r", 3.5)
+            .style("fill", color);
+
+        legend.append("text")
+            .attr("x", _gWidth + 50 + 30)
+            // .attr("y", _gHeight / 5)
+            .attr("y", 0)
+            .attr("dy", "0.3em")
+            .style("text-anchor", "start")
+            .text(function(d) { return lookUp[d] ; });
 
       }
 

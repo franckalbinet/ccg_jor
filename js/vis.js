@@ -1707,7 +1707,7 @@ Vis.Views.Expenditures = Backbone.View.extend({
           case 1:
             this.chart = d3.multiSeriesTimeLine()
               .width(600).height(350)
-              .margins({top: 40, right: 200, bottom: 40, left: 45})
+              .margins({top: 40, right: 230, bottom: 40, left: 45})
               .data(data)
               .color(d3.scale.ordinal().range(
                 ["#003950","#745114","#88a3b6","#917E8A","#E59138","#6D8378",
@@ -3730,6 +3730,7 @@ d3.multiSeriesTimeLine = function() {
       _gBrush,
       _gXAxis,
       _gYAxis,
+      _gLegend,
       _line,
       _listeners = d3.dispatch("filtered", "filtering");
 
@@ -3873,6 +3874,38 @@ d3.multiSeriesTimeLine = function() {
           .attr("x", +deltaX / 2)
           .attr("y", -30)
           .text(title);
+
+        _gLegend = g.append("g").attr("class", "legends");
+
+        var legend = _gLegend.selectAll(".legend")
+            .data(color.domain().slice())
+          .enter().append("g")
+            .attr("class", "legend")
+            .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+        legend.append("line")
+            .attr("x1", _gWidth + 50)
+            .attr("x2", _gWidth + 75)
+            .attr("y1", 0)
+            .attr("y2", 0)
+            // .attr("y1", _gHeight / 5)
+            // .attr("y2", _gHeight / 5)
+            .style("stroke", color);
+
+        legend.append("circle")
+            .attr("cx", _gWidth + 63)
+            // .attr("cy", _gHeight / 5)
+            .attr("cy", 0)
+            .attr("r", 3.5)
+            .style("fill", color);
+
+        legend.append("text")
+            .attr("x", _gWidth + 50 + 30)
+            // .attr("y", _gHeight / 5)
+            .attr("y", 0)
+            .attr("dy", "0.3em")
+            .style("text-anchor", "start")
+            .text(function(d) { return lookUp[d] ; });
 
       }
 
