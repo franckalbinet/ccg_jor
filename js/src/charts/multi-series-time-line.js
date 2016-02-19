@@ -99,12 +99,55 @@ d3.multiSeriesTimeLine = function() {
             var parent = d3.select(this).node().parentNode.__data__;
             return color(parent.key); })
           .attr("r", function(d) {
-            return 3.5})
+            return 3})
             .attr("cx", function(d) {
               return x(d.round); })
           .transition()
           .attr("cy", function(d) {
             return y(toPercentage(d.count)); });
+
+        // var legend = _gLegend.selectAll(".legend")
+        //     .data(getSortedKeys())
+        //   .enter().append("g")
+        //     .attr("class", "legend")
+        //     .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+
+        var legend = _gLegend.selectAll(".legend")
+          .data(getSortedKeys(), function(d) { return d.key; });
+
+        legend.enter().append("g").attr("class", "legend");
+
+        legend.exit().remove();
+
+        legend
+          .transition()
+          .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+        _gLegend.selectAll("line").remove();
+        legend.append("line")
+            .attr("x1", _gWidth + 50)
+            .attr("x2", _gWidth + 75)
+            .attr("y1", 0)
+            .attr("y2", 0)
+            .style("stroke", function(d) { return color(d.key); });
+
+        _gLegend.selectAll("circle").remove();
+        legend.append("circle")
+            .attr("cx", _gWidth + 63)
+            .attr("cy", 0)
+            .attr("r", 3)
+            .style("fill", function(d) { return color(d.key); });
+
+        _gLegend.selectAll("text").remove();
+        legend.append("text")
+            .attr("x", _gWidth + 50 + 30)
+            .attr("y", 0)
+            .attr("dy", "0.3em")
+            .style("text-anchor", "start")
+            .text(function(d) { return lookUp[d.key] ; });
+
+
 
         // text
         // var texts = item.selectAll("")
@@ -177,36 +220,43 @@ d3.multiSeriesTimeLine = function() {
 
         _gLegend = g.append("g").attr("class", "legends");
 
-        var legend = _gLegend.selectAll(".legend")
-            .data(color.domain().slice())
-          .enter().append("g")
-            .attr("class", "legend")
-            .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+        // _legend = _gLegend.selectAll(".legend")
+        //     .data(getSortedKeys())
+        //   .enter().append("g")
+        //     .attr("class", "legend")
+        //     .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+        //
+        // _legend.append("line")
+        //     .attr("x1", _gWidth + 50)
+        //     .attr("x2", _gWidth + 75)
+        //     .attr("y1", 0)
+        //     .attr("y2", 0)
+        //     .style("stroke", color);
+        //
+        // _legend.append("circle")
+        //     .attr("cx", _gWidth + 63)
+        //     .attr("cy", 0)
+        //     .attr("r", 3)
+        //     .style("fill", color);
+        //
+        // _legend.append("text")
+        //     .attr("x", _gWidth + 50 + 30)
+        //     .attr("y", 0)
+        //     .attr("dy", "0.3em")
+        //     .style("text-anchor", "start")
+        //     .text(function(d) { return lookUp[d] ; });
 
-        legend.append("line")
-            .attr("x1", _gWidth + 50)
-            .attr("x2", _gWidth + 75)
-            .attr("y1", 0)
-            .attr("y2", 0)
-            // .attr("y1", _gHeight / 5)
-            // .attr("y2", _gHeight / 5)
-            .style("stroke", color);
+      }
 
-        legend.append("circle")
-            .attr("cx", _gWidth + 63)
-            // .attr("cy", _gHeight / 5)
-            .attr("cy", 0)
-            .attr("r", 3.5)
-            .style("fill", color);
+      function getSortedKeys() { // based on count at round 3
+        var keyCount = data.map(function(d) {
+          return {
+            key: d.key,
+            count: d.value.filter(function(v) { return v.round == 3; })[0].count
+          };
+        });
 
-        legend.append("text")
-            .attr("x", _gWidth + 50 + 30)
-            // .attr("y", _gHeight / 5)
-            .attr("y", 0)
-            .attr("dy", "0.3em")
-            .style("text-anchor", "start")
-            .text(function(d) { return lookUp[d] ; });
-
+        return keyCount.sort(function(a,b) { return b.count - a.count;});
       }
 
       function isDataEmpty() {
