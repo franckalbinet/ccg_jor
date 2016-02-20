@@ -1725,7 +1725,7 @@ Vis.Views.Expenditures = Backbone.View.extend({
           case 1:
             this.chart = d3.multiSeriesTimeLine()
               .width(600).height(350)
-              .margins({top: 40, right: 280, bottom: 40, left: 45})
+              .margins({top: 40, right: 265, bottom: 40, left: 45})
               .data(data)
               .color(d3.scale.ordinal().range(
                 ["#003950","#745114","#88a3b6","#917E8A","#E59138","#6D8378",
