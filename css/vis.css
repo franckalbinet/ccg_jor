@@ -259,9 +259,10 @@ h1,h2,h3,h4,h5 {
 }
 #main-chart .line.not-highlighted {
   stroke: #ccc !important;
+  stroke-width: 1px;
 }
 #main-chart .line.highlighted {
-  stroke-width: 2 !important;
+  stroke-width: 1.5 !important;
   stroke-opacity: 0.6 !important;
 }
 
@@ -284,6 +285,8 @@ h1,h2,h3,h4,h5 {
 #main-chart .figures text {
   font-size: 12px;
   font-weight: 700;
+  text-anchor:
+
 }
 
 .bar-chart-stacked-single .legend text {

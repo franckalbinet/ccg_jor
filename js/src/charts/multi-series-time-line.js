@@ -13,15 +13,11 @@ d3.multiSeriesTimeLine = function() {
       elasticY = false,
       xDomain = null,
       xAxis = d3.svg.axis().orient("bottom"),
-      yAxis = d3.svg.axis().orient("left").tickValues([0, 25, 50, 75, 100]),
-      // yAxis = d3.svg.axis().orient("left").ticks(4),
-      hasBrush = false,
+      // yAxis = d3.svg.axis().orient("left").tickValues([0, 25, 50, 75, 100]),
+      yAxis = d3.svg.axis().orient("left").ticks(5),
       hasYAxis = true,
       title = "My title",
       xTitle = "My title",
-      brushClickReset = false,
-      brush = d3.svg.brush(),
-      brushExtent = null,
       highlighted = [];
 
   var _gWidth = 400,
@@ -44,17 +40,26 @@ d3.multiSeriesTimeLine = function() {
       var div = d3.select(this),
           g = div.select("g");
 
+      data.forEach(function(d) {
+        d.valueId = d.value.map(function(v) {
+          return v.count; }).join("-"); });
+
       x.domain(getXDomain());
-      y.domain([0, 100]);
+      y.domain([0, _getMaxY(data)]);
 
       // create the skeleton chart.
       if (g.empty()) _skeleton();
 
-      _gYAxis.call(yAxis);
+      _gYAxis.transition().call(yAxis);
 
-      data.forEach(function(d) {
-        d.valueId = d.value.map(function(v) {
-          return v.count; }).join("-"); });
+      // _gYAxis.call(yAxis);
+
+
+      // if (elasticY) {
+      //   // debugger;
+      //   y.domain([0, _getMaxY(data)]);
+      //   // yAxis.ticks(6);
+      // }
 
       if (!isDataEmpty()) _render();
 
@@ -202,11 +207,20 @@ d3.multiSeriesTimeLine = function() {
             .attr("text-anchor", "middle")
             .text(toPercentage(d.count) + "%")
         })
-
       }
 
       function _clearFigures() {
         _gFigures.selectAll("text").remove();
+      }
+
+      function _getMaxY() {
+        return d3.max(
+          _.flatten(data.map(function(d) { return d.valueId.split("-"); })),
+          function(d) { return toPercentage(+d); });
+      }
+
+      function _isHighlighted() {
+        return (highlighted.length === 0) ? false : true;
       }
 
       function _skeleton() {

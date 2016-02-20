@@ -70,6 +70,7 @@ Vis.Views.Incomes = Backbone.View.extend({
             .relativeTo(total)
             .title("Main economic contributors to the family")
             .xTitle("Wave")
+            .elasticY(true)
             .lookUp(Vis.DEFAULTS.LOOKUP_CODES.ECO_CONTRIBUTORS)
             .on("highlighted", function (highlighted) {
               that.highlighted = highlighted;
