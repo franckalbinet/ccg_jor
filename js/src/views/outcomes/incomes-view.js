@@ -2,6 +2,8 @@
 Vis.Views.Incomes = Backbone.View.extend({
   el: '.container',
 
+  highlighted: [],
+
   initialize: function () {
     var that = this;
 
@@ -53,7 +55,11 @@ Vis.Views.Incomes = Backbone.View.extend({
             .relativeTo(total)
             .title("Main sources of income")
             .xTitle("Wave")
-            .lookUp(Vis.DEFAULTS.LOOKUP_CODES.INCOME);
+            .lookUp(Vis.DEFAULTS.LOOKUP_CODES.INCOME)
+            .on("highlighted", function (highlighted) {
+              // console.log("in on in chart");
+              that.highlighted = highlighted;
+              that.render(that.model.get("scenario").chapter); });
           break;
         case 2:
           this.chart = d3.multiSeriesTimeLine()
@@ -64,7 +70,10 @@ Vis.Views.Incomes = Backbone.View.extend({
             .relativeTo(total)
             .title("Main economic contributors to the family")
             .xTitle("Wave")
-            .lookUp(Vis.DEFAULTS.LOOKUP_CODES.ECO_CONTRIBUTORS);
+            .lookUp(Vis.DEFAULTS.LOOKUP_CODES.ECO_CONTRIBUTORS)
+            .on("highlighted", function (highlighted) {
+              that.highlighted = highlighted;
+              that.render(that.model.get("scenario").chapter); });
           break;
         case 4:
           // this.chart = d3.barChartMultiStacked()
@@ -88,14 +97,17 @@ Vis.Views.Incomes = Backbone.View.extend({
   render: function(chapter) {
     switch(chapter) {
         case 1:
+        // console.log("is rendering");
           this.chart
             .data(this.getData(chapter))
+            .highlighted(this.highlighted)
             .relativeTo(this.getTotalHouseholds(chapter))
           d3.select("#main-chart").call(this.chart);
           break;
         case 2:
           this.chart
             .data(this.getData(chapter))
+            .highlighted(this.highlighted)
             .relativeTo(this.getTotalHouseholds(chapter))
           d3.select("#main-chart").call(this.chart);
           break;
@@ -145,6 +157,10 @@ Vis.Views.Incomes = Backbone.View.extend({
         console.log("no matching case.")
     }
   },
+
+  // getHighlighted: function(highlighted) {
+  //   var bp = null;
+  // }
 
   setTextContent: function(attr) {
     var scenario = this.model.get("scenario")

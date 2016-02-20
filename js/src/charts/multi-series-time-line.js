@@ -22,17 +22,19 @@ d3.multiSeriesTimeLine = function() {
       brushClickReset = false,
       brush = d3.svg.brush(),
       brushExtent = null,
-      selected = null;
+      highlighted = [];
 
   var _gWidth = 400,
       _gHeight = 100,
+      _hasLegend = false,
       _handlesWidth = 9,
       _gBrush,
       _gXAxis,
       _gYAxis,
       _gLegend,
+      _gItems,
       _line,
-      _listeners = d3.dispatch("filtered", "filtering");
+      _listeners = d3.dispatch("highlighted");
 
   function chart(div) {
     _gWidth = width - margins.left - margins.right;
@@ -58,7 +60,7 @@ d3.multiSeriesTimeLine = function() {
 
       function _render() {
         // container
-        var item = g.selectAll(".item")
+        var item = _gItems.selectAll(".item")
             .data(data, function(d) {
               return d.key;
             });
@@ -78,8 +80,26 @@ d3.multiSeriesTimeLine = function() {
         line
           .style("stroke", function(d) {
             return color(d.key); })
-          // .style("stroke-dasharray", function(d) {
-          //   return (d.key > 8) ? "3,3" : "none";})
+          .classed("highlighted", function(d) {
+            if (highlighted.length == 0) {
+              _clearFigures();
+              return false;
+            }
+
+            if (highlighted.indexOf(d.key) !== -1) {
+              _setFigures(d);
+              this.parentNode.parentNode.appendChild(this.parentNode);
+              return true;
+            } else {
+              // _clearFigures();
+              return false;
+            }
+          })
+          .classed("not-highlighted", function(d) {
+            if (highlighted.length == 0) return false;
+            return (highlighted.indexOf(d.key) === -1) ?
+              true : false;
+          })
           .transition()
           .attr("d", function(d) {
             return _line(d.value);
@@ -87,7 +107,6 @@ d3.multiSeriesTimeLine = function() {
 
         // circles
         var circles = item.selectAll(".points")
-          // .data(function(d){ return d.value}, function(d) { return d.valueId; });
           .data(function(d){ return d.value});
 
         circles.enter().append("circle").attr("class", "points");
@@ -95,6 +114,20 @@ d3.multiSeriesTimeLine = function() {
         circles.exit().remove();
 
         circles
+          .classed("highlighted", function(d) {
+            var key = d3.select(this).node().parentNode.__data__.key;
+            if (highlighted.length > 0 && highlighted.indexOf(key) !== -1) {
+              this.parentNode.parentNode.appendChild(this.parentNode);
+              return true;
+            } else {
+              return false;
+            }
+          })
+          .classed("not-highlighted", function() {
+            var key = d3.select(this).node().parentNode.__data__.key;
+            return (highlighted.length > 0 && highlighted.indexOf(key) === -1) ?
+              true : false;
+          })
           .style("fill", function(d) {
             var parent = d3.select(this).node().parentNode.__data__;
             return color(parent.key); })
@@ -106,72 +139,79 @@ d3.multiSeriesTimeLine = function() {
           .attr("cy", function(d) {
             return y(toPercentage(d.count)); });
 
-        // var legend = _gLegend.selectAll(".legend")
-        //     .data(getSortedKeys())
-        //   .enter().append("g")
-        //     .attr("class", "legend")
-        //     .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
-
 
         var legend = _gLegend.selectAll(".legend")
           .data(getSortedKeys(), function(d) { return d.key; });
 
-        legend.enter().append("g").attr("class", "legend");
+        legend.enter()
+          .append("g")
+          .attr("class", "legend")
+          .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; })
+          .on("mouseover", function(d) {
+            if (highlighted && highlighted[0] !== d.key) {
+              _listeners.highlighted([d.key]);
+              // console.log("mouseover");
+            }
+          })
+          .on("mouseout", function(d) {
+            // console.log("mouseout");
+            _listeners.highlighted([]);
+          });
 
         legend.exit().remove();
 
         legend
+          .classed("highlighted", function(d) {
+            if (highlighted.length == 0) return false;
+            return (highlighted.indexOf(d.key) !== -1) ? true : false;
+          })
           .transition()
           .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
-        _gLegend.selectAll("line").remove();
-        legend.append("line")
-            .attr("x1", _gWidth + 50)
-            .attr("x2", _gWidth + 75)
-            .attr("y1", 0)
-            .attr("y2", 0)
-            .style("stroke", function(d) { return color(d.key); });
+        if (!_hasLegend) {
+          legend.append("text")
+              .attr("x", _gWidth + 50 + 30)
+              .attr("y", 0)
+              .attr("dy", "0.3em")
+              .style("text-anchor", "start")
+              .text(function(d) { return lookUp[d.key] ; });
 
-        _gLegend.selectAll("circle").remove();
-        legend.append("circle")
-            .attr("cx", _gWidth + 63)
-            .attr("cy", 0)
-            .attr("r", 3)
-            .style("fill", function(d) { return color(d.key); });
+          legend.append("line")
+              .attr("x1", _gWidth + 50)
+              .attr("x2", _gWidth + 75)
+              .attr("y1", 0)
+              .attr("y2", 0)
+              .style("stroke", function(d) { return color(d.key); });
 
-        _gLegend.selectAll("text").remove();
-        legend.append("text")
-            .attr("x", _gWidth + 50 + 30)
-            .attr("y", 0)
-            .attr("dy", "0.3em")
-            .style("text-anchor", "start")
-            .text(function(d) { return lookUp[d.key] ; });
+          legend.append("circle")
+              .attr("cx", _gWidth + 63)
+              .attr("cy", 0)
+              .attr("r", 3)
+              .style("fill", function(d) { return color(d.key); });
 
+          _hasLegend = true;
+        }
+      }
 
+      function _setFigures(feature) {
+        feature.value.forEach(function(d) {
+          _gFigures.append("text")
+            .attr("x", function() { return x(d.round); } )
+            .attr("y", function() { return y(toPercentage(d.count)); } )
+            .attr("dy", -8)
+            .attr("text-anchor", "middle")
+            .text(toPercentage(d.count) + "%")
+        })
 
-        // text
-        // var texts = item.selectAll("")
-        // var texts = item.selectAll("text")
-        //   .data(function(d) {
-        //     return [{name: d.key, value: d.value[d.value.length - 1]}]});
-        //
-        // texts.enter().append("text")
-        //   .text(function(d) {
-        //     return lookUp[d.name]; });
-        //
-        // texts.exit().remove();
-        //
-        // texts
-        //   .transition()
-        //   .attr("transform", function(d) {
-        //     return "translate(" + x(d.value.round) + "," + y(toPercentage(d.value.count)) + ")"; })
-        //   .attr("x", 5)
-        //   .attr("dy", ".35em");
+      }
+
+      function _clearFigures() {
+        _gFigures.selectAll("text").remove();
       }
 
       function _skeleton() {
         // set scales range
-        x.rangePoints([0 , _gWidth]);
+        x.rangePoints([0 , _gWidth], 0.3);
         y.range([_gHeight, 0]);
 
         // set axis
@@ -190,6 +230,10 @@ d3.multiSeriesTimeLine = function() {
             .attr("height", height)
           .append("g")
             .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
+
+        _gItems = g.append("g").attr("class", "items");
+
+        _gFigures = g.append("g").attr("class", "figures");
 
         // set x Axis
         _gXAxis = g.append("g")
@@ -219,32 +263,6 @@ d3.multiSeriesTimeLine = function() {
           .text(title);
 
         _gLegend = g.append("g").attr("class", "legends");
-
-        // _legend = _gLegend.selectAll(".legend")
-        //     .data(getSortedKeys())
-        //   .enter().append("g")
-        //     .attr("class", "legend")
-        //     .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
-        //
-        // _legend.append("line")
-        //     .attr("x1", _gWidth + 50)
-        //     .attr("x2", _gWidth + 75)
-        //     .attr("y1", 0)
-        //     .attr("y2", 0)
-        //     .style("stroke", color);
-        //
-        // _legend.append("circle")
-        //     .attr("cx", _gWidth + 63)
-        //     .attr("cy", 0)
-        //     .attr("r", 3)
-        //     .style("fill", color);
-        //
-        // _legend.append("text")
-        //     .attr("x", _gWidth + 50 + 30)
-        //     .attr("y", 0)
-        //     .attr("dy", "0.3em")
-        //     .style("text-anchor", "start")
-        //     .text(function(d) { return lookUp[d] ; });
 
       }
 
@@ -375,9 +393,9 @@ d3.multiSeriesTimeLine = function() {
     brushExtent = _;
     return chart;
   };
-  chart.selected = function(_) {
-    if (!arguments.length) return selected;
-    selected = _;
+  chart.highlighted = function(_) {
+    if (!arguments.length) return highlighted;
+    highlighted = _;
     return chart;
   };
   chart.title = function(_) {

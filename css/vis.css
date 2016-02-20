@@ -257,9 +257,40 @@ h1,h2,h3,h4,h5 {
   shape-rendering: auto;
   stroke-opacity: 0.3;
 }
-#main-chart circle {
-  fill: steelblue;
+#main-chart .line.not-highlighted {
+  stroke: #ccc !important;
 }
+#main-chart .line.highlighted {
+  stroke-width: 2 !important;
+  stroke-opacity: 0.6 !important;
+}
+
+#main-chart circle {
+  /*fill: steelblue;*/
+}
+#main-chart circle.not-highlighted {
+  fill: #eee !important;
+}
+#main-chart circle.highlighted {
+  /*fill: red !important;*/
+  /*fill: none ! important;*/
+}
+
+#main-chart .legend.highlighted text {
+  font-weight: bold;
+  font-size: 12px;
+}
+
+#main-chart .figures text {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.bar-chart-stacked-single .legend text {
+  font-size: 11px;
+}
+
+
 #main-chart .main.title {
   font-size: 13px;
   font-weight: 700;

@@ -2,6 +2,8 @@
 Vis.Views.Expenditures = Backbone.View.extend({
     el: '.container',
 
+    highlighted: [],
+
     initialize: function () {
       var that = this;
 
@@ -47,7 +49,7 @@ Vis.Views.Expenditures = Backbone.View.extend({
           case 1:
             this.chart = d3.multiSeriesTimeLine()
               .width(600).height(350)
-              .margins({top: 40, right: 230, bottom: 40, left: 45})
+              .margins({top: 40, right: 280, bottom: 40, left: 45})
               .data(data)
               .color(d3.scale.ordinal().range(
                 ["#003950","#745114","#88a3b6","#917E8A","#E59138","#6D8378",
@@ -56,7 +58,10 @@ Vis.Views.Expenditures = Backbone.View.extend({
               .relativeTo(total)
               .title("Expenditures that people who receive the Cash Grant spend it on")
               .xTitle("Wave")
-              .lookUp(Vis.DEFAULTS.LOOKUP_CODES.EXPENDITURES);
+              .lookUp(Vis.DEFAULTS.LOOKUP_CODES.EXPENDITURES)
+              .on("highlighted", function (highlighted) {
+                that.highlighted = highlighted;
+                that.render(that.model.get("scenario").chapter); });
             break;
           case 2:
             this.chart = d3.barChartMultiStacked()
@@ -68,6 +73,7 @@ Vis.Views.Expenditures = Backbone.View.extend({
               .title("Children-specific expenditures [Mostly spent each month]")
               .xTitle("Wave")
               .lookUp(Vis.DEFAULTS.LOOKUP_CODES.EXPENDITURES_CHILD_MOST);
+
             break;
           case 4:
             this.chart = d3.barChartMultiStacked()
@@ -94,6 +100,7 @@ Vis.Views.Expenditures = Backbone.View.extend({
             this.chart
               .data(this.getData(chapter))
               .relativeTo(this.getTotalHouseholds(chapter))
+              .highlighted(this.highlighted)
             d3.select("#main-chart").call(this.chart);
             break;
           case 2:
@@ -129,6 +136,12 @@ Vis.Views.Expenditures = Backbone.View.extend({
             console.log("no matching case.")
         }
     },
+
+    // test: _.throttle(function (highlighted) {
+    //   this.highlighted = highlighted;
+    //   this.render(this.model.get("scenario").chapter);
+    //   console.log("test");
+    // }, 300),
 
     getTotalHouseholds: function(chapter) {
       switch(chapter) {
