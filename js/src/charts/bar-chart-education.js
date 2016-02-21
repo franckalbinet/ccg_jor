@@ -56,9 +56,10 @@ d3.barChartEducation = function() {
             // .transition()
             .attr("x", function(d) {
               return x(d.key) })
+            .attr("width", x.rangeBand())
+            .transition()
             .attr("y", function(d) {
               return y(d.rate)  })
-            .attr("width", x.rangeBand())
             .attr("height", function(d) {
               return _gHeight - y(d.rate); });
 
@@ -68,12 +69,12 @@ d3.barChartEducation = function() {
         figures.exit().remove();
         figures.enter().append("text");
         figures
-            // .transition()
             .attr("text-anchor", "middle")
             .text(function(d) {
               return d.rate + "%"})
             .attr("x", function(d) {
               return x(d.key) + x.rangeBand() / 2 })
+            .transition()
             .attr("y", function(d) {
               return y(d.rate) - 10  });
       }

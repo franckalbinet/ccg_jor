@@ -33,6 +33,13 @@ Vis.Models.App = Backbone.Model.extend({
     this.currentCopingHousehold.filter( this.filterExactList(this.getHouseholds()));
     this.stoppedCopingHousehold.filter( this.filterExactList(this.getHouseholds()));
     this.ecoContribHousehold.filter( this.filterExactList(this.getHouseholds()));
+
+    if (this.get("scenario").page === 2) { // if children education page
+      this.educationGender.filter(this.filterExactList(this.get("genders")));
+      this.educationHead.filter(this.filterExactList(this.get("heads")));
+      this.educationPoverty.filter(this.filterExactList(this.get("poverties")));
+      this.educationLoc.filter(this.filterExactList(this.get("locations")));
+    }
     Backbone.trigger("filtered");
   },
 
@@ -42,6 +49,7 @@ Vis.Models.App = Backbone.Model.extend({
   },
 
   filterByGender: function(args) {
+    console.log(args);
     this.filterBy(args, "genders", this.childrenGender, this.childrenByGender);
   },
 
@@ -70,6 +78,7 @@ Vis.Models.App = Backbone.Model.extend({
   },
 
   filterByHead: function(args) {
+    console.log(args);
     this.filterBy(args, "heads", this.householdsHead, this.householdsByHead);
   },
 
@@ -367,6 +376,7 @@ Vis.Models.App = Backbone.Model.extend({
     var educationCf = crossfilter(data.education);
     this.educationAge = educationCf.dimension(function(d) { return d.age; });
     this.educationGender = educationCf.dimension(function(d) { return d.gender; });
+    this.educationLoc = educationCf.dimension(function(d) { return d.loc; });
     this.educationPoverty = educationCf.dimension(function(d) { return d.pov_line; });
     this.educationHead = educationCf.dimension(function(d) { return d.head; });
     this.educationRound = educationCf.dimension(function(d) { return d.round; });

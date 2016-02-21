@@ -258,7 +258,7 @@ h1,h2,h3,h4,h5 {
   stroke-opacity: 0.3;
 }
 #main-chart .line.not-highlighted {
-  stroke: #ccc !important;
+  stroke: #ddd !important;
   stroke-width: 1px;
 }
 #main-chart .line.highlighted {
