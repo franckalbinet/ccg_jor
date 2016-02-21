@@ -3770,6 +3770,9 @@ d3.multiSeriesTimeLine = function() {
       _gLegend,
       _gItems,
       _line,
+      _previousData,
+      _voronoi = null,
+      _gVoronoi = null,
       _listeners = d3.dispatch("highlighted");
 
   function chart(div) {
@@ -3784,6 +3787,7 @@ d3.multiSeriesTimeLine = function() {
         d.valueId = d.value.map(function(v) {
           return v.count; }).join("-"); });
 
+
       x.domain(getXDomain());
       y.domain([0, _getMaxY(data)]);
 
@@ -3791,15 +3795,6 @@ d3.multiSeriesTimeLine = function() {
       if (g.empty()) _skeleton();
 
       _gYAxis.transition().call(yAxis);
-
-      // _gYAxis.call(yAxis);
-
-
-      // if (elasticY) {
-      //   // debugger;
-      //   y.domain([0, _getMaxY(data)]);
-      //   // yAxis.ticks(6);
-      // }
 
       if (!isDataEmpty()) _render();
 
@@ -3826,6 +3821,7 @@ d3.multiSeriesTimeLine = function() {
           .style("stroke", function(d) {
             return color(d.key); })
           .classed("highlighted", function(d) {
+            // console.log(highlighted);
             if (highlighted.length == 0) {
               _clearFigures();
               return false;
@@ -3895,11 +3891,9 @@ d3.multiSeriesTimeLine = function() {
           .on("mouseover", function(d) {
             if (highlighted && highlighted[0] !== d.key) {
               _listeners.highlighted([d.key]);
-              // console.log("mouseover");
             }
           })
           .on("mouseout", function(d) {
-            // console.log("mouseout");
             _listeners.highlighted([]);
           });
 
@@ -3909,6 +3903,10 @@ d3.multiSeriesTimeLine = function() {
           .classed("highlighted", function(d) {
             if (highlighted.length == 0) return false;
             return (highlighted.indexOf(d.key) !== -1) ? true : false;
+          })
+          .classed("not-highlighted", function(d) {
+            return (highlighted.length > 0 && highlighted.indexOf(d.key) === -1) ?
+              true : false;
           })
           .transition()
           .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
@@ -3936,6 +3934,42 @@ d3.multiSeriesTimeLine = function() {
 
           _hasLegend = true;
         }
+
+
+        // voronois
+        var _dataVoronoi = [];
+        data.forEach(function(d) {
+          d.value.forEach(function(v) {
+            _dataVoronoi.push({key: d.key, count: v.count, round: v.round}); });
+        });
+
+        if(_hasDataChanged()) {
+          _gVoronoi.selectAll("path").remove();
+
+        _gVoronoi.selectAll("path")
+            .data(_voronoi(_dataVoronoi))
+          .enter().append("path")
+            .attr("d", function(d) {
+              if (typeof(d) !== "undefined") {
+                return "M" + d.join("L") + "Z";
+              }
+            })
+            .datum(function(d) {
+              if (typeof(d) !== "undefined") {
+                return d.point;
+              }
+            })
+            .on("mouseover", function(d) {
+              _listeners.highlighted([d.key]);
+            })
+            .on("mouseout", function(d) {
+              _listeners.highlighted([]);
+            });
+        }
+
+        _previousData = data
+          .sort(function(a,b) { return a.key - b.key; })
+          .map(function(d) { return d.valueId; }).slice();
       }
 
       function _setFigures(feature) {
@@ -3963,6 +3997,21 @@ d3.multiSeriesTimeLine = function() {
         return (highlighted.length === 0) ? false : true;
       }
 
+      function _hasDataChanged() {
+        if (!_previousData) return true;
+        // var previous = _previousData
+        //   .sort(function(a,b) { return a.key - b.key; })
+        //   .map(function(d) { return d.valueId; })
+
+        var current = data
+          .sort(function(a,b) { return a.key - b.key; })
+          .map(function(d) { return d.valueId; });
+
+        var diff = _.difference(_previousData, current);
+
+        return (diff.length == 0) ? false : true;
+      }
+
       function _skeleton() {
         // set scales range
         x.rangePoints([0 , _gWidth], 0.3);
@@ -3988,6 +4037,15 @@ d3.multiSeriesTimeLine = function() {
         _gItems = g.append("g").attr("class", "items");
 
         _gFigures = g.append("g").attr("class", "figures");
+
+        // Voronoi polygons for tooltips
+        _voronoi = d3.geom.voronoi()
+          .x(function(d) { return x(d.round); })
+          .y(function(d) { return y(toPercentage(d.count)); })
+          // .clipExtent(null);
+          .clipExtent([[0, 0], [_gWidth, _gHeight]]);
+
+        _gVoronoi = g.append("g").attr("class", "voronoi");
 
         // set x Axis
         _gXAxis = g.append("g")

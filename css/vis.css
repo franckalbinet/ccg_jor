@@ -272,21 +272,27 @@ h1,h2,h3,h4,h5 {
 #main-chart circle.not-highlighted {
   fill: #eee !important;
 }
-#main-chart circle.highlighted {
-  /*fill: red !important;*/
-  /*fill: none ! important;*/
-}
 
 #main-chart .legend.highlighted text {
   font-weight: bold;
   font-size: 12px;
+}
+#main-chart .legend.not-highlighted text {
+  font-weight: normal;
+  font-size: 11px;
+  fill: #ddd;
+}
+#main-chart .legend.not-highlighted line {
+  stroke: #ddd !important;
+}
+#main-chart .legend.not-highlighted circle {
+  fill: #ddd !important;
 }
 
 #main-chart .figures text {
   font-size: 12px;
   font-weight: 700;
   text-anchor:
-
 }
 
 .bar-chart-stacked-single .legend text {
@@ -322,6 +328,14 @@ h1,h2,h3,h4,h5 {
   fill: #333;
   font-weight: 700;
   font-size: 12px;
+}
+
+/* Voronois */
+#main-chart .voronoi path {
+  fill: none;
+  stroke: none;
+  stroke-opacity: .2;
+  pointer-events: all;
 }
 
 
