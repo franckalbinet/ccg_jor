@@ -275,8 +275,11 @@ Vis.Models.App = Backbone.Model.extend({
 
   filterByChildren: function(args) {
     var that = this;
+
     this.set("children", args || [1,2,3,4,5,6,7,8,9]);
     if (args !== null) {
+      // if has 7 which measn 7+ actually -> include 8 and 9 as well
+      if (args.indexOf(7) !== -1) args = args.concat([8,9]);
       var filter = this.getHouseholdsFiltered(this.get("children"));
       this.childrenHousehold.filter(this.filterExactList(filter));
     } else {
@@ -407,23 +410,28 @@ Vis.Models.App = Backbone.Model.extend({
   // to get the list of all households within a particular range of nb.
   // of children by household, ie. [1, 3]
   getHouseholdsFiltered: function(selection) {
-    var byNbChildren = d3.nest()
-          .key(function(d) { return d.age; })
-          .rollup(function(leaves) {
-            return {
-              length: leaves.length,
-              hh: leaves.map(function(d) { return d.hh; })
-             };
-          })
-          .entries(this.data.children)
-          .map(function(d) { return {key: +d.key, values: d.values}; });
-      var households = [];
-      byNbChildren.forEach(function(d) {
-        if (selection.indexOf(d.key) > -1) {
-          households = households.concat(d.values.hh)
-        }
-      });
-    return households;
+    return this.cachedChildrenByHoushold
+      .filter(function(d) {
+        return selection.indexOf(d.values) > -1 })
+      .map(function(d) { return +d.key; });
+
+    //   var byNbChildren = d3.nest()
+    //         .key(function(d) { return d.age; })
+    //         .rollup(function(leaves) {
+    //           return {
+    //             length: leaves.length,
+    //             hh: leaves.map(function(d) { return d.hh; })
+    //            };
+    //         })
+    //       .entries(this.data.children)
+    //       .map(function(d) { return {key: +d.key, values: d.values}; });
+    //   var households = [];
+    //   byNbChildren.forEach(function(d) {
+    //     if (selection.indexOf(d.key) > -1) {
+    //       households = households.concat(d.values.hh)
+    //     }
+    //   });
+    // return households;
   },
 
   getTemplateId: function(page, chapter, attr) {
@@ -500,6 +508,13 @@ Vis.Models.App = Backbone.Model.extend({
     this.householdsByLocation = this.householdsLocation.group().reduce(
       this.reduceAddUniq(), this.reduceRemoveUniq(), this.reduceInitUniq()
     );
+    // caching nb. of children by households -- for the sake of performance
+    this.cachedChildrenByHoushold = d3.nest()
+    .key(function(d) { return d.hh; })
+    .rollup(function(leaves) {
+      return leaves.length
+    })
+    .entries(this.data.children);
 
     // init. associated filters
     this.set("ages", this.getKeys(this.childrenByAge));
@@ -511,6 +526,7 @@ Vis.Models.App = Backbone.Model.extend({
     this.set("heads", this.getKeys(this.householdsByHead));
     this.set("poverties", this.getKeys(this.householdsByPoverty));
     this.set("disabilities", this.getKeys(this.householdsByDisability));
+
 
     // OUTCOMES
     // incomes
@@ -740,7 +756,8 @@ Vis.Views.HouseholdsChildren = Backbone.View.extend({
         .x(d3.scale.linear().domain([0, d3.max(data, function(d) { return d.values.length; })]))
         .y(d3.scale.linear().domain([0,10]))
         .xAxis(d3.svg.axis().orient("top").tickValues([50, 100]))
-        .yAxis(d3.svg.axis().orient("left").tickValues(d3.range(1,10)))
+        // .yAxis(d3.svg.axis().orient("left").tickValues(d3.range(1,10)))
+        .yAxis(d3.svg.axis().orient("left").tickValues(d3.range(1,8)))
         .title("By nb. of children")
         .hasBrush(true);
 
@@ -2347,6 +2364,8 @@ d3.barChartChildren = function() {
       var div = d3.select(this),
           g = div.select("g");
 
+      data = _transformData(data);
+
       // create the skeleton chart.
       if (g.empty()) _skeleton();
 
@@ -2374,7 +2393,8 @@ d3.barChartChildren = function() {
             .attr("y", function(d) {
               return y(d.key) - barHeight/2  })
             .attr("width", function(d) {
-              return x(d.values.length); })
+              // return x(d.values.length); })
+              return x(d.count); })
             .attr("height", function(d) { return barHeight; });
       }
 
@@ -2420,6 +2440,10 @@ d3.barChartChildren = function() {
           .attr("y", -25)
           .text(title);
 
+        d3.selectAll("#households-children .y.axis text")
+          .data(["1","2","3","4","5","6","7+"])
+          .text(function(d) { return d; })
+
         _gBrush = g.append("g").attr("class", "brush").call(brush);
         _gBrush.selectAll("rect").attr("width", _gWidth);
 
@@ -2430,6 +2454,18 @@ d3.barChartChildren = function() {
         brush.on("brushend", function() {
           _listeners.filtered(brush);
         });
+      }
+
+      function _transformData(data) {
+        var sumOver7 = d3.sum(
+          data.filter(function(d) { return d.key >= 7; })
+          .map(function(d) { return d.values.length; })
+        )
+        data = data
+          .filter(function(d) { return d.key < 7; })
+          .map(function(d) { return {key: d.key, count: d.values.length}; });
+        data.push({key: 7, count: sumOver7});
+        return data;
       }
 
       function _getDataBrushed(brush) {

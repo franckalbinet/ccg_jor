@@ -38,6 +38,8 @@ d3.barChartChildren = function() {
       var div = d3.select(this),
           g = div.select("g");
 
+      data = _transformData(data);
+
       // create the skeleton chart.
       if (g.empty()) _skeleton();
 
@@ -65,7 +67,8 @@ d3.barChartChildren = function() {
             .attr("y", function(d) {
               return y(d.key) - barHeight/2  })
             .attr("width", function(d) {
-              return x(d.values.length); })
+              // return x(d.values.length); })
+              return x(d.count); })
             .attr("height", function(d) { return barHeight; });
       }
 
@@ -111,6 +114,10 @@ d3.barChartChildren = function() {
           .attr("y", -25)
           .text(title);
 
+        d3.selectAll("#households-children .y.axis text")
+          .data(["1","2","3","4","5","6","7+"])
+          .text(function(d) { return d; })
+
         _gBrush = g.append("g").attr("class", "brush").call(brush);
         _gBrush.selectAll("rect").attr("width", _gWidth);
 
@@ -121,6 +128,18 @@ d3.barChartChildren = function() {
         brush.on("brushend", function() {
           _listeners.filtered(brush);
         });
+      }
+
+      function _transformData(data) {
+        var sumOver7 = d3.sum(
+          data.filter(function(d) { return d.key >= 7; })
+          .map(function(d) { return d.values.length; })
+        )
+        data = data
+          .filter(function(d) { return d.key < 7; })
+          .map(function(d) { return {key: d.key, count: d.values.length}; });
+        data.push({key: 7, count: sumOver7});
+        return data;
       }
 
       function _getDataBrushed(brush) {

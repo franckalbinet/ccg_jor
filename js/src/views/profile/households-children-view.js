@@ -19,7 +19,8 @@ Vis.Views.HouseholdsChildren = Backbone.View.extend({
         .x(d3.scale.linear().domain([0, d3.max(data, function(d) { return d.values.length; })]))
         .y(d3.scale.linear().domain([0,10]))
         .xAxis(d3.svg.axis().orient("top").tickValues([50, 100]))
-        .yAxis(d3.svg.axis().orient("left").tickValues(d3.range(1,10)))
+        // .yAxis(d3.svg.axis().orient("left").tickValues(d3.range(1,10)))
+        .yAxis(d3.svg.axis().orient("left").tickValues(d3.range(1,8)))
         .title("By nb. of children")
         .hasBrush(true);
 
