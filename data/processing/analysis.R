@@ -294,6 +294,30 @@ sink("expenditures.json")
 cat(expenditures_json)
 sink()
 
+
+# PREPARE EXPENDITURES CHILDREN-SPECIFIC DATASET 
+expenditures_child <- select(data, Serial, ROUND, Q14)
+split_Q14 <- strsplit(as.character(expenditures_child$Q14), split = " ")
+
+serial <- rep(expenditures_child$Serial, sapply(split_Q14, length))
+round <- rep(expenditures_child$ROUND, sapply(split_Q14, length))
+expenditures_child_single <- data.frame(serial = serial, round = round, Q14 = unlist(split_Q14))
+expenditures_child_single <- tbl_df(expenditures_child_single)
+
+# merge  0 -> 99, 1 -> 3, 8 -> 7, 14 -> 12, 
+expenditures_child_single$Q14 <- as.numeric(levels(expenditures_child_single$Q14))[expenditures_child_single$Q14]
+expenditures_child_single$Q14[expenditures_child_single$Q14 %in% c(0)] <- 99
+expenditures_child_single$Q14[expenditures_child_single$Q14 %in% c(1)] <- 3
+expenditures_child_single$Q14[expenditures_child_single$Q14 %in% c(8)] <- 7
+expenditures_child_single$Q14[expenditures_child_single$Q14 %in% c(14)] <- 12
+
+names(expenditures_child_single) <- c("hh","round","exp_child")
+expenditures_child_json <- toJSON(unname(split(expenditures_child_single, 1:nrow(expenditures_child_single))))
+sink("expenditures_children.json")
+cat(expenditures_child_json)
+sink()
+
+
 # PREPARE CURRENTLY USED COPING MECHANISMS - Q23
 current_coping <- select(data, Serial, ROUND, Q23)
 split_Q23 <- strsplit(as.character(current_coping$Q23), split = " ")

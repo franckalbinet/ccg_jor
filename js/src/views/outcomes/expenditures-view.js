@@ -69,8 +69,10 @@ Vis.Views.Expenditures = Backbone.View.extend({
               .data(data)
               .color(d3.scale.ordinal().range(
                 // ["#E59138","#88A3B6","#706B5A"]).domain([1, 2, 3]))
-                ["#E59138","#003950","#B45B49"]).domain([1, 2, 3]))
+                ["#E59138","#88A3B6","#706B5A"]).domain([1, 2, 3]))
+                // ["#E59138","#003950","#B45B49"]).domain([1, 2, 3]))
               .relativeTo(total)
+              .yDomain([1,2,4,3,9,10,7,5,6,8,11,13,12,97])
               .title("Expenditures that people who receive the Cash Grant spend it on")
               .xTitle("")
               .lookUp(Vis.DEFAULTS.LOOKUP_CODES.EXPENDITURES)
@@ -90,6 +92,26 @@ Vis.Views.Expenditures = Backbone.View.extend({
               .lookUp(Vis.DEFAULTS.LOOKUP_CODES.EXPENDITURES_CHILD_MOST);
 
             break;
+          case 3:
+            this.chart = d3.multiSeriesTimeLineAlt()
+              .width(600).height(350)
+              .margins({top: 40, right: 150, bottom: 40, left: 180})
+              .data(data)
+              .color(d3.scale.ordinal().range(
+                ["#E59138","#88A3B6","#706B5A"]).domain([1, 2, 3]))
+                // ["#E59138","#003950","#B45B49"]).domain([1, 2, 3]))
+                // ["#E59138","#003950","#B45B49"]).domain([1, 2, 3]))
+                // ["#1f77b4","#d62728","#2ca02c"]).domain([1, 2, 3]))
+              .relativeTo(total)
+              .yDomain([10,6,3,9,7,5,2,11,4,12,13,99])
+              .title("Children-specific expenditures that people who receive the Cash Grant spend it on")
+              .xTitle("")
+              .lookUp(Vis.DEFAULTS.LOOKUP_CODES.EXPENDITURES_CHILDREN)
+              .on("highlighted", function (highlighted) {
+                that.highlighted = highlighted;
+                that.render(that.model.get("scenario").chapter); });
+            break;
+
           case 4:
             this.chart = d3.barChartMultiStacked()
               .width(455).height(350)
@@ -129,6 +151,13 @@ Vis.Views.Expenditures = Backbone.View.extend({
               .relativeTo(this.getTotalHouseholds(chapter))
             d3.select("#main-chart").call(this.chart);
             break;
+          case 3:
+            this.chart
+              .data(this.getData(chapter))
+              .relativeTo(this.getTotalHouseholds(chapter))
+              .highlighted(this.highlighted)
+            d3.select("#main-chart").call(this.chart);
+            break;
           case 4:
             this.chart
               .data(this.getData(chapter))
@@ -149,6 +178,9 @@ Vis.Views.Expenditures = Backbone.View.extend({
             break;
           case 2:
             return this.model.expendituresChildMostByRound.top(Infinity);
+            break;
+          case 3:
+            return this.model.expendituresChildByRound.top(Infinity);
             break;
           case 4:
             return this.model.basicNeedsByRound.top(Infinity);
@@ -172,6 +204,10 @@ Vis.Views.Expenditures = Backbone.View.extend({
           break;
         case 2:
           return _.unique(this.model.outcomesHousehold.top(Infinity)
+                  .map(function(d) { return d.hh })).length;
+          break;
+        case 3:
+          return _.unique(this.model.expendituresChildHousehold.top(Infinity)
                   .map(function(d) { return d.hh })).length;
           break;
         case 4:

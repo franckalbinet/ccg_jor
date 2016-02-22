@@ -81,10 +81,17 @@ Vis.Collections.App = Backbone.Collection.extend({
           })
         },
         that.url + Vis.DEFAULTS.DATASETS.ECO_CONTRIBUTORS)
+      .defer(
+        function(url, callback) {
+          d3.json(url, function(error, result) {
+            callback(error, result);
+          })
+        },
+        that.url + Vis.DEFAULTS.DATASETS.EXPENDITURES_CHILDREN)
       .await(_ready);
 
     // on success
-    function _ready(error, children, households, outcomes, milestones, incomes, expenditures, currentCoping, stoppedCoping, education, ecoContributors) {
+    function _ready(error, children, households, outcomes, milestones, incomes, expenditures, currentCoping, stoppedCoping, education, ecoContributors, expendituresChild) {
       var that = this;
 
       // coerce data
@@ -105,6 +112,7 @@ Vis.Collections.App = Backbone.Collection.extend({
         stoppedCoping: stoppedCoping,
         education: education,
         ecoContributors: ecoContributors,
+        expendituresChild: expendituresChild,
         milestones: milestones
       });
     }

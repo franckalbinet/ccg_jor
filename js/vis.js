@@ -25,6 +25,7 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
     STOPPED_COPING_MECHANISMS: "stopped_coping_mechanisms.json",
     EDUCATION: "education.json",
     ECO_CONTRIBUTORS: "eco_contributors.json",
+    EXPENDITURES_CHILDREN: "expenditures_children.json",
     MILESTONES: "milestones.json"
   },
   LOOKUP_CODES: {
@@ -37,6 +38,10 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
     EXPENDITURES: {1:"Rent", 2:"Utilities", 3:"Communications", 4:"Food", 5:"Education", 6:"Health care services [adults]",
                    7:"Medicine [adults]", 8:"Health care services [children]", 9:"Medicine [children]", 10:"Transportation",
                   11:"Debt payoff", 12:"Savings", 13:"Other children expenditures", 97:"Other"},
+    EXPENDITURES_CHILDREN: {2:"Transportation to school", 3:"School-related expenses", 4:"Transport to healthcare facilities",
+                            5:"Doctors fees for children",6:"Children’s medicine",7:"Infant/children’s milk and food",
+                            9:"Fresh foods",10:"Children’s clothes and shoes",11:"Diapers/sanitation products",
+                            12:"Recreation and toys",13:"Infant needs (e.g. pram)",99:"No spending on these items"},
     EXPENDITURES_CHILD_MOST: {1:"Education", 2:"Health", 3:"Food", 99:"Other"},
     LIVING_CONDITIONS: {1:"Yes", 2:"No, not at all"},
     BASIC_NEEDS: {1:"Significantly", 2:"Moderatly", 3:"Slightly", 4: "Not at all"},
@@ -177,10 +182,17 @@ Vis.Collections.App = Backbone.Collection.extend({
           })
         },
         that.url + Vis.DEFAULTS.DATASETS.ECO_CONTRIBUTORS)
+      .defer(
+        function(url, callback) {
+          d3.json(url, function(error, result) {
+            callback(error, result);
+          })
+        },
+        that.url + Vis.DEFAULTS.DATASETS.EXPENDITURES_CHILDREN)
       .await(_ready);
 
     // on success
-    function _ready(error, children, households, outcomes, milestones, incomes, expenditures, currentCoping, stoppedCoping, education, ecoContributors) {
+    function _ready(error, children, households, outcomes, milestones, incomes, expenditures, currentCoping, stoppedCoping, education, ecoContributors, expendituresChild) {
       var that = this;
 
       // coerce data
@@ -201,6 +213,7 @@ Vis.Collections.App = Backbone.Collection.extend({
         stoppedCoping: stoppedCoping,
         education: education,
         ecoContributors: ecoContributors,
+        expendituresChild: expendituresChild,
         milestones: milestones
       });
     }
@@ -237,6 +250,7 @@ Vis.Models.App = Backbone.Model.extend({
   sync: function() {
     this.incomesHousehold.filter( this.filterExactList(this.getHouseholds()));
     this.expendituresHousehold.filter( this.filterExactList(this.getHouseholds()));
+    this.expendituresChildHousehold.filter( this.filterExactList(this.getHouseholds()));
     this.outcomesHousehold.filter( this.filterExactList(this.getHouseholds()));
     this.currentCopingHousehold.filter( this.filterExactList(this.getHouseholds()));
     this.stoppedCopingHousehold.filter( this.filterExactList(this.getHouseholds()));
@@ -554,10 +568,22 @@ Vis.Models.App = Backbone.Model.extend({
     this.expendituresByRound = this.expendituresRound.group().reduce(
       this.reduceAddRound("exp"), this.reduceRemoveRound("exp"), this.reduceInitRound(catExp)
     );
-    // debugger;
     this.expendituresByType = this.expendituresType.group().reduce(
       this.reduceAddType(), this.reduceRemoveType(), this.reduceInitType()
     );
+
+    // expenditures children-specific
+    var expendituresChildCf = crossfilter(data.expendituresChild);
+    this.expendituresChildHousehold = expendituresChildCf.dimension(function(d) { return d.hh; });
+    this.expendituresChildType = expendituresChildCf.dimension(function(d) { return d.exp_child; });
+    this.expendituresChildRound = expendituresChildCf.dimension(function(d) { return d.round; });
+    var catExpChild = _.unique(data.expendituresChild.map(function(d) { return d.exp_child; }));
+    this.expendituresChildByRound = this.expendituresChildRound.group().reduce(
+      this.reduceAddRound("exp_child"), this.reduceRemoveRound("exp_child"), this.reduceInitRound(catExpChild)
+    );
+    // this.expendituresByType = this.expendituresType.group().reduce(
+    //   this.reduceAddType(), this.reduceRemoveType(), this.reduceInitType()
+    // );
 
     // outcomes crossfilter [ 1 - 1 relation with households]
     var outcomesCf = crossfilter(data.outcomes);
@@ -1779,8 +1805,10 @@ Vis.Views.Expenditures = Backbone.View.extend({
               .data(data)
               .color(d3.scale.ordinal().range(
                 // ["#E59138","#88A3B6","#706B5A"]).domain([1, 2, 3]))
-                ["#E59138","#003950","#B45B49"]).domain([1, 2, 3]))
+                ["#E59138","#88A3B6","#706B5A"]).domain([1, 2, 3]))
+                // ["#E59138","#003950","#B45B49"]).domain([1, 2, 3]))
               .relativeTo(total)
+              .yDomain([1,2,4,3,9,10,7,5,6,8,11,13,12,97])
               .title("Expenditures that people who receive the Cash Grant spend it on")
               .xTitle("")
               .lookUp(Vis.DEFAULTS.LOOKUP_CODES.EXPENDITURES)
@@ -1800,6 +1828,26 @@ Vis.Views.Expenditures = Backbone.View.extend({
               .lookUp(Vis.DEFAULTS.LOOKUP_CODES.EXPENDITURES_CHILD_MOST);
 
             break;
+          case 3:
+            this.chart = d3.multiSeriesTimeLineAlt()
+              .width(600).height(350)
+              .margins({top: 40, right: 150, bottom: 40, left: 180})
+              .data(data)
+              .color(d3.scale.ordinal().range(
+                ["#E59138","#88A3B6","#706B5A"]).domain([1, 2, 3]))
+                // ["#E59138","#003950","#B45B49"]).domain([1, 2, 3]))
+                // ["#E59138","#003950","#B45B49"]).domain([1, 2, 3]))
+                // ["#1f77b4","#d62728","#2ca02c"]).domain([1, 2, 3]))
+              .relativeTo(total)
+              .yDomain([10,6,3,9,7,5,2,11,4,12,13,99])
+              .title("Children-specific expenditures that people who receive the Cash Grant spend it on")
+              .xTitle("")
+              .lookUp(Vis.DEFAULTS.LOOKUP_CODES.EXPENDITURES_CHILDREN)
+              .on("highlighted", function (highlighted) {
+                that.highlighted = highlighted;
+                that.render(that.model.get("scenario").chapter); });
+            break;
+
           case 4:
             this.chart = d3.barChartMultiStacked()
               .width(455).height(350)
@@ -1839,6 +1887,13 @@ Vis.Views.Expenditures = Backbone.View.extend({
               .relativeTo(this.getTotalHouseholds(chapter))
             d3.select("#main-chart").call(this.chart);
             break;
+          case 3:
+            this.chart
+              .data(this.getData(chapter))
+              .relativeTo(this.getTotalHouseholds(chapter))
+              .highlighted(this.highlighted)
+            d3.select("#main-chart").call(this.chart);
+            break;
           case 4:
             this.chart
               .data(this.getData(chapter))
@@ -1859,6 +1914,9 @@ Vis.Views.Expenditures = Backbone.View.extend({
             break;
           case 2:
             return this.model.expendituresChildMostByRound.top(Infinity);
+            break;
+          case 3:
+            return this.model.expendituresChildByRound.top(Infinity);
             break;
           case 4:
             return this.model.basicNeedsByRound.top(Infinity);
@@ -1882,6 +1940,10 @@ Vis.Views.Expenditures = Backbone.View.extend({
           break;
         case 2:
           return _.unique(this.model.outcomesHousehold.top(Infinity)
+                  .map(function(d) { return d.hh })).length;
+          break;
+        case 3:
+          return _.unique(this.model.expendituresChildHousehold.top(Infinity)
                   .map(function(d) { return d.hh })).length;
           break;
         case 4:
@@ -4309,6 +4371,7 @@ d3.multiSeriesTimeLineAlt = function() {
       x = d3.scale.linear(),
       y = d3.scale.ordinal(),
       elasticY = false,
+      yDomain = [],
       xDomain = null,
       xAxis = d3.svg.axis().orient("bottom").ticks(5),
       // yAxis = d3.svg.axis().orient("left").tickValues([0, 25, 50, 75, 100]),
@@ -4350,7 +4413,8 @@ d3.multiSeriesTimeLineAlt = function() {
       x.domain([0, _getMaxX(data)]);
       // y.domain([0, _getMaxY(data)]);
       // y.domain(getYDomain());
-      y.domain([1,2,4,3,9,10,7,5,6,8,11,13,12,97]);
+      // y.domain([1,2,4,3,9,10,7,5,6,8,11,13,12,97]);
+      y.domain(yDomain);
 
       // create the skeleton chart.
       if (g.empty()) _skeleton();
@@ -4358,14 +4422,15 @@ d3.multiSeriesTimeLineAlt = function() {
       _gYAxis.transition().call(yAxis);
 
       if (!isDataEmpty()) _render();
-
+      
       d3.selectAll(".time-line .legends text")
-        .data(["June", "August", "November"])
-        .text(function(d) { return d; });
+      .data(["June", "August", "November"])
+      .text(function(d) { return d; });
 
       d3.selectAll(".time-line .y.axis text")
-        .data([1,2,4,3,9,10,7,5,6,8,11,13,12,97].map(function(d) { return lookUp[d]; }))
-        .text(function(d) { return d; });
+      .data(y.domain().map(function(d) { return lookUp[d]; }))
+      .text(function(d) { return d; });
+
 
       function _render() {
         // container
@@ -4696,8 +4761,15 @@ d3.multiSeriesTimeLineAlt = function() {
       function isDataEmpty() {
         // var length = data.filter(function(d) {return d.valueId != "0-0-0"}).length;
         // to be refactored asap please !
-        var length = data.filter(function(d) {return d.valueId != "0-0-0-0-0-0-0-0-0-0-0-0-0-0"}).length;
-        return (length == 0) ? true : false;
+
+        var allSum = d3.sum(
+          _.flatten(data.map(function(d) { return d.valueId.split("-"); }))
+          .map(function(d) { return +d; }));
+
+        // var length = data.filter(function(d) {return d.valueId != "0-0-0-0-0-0-0-0-0-0-0-0-0-0"}).length;
+        // return (length == 0) ? true : false;
+
+        return (allSum == 0) ? true : false;
       }
 
       // function getXDomain() {
@@ -4787,6 +4859,12 @@ d3.multiSeriesTimeLineAlt = function() {
     yAxis = _;
     return chart;
   };
+  chart.yDomain = function(_) {
+    if (!arguments.length) return yDomain;
+    yDomain = _;
+    return chart;
+  };
+
   chart.hasYAxis = function(_) {
     if (!arguments.length) return hasYAxis;
     hasYAxis = _;

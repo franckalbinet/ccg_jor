@@ -29,6 +29,7 @@ Vis.Models.App = Backbone.Model.extend({
   sync: function() {
     this.incomesHousehold.filter( this.filterExactList(this.getHouseholds()));
     this.expendituresHousehold.filter( this.filterExactList(this.getHouseholds()));
+    this.expendituresChildHousehold.filter( this.filterExactList(this.getHouseholds()));
     this.outcomesHousehold.filter( this.filterExactList(this.getHouseholds()));
     this.currentCopingHousehold.filter( this.filterExactList(this.getHouseholds()));
     this.stoppedCopingHousehold.filter( this.filterExactList(this.getHouseholds()));
@@ -346,10 +347,22 @@ Vis.Models.App = Backbone.Model.extend({
     this.expendituresByRound = this.expendituresRound.group().reduce(
       this.reduceAddRound("exp"), this.reduceRemoveRound("exp"), this.reduceInitRound(catExp)
     );
-    // debugger;
     this.expendituresByType = this.expendituresType.group().reduce(
       this.reduceAddType(), this.reduceRemoveType(), this.reduceInitType()
     );
+
+    // expenditures children-specific
+    var expendituresChildCf = crossfilter(data.expendituresChild);
+    this.expendituresChildHousehold = expendituresChildCf.dimension(function(d) { return d.hh; });
+    this.expendituresChildType = expendituresChildCf.dimension(function(d) { return d.exp_child; });
+    this.expendituresChildRound = expendituresChildCf.dimension(function(d) { return d.round; });
+    var catExpChild = _.unique(data.expendituresChild.map(function(d) { return d.exp_child; }));
+    this.expendituresChildByRound = this.expendituresChildRound.group().reduce(
+      this.reduceAddRound("exp_child"), this.reduceRemoveRound("exp_child"), this.reduceInitRound(catExpChild)
+    );
+    // this.expendituresByType = this.expendituresType.group().reduce(
+    //   this.reduceAddType(), this.reduceRemoveType(), this.reduceInitType()
+    // );
 
     // outcomes crossfilter [ 1 - 1 relation with households]
     var outcomesCf = crossfilter(data.outcomes);

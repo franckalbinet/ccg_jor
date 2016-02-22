@@ -11,6 +11,7 @@ d3.multiSeriesTimeLineAlt = function() {
       x = d3.scale.linear(),
       y = d3.scale.ordinal(),
       elasticY = false,
+      yDomain = [],
       xDomain = null,
       xAxis = d3.svg.axis().orient("bottom").ticks(5),
       // yAxis = d3.svg.axis().orient("left").tickValues([0, 25, 50, 75, 100]),
@@ -52,7 +53,8 @@ d3.multiSeriesTimeLineAlt = function() {
       x.domain([0, _getMaxX(data)]);
       // y.domain([0, _getMaxY(data)]);
       // y.domain(getYDomain());
-      y.domain([1,2,4,3,9,10,7,5,6,8,11,13,12,97]);
+      // y.domain([1,2,4,3,9,10,7,5,6,8,11,13,12,97]);
+      y.domain(yDomain);
 
       // create the skeleton chart.
       if (g.empty()) _skeleton();
@@ -60,14 +62,15 @@ d3.multiSeriesTimeLineAlt = function() {
       _gYAxis.transition().call(yAxis);
 
       if (!isDataEmpty()) _render();
-
+      
       d3.selectAll(".time-line .legends text")
-        .data(["June", "August", "November"])
-        .text(function(d) { return d; });
+      .data(["June", "August", "November"])
+      .text(function(d) { return d; });
 
       d3.selectAll(".time-line .y.axis text")
-        .data([1,2,4,3,9,10,7,5,6,8,11,13,12,97].map(function(d) { return lookUp[d]; }))
-        .text(function(d) { return d; });
+      .data(y.domain().map(function(d) { return lookUp[d]; }))
+      .text(function(d) { return d; });
+
 
       function _render() {
         // container
@@ -398,8 +401,15 @@ d3.multiSeriesTimeLineAlt = function() {
       function isDataEmpty() {
         // var length = data.filter(function(d) {return d.valueId != "0-0-0"}).length;
         // to be refactored asap please !
-        var length = data.filter(function(d) {return d.valueId != "0-0-0-0-0-0-0-0-0-0-0-0-0-0"}).length;
-        return (length == 0) ? true : false;
+
+        var allSum = d3.sum(
+          _.flatten(data.map(function(d) { return d.valueId.split("-"); }))
+          .map(function(d) { return +d; }));
+
+        // var length = data.filter(function(d) {return d.valueId != "0-0-0-0-0-0-0-0-0-0-0-0-0-0"}).length;
+        // return (length == 0) ? true : false;
+
+        return (allSum == 0) ? true : false;
       }
 
       // function getXDomain() {
@@ -489,6 +499,12 @@ d3.multiSeriesTimeLineAlt = function() {
     yAxis = _;
     return chart;
   };
+  chart.yDomain = function(_) {
+    if (!arguments.length) return yDomain;
+    yDomain = _;
+    return chart;
+  };
+
   chart.hasYAxis = function(_) {
     if (!arguments.length) return hasYAxis;
     hasYAxis = _;
