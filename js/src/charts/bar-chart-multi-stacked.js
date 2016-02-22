@@ -57,33 +57,13 @@ d3.barChartMultiStacked = function() {
         _listeners.filtered(selection);
       }
 
+      d3.selectAll(".bar-chart-multi-stacked .x.axis text")
+        .data(["June", "August", "November"])
+        .text(function(d) { return d; });
+
       if (!isDataEmpty()) _render();
 
       function _render() {
-
-        // // container
-        // var item = g.selectAll(".item")
-        //     .data(data, function(d) {
-        //       return d.key;
-        //     });
-        // item.enter()
-        //     .append("g")
-        //     .attr("class", "item");
-        // item.exit().remove();
-        //
-        // // lines
-        // var line = item.selectAll(".line")
-        //   .data(function(d) { return [d];}, function(d) { return d.valueId; });
-        //
-        // line.enter().append("path").attr("class", "line");
-        //
-        // line.exit().remove();
-        //
-        // line
-        //   .transition()
-        //   .attr("d", function(d) {
-        //     return _line(d.value);
-        //   });
 
         // container
         var round = g.selectAll(".round")
@@ -110,9 +90,10 @@ d3.barChartMultiStacked = function() {
             return color(d.name);
           })
           .transition()
-          .attr("height", function(d) { return y(toPercentage(d.y0)) - y(toPercentage(d.y1)); })
+          .attr("height", function(d) {
+              return y(toPercentage(d.y0, d.key)) - y(toPercentage(d.y1, d.key)); })
           .attr("y", function(d) {
-            return y(toPercentage(d.y1)); });
+            return y(toPercentage(d.y1, d.key)); });
 
       }
 
@@ -121,7 +102,7 @@ d3.barChartMultiStacked = function() {
             var y0 = 0;
             d.stacked = color.domain().map(function(name) {
               var bar = d.value.filter(function(v) { return v.category == name; })[0];
-              return {name: bar.category, y0: y0, y1: y0 += bar.count}; });
+              return {key: d.key, name: bar.category, y0: y0, y1: y0 += bar.count}; });
             d.total = d.stacked[d.stacked.length - 1].y1;
           });
 
@@ -139,7 +120,7 @@ d3.barChartMultiStacked = function() {
         // x.rangePoints([0 , _gWidth]);
 
         // x.rangeRoundBands([0, _gWidth], .1);
-        x.rangeRoundBands([0, _gWidth], .1);
+        x.rangeRoundBands([0, _gWidth], .25);
         y.domain([0, 100]);
         y.range([_gHeight, 0]);
 
@@ -225,8 +206,10 @@ d3.barChartMultiStacked = function() {
         return (countAll) ? false : true;
       }
 
-      function toPercentage(val) {
-        return Math.round((val/relativeTo)*100);
+      function toPercentage(val, round) {
+        var denominator = (typeof(relativeTo) === "object") ?
+          relativeTo[round] : relativeTo;
+        return Math.round((val/denominator)*100);
       }
 
       function _getDataBrushed(brush) {

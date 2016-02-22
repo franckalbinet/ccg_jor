@@ -47,19 +47,30 @@ Vis.Views.Incomes = Backbone.View.extend({
 
     switch(chapter) {
         case 1:
-          this.chart = d3.multiSeriesTimeLine()
+          // this.chart = d3.multiSeriesTimeLine()
+          //   .width(600).height(350)
+          //   .margins({top: 40, right: 200, bottom: 40, left: 45})
+          //   .color(d3.scale.ordinal().range(["#5e5e66", "#e59138", "#6d8378", "#b45b49"]).domain([1, 2, 5, 99]))
+          //   .data(data)
+          //   .relativeTo(total)
+          //   .title("Main sources of income")
+          //   .xTitle("Wave")
+          //   .lookUp(Vis.DEFAULTS.LOOKUP_CODES.INCOME)
+          //   .on("highlighted", function (highlighted) {
+          //     // console.log("in on in chart");
+          //     that.highlighted = highlighted;
+          //     that.render(that.model.get("scenario").chapter); });
+
+          this.chart = d3.barChartMultiStacked()
             .width(600).height(350)
-            .margins({top: 40, right: 200, bottom: 40, left: 45})
-            .color(d3.scale.ordinal().range(["#5e5e66", "#e59138", "#6d8378", "#b45b49"]).domain([1, 2, 5, 99]))
+            .margins({top: 40, right: 280, bottom: 40, left: 150})
             .data(data)
+            .color(d3.scale.ordinal().range(["#003950", "#88A3B6", "#E59138","#EDDAC3"]).domain([1, 2, 5, 99]))
             .relativeTo(total)
-            .title("Main sources of income")
-            .xTitle("Wave")
-            .lookUp(Vis.DEFAULTS.LOOKUP_CODES.INCOME)
-            .on("highlighted", function (highlighted) {
-              // console.log("in on in chart");
-              that.highlighted = highlighted;
-              that.render(that.model.get("scenario").chapter); });
+            .title("Main sources of income (% of answers) - TBC")
+            .xTitle("")
+            .lookUp(Vis.DEFAULTS.LOOKUP_CODES.INCOME);
+
           break;
         case 2:
           this.chart = d3.multiSeriesTimeLine()
@@ -69,7 +80,7 @@ Vis.Views.Incomes = Backbone.View.extend({
             .data(data)
             .relativeTo(total)
             .title("Main economic contributors to the family")
-            .xTitle("Wave")
+            .xTitle("")
             .elasticY(true)
             .lookUp(Vis.DEFAULTS.LOOKUP_CODES.ECO_CONTRIBUTORS)
             .on("highlighted", function (highlighted) {
@@ -98,10 +109,9 @@ Vis.Views.Incomes = Backbone.View.extend({
   render: function(chapter) {
     switch(chapter) {
         case 1:
-        // console.log("is rendering");
           this.chart
             .data(this.getData(chapter))
-            .highlighted(this.highlighted)
+            // .highlighted(this.highlighted)
             .relativeTo(this.getTotalHouseholds(chapter))
           d3.select("#main-chart").call(this.chart);
           break;
@@ -127,7 +137,8 @@ Vis.Views.Incomes = Backbone.View.extend({
   getData: function(chapter) {
     switch(chapter) {
         case 1:
-          return this.model.incomesByType.top(Infinity);
+          // return this.model.incomesByType.top(Infinity);
+          return this.model.incomesByRound.top(Infinity);
           break;
         case 2:
           return this.model.ecoContribByType.top(Infinity);
@@ -143,8 +154,12 @@ Vis.Views.Incomes = Backbone.View.extend({
   getTotalHouseholds: function(chapter) {
     switch(chapter) {
       case 1:
-        return _.unique(this.model.incomesHousehold.top(Infinity).map(function(d) {
-          return d.hh })).length;
+        var totals = {};
+        this.model.incomesByRound.top(Infinity)
+          .forEach(function(d) { totals[d.key] = d3.sum(d.value.map(function(v) { return v.count; })) });
+        return totals;
+        // return _.unique(this.model.incomesHousehold.top(Infinity).map(function(d) {
+        //   return d.hh })).length;
         break;
       case 2:
         return _.unique(this.model.ecoContribHousehold.top(Infinity)

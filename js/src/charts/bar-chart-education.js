@@ -44,6 +44,10 @@ d3.barChartEducation = function() {
       // create the skeleton chart.
       if (g.empty()) _skeleton();
 
+      d3.selectAll("#main-chart .x.axis text")
+        .data(["June", "August", "November"])
+        .text(function(d) { return d; });
+
       if (!isDataEmpty()) _render();
 
       function _render() {

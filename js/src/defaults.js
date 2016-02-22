@@ -22,7 +22,7 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
     POVERTY: {1:"High", 2:"Severe"},
     HEAD: {1:"Father", 2:"Mother"},
     GENDER: {1:"Male", 2:"Female"},
-    INCOME: {1:"UN cash assistance", 2:"WFP voucher", 5:"Paid labour", 99:"Other"},
+    INCOME: {1:"Cash Assistance (UNICEF and UNHCR)", 2:"Food Voucher (WFP)", 5:"Paid labour", 99:"Other"},
     ECO_CONTRIBUTORS: {1:"Father",2:"Mother",3:"Other adult",4:"Child over 16",5:"Child under 16",6:"None"},
     EXPENDITURES: {1:"Rent", 2:"Utilities", 3:"Communications", 4:"Food", 5:"Education", 6:"Health care services [adults]",
                    7:"Medicine [adults]", 8:"Health care services [children]", 9:"Medicine [children]", 10:"Transportation",

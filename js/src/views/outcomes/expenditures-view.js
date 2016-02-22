@@ -68,8 +68,9 @@ Vis.Views.Expenditures = Backbone.View.extend({
               .margins({top: 40, right: 150, bottom: 40, left: 180})
               .data(data)
               .color(d3.scale.ordinal().range(
-                // ["#E59138","#88A3B6","#706B5A"]).domain([1, 2, 3]))
                 ["#E59138","#88A3B6","#706B5A"]).domain([1, 2, 3]))
+                // ["#FF9900","#009900","#555555"]).domain([1, 2, 3]))
+                // ["#A1BDC5","#567888","#003950"]).domain([1, 2, 3]))
                 // ["#E59138","#003950","#B45B49"]).domain([1, 2, 3]))
               .relativeTo(total)
               .yDomain([1,2,4,3,9,10,7,5,6,8,11,13,12,97])
@@ -82,15 +83,14 @@ Vis.Views.Expenditures = Backbone.View.extend({
             break;
           case 2:
             this.chart = d3.barChartMultiStacked()
-              .width(455).height(350)
-              .margins({top: 40, right: 160, bottom: 40, left: 200})
+              .width(600).height(350)
+              .margins({top: 40, right: 280, bottom: 40, left: 150})
               .data(data)
               .color(d3.scale.ordinal().range(["#A999A4", "#C0B491", "#EDDAC3", "#80A6B1"]).domain([1, 2, 3, 99]))
               .relativeTo(total)
               .title("Children-specific expenditures [Mostly spent each month]")
-              .xTitle("Wave")
+              .xTitle("")
               .lookUp(Vis.DEFAULTS.LOOKUP_CODES.EXPENDITURES_CHILD_MOST);
-
             break;
           case 3:
             this.chart = d3.multiSeriesTimeLineAlt()
@@ -114,15 +114,15 @@ Vis.Views.Expenditures = Backbone.View.extend({
 
           case 4:
             this.chart = d3.barChartMultiStacked()
-              .width(455).height(350)
-              .margins({top: 40, right: 160, bottom: 40, left: 200})
+              .width(600).height(350)
+              .margins({top: 40, right: 280, bottom: 40, left: 150})
               .data(data)
               .color(d3.scale.ordinal().range(['#003950','#567888','#a1bdc5', "#B45B49"]).domain([1, 2, 3, 4]))
               // .color(d3.scale.ordinal().range(['#3c5f6b','#6d8d97','#a1bdc5', "#B45B49"]).domain([1, 2, 3, 4]))
               // .color(d3.scale.ordinal().range(['#486280','#748fa2','#a1bdc5', "#B45B49"]).domain([1, 2, 3, 4]))
               .relativeTo(total)
               .title("Covering of children basic needs")
-              .xTitle("Wave")
+              .xTitle("")
               .lookUp(Vis.DEFAULTS.LOOKUP_CODES.BASIC_NEEDS);
             break;
           default:

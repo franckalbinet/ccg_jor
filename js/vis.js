@@ -33,7 +33,7 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
     POVERTY: {1:"High", 2:"Severe"},
     HEAD: {1:"Father", 2:"Mother"},
     GENDER: {1:"Male", 2:"Female"},
-    INCOME: {1:"UN cash assistance", 2:"WFP voucher", 5:"Paid labour", 99:"Other"},
+    INCOME: {1:"Cash Assistance (UNICEF and UNHCR)", 2:"Food Voucher (WFP)", 5:"Paid labour", 99:"Other"},
     ECO_CONTRIBUTORS: {1:"Father",2:"Mother",3:"Other adult",4:"Child over 16",5:"Child under 16",6:"None"},
     EXPENDITURES: {1:"Rent", 2:"Utilities", 3:"Communications", 4:"Food", 5:"Education", 6:"Health care services [adults]",
                    7:"Medicine [adults]", 8:"Health care services [children]", 9:"Medicine [children]", 10:"Transportation",
@@ -547,8 +547,13 @@ Vis.Models.App = Backbone.Model.extend({
     var incomesCf = crossfilter(data.incomes);
     this.incomesHousehold = incomesCf.dimension(function(d) { return d.hh; });
     this.incomesType = incomesCf.dimension(function(d) { return d.income; });
+    this.incomesRound = incomesCf.dimension(function(d) { return d.round; });
     this.incomesByType = this.incomesType.group().reduce(
       this.reduceAddType(), this.reduceRemoveType(), this.reduceInitType()
+    );
+    var catIncomes = _.unique(data.incomes.map(function(d) { return d.income; }));
+    this.incomesByRound = this.incomesRound.group().reduce(
+      this.reduceAddRound("income"), this.reduceRemoveRound("income"), this.reduceInitRound(catIncomes)
     );
 
     // economical contributor
@@ -1356,7 +1361,7 @@ Vis.Views.Education = Backbone.View.extend({
             .margins({top: 40, right: 240, bottom: 40, left: 140})
             .data(data)
             .title("Education attendance among school-aged children")
-            .xTitle("Wave");
+            .xTitle("");
 
           break;
         case 2:
@@ -1479,13 +1484,13 @@ Vis.Views.LivingConditions = Backbone.View.extend({
     switch(chapter) {
         case 1:
           this.chart = d3.barChartMultiStacked()
-            .width(455).height(350)
-            .margins({top: 40, right: 160, bottom: 40, left: 200})
+            .width(600).height(350)
+            .margins({top: 40, right: 280, bottom: 40, left: 150})
             .data(data)
             .color(d3.scale.ordinal().range(["#80A6B1", "#b45b49"]).domain([1, 2]))
             .relativeTo(total)
             .title("Improvement in families overall living conditions.")
-            .xTitle("Wave")
+            .xTitle("")
             .lookUp(Vis.DEFAULTS.LOOKUP_CODES.LIVING_CONDITIONS);
           break;
         case 2:
@@ -1603,19 +1608,30 @@ Vis.Views.Incomes = Backbone.View.extend({
 
     switch(chapter) {
         case 1:
-          this.chart = d3.multiSeriesTimeLine()
+          // this.chart = d3.multiSeriesTimeLine()
+          //   .width(600).height(350)
+          //   .margins({top: 40, right: 200, bottom: 40, left: 45})
+          //   .color(d3.scale.ordinal().range(["#5e5e66", "#e59138", "#6d8378", "#b45b49"]).domain([1, 2, 5, 99]))
+          //   .data(data)
+          //   .relativeTo(total)
+          //   .title("Main sources of income")
+          //   .xTitle("Wave")
+          //   .lookUp(Vis.DEFAULTS.LOOKUP_CODES.INCOME)
+          //   .on("highlighted", function (highlighted) {
+          //     // console.log("in on in chart");
+          //     that.highlighted = highlighted;
+          //     that.render(that.model.get("scenario").chapter); });
+
+          this.chart = d3.barChartMultiStacked()
             .width(600).height(350)
-            .margins({top: 40, right: 200, bottom: 40, left: 45})
-            .color(d3.scale.ordinal().range(["#5e5e66", "#e59138", "#6d8378", "#b45b49"]).domain([1, 2, 5, 99]))
+            .margins({top: 40, right: 280, bottom: 40, left: 150})
             .data(data)
+            .color(d3.scale.ordinal().range(["#003950", "#88A3B6", "#E59138","#EDDAC3"]).domain([1, 2, 5, 99]))
             .relativeTo(total)
-            .title("Main sources of income")
-            .xTitle("Wave")
-            .lookUp(Vis.DEFAULTS.LOOKUP_CODES.INCOME)
-            .on("highlighted", function (highlighted) {
-              // console.log("in on in chart");
-              that.highlighted = highlighted;
-              that.render(that.model.get("scenario").chapter); });
+            .title("Main sources of income (% of answers) - TBC")
+            .xTitle("")
+            .lookUp(Vis.DEFAULTS.LOOKUP_CODES.INCOME);
+
           break;
         case 2:
           this.chart = d3.multiSeriesTimeLine()
@@ -1625,7 +1641,7 @@ Vis.Views.Incomes = Backbone.View.extend({
             .data(data)
             .relativeTo(total)
             .title("Main economic contributors to the family")
-            .xTitle("Wave")
+            .xTitle("")
             .elasticY(true)
             .lookUp(Vis.DEFAULTS.LOOKUP_CODES.ECO_CONTRIBUTORS)
             .on("highlighted", function (highlighted) {
@@ -1654,10 +1670,9 @@ Vis.Views.Incomes = Backbone.View.extend({
   render: function(chapter) {
     switch(chapter) {
         case 1:
-        // console.log("is rendering");
           this.chart
             .data(this.getData(chapter))
-            .highlighted(this.highlighted)
+            // .highlighted(this.highlighted)
             .relativeTo(this.getTotalHouseholds(chapter))
           d3.select("#main-chart").call(this.chart);
           break;
@@ -1683,7 +1698,8 @@ Vis.Views.Incomes = Backbone.View.extend({
   getData: function(chapter) {
     switch(chapter) {
         case 1:
-          return this.model.incomesByType.top(Infinity);
+          // return this.model.incomesByType.top(Infinity);
+          return this.model.incomesByRound.top(Infinity);
           break;
         case 2:
           return this.model.ecoContribByType.top(Infinity);
@@ -1699,8 +1715,12 @@ Vis.Views.Incomes = Backbone.View.extend({
   getTotalHouseholds: function(chapter) {
     switch(chapter) {
       case 1:
-        return _.unique(this.model.incomesHousehold.top(Infinity).map(function(d) {
-          return d.hh })).length;
+        var totals = {};
+        this.model.incomesByRound.top(Infinity)
+          .forEach(function(d) { totals[d.key] = d3.sum(d.value.map(function(v) { return v.count; })) });
+        return totals;
+        // return _.unique(this.model.incomesHousehold.top(Infinity).map(function(d) {
+        //   return d.hh })).length;
         break;
       case 2:
         return _.unique(this.model.ecoContribHousehold.top(Infinity)
@@ -1804,8 +1824,9 @@ Vis.Views.Expenditures = Backbone.View.extend({
               .margins({top: 40, right: 150, bottom: 40, left: 180})
               .data(data)
               .color(d3.scale.ordinal().range(
-                // ["#E59138","#88A3B6","#706B5A"]).domain([1, 2, 3]))
                 ["#E59138","#88A3B6","#706B5A"]).domain([1, 2, 3]))
+                // ["#FF9900","#009900","#555555"]).domain([1, 2, 3]))
+                // ["#A1BDC5","#567888","#003950"]).domain([1, 2, 3]))
                 // ["#E59138","#003950","#B45B49"]).domain([1, 2, 3]))
               .relativeTo(total)
               .yDomain([1,2,4,3,9,10,7,5,6,8,11,13,12,97])
@@ -1818,15 +1839,14 @@ Vis.Views.Expenditures = Backbone.View.extend({
             break;
           case 2:
             this.chart = d3.barChartMultiStacked()
-              .width(455).height(350)
-              .margins({top: 40, right: 160, bottom: 40, left: 200})
+              .width(600).height(350)
+              .margins({top: 40, right: 280, bottom: 40, left: 150})
               .data(data)
               .color(d3.scale.ordinal().range(["#A999A4", "#C0B491", "#EDDAC3", "#80A6B1"]).domain([1, 2, 3, 99]))
               .relativeTo(total)
               .title("Children-specific expenditures [Mostly spent each month]")
-              .xTitle("Wave")
+              .xTitle("")
               .lookUp(Vis.DEFAULTS.LOOKUP_CODES.EXPENDITURES_CHILD_MOST);
-
             break;
           case 3:
             this.chart = d3.multiSeriesTimeLineAlt()
@@ -1850,15 +1870,15 @@ Vis.Views.Expenditures = Backbone.View.extend({
 
           case 4:
             this.chart = d3.barChartMultiStacked()
-              .width(455).height(350)
-              .margins({top: 40, right: 160, bottom: 40, left: 200})
+              .width(600).height(350)
+              .margins({top: 40, right: 280, bottom: 40, left: 150})
               .data(data)
               .color(d3.scale.ordinal().range(['#003950','#567888','#a1bdc5', "#B45B49"]).domain([1, 2, 3, 4]))
               // .color(d3.scale.ordinal().range(['#3c5f6b','#6d8d97','#a1bdc5', "#B45B49"]).domain([1, 2, 3, 4]))
               // .color(d3.scale.ordinal().range(['#486280','#748fa2','#a1bdc5', "#B45B49"]).domain([1, 2, 3, 4]))
               .relativeTo(total)
               .title("Covering of children basic needs")
-              .xTitle("Wave")
+              .xTitle("")
               .lookUp(Vis.DEFAULTS.LOOKUP_CODES.BASIC_NEEDS);
             break;
           default:
@@ -3610,17 +3630,17 @@ d3.timeLineNavigation = function() {
             .attr("cx", function(d) {
               return x(d.time); })
             .attr("cy", 0)
-            .attr("r", function(d) { return (d.isMain) ? 7:4; })
+            .attr("r", function(d) { return (d.isMain) ? 6:3; })
             .on("mouseover", function(d) {
                 var _wasElapsed = d3.select(this).classed("elapsed"),
-                    radius = (d.isMain) ? 9 : 6;
+                    radius = (d.isMain) ? 8 : 5;
                 d3.select(this)
                 .transition(100)
                 .attr("r", radius);
             })
             .on("mouseout", function(d) {
                 var _isElapsed = d3.select(this).classed("elapsed"),
-                    radius = (d.isMain) ? 7 : 4;
+                    radius = (d.isMain) ? 6 : 3;
 
                 d3.select(this)
                 .classed("elapsed", _wasElapsed || _isElapsed)
@@ -4984,33 +5004,13 @@ d3.barChartMultiStacked = function() {
         _listeners.filtered(selection);
       }
 
+      d3.selectAll(".bar-chart-multi-stacked .x.axis text")
+        .data(["June", "August", "November"])
+        .text(function(d) { return d; });
+
       if (!isDataEmpty()) _render();
 
       function _render() {
-
-        // // container
-        // var item = g.selectAll(".item")
-        //     .data(data, function(d) {
-        //       return d.key;
-        //     });
-        // item.enter()
-        //     .append("g")
-        //     .attr("class", "item");
-        // item.exit().remove();
-        //
-        // // lines
-        // var line = item.selectAll(".line")
-        //   .data(function(d) { return [d];}, function(d) { return d.valueId; });
-        //
-        // line.enter().append("path").attr("class", "line");
-        //
-        // line.exit().remove();
-        //
-        // line
-        //   .transition()
-        //   .attr("d", function(d) {
-        //     return _line(d.value);
-        //   });
 
         // container
         var round = g.selectAll(".round")
@@ -5037,9 +5037,10 @@ d3.barChartMultiStacked = function() {
             return color(d.name);
           })
           .transition()
-          .attr("height", function(d) { return y(toPercentage(d.y0)) - y(toPercentage(d.y1)); })
+          .attr("height", function(d) {
+              return y(toPercentage(d.y0, d.key)) - y(toPercentage(d.y1, d.key)); })
           .attr("y", function(d) {
-            return y(toPercentage(d.y1)); });
+            return y(toPercentage(d.y1, d.key)); });
 
       }
 
@@ -5048,7 +5049,7 @@ d3.barChartMultiStacked = function() {
             var y0 = 0;
             d.stacked = color.domain().map(function(name) {
               var bar = d.value.filter(function(v) { return v.category == name; })[0];
-              return {name: bar.category, y0: y0, y1: y0 += bar.count}; });
+              return {key: d.key, name: bar.category, y0: y0, y1: y0 += bar.count}; });
             d.total = d.stacked[d.stacked.length - 1].y1;
           });
 
@@ -5066,7 +5067,7 @@ d3.barChartMultiStacked = function() {
         // x.rangePoints([0 , _gWidth]);
 
         // x.rangeRoundBands([0, _gWidth], .1);
-        x.rangeRoundBands([0, _gWidth], .1);
+        x.rangeRoundBands([0, _gWidth], .25);
         y.domain([0, 100]);
         y.range([_gHeight, 0]);
 
@@ -5152,8 +5153,10 @@ d3.barChartMultiStacked = function() {
         return (countAll) ? false : true;
       }
 
-      function toPercentage(val) {
-        return Math.round((val/relativeTo)*100);
+      function toPercentage(val, round) {
+        var denominator = (typeof(relativeTo) === "object") ?
+          relativeTo[round] : relativeTo;
+        return Math.round((val/denominator)*100);
       }
 
       function _getDataBrushed(brush) {
@@ -5660,6 +5663,10 @@ d3.barChartEducation = function() {
 
       // create the skeleton chart.
       if (g.empty()) _skeleton();
+
+      d3.selectAll("#main-chart .x.axis text")
+        .data(["June", "August", "November"])
+        .text(function(d) { return d; });
 
       if (!isDataEmpty()) _render();
 

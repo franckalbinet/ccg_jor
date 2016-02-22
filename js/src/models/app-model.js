@@ -326,8 +326,13 @@ Vis.Models.App = Backbone.Model.extend({
     var incomesCf = crossfilter(data.incomes);
     this.incomesHousehold = incomesCf.dimension(function(d) { return d.hh; });
     this.incomesType = incomesCf.dimension(function(d) { return d.income; });
+    this.incomesRound = incomesCf.dimension(function(d) { return d.round; });
     this.incomesByType = this.incomesType.group().reduce(
       this.reduceAddType(), this.reduceRemoveType(), this.reduceInitType()
+    );
+    var catIncomes = _.unique(data.incomes.map(function(d) { return d.income; }));
+    this.incomesByRound = this.incomesRound.group().reduce(
+      this.reduceAddRound("income"), this.reduceRemoveRound("income"), this.reduceInitRound(catIncomes)
     );
 
     // economical contributor

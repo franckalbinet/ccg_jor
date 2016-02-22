@@ -51,7 +51,7 @@ Vis.Views.Education = Backbone.View.extend({
             .margins({top: 40, right: 240, bottom: 40, left: 140})
             .data(data)
             .title("Education attendance among school-aged children")
-            .xTitle("Wave");
+            .xTitle("");
 
           break;
         case 2:

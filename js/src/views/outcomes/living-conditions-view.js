@@ -46,13 +46,13 @@ Vis.Views.LivingConditions = Backbone.View.extend({
     switch(chapter) {
         case 1:
           this.chart = d3.barChartMultiStacked()
-            .width(455).height(350)
-            .margins({top: 40, right: 160, bottom: 40, left: 200})
+            .width(600).height(350)
+            .margins({top: 40, right: 280, bottom: 40, left: 150})
             .data(data)
             .color(d3.scale.ordinal().range(["#80A6B1", "#b45b49"]).domain([1, 2]))
             .relativeTo(total)
             .title("Improvement in families overall living conditions.")
-            .xTitle("Wave")
+            .xTitle("")
             .lookUp(Vis.DEFAULTS.LOOKUP_CODES.LIVING_CONDITIONS);
           break;
         case 2:

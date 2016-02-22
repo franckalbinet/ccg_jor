@@ -47,7 +47,7 @@ ul, ol {
   pointer-events: none;
   margin-right: 4px;
   font-size: 14px;
-  color: #555;
+  /*color: #EEE;*/
 }
 
 /* fonts */
@@ -59,12 +59,15 @@ h1,h2,h3,h4,h5 {
 .page-header {
   padding-bottom: 0px;
   margin-top: 50px;
-  /*margin-bottom: 30px;*/
   border-bottom: 1px solid #d0d0d0;
+  /*border-bottom: 1px solid rgba(28,172,226,0.3);
+  color: #1CACE2;*/
+  /*color: #404040;*/
+  color: #555;
 }
 .page-header h3 {
   font-weight: 700;
-  font-size: 21px;
+  font-size: 19px;
   text-transform: uppercase;
   margin-bottom: 0px;
 }
@@ -112,13 +115,16 @@ h1,h2,h3,h4,h5 {
   /*padding-top: 5px;*/
   font-size: 14px;
   font-weight: 700;
+  color: #555;
 }
 .focus-group #quote {
   font-size: 12px;
   font-weight: 300;
+  color: #555;
 }
 #time-line-navigation {
   border-top: 1px solid #d0d0d0;
+  /*border-top: 1px solid rgba(28,172,226,0.3);*/
 }
 #time-line-navigation .chart {
   margin-left: -30px;
@@ -129,15 +135,16 @@ h1,h2,h3,h4,h5 {
   padding-top: 10px;
   font-size: 11px;
   color: #999;
+  /*color: #1CACE2;*/
 }
 #footer div {
   margin-left: 40px;
   margin-bottom: 1px;
 }
 #footer .title {
-  font-size: 11px;
+  font-size: 10px;
   font-style: normal;
-  color: #333;
+  /*color: #333;*/
 }
 /*#time-line {
   background-color: #eee;
@@ -149,12 +156,20 @@ h1,h2,h3,h4,h5 {
   /*margin-top: 12px;*/
   width: 450px;
   font-size: 16px;
+  color: #555;
+  /*color: #404040;*/
   /*font-weight: 700;*/
+}
+#main-text strong {
+  /*color: #1CACE2;*/
+  /*color: #1CACE2;*/
+  color: #000;
 }
 #sub-text {
   font-size: 13px;
   width: 450px;
   font-weight: 300;
+  color: #555;
 }
 
 /* Charts */
@@ -193,7 +208,9 @@ h1,h2,h3,h4,h5 {
   stroke-width: 2;
 }
 .bar-chart-vert .x.label {
-  font-size: 12px;
+  font-size: 11px;
+  text-transform: uppercase;
+  fill:#555;
 }
 .bar-chart-vert .brush .extent {
   fill: black;
@@ -301,8 +318,10 @@ h1,h2,h3,h4,h5 {
 
 
 #main-chart .main.title {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
+  text-transform: uppercase;
+  fill: #555;
 }
 #main-chart .heatmap {
   display: inline-block;
@@ -313,6 +332,7 @@ h1,h2,h3,h4,h5 {
 #main-chart .heatmap rect {
   stroke: none;
   fill-opacity: 0.85;
+  fill-opacity: 1;
   /*fill-opacity: 1;*/
 }
 #main-chart .heatmap .names text {
@@ -329,6 +349,9 @@ h1,h2,h3,h4,h5 {
   font-weight: 700;
   font-size: 12px;
 }
+#main-chart .bar-chart-multi-stacked rect {
+  opacity: 1 !important;
+}
 
 /* Voronois */
 #main-chart .voronoi path {
@@ -340,6 +363,11 @@ h1,h2,h3,h4,h5 {
 
 
 /* time line navigation */
+#time-line-navigation .btn-default {
+  /*background-color: #00A5D5;
+  border: none;
+  color: #EEE;*/
+}
 #time-line-navigation .btn {
   margin-top: 16px;
 }
@@ -351,16 +379,20 @@ h1,h2,h3,h4,h5 {
 
 #time-line-navigation i {
   width: 12px;
+  /*back: #eee;*/
 }
 
 #time-line-navigation circle {
   fill: white;
   stroke: #aaa;
+  /*stroke: #00A5D5;*/
+  /*stroke: #1CACE2;*/
   stroke-width: 1px;
 }
 #time-line-navigation circle.elapsed {
   /*fill: #333;*/
   fill: #555;
+  /*fill: #00A5D5;*/
   stroke: none;
 }
 #time-line-navigation line {
@@ -371,11 +403,13 @@ h1,h2,h3,h4,h5 {
 }
 #time-line-navigation text {
   font-size: 10px;
-  color: #333;
+  color: #555;
+  /*fill: #00A5D5;*/
 }
 #time-line-navigation text.elapsed {
   font-weight: bold;
   color: #333;
+
 }
 
 
