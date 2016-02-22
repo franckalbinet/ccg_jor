@@ -341,6 +341,12 @@ Vis.Models.App = Backbone.Model.extend({
     var expendituresCf = crossfilter(data.expenditures);
     this.expendituresHousehold = expendituresCf.dimension(function(d) { return d.hh; });
     this.expendituresType = expendituresCf.dimension(function(d) { return d.exp; });
+    this.expendituresRound = expendituresCf.dimension(function(d) { return d.round; });
+    var catExp = _.unique(data.expenditures.map(function(d) { return d.exp; }));
+    this.expendituresByRound = this.expendituresRound.group().reduce(
+      this.reduceAddRound("exp"), this.reduceRemoveRound("exp"), this.reduceInitRound(catExp)
+    );
+    // debugger;
     this.expendituresByType = this.expendituresType.group().reduce(
       this.reduceAddType(), this.reduceRemoveType(), this.reduceInitType()
     );
