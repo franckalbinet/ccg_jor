@@ -1782,7 +1782,7 @@ Vis.Views.Expenditures = Backbone.View.extend({
                 ["#E59138","#003950","#B45B49"]).domain([1, 2, 3]))
               .relativeTo(total)
               .title("Expenditures that people who receive the Cash Grant spend it on")
-              .xTitle("Wave")
+              .xTitle("")
               .lookUp(Vis.DEFAULTS.LOOKUP_CODES.EXPENDITURES)
               .on("highlighted", function (highlighted) {
                 that.highlighted = highlighted;
@@ -4360,7 +4360,7 @@ d3.multiSeriesTimeLineAlt = function() {
       if (!isDataEmpty()) _render();
 
       d3.selectAll(".time-line .legends text")
-        .data(["Wave 1", "Wave 2", "Wave 3"])
+        .data(["June", "August", "November"])
         .text(function(d) { return d; });
 
       d3.selectAll(".time-line .y.axis text")

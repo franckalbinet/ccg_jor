@@ -72,7 +72,7 @@ Vis.Views.Expenditures = Backbone.View.extend({
                 ["#E59138","#003950","#B45B49"]).domain([1, 2, 3]))
               .relativeTo(total)
               .title("Expenditures that people who receive the Cash Grant spend it on")
-              .xTitle("Wave")
+              .xTitle("")
               .lookUp(Vis.DEFAULTS.LOOKUP_CODES.EXPENDITURES)
               .on("highlighted", function (highlighted) {
                 that.highlighted = highlighted;

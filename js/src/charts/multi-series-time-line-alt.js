@@ -62,7 +62,7 @@ d3.multiSeriesTimeLineAlt = function() {
       if (!isDataEmpty()) _render();
 
       d3.selectAll(".time-line .legends text")
-        .data(["Wave 1", "Wave 2", "Wave 3"])
+        .data(["June", "August", "November"])
         .text(function(d) { return d; });
 
       d3.selectAll(".time-line .y.axis text")
