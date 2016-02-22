@@ -49,6 +49,7 @@ Vis.Views.LivingConditions = Backbone.View.extend({
             .width(600).height(350)
             .margins({top: 40, right: 280, bottom: 40, left: 150})
             .data(data)
+            // .color(d3.scale.ordinal().range(["#003950", "#E59138"]).domain([1, 2]))
             .color(d3.scale.ordinal().range(["#80A6B1", "#b45b49"]).domain([1, 2]))
             .relativeTo(total)
             .title("Improvement in families overall living conditions.")

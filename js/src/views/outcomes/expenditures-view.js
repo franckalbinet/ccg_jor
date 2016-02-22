@@ -68,8 +68,8 @@ Vis.Views.Expenditures = Backbone.View.extend({
               .margins({top: 40, right: 150, bottom: 40, left: 180})
               .data(data)
               .color(d3.scale.ordinal().range(
-                ["#E59138","#88A3B6","#706B5A"]).domain([1, 2, 3]))
-                // ["#FF9900","#009900","#555555"]).domain([1, 2, 3]))
+                ["#003950","#E59138","#609078"]).domain([1, 2, 3]))
+                // ["#E59138","#88A3B6","#706B5A"]).domain([1, 2, 3]))
                 // ["#A1BDC5","#567888","#003950"]).domain([1, 2, 3]))
                 // ["#E59138","#003950","#B45B49"]).domain([1, 2, 3]))
               .relativeTo(total)
@@ -98,7 +98,8 @@ Vis.Views.Expenditures = Backbone.View.extend({
               .margins({top: 40, right: 150, bottom: 40, left: 180})
               .data(data)
               .color(d3.scale.ordinal().range(
-                ["#E59138","#88A3B6","#706B5A"]).domain([1, 2, 3]))
+                ["#003950","#E59138","#609078"]).domain([1, 2, 3]))
+                // ["#E59138","#88A3B6","#706B5A"]).domain([1, 2, 3]))
                 // ["#E59138","#003950","#B45B49"]).domain([1, 2, 3]))
                 // ["#E59138","#003950","#B45B49"]).domain([1, 2, 3]))
                 // ["#1f77b4","#d62728","#2ca02c"]).domain([1, 2, 3]))
