@@ -37,6 +37,7 @@ Vis.Views.App = Backbone.View.extend({
       new Vis.Views.Education({model: Vis.Models.app});
       new Vis.Views.Incomes({model: Vis.Models.app});
       new Vis.Views.Expenditures({model: Vis.Models.app});
+      new Vis.Views.ExpendituresChildren({model: Vis.Models.app});
       new Vis.Views.CopingMechanisms({model: Vis.Models.app});
       new Vis.Views.ChildEmpowerment({model: Vis.Models.app});
       new Vis.Views.Conclusion({model: Vis.Models.app});

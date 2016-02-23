@@ -203,7 +203,6 @@ cat(edu_json)
 sink()
 
 
-
 # PREPARE HOUSEHOLDS DATASET (hh: Serial, D5: head, M4: pov_line, D6: has_dis, S2: location)
 households <- select(data_round3, Serial, D5, M4, D6, S2)
 names(households) <- c("hh","head","pov_line", "has_dis", "loc")
@@ -217,19 +216,20 @@ sink()
 
 
 # PREPARE OUTCOMES DATASET (hh: Serial, round: ROUND, imp: Q20, needs: Q17)
-outcomes <- select(data, Serial, ROUND, Q20, Q17, Q16)
+outcomes <- select(data, Serial, ROUND, Q20, Q17, Q16, Q18)
 # merge Q16 
 # (1,2,3) -> 1 [Education expenditures]
 # (4,5,6) -> 2 [Health cares expenditures]
 # (7,8,9) -> 3 [Food expenditures]
 # (10, 11, 12, 13, 14) -> 99 [Other expenditures]
-outcomes$Q16 <- as.numeric(levels(outcomes$Q16))[outcomes$Q16]
+#outcomes$Q16 <- as.numeric(levels(outcomes$Q16))[outcomes$Q16]
 outcomes$Q16[outcomes$Q16 %in% c(1,2,3)] <- 1
 outcomes$Q16[outcomes$Q16 %in% c(4,5,6)] <- 2
 outcomes$Q16[outcomes$Q16 %in% c(7,8,9)] <- 3
 outcomes$Q16[outcomes$Q16 %in% c(0, 10,11,12,13,14)] <- 99
+outcomes$Q18[outcomes$Q18 %in% c(0)] <- 2
 
-names(outcomes) <- c("hh","round","imp", "needs", "exp_child_most")
+names(outcomes) <- c("hh","round","imp", "needs", "exp_child_most", "cov_child_exp")
 outcomes_json <- toJSON(unname(split(outcomes, 1:nrow(outcomes))))
 sink("outcomes.json")
 cat(outcomes_json)

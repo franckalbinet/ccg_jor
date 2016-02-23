@@ -42,6 +42,7 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
                             5:"Doctors fees for children",6:"Children’s medicine",7:"Infant/children’s milk and food",
                             9:"Fresh foods",10:"Children’s clothes and shoes",11:"Diapers/sanitation products",
                             12:"Recreation and toys",13:"Infant needs (e.g. pram)",99:"No spending on these items"},
+    COV_CHILD_EXP: {1:"Yes", 2:"No"},
     EXPENDITURES_CHILD_MOST: {1:"Education", 2:"Health", 3:"Food", 99:"Other"},
     LIVING_CONDITIONS: {1:"Yes", 2:"No, not at all"},
     BASIC_NEEDS: {1:"Significantly", 2:"Moderatly", 3:"Slightly", 4: "Not at all"},
@@ -594,9 +595,6 @@ Vis.Models.App = Backbone.Model.extend({
     this.expendituresChildByRound = this.expendituresChildRound.group().reduce(
       this.reduceAddRound("exp_child"), this.reduceRemoveRound("exp_child"), this.reduceInitRound(catExpChild)
     );
-    // this.expendituresByType = this.expendituresType.group().reduce(
-    //   this.reduceAddType(), this.reduceRemoveType(), this.reduceInitType()
-    // );
 
     // outcomes crossfilter [ 1 - 1 relation with households]
     var outcomesCf = crossfilter(data.outcomes);
@@ -621,6 +619,13 @@ Vis.Models.App = Backbone.Model.extend({
     var catBasicNeeds = _.unique(data.outcomes.map(function(d) { return d.needs; }))
     this.basicNeedsByRound = this.expendituresChildMostRound.group().reduce(
       this.reduceAddRound("needs"), this.reduceRemoveRound("needs"), this.reduceInitRound(catBasicNeeds)
+    );
+
+    // covers children expenses
+    this.covChildExpRound = outcomesCf.dimension(function(d) { return d.round; });
+    var catCovChildExp = _.unique(data.outcomes.map(function(d) { return d.cov_child_exp; }))
+    this.covChildExpByRound = this.covChildExpRound.group().reduce(
+      this.reduceAddRound("cov_child_exp"), this.reduceRemoveRound("cov_child_exp"), this.reduceInitRound(catCovChildExp)
     );
 
     // current coping mechanisms
@@ -724,6 +729,7 @@ Vis.Views.App = Backbone.View.extend({
       new Vis.Views.Education({model: Vis.Models.app});
       new Vis.Views.Incomes({model: Vis.Models.app});
       new Vis.Views.Expenditures({model: Vis.Models.app});
+      new Vis.Views.ExpendituresChildren({model: Vis.Models.app});
       new Vis.Views.CopingMechanisms({model: Vis.Models.app});
       new Vis.Views.ChildEmpowerment({model: Vis.Models.app});
       new Vis.Views.Conclusion({model: Vis.Models.app});
@@ -1453,14 +1459,14 @@ Vis.Views.Education = Backbone.View.extend({
   initialize: function () {
     var that = this;
 
-    if (that.model.get("scenario").page === 7) this.preRender(this.model.get("scenario").chapter);
+    if (that.model.get("scenario").page === 8) this.preRender(this.model.get("scenario").chapter);
 
     this.model.on("change:scenario", function() {
-      if (that.model.get("scenario").page === 7) this.preRender(that.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === 8) this.preRender(that.model.get("scenario").chapter);
       },this);
 
     Backbone.on("filtered", function(d) {
-      if (that.model.get("scenario").page === 7) this.render(that.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === 8) this.render(that.model.get("scenario").chapter);
       }, this);
   },
 
@@ -1752,14 +1758,14 @@ Vis.Views.ChildEmpowerment = Backbone.View.extend({
   initialize: function () {
     var that = this;
 
-    if (that.model.get("scenario").page === 8) this.preRender(this.model.get("scenario").chapter);
+    if (that.model.get("scenario").page === 9) this.preRender(this.model.get("scenario").chapter);
 
     this.model.on("change:scenario", function() {
-      if (that.model.get("scenario").page === 8) this.preRender(that.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === 9) this.preRender(that.model.get("scenario").chapter);
       },this);
 
     Backbone.on("filtered", function(d) {
-      if (that.model.get("scenario").page === 8) this.render(that.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === 9) this.render(that.model.get("scenario").chapter);
       }, this);
   },
 
@@ -1772,7 +1778,7 @@ Vis.Views.ChildEmpowerment = Backbone.View.extend({
     // this.clearCharts();
     Vis.utils.clearCharts();
 
-    $(".profile").show();
+    $(".profile").hide();
 
     // set text content
     ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {
@@ -1877,14 +1883,14 @@ Vis.Views.Conclusion = Backbone.View.extend({
   initialize: function () {
     var that = this;
 
-    if (that.model.get("scenario").page === 9) this.preRender(this.model.get("scenario").chapter);
+    if (that.model.get("scenario").page === 10) this.preRender(this.model.get("scenario").chapter);
 
     this.model.on("change:scenario", function() {
-      if (that.model.get("scenario").page === 9) this.preRender(that.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === 10) this.preRender(that.model.get("scenario").chapter);
       },this);
 
     Backbone.on("filtered", function(d) {
-      if (that.model.get("scenario").page === 9) this.render(that.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === 10) this.render(that.model.get("scenario").chapter);
       }, this);
   },
 
@@ -2437,6 +2443,182 @@ Vis.Views.Expenditures = Backbone.View.extend({
       if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
     }
 });
+// Expenditures children view
+Vis.Views.ExpendituresChildren = Backbone.View.extend({
+    el: '.container',
+
+    highlighted: [],
+
+    initialize: function () {
+      var that = this;
+
+      if (that.model.get("scenario").page === 7) this.preRender(this.model.get("scenario").chapter);
+
+      this.model.on("change:scenario", function() {
+        if (that.model.get("scenario").page === 7) this.preRender(that.model.get("scenario").chapter);
+        },this);
+
+      Backbone.on("filtered", function(d) {
+        if (that.model.get("scenario").page === 7) this.render(that.model.get("scenario").chapter);
+        }, this);
+    },
+
+    preRender: function(chapter) {
+      var that = this;
+
+      $("#households-children").show();
+      $("#children-gender").hide();
+
+      // this.clearCharts();
+      Vis.utils.clearCharts();
+
+      $(".profile").show();
+
+      // set text content
+      ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {
+        that.setTextContent(d);
+      });
+
+      $("#pending").hide();
+
+      $("#main-chart").show();
+
+      this.initChart(chapter);
+    },
+
+    initChart: function(chapter) {
+      var that = this,
+          data = this.getData(chapter),
+          total = this.getTotalHouseholds(chapter);
+
+      switch(chapter) {
+          case 1:
+            this.chart = d3.barChartMultiStacked()
+              .width(600).height(350)
+              .margins({top: 40, right: 250, bottom: 40, left: 200})
+              .data(data)
+              .color(d3.scale.ordinal().range(["#80A6B1", "#b45b49"]).domain([1, 2]))
+              .relativeTo(total)
+              .title("Were you able to cover expenses for your children that were not a priority before ?")
+              .xTitle("")
+              .lookUp(Vis.DEFAULTS.LOOKUP_CODES.COV_CHILD_EXP);
+            break;
+          case 2:
+            break;
+
+          case 4:
+            break;
+          default:
+            console.log("no matching case.")
+        }
+      this.render(chapter);
+    },
+
+    render: function(chapter) {
+      switch(chapter) {
+          case 1:
+            this.chart
+              .data(this.getData(chapter))
+              .relativeTo(this.getTotalHouseholds(chapter))
+            d3.select("#main-chart").call(this.chart);
+            this.fixPositionning();
+            break;
+          // case 2:
+          //   this.chart
+          //     .data(this.getData(chapter))
+          //     .relativeTo(this.getTotalHouseholds(chapter))
+          //   d3.select("#main-chart").call(this.chart);
+          //   break;
+          case 2:
+            // this.chart
+            //   .data(this.getData(chapter))
+            //   .relativeTo(this.getTotalHouseholds(chapter))
+            //   .highlighted(this.highlighted)
+            // d3.select("#main-chart").call(this.chart);
+            break;
+          case 4:
+            // this.chart
+            //   .data(this.getData(chapter))
+            //   .relativeTo(this.getTotalHouseholds(chapter))
+            // d3.select("#main-chart").call(this.chart);
+            // d3.selectAll(".bar-chart-multi-stacked rect").style("opacity", 0.7);
+            break;
+          default:
+            console.log("no matching case.")
+        }
+    },
+
+    getData: function(chapter) {
+      switch(chapter) {
+          case 1:
+            return this.model.covChildExpByRound.top(Infinity);
+            break;
+          // case 2:
+          //   return this.model.expendituresChildMostByRound.top(Infinity);
+          //   break;
+          case 2:
+            // return this.model.expendituresChildByRound.top(Infinity);
+            break;
+          // case 4:
+          //   return this.model.basicNeedsByRound.top(Infinity);
+          //   break;
+          default:
+            console.log("no matching case.")
+        }
+    },
+
+    // test: _.throttle(function (highlighted) {
+    //   this.highlighted = highlighted;
+    //   this.render(this.model.get("scenario").chapter);
+    //   console.log("test");
+    // }, 300),
+
+    getTotalHouseholds: function(chapter) {
+      switch(chapter) {
+        case 1:
+          // return _.unique(this.model.expendituresHousehold.top(Infinity)
+          //         .map(function(d) { return d.hh })).length;
+          return _.unique(this.model.outcomesHousehold.top(Infinity)
+          .map(function(d) { return d.hh })).length;
+          break;
+        // case 2:
+        //   return _.unique(this.model.outcomesHousehold.top(Infinity)
+        //           .map(function(d) { return d.hh })).length;
+        //   break;
+        case 2:
+          return _.unique(this.model.expendituresChildHousehold.top(Infinity)
+                  .map(function(d) { return d.hh })).length;
+          break;
+        // case 4:
+        //   return _.unique(this.model.outcomesHousehold.top(Infinity)
+        //           .map(function(d) { return d.hh })).length;
+        //   break;
+        default:
+          console.log("no matching case.")
+      }
+    },
+
+    setTextContent: function(attr) {
+      var scenario = this.model.get("scenario")
+          id = this.model.getTemplateId(scenario.page, scenario.chapter, attr),
+          template = _.template(Vis.Templates[attr][id]);
+
+      $("#" + attr).html(template());
+
+    },
+
+    clearCharts: function() {
+      if (this.chart) this.chart = null;
+      // if(!d3.select("#main-chart svg").empty()) d3.select("#main-chart svg").remove();
+      if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
+    },
+
+    fixPositionning: function() {
+      d3.selectAll("#main-chart .x.axis text")
+        .data(["Jun.", "Aug.", "Nov."])
+        .text(function(d) { return d; });
+    }
+});
 // Psychological wellbeing view
 Vis.Views.PsychologicalWellbeing = Backbone.View.extend({
   el: '.container',
@@ -2541,7 +2723,7 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
           data = this.getData();
 
       this.chart = d3.timeLineNavigation()
-        .width(600).height(60)
+        .width(800).height(60)
         .margins({top: 30, right: 50, bottom: 10, left: 40})
         .data(data)
         .x(d3.time.scale().domain(d3.extent(data, function(d) { return d.time; })))
@@ -6337,7 +6519,7 @@ Vis.Templates["main-text"] =[
   "<p><strong>Many of these families have lost everything they own</strong>, have depleted their savings, and, often, their ability to borrow money.</p>",
   "<p><strong>In such scenarios, it is often children who suffer most</strong>.<br> Years of education lost, malnutrition or health problems in the early years. These can have life-long negative repercussions.</p>",
   "<p><strong>To help cover basic needs of children</strong>, starting in February 2015, <strong>UNICEF has transferred a monthly child cash grant</strong> to the most vulnerable Syrian families living in host communities in Jordan.</p>",
-
+  "<p>Families consistently reported being <strong>able to cover expenses for children that were not a priority before</strong> received the UNICEF child cash grant and this increased over time.</p>"
 ];
 
 Vis.Templates["sub-text"] =[

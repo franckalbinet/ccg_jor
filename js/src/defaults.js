@@ -31,6 +31,7 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
                             5:"Doctors fees for children",6:"Children’s medicine",7:"Infant/children’s milk and food",
                             9:"Fresh foods",10:"Children’s clothes and shoes",11:"Diapers/sanitation products",
                             12:"Recreation and toys",13:"Infant needs (e.g. pram)",99:"No spending on these items"},
+    COV_CHILD_EXP: {1:"Yes", 2:"No"},
     EXPENDITURES_CHILD_MOST: {1:"Education", 2:"Health", 3:"Food", 99:"Other"},
     LIVING_CONDITIONS: {1:"Yes", 2:"No, not at all"},
     BASIC_NEEDS: {1:"Significantly", 2:"Moderatly", 3:"Slightly", 4: "Not at all"},

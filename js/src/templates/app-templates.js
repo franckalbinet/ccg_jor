@@ -15,7 +15,7 @@ Vis.Templates["main-text"] =[
   "<p><strong>Many of these families have lost everything they own</strong>, have depleted their savings, and, often, their ability to borrow money.</p>",
   "<p><strong>In such scenarios, it is often children who suffer most</strong>.<br> Years of education lost, malnutrition or health problems in the early years. These can have life-long negative repercussions.</p>",
   "<p><strong>To help cover basic needs of children</strong>, starting in February 2015, <strong>UNICEF has transferred a monthly child cash grant</strong> to the most vulnerable Syrian families living in host communities in Jordan.</p>",
-
+  "<p>Families consistently reported being <strong>able to cover expenses for children that were not a priority before</strong> received the UNICEF child cash grant and this increased over time.</p>"
 ];
 
 Vis.Templates["sub-text"] =[

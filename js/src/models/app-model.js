@@ -365,9 +365,6 @@ Vis.Models.App = Backbone.Model.extend({
     this.expendituresChildByRound = this.expendituresChildRound.group().reduce(
       this.reduceAddRound("exp_child"), this.reduceRemoveRound("exp_child"), this.reduceInitRound(catExpChild)
     );
-    // this.expendituresByType = this.expendituresType.group().reduce(
-    //   this.reduceAddType(), this.reduceRemoveType(), this.reduceInitType()
-    // );
 
     // outcomes crossfilter [ 1 - 1 relation with households]
     var outcomesCf = crossfilter(data.outcomes);
@@ -392,6 +389,13 @@ Vis.Models.App = Backbone.Model.extend({
     var catBasicNeeds = _.unique(data.outcomes.map(function(d) { return d.needs; }))
     this.basicNeedsByRound = this.expendituresChildMostRound.group().reduce(
       this.reduceAddRound("needs"), this.reduceRemoveRound("needs"), this.reduceInitRound(catBasicNeeds)
+    );
+
+    // covers children expenses
+    this.covChildExpRound = outcomesCf.dimension(function(d) { return d.round; });
+    var catCovChildExp = _.unique(data.outcomes.map(function(d) { return d.cov_child_exp; }))
+    this.covChildExpByRound = this.covChildExpRound.group().reduce(
+      this.reduceAddRound("cov_child_exp"), this.reduceRemoveRound("cov_child_exp"), this.reduceInitRound(catCovChildExp)
     );
 
     // current coping mechanisms
