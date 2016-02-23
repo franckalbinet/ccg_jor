@@ -22,9 +22,10 @@ Vis.Views.Conclusion = Backbone.View.extend({
     $("#households-children").show();
     $("#children-gender").hide();
 
-    this.clearCharts();
+    // this.clearCharts();
+    Vis.utils.clearCharts();
 
-    $(".profile").show();
+    $(".profile").hide();
 
     // set text content
     ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {

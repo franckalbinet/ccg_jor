@@ -26,7 +26,7 @@ Vis.Views.PsychologicalWellbeing = Backbone.View.extend({
     //
     //   $("#pending").show();
     //   $("#main-chart").hide();
-    // 
+    //
     //   switch(scenario.chapter) {
     //     case 1:
     //         // this.initChart();

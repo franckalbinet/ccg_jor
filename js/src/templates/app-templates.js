@@ -5,7 +5,7 @@ Vis.Templates["main-text"] =[
   "<p>Given that Syrian refugees are not allowed to work, they report a <strong>heavy dependence on cash assistance and food vouchers provided by UNICEF, UNHCR, and WFP</strong>. Even when assistance is cut back—as was the case when WFP cut its food vouchers in August 2015, it represents a significant part of refugee resources.</p>",
   "<p>Over the course of the survey, <strong>men as an economic contributors to the family plummeted</strong>.  For the most part, this is not made up for by any other member of the family, but refugees did report a slight increase in children under 16 working.</p>",
   "<p>While some expenditures varied seasonally, <strong>over the course of the ten months the main expenditure items remained consistent</strong>. Refugees were unable to decrease the costs of their highest expenses: rent,utilities, food, communications and education.  Although we know that 66% of refugees have debt, we see that over time refugees are less able to pay down their debt, and less able to save.</p>",
-  "<p><strong>Transportation to school and education expenses are the two biggest expenses related to children</strong>, followed by children’s clothes and shoes; and children’s medicine.  For families with four children or more, more money is spent on education, fresh foods and medicine.  This indicates that bigger families are able to more effectively share resources among their children, cutting costs in areas like clothes and shoes.</p>",
+  "<p><strong>Transportation to school and education expenses are the two biggest expenses related to children</strong>, followed by children’s clothes and shoes; and children’s medicine. For families with four children or more, more money is spent on education, fresh foods and medicine.  This indicates that bigger families are able to more effectively share resources among their children, cutting costs in areas like clothes and shoes.</p>",
   "<p>For the most part, <strong>families report that the amount of the grant was not able to change their reliance on most negative coping mechanisms</strong>.</p>",
   "<p>Despite this, families reported that they were <strong>able to increase spending on basic needs for children and increase their wellbeing and living conditions</strong>. This, in turn, positively impacted their psychological wellbeing.</p>",
   "<p>Children also <strong>entered school in progressively higher numbers</strong> over the course of the ten months.</p>",
@@ -45,3 +45,9 @@ Vis.Templates["quote-ref"] =[
   "Focus Group Discussion 6, P5",
   "[placeholder]"
 ];
+
+Vis.Templates["living-conditions"] =
+  "<div id='living-conditions' class='row'>" +
+  "  <div id='basic-needs' class='col-md-6'></div>" +
+  "  <div id='improvement' class='col-md-6'></div>" +
+  " </div>";

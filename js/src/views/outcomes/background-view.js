@@ -19,7 +19,10 @@ Vis.Views.Background = Backbone.View.extend({
         $("#households-children").hide();
         $("#children-gender").hide();
 
-        this.clearCharts();
+        // this.clearCharts();
+
+        Vis.utils.clearCharts();
+
         $(".profile").hide();
         // set text content
         ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {

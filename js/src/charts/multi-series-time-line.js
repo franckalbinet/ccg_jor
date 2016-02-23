@@ -56,6 +56,11 @@ d3.multiSeriesTimeLine = function() {
 
       _gYAxis.transition().call(yAxis);
 
+
+      d3.selectAll(".time-line .x.axis text")
+        .data(["June", "August", "November"])
+        .text(function(d) { return d; });
+
       if (!isDataEmpty()) _render();
 
       function _render() {

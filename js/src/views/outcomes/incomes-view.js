@@ -24,7 +24,8 @@ Vis.Views.Incomes = Backbone.View.extend({
     $("#households-children").show();
     $("#children-gender").hide();
 
-    this.clearCharts();
+    // this.clearCharts();
+    Vis.utils.clearCharts();
 
     $(".profile").show();
 
@@ -63,7 +64,7 @@ Vis.Views.Incomes = Backbone.View.extend({
 
           this.chart = d3.barChartMultiStacked()
             .width(600).height(350)
-            .margins({top: 40, right: 280, bottom: 40, left: 100})
+            .margins({top: 40, right: 280, bottom: 40, left: 180})
             .data(data)
             .color(d3.scale.ordinal().range(["#003950", "#88A3B6", "#E59138","#EDDAC3"]).domain([1, 2, 5, 99]))
             .relativeTo(total)
@@ -75,7 +76,7 @@ Vis.Views.Incomes = Backbone.View.extend({
         case 2:
           this.chart = d3.multiSeriesTimeLine()
             .width(600).height(350)
-            .margins({top: 40, right: 200, bottom: 40, left: 45})
+            .margins({top: 40, right: 200, bottom: 40, left: 100})
             .color(d3.scale.ordinal().range(["#E59138","#6D8378","#88a3b6","#003950", "#A999A4","#5F1D00"]).domain([1, 2, 3, 4, 5, 6]))
             .data(data)
             .relativeTo(total)
@@ -114,6 +115,7 @@ Vis.Views.Incomes = Backbone.View.extend({
             // .highlighted(this.highlighted)
             .relativeTo(this.getTotalHouseholds(chapter))
           d3.select("#main-chart").call(this.chart);
+          this.fixPositionning();
           break;
         case 2:
           this.chart
@@ -189,7 +191,14 @@ Vis.Views.Incomes = Backbone.View.extend({
 
   clearCharts: function() {
     if (this.chart) this.chart = null;
-    // if(!d3.select("#main-chart svg").empty()) d3.select("#main-chart svg").remove();
     if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
+    d3.select("main-chart #living-conditions").remove();
+    d3.select("main-chart .heatmap").remove();
+  },
+
+  fixPositionning: function() {
+    d3.selectAll("#main-chart .x.axis text")
+      .data(["Jun.", "Aug.", "Nov."])
+      .text(function(d) { return d; });
   }
 });

@@ -24,7 +24,8 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
     $("#households-children").show();
     $("#children-gender").hide();
 
-    this.clearCharts();
+    // this.clearCharts();
+    Vis.utils.clearCharts();
 
     $(".profile").show();
 
@@ -49,31 +50,29 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
         case 1:
           this.chart[0] = d3.heatmap()
             .id(0)
-            .width(100).height(330)
-            .margins({top: 30, right: 0, bottom: 40, left: 5})
+            .width(130).height(330)
+            .margins({top: 30, right: 20, bottom: 40, left: 30})
             .data(this.getData(chapter, 0))
             .color(d3.scale.threshold()
               .domain([10,20,30,40,50,60,70,80,90,100.1])
                .range(['#f6eae9','#eed2cc','#e4b9b1','#daa295','#ce8a7c','#c27362','#b45b49','#9a4d3e','#7e4033','#643228']))
             .relativeTo(this.getTotalHouseholds(chapter, 0))
             .title("Currently used")
-            // .titleDeltaY(-15)
-            .xTitle("Wave")
-            // .xTitleDeltaX()
+            .xTitle("")
             .hasNames(false)
             .lookUp(Vis.DEFAULTS.LOOKUP_CODES.COPING_MECHANISMS);
 
           this.chart[1] = d3.heatmap()
             .id(1)
-            .width(440).height(380)
-            .margins({top: 30, right: 340, bottom: 40, left: 5})
+            .width(400).height(380)
+            .margins({top: 30, right: 300, bottom: 40, left: 20})
             .data(this.getData(chapter, 1))
             .color(d3.scale.threshold()
               // .domain([1,5,10,40,50,60,70,80,90,100.1])
               .domain([10,20,30,40,50,60,70,80,90,100.1])
               .range(['#dae6e9','#c2d1d6','#abbdc5','#94a8b3','#7d94a2','#668190','#506e80','#395c6f','#224a5f','#003950']))
             .relativeTo(this.getTotalHouseholds(chapter, 1))
-            .title("Stopped")
+            .title("Stopped coping")
             // .titleDeltaY(-15)
             // .xTitleDeltaX()
             .xTitle("")

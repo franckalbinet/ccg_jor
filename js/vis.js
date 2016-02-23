@@ -55,26 +55,34 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
 });
 /*  Utilities functions*/
 Vis.utils = _.extend(Vis.DEFAULTS, {
-  Timer: function(callback, delay) {
-      var timerId, start, remaining = delay;
 
-      this.pause = function() {
-          window.clearTimeout(timerId);
-          remaining -= new Date() - start;
-      };
-
-      this.resume = function() {
-          start = new Date();
-          window.clearTimeout(timerId);
-          timerId = window.setTimeout(callback, remaining);
-      };
-
-      this.clear = function() {
-        window.clearTimeout(timerId);
-      };
-
-      this.resume();
+  clearCharts: function() {
+    if (this.chart) this.chart = null;
+    if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
+    d3.select("main-chart #living-conditions").remove();
+    d3.select("main-chart .heatmap").remove();
   }
+
+  // Timer: function(callback, delay) {
+  //     var timerId, start, remaining = delay;
+  //
+  //     this.pause = function() {
+  //         window.clearTimeout(timerId);
+  //         remaining -= new Date() - start;
+  //     };
+  //
+  //     this.resume = function() {
+  //         start = new Date();
+  //         window.clearTimeout(timerId);
+  //         timerId = window.setTimeout(callback, remaining);
+  //     };
+  //
+  //     this.clear = function() {
+  //       window.clearTimeout(timerId);
+  //     };
+  //
+  //     this.resume();
+  // }
 });
 // Application router
 Vis.Routers.App = Backbone.Router.extend({
@@ -1086,7 +1094,10 @@ Vis.Views.Background = Backbone.View.extend({
         $("#households-children").hide();
         $("#children-gender").hide();
 
-        this.clearCharts();
+        // this.clearCharts();
+
+        Vis.utils.clearCharts();
+
         $(".profile").hide();
         // set text content
         ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {
@@ -1163,7 +1174,8 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
     $("#households-children").show();
     $("#children-gender").hide();
 
-    this.clearCharts();
+    // this.clearCharts();
+    Vis.utils.clearCharts();
 
     $(".profile").show();
 
@@ -1188,31 +1200,29 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
         case 1:
           this.chart[0] = d3.heatmap()
             .id(0)
-            .width(100).height(330)
-            .margins({top: 30, right: 0, bottom: 40, left: 5})
+            .width(130).height(330)
+            .margins({top: 30, right: 20, bottom: 40, left: 30})
             .data(this.getData(chapter, 0))
             .color(d3.scale.threshold()
               .domain([10,20,30,40,50,60,70,80,90,100.1])
                .range(['#f6eae9','#eed2cc','#e4b9b1','#daa295','#ce8a7c','#c27362','#b45b49','#9a4d3e','#7e4033','#643228']))
             .relativeTo(this.getTotalHouseholds(chapter, 0))
             .title("Currently used")
-            // .titleDeltaY(-15)
-            .xTitle("Wave")
-            // .xTitleDeltaX()
+            .xTitle("")
             .hasNames(false)
             .lookUp(Vis.DEFAULTS.LOOKUP_CODES.COPING_MECHANISMS);
 
           this.chart[1] = d3.heatmap()
             .id(1)
-            .width(440).height(380)
-            .margins({top: 30, right: 340, bottom: 40, left: 5})
+            .width(400).height(380)
+            .margins({top: 30, right: 300, bottom: 40, left: 20})
             .data(this.getData(chapter, 1))
             .color(d3.scale.threshold()
               // .domain([1,5,10,40,50,60,70,80,90,100.1])
               .domain([10,20,30,40,50,60,70,80,90,100.1])
               .range(['#dae6e9','#c2d1d6','#abbdc5','#94a8b3','#7d94a2','#668190','#506e80','#395c6f','#224a5f','#003950']))
             .relativeTo(this.getTotalHouseholds(chapter, 1))
-            .title("Stopped")
+            .title("Stopped coping")
             // .titleDeltaY(-15)
             // .xTitleDeltaX()
             .xTitle("")
@@ -1335,7 +1345,8 @@ Vis.Views.Home = Backbone.View.extend({
     $("#households-children").show();
     $("#children-gender").hide();
 
-    this.clearCharts();
+    // this.clearCharts();
+    Vis.utils.clearCharts();
 
     $(".profile").hide();
 
@@ -1456,7 +1467,8 @@ Vis.Views.Education = Backbone.View.extend({
   preRender: function(chapter) {
     var that = this;
 
-    this.clearCharts();
+    // this.clearCharts();
+    Vis.utils.clearCharts();
 
     $(".profile").show();
 
@@ -1570,6 +1582,8 @@ Vis.Views.LivingConditions = Backbone.View.extend({
   initialize: function () {
     var that = this;
 
+    this.chart = new Array(2);
+
     if (that.model.get("scenario").page === 6) this.preRender(this.model.get("scenario").chapter);
 
     this.model.on("change:scenario", function() {
@@ -1582,42 +1596,57 @@ Vis.Views.LivingConditions = Backbone.View.extend({
   },
 
   preRender: function(chapter) {
-    var that = this;
+    var that = this,
+        template = _.template(Vis.Templates["living-conditions"]);
 
     $("#households-children").show();
     $("#children-gender").hide();
 
-    this.clearCharts();
+    // this.clearCharts();
 
-    $(".profile").show();
+    Vis.utils.clearCharts();
+
+    $("#main-chart").html(template());
 
     // set text content
     ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {
       that.setTextContent(d);
     });
 
+    $(".profile").show();
     $("#pending").hide();
-
     $("#main-chart").show();
 
     this.initChart(chapter);
   },
 
   initChart: function(chapter) {
-    var that = this,
-        data = this.getData(chapter),
-        total = this.getTotalHouseholds(chapter);
+    var that = this;
+        // data = this.getData(chapter),
+        // total = this.getTotalHouseholds(chapter);
 
     switch(chapter) {
         case 1:
-          this.chart = d3.barChartMultiStacked()
-            .width(600).height(350)
-            .margins({top: 40, right: 280, bottom: 40, left: 150})
-            .data(data)
+          this.chart[0] = d3.barChartMultiStacked()
+            .width(320).height(350)
+            .margins({top: 40, right: 110, bottom: 40, left: 60})
+            .data(this.getData(chapter, 0))
+            .color(d3.scale.ordinal().range(['#003950','#567888','#a1bdc5', "#B45B49"]).domain([1, 2, 3, 4]))
+            // .color(d3.scale.ordinal().range(['#3c5f6b','#6d8d97','#a1bdc5', "#B45B49"]).domain([1, 2, 3, 4]))
+            // .color(d3.scale.ordinal().range(['#486280','#748fa2','#a1bdc5', "#B45B49"]).domain([1, 2, 3, 4]))
+            .relativeTo(this.getTotalHouseholds(chapter, 0))
+            .title("Covering of children basic needs")
+            .xTitle("")
+            .lookUp(Vis.DEFAULTS.LOOKUP_CODES.BASIC_NEEDS);
+
+          this.chart[1] = d3.barChartMultiStacked()
+            .width(320).height(350)
+            .margins({top: 40, right: 110, bottom: 40, left: 80})
+            .data(this.getData(chapter, 1))
             // .color(d3.scale.ordinal().range(["#003950", "#E59138"]).domain([1, 2]))
             .color(d3.scale.ordinal().range(["#80A6B1", "#b45b49"]).domain([1, 2]))
-            .relativeTo(total)
-            .title("Improvement in families overall living conditions.")
+            .relativeTo(this.getTotalHouseholds(chapter, 1))
+            .title("Improvement of family's overall living conditions")
             .xTitle("")
             .lookUp(Vis.DEFAULTS.LOOKUP_CODES.LIVING_CONDITIONS);
           break;
@@ -1632,26 +1661,39 @@ Vis.Views.LivingConditions = Backbone.View.extend({
   render: function(chapter) {
     switch(chapter) {
         case 1:
-          this.chart
-            .data(this.getData(chapter))
-            .relativeTo(this.getTotalHouseholds(chapter))
-          d3.select("#main-chart").call(this.chart);
+          this.chart[0]
+            .data(this.getData(chapter, 0))
+            .relativeTo(this.getTotalHouseholds(chapter, 0))
+          d3.select("#basic-needs").call(this.chart[0]);
+
+          this.chart[1]
+            .data(this.getData(chapter, 1))
+            .relativeTo(this.getTotalHouseholds(chapter, 1))
+          d3.select("#improvement").call(this.chart[1]);
+
+          this.fixPositionning();
           break;
         case 2:
-          this.chart
-            .data(this.getData(chapter))
-            .relativeTo(this.getTotalHouseholds(chapter))
-          d3.select("#main-chart").call(this.chart);
+          // this.chart
+          //   .data(this.getData(chapter))
+          //   .relativeTo(this.getTotalHouseholds(chapter))
+          // d3.select("#main-chart").call(this.chart);
           break;
         default:
           console.log("no matching case.")
       }
   },
 
-  getData: function(chapter) {
+  getData: function(chapter, index) {
     switch(chapter) {
         case 1:
-          return this.model.livingConditionsByRound.top(Infinity);
+          if(index == 0) {
+             return this.model.basicNeedsByRound.top(Infinity);
+          } else {
+            return this.model.livingConditionsByRound.top(Infinity);
+            // return this.model.stoppedCopingByType.top(Infinity);
+          }
+
           break;
         case 2:
           break;
@@ -1660,11 +1702,16 @@ Vis.Views.LivingConditions = Backbone.View.extend({
       }
   },
 
-  getTotalHouseholds: function(chapter) {
+  getTotalHouseholds: function(chapter, index) {
     switch(chapter) {
       case 1:
-        return _.unique(this.model.outcomesHousehold.top(Infinity)
+        if(index == 0) {
+          return _.unique(this.model.outcomesHousehold.top(Infinity)
+                  .map(function(d) { return d.hh })).length;
+        } else {
+          return _.unique(this.model.outcomesHousehold.top(Infinity)
           .map(function(d) { return d.hh })).length;
+        }
         break;
       case 2:
         break;
@@ -1681,11 +1728,22 @@ Vis.Views.LivingConditions = Backbone.View.extend({
     $("#" + attr).html(template());
   },
 
-  clearCharts: function() {
-    if (this.chart) this.chart = null;
-    // if(!d3.select("#main-chart svg").empty()) d3.select("#main-chart svg").remove();
-    if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
+  // clearCharts: function() {
+  //   // if (this.chart) this.chart = null;
+  //   if (this.chart) this.chart = new Array(2);
+  //   if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
+  // },
+
+  fixPositionning: function() {
+    d3.selectAll("#basic-needs .x.axis text")
+      .data(["Jun.", "Aug.", "Nov."])
+      .text(function(d) { return d; });
+
+    d3.selectAll("#improvement .x.axis text")
+      .data(["Jun.", "Aug.", "Nov."])
+      .text(function(d) { return d; });
   }
+
 });
 // Children empowerment view
 Vis.Views.ChildEmpowerment = Backbone.View.extend({
@@ -1711,7 +1769,8 @@ Vis.Views.ChildEmpowerment = Backbone.View.extend({
     $("#households-children").show();
     $("#children-gender").hide();
 
-    this.clearCharts();
+    // this.clearCharts();
+    Vis.utils.clearCharts();
 
     $(".profile").show();
 
@@ -1835,9 +1894,10 @@ Vis.Views.Conclusion = Backbone.View.extend({
     $("#households-children").show();
     $("#children-gender").hide();
 
-    this.clearCharts();
+    // this.clearCharts();
+    Vis.utils.clearCharts();
 
-    $(".profile").show();
+    $(".profile").hide();
 
     // set text content
     ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {
@@ -1961,7 +2021,8 @@ Vis.Views.Incomes = Backbone.View.extend({
     $("#households-children").show();
     $("#children-gender").hide();
 
-    this.clearCharts();
+    // this.clearCharts();
+    Vis.utils.clearCharts();
 
     $(".profile").show();
 
@@ -2000,7 +2061,7 @@ Vis.Views.Incomes = Backbone.View.extend({
 
           this.chart = d3.barChartMultiStacked()
             .width(600).height(350)
-            .margins({top: 40, right: 280, bottom: 40, left: 100})
+            .margins({top: 40, right: 280, bottom: 40, left: 180})
             .data(data)
             .color(d3.scale.ordinal().range(["#003950", "#88A3B6", "#E59138","#EDDAC3"]).domain([1, 2, 5, 99]))
             .relativeTo(total)
@@ -2012,7 +2073,7 @@ Vis.Views.Incomes = Backbone.View.extend({
         case 2:
           this.chart = d3.multiSeriesTimeLine()
             .width(600).height(350)
-            .margins({top: 40, right: 200, bottom: 40, left: 45})
+            .margins({top: 40, right: 200, bottom: 40, left: 100})
             .color(d3.scale.ordinal().range(["#E59138","#6D8378","#88a3b6","#003950", "#A999A4","#5F1D00"]).domain([1, 2, 3, 4, 5, 6]))
             .data(data)
             .relativeTo(total)
@@ -2051,6 +2112,7 @@ Vis.Views.Incomes = Backbone.View.extend({
             // .highlighted(this.highlighted)
             .relativeTo(this.getTotalHouseholds(chapter))
           d3.select("#main-chart").call(this.chart);
+          this.fixPositionning();
           break;
         case 2:
           this.chart
@@ -2126,8 +2188,15 @@ Vis.Views.Incomes = Backbone.View.extend({
 
   clearCharts: function() {
     if (this.chart) this.chart = null;
-    // if(!d3.select("#main-chart svg").empty()) d3.select("#main-chart svg").remove();
     if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
+    d3.select("main-chart #living-conditions").remove();
+    d3.select("main-chart .heatmap").remove();
+  },
+
+  fixPositionning: function() {
+    d3.selectAll("#main-chart .x.axis text")
+      .data(["Jun.", "Aug.", "Nov."])
+      .text(function(d) { return d; });
   }
 });
 // Expenditures view
@@ -2156,7 +2225,8 @@ Vis.Views.Expenditures = Backbone.View.extend({
       $("#households-children").show();
       $("#children-gender").hide();
 
-      this.clearCharts();
+      // this.clearCharts();
+      Vis.utils.clearCharts();
 
       $(".profile").show();
 
@@ -2237,7 +2307,7 @@ Vis.Views.Expenditures = Backbone.View.extend({
                 // ["#1f77b4","#d62728","#2ca02c"]).domain([1, 2, 3]))
               .relativeTo(total)
               .yDomain([10,6,3,9,7,5,2,11,4,12,13,99])
-              .title("Children-specific expenditures that people who receive the Cash Grant spend it on")
+              .title("Children-specific expenditures")
               .xTitle("")
               .lookUp(Vis.DEFAULTS.LOOKUP_CODES.EXPENDITURES_CHILDREN)
               .on("highlighted", function (highlighted) {
@@ -2395,7 +2465,7 @@ Vis.Views.PsychologicalWellbeing = Backbone.View.extend({
     //
     //   $("#pending").show();
     //   $("#main-chart").hide();
-    // 
+    //
     //   switch(scenario.chapter) {
     //     case 1:
     //         // this.initChart();
@@ -4320,6 +4390,11 @@ d3.multiSeriesTimeLine = function() {
 
       _gYAxis.transition().call(yAxis);
 
+
+      d3.selectAll(".time-line .x.axis text")
+        .data(["June", "August", "November"])
+        .text(function(d) { return d; });
+
       if (!isDataEmpty()) _render();
 
       function _render() {
@@ -5481,14 +5556,14 @@ d3.barChartMultiStacked = function() {
             .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
         legend.append("rect")
-            .attr("x", _gWidth + 50)
+            .attr("x", _gWidth + 10)
             .attr("y", _gHeight / 5)
             .attr("width", 14)
             .attr("height", 14)
             .style("fill", color);
 
         legend.append("text")
-            .attr("x", _gWidth + 50 + 20)
+            .attr("x", _gWidth + 10 + 20)
             .attr("y", _gHeight / 5)
             .attr("dy", "1em")
             .style("text-anchor", "start")
@@ -5711,6 +5786,10 @@ d3.heatmap = function() {
       //   select = null;
       //   _listeners.filtered(selection);
       // }
+
+      d3.selectAll("#id-" + id + " .x.axis text")
+        .data(["Jun.", "Aug.", "Nov."])
+        .text(function(d) { return d; });
 
       if (!isDataEmpty()) _render();
 
@@ -6248,7 +6327,7 @@ Vis.Templates["main-text"] =[
   "<p>Given that Syrian refugees are not allowed to work, they report a <strong>heavy dependence on cash assistance and food vouchers provided by UNICEF, UNHCR, and WFP</strong>. Even when assistance is cut back—as was the case when WFP cut its food vouchers in August 2015, it represents a significant part of refugee resources.</p>",
   "<p>Over the course of the survey, <strong>men as an economic contributors to the family plummeted</strong>.  For the most part, this is not made up for by any other member of the family, but refugees did report a slight increase in children under 16 working.</p>",
   "<p>While some expenditures varied seasonally, <strong>over the course of the ten months the main expenditure items remained consistent</strong>. Refugees were unable to decrease the costs of their highest expenses: rent,utilities, food, communications and education.  Although we know that 66% of refugees have debt, we see that over time refugees are less able to pay down their debt, and less able to save.</p>",
-  "<p><strong>Transportation to school and education expenses are the two biggest expenses related to children</strong>, followed by children’s clothes and shoes; and children’s medicine.  For families with four children or more, more money is spent on education, fresh foods and medicine.  This indicates that bigger families are able to more effectively share resources among their children, cutting costs in areas like clothes and shoes.</p>",
+  "<p><strong>Transportation to school and education expenses are the two biggest expenses related to children</strong>, followed by children’s clothes and shoes; and children’s medicine. For families with four children or more, more money is spent on education, fresh foods and medicine.  This indicates that bigger families are able to more effectively share resources among their children, cutting costs in areas like clothes and shoes.</p>",
   "<p>For the most part, <strong>families report that the amount of the grant was not able to change their reliance on most negative coping mechanisms</strong>.</p>",
   "<p>Despite this, families reported that they were <strong>able to increase spending on basic needs for children and increase their wellbeing and living conditions</strong>. This, in turn, positively impacted their psychological wellbeing.</p>",
   "<p>Children also <strong>entered school in progressively higher numbers</strong> over the course of the ten months.</p>",
@@ -6288,3 +6367,9 @@ Vis.Templates["quote-ref"] =[
   "Focus Group Discussion 6, P5",
   "[placeholder]"
 ];
+
+Vis.Templates["living-conditions"] =
+  "<div id='living-conditions' class='row'>" +
+  "  <div id='basic-needs' class='col-md-6'></div>" +
+  "  <div id='improvement' class='col-md-6'></div>" +
+  " </div>";

@@ -155,14 +155,14 @@ d3.barChartMultiStacked = function() {
             .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
         legend.append("rect")
-            .attr("x", _gWidth + 50)
+            .attr("x", _gWidth + 10)
             .attr("y", _gHeight / 5)
             .attr("width", 14)
             .attr("height", 14)
             .style("fill", color);
 
         legend.append("text")
-            .attr("x", _gWidth + 50 + 20)
+            .attr("x", _gWidth + 10 + 20)
             .attr("y", _gHeight / 5)
             .attr("dy", "1em")
             .style("text-anchor", "start")

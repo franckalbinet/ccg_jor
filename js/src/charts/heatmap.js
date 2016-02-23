@@ -61,6 +61,10 @@ d3.heatmap = function() {
       //   _listeners.filtered(selection);
       // }
 
+      d3.selectAll("#id-" + id + " .x.axis text")
+        .data(["Jun.", "Aug.", "Nov."])
+        .text(function(d) { return d; });
+
       if (!isDataEmpty()) _render();
 
       function _render() {

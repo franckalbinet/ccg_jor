@@ -24,7 +24,8 @@ Vis.Views.Expenditures = Backbone.View.extend({
       $("#households-children").show();
       $("#children-gender").hide();
 
-      this.clearCharts();
+      // this.clearCharts();
+      Vis.utils.clearCharts();
 
       $(".profile").show();
 
@@ -105,7 +106,7 @@ Vis.Views.Expenditures = Backbone.View.extend({
                 // ["#1f77b4","#d62728","#2ca02c"]).domain([1, 2, 3]))
               .relativeTo(total)
               .yDomain([10,6,3,9,7,5,2,11,4,12,13,99])
-              .title("Children-specific expenditures that people who receive the Cash Grant spend it on")
+              .title("Children-specific expenditures")
               .xTitle("")
               .lookUp(Vis.DEFAULTS.LOOKUP_CODES.EXPENDITURES_CHILDREN)
               .on("highlighted", function (highlighted) {

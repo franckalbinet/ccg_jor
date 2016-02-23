@@ -251,7 +251,6 @@ h1,h2,h3,h4,h5 {
   fill: black;
   fill-opacity: 0.05;
 }
-
 .bar-chart-stacked-single rect.not-selected {
   fill: #ddd !important;
 }
@@ -353,7 +352,7 @@ h1,h2,h3,h4,h5 {
 
 
 #main-chart .main.title {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
   fill: #555;
@@ -377,7 +376,8 @@ h1,h2,h3,h4,h5 {
 }
 
 #main-chart .bar-chart-education rect {
-  fill: #80A6B1;
+  /*fill: #80A6B1;*/
+  fill: #003950;
 }
 #main-chart .bar-chart-education .figures text {
   fill: #333;
@@ -396,6 +396,18 @@ h1,h2,h3,h4,h5 {
   pointer-events: all;
 }
 
+#main-chart #living-conditions {
+
+}
+#main-chart #basic-needs {
+  display: inline-block;
+  padding-right: 0px;
+  width: 285px;
+}
+#main-chart #improvement {
+  display: inline-block;
+  padding-left: 0px;
+}
 
 /* time line navigation */
 .btn {
