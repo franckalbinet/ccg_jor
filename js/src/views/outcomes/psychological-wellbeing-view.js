@@ -14,30 +14,30 @@ Vis.Views.PsychologicalWellbeing = Backbone.View.extend({
     var scenario = this.model.get("scenario"),
         that = this;
 
-    if (scenario.page === 7) {
-      
-
-      $(".profile").hide();
-      this.clearCharts();
-      // set text content
-      ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {
-        that.setTextContent(d);
-      });
-
-      $("#pending").show();
-      $("#main-chart").hide();
-
-      switch(scenario.chapter) {
-        case 1:
-            // this.initChart();
-            break;
-        case 2:
-            // code block
-            break;
-        default:
-            // default code block
-      }
-    }
+    // if (scenario.page === 7) {
+    //
+    //
+    //   $(".profile").hide();
+    //   this.clearCharts();
+    //   // set text content
+    //   ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {
+    //     that.setTextContent(d);
+    //   });
+    //
+    //   $("#pending").show();
+    //   $("#main-chart").hide();
+    // 
+    //   switch(scenario.chapter) {
+    //     case 1:
+    //         // this.initChart();
+    //         break;
+    //     case 2:
+    //         // code block
+    //         break;
+    //     default:
+    //         // default code block
+    //   }
+    // }
   },
 
   render: function() {

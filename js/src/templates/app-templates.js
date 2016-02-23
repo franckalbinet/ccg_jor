@@ -1,17 +1,16 @@
 // Underscore Templates
 Vis.Templates["main-text"] =[
-  "<p>The <strong>United Nations Children's Fund</strong> Jordan Country Office initiated an unconditional Child Cash Grant programme in February 2015 <strong>to assist children in the most vulnerable Syrian refugee families</strong> living in non-camp settings in Jordan.</p>",
-  "<p>Families have shown a <strong>strong commitment to education from the beginning</strong> of the Child Cash Grant programme despite economic hardship.</p>",
-  "<p><strong>All families showed a heavy reliance on assistance from WFP, UNHCR and UNICEF</strong>, highlighting their vulnerability in the face of fluctuations in these income sources.</p>",
-  "<p><strong>The level of expenditure on rent and utilities has gradually increased over time</strong>, whilst expenditure levels in all other areas have declined, demonstrating the need for increased levels of UNHCR assistance, as implemented in November.</p>",
-  "<p><strong>Reducing the quality and then quantity of food consumed are the two most commonly adopted negative coping mechanisms throughout.</strong></p>",
-  "<p><strong>According to 97% of the sampled families, the Child Cash Grant programme has made a positive contribution to their overall living conditions</strong> ... </p>",
-  "<p>The programme has resulted in reduced stress and anxiety for many caregivers and therefore <strong>improved feelings of psychological wellbeing.</strong></p>",
-  "<p>[placeholder] <strong>Sample characteristics related main text ... </strong></p>",
-  "<p>[placeholder] Variation on education: how gender or poverty level or head of family influences</p>",
-  "<p>[placeholder] Main categories of child expenditures</p>",
-  "<p>[placeholder] Detailed categories of child expenditures [ the 13 listed in p.29 of the report]</p>",
-  "<p>[placeholder] Main text on basic needs coverage</p>",
+  "<p>A total of 54,452 children from XXX households were given 20 JD (28 USD) per child per month to cover the basic needs of children.</p>",
+  "<p>In June, August, and November, an independent monitoring group used surveys and focus groups to ask 500 families benefitting from the programme how they were managing the crisis they find themselves in.  These families represented ...</p>",
+  "<p>Given that they are not allowed to work, these refugees report a heavy dependence on cash assistance and food vouchers provided by UNICEF, UNHCR, and WFP, even where that assistance changes.</p>",
+  "<p>Over the course of the survey, men as an economic contributers to the family plummeted.  For the most part, this is not made up for by any other member of the family, but refugees did report a slight increase in children under 16 working.</p>",
+  "<p>While some expenditures varied seasonally, over the course of the ten months refugees were unable to decrease the costs of their highest expenses, rent and utilities.  Although we know that 66% of refugees have debt, we see that over time refugees are less able to pay down their debt, and less able to save.</p>",
+  "<p>Transportation to school and education expenses are the biggest expenses related to children.  For families with four children or more, more money is spent on education, fresh foods and medicine.  This indicates that bigger families are able to more effectively share resources among their children, cutting costs in other areas.</p>",
+  "<p>For the most part, families report that the amount of the grant was not able to change their reliance on most negative coping mechanisms.</p>",
+  "<p>Despite this, families reported that they were able to increase spending on basic needs for children and increase their wellbeing and living conditions.  This, in turn, positively impacted their psychological wellbeing.</p>",
+  "<p>Children also entered school in progressively higher numbers over the course of the ten months.</p>",
+  "<p>Families also told us that children felt empowered because they knew the grant was for their needs.</p>",
+  "<p>UNICEF is proud to continue to provide refugees with the cash assistance they need to support their children through 2016.  </p>"
 ];
 
 Vis.Templates["sub-text"] =[
