@@ -1,0 +1,101 @@
+@font-face {
+  font-family: My Gill Sans;
+  font-style: normal;
+  font-weight: normal;
+  src: url(GILLSAN3.eot) format("eot"), url(GILLSAN3.woff) format("woff");
+}
+@font-face {
+  font-family: My Gill Sans;
+  font-style: oblique;
+  font-weight: normal;
+  src: url(GILLSAN2.eot) format("eot"), url(GILLSAN2.woff) format("woff");
+}
+@font-face {
+  font-family: My Gill Sans;
+  font-style: normal;
+  font-weight: 700;
+  src: url(GILLSAN1.eot) format("eot"), url(GILLSAN1.woff) format("woff");
+}
+@font-face {
+  font-family: My Gill Sans;
+  font-style: oblique;
+  font-weight: 700;
+  src: url(GILLSAN0.eot) format("eot"), url(GILLSAN0.woff) format("woff");
+}
+
+/*
+@font-face { 
+  font-family: My Snell Roundhand;
+  font-style: normal;
+  font-weight: 500;
+  src: url(sr-regular.eot) format("eot"), url(sr-regular.woff) format("woff");
+}
+@font-face { 
+  font-family: My Snell Roundhand;
+  font-style: normal;
+  font-weight: 700;
+  src: url(sr-bold.eot) format("eot"), url(sr-bold.woff) format("woff");
+}
+@font-face { 
+  font-family: My Snell Roundhand;
+  font-style: normal;
+  font-weight: 900;
+  src: url(sr-black.eot) format("eot"), url(sr-black.woff) format("woff");
+}
+*/
+
+@page {margin: 1.5cm 1.2cm}
+
+html {font: 10pt/1.3 Gill Sans MT, Gill Sans, My Gill Sans, sans-serif;
+  /*hyphens: auto;*/ columns: 2; column-gap: 2em;
+  -moz-column-count: 2; -webkit-column-count: 2; -ah-columns: 2}
+p {text-align: justify; letter-spacing: 0; margin: 0}
+p + p {text-indent: 1.5em}
+h2 + *, p.stb {text-indent: 0}
+h2 + * {page-break-before: avoid; break-before: avoid}
+p.stb {page-break-before: auto; break-before: auto; margin-top: 0.6em}
+:link, :visited {text-decoration: none}
+h2, h3 {font-size: 1.2em; font-weight: normal; margin: 0.8em 0 0.4em}
+h2 {text-transform: uppercase}
+h3 {font-style: italic}
+.section {margin: 0 0 2em 0}
+.feed img {max-height: 1.2em; min-height: .5em}
+img {max-width: 100%}
+.icon {float: right; max-width: 4em; margin: 0 0 0 .5em}
+h1 {font-weight: 900; font-size: 2em; line-height: 0.95;
+  padding: 2em 0 0.5em;
+  border-top: thin solid; border-bottom: thin solid;
+  margin: 0 0 0.5em 0; text-align: right; column-span: all}
+h1 em {display: block; font-size: 120%; font-weight: normal;
+  position: relative; z-index: 1 /* Descenders overlap next line */}
+pre {font: normal 0.9em/1.2 Courier New, Courier, monospace}
+ul {padding-left: 0; margin-left: 1.5em}
+td {vertical-align: baseline}
+th {vertical-align: bottom; text-align: left}
+.figure {margin: 1em 0; text-align: center; font-style: italic}
+.figure p {margin: 0; font-size: .9em; text-indent: 0}
+#banner li, #banner h2 {display: none}
+#banner li.home {display: block; float: right; margin-left: 0.5em}
+.photo {float: left; margin-right: 0.5em}
+#banner {clear: both; margin-top: 2.6em}
+#language {display: none}
+.status {margin: .6em 0; border-collapse: collapse}
+.status td, .status th {
+  padding: .1em .3em .1em 0;
+  border-bottom: thin dotted #BBF }
+.status tbody + tbody th {padding-top: 1em}
+.status td + td, .status th + th, .status .wd, .status .lc,
+.status .cr, .status .pr, .status .rec {padding-left: .3em}
+.wd a, .lc a, .cr a, .pr a, .rec a {color: inherit}
+.wd, .pa {background: #e56e32; color: #fff}
+.lc, .alpha {background: #e2a569}
+.cr, .beta {background: #ced510}
+.pr, .rc {background: #72ab34; color: #fff}
+.rec, .fin {background: #2f9c40; color: #fff}
+td + td + .wd {background: #ea8b5b; color: #fff}
+td + td + .lc {background: #e8b787}
+td + td + .cr {background: #d7dc3b}
+td + td + .pr {background: #8dbb5d; color: #fff}
+td + td + .rec {background: #59af66; color: #fff}
+.dt-updated, .updated {color: #990}
+#summary .updated, #summary .dt-updated {display: none}

@@ -1,16 +1,21 @@
 // Underscore Templates
 Vis.Templates["main-text"] =[
-  "<p>A total of 54,452 children from XXX households were given 20 JD (28 USD) per child per month to cover the basic needs of children.</p>",
-  "<p>In June, August, and November, an independent monitoring group used surveys and focus groups to ask 500 families benefitting from the programme how they were managing the crisis they find themselves in.  These families represented ...</p>",
-  "<p>Given that they are not allowed to work, these refugees report a heavy dependence on cash assistance and food vouchers provided by UNICEF, UNHCR, and WFP, even where that assistance changes.</p>",
-  "<p>Over the course of the survey, men as an economic contributers to the family plummeted.  For the most part, this is not made up for by any other member of the family, but refugees did report a slight increase in children under 16 working.</p>",
-  "<p>While some expenditures varied seasonally, over the course of the ten months refugees were unable to decrease the costs of their highest expenses, rent and utilities.  Although we know that 66% of refugees have debt, we see that over time refugees are less able to pay down their debt, and less able to save.</p>",
-  "<p>Transportation to school and education expenses are the biggest expenses related to children.  For families with four children or more, more money is spent on education, fresh foods and medicine.  This indicates that bigger families are able to more effectively share resources among their children, cutting costs in other areas.</p>",
-  "<p>For the most part, families report that the amount of the grant was not able to change their reliance on most negative coping mechanisms.</p>",
-  "<p>Despite this, families reported that they were able to increase spending on basic needs for children and increase their wellbeing and living conditions.  This, in turn, positively impacted their psychological wellbeing.</p>",
-  "<p>Children also entered school in progressively higher numbers over the course of the ten months.</p>",
-  "<p>Families also told us that children felt empowered because they knew the grant was for their needs.</p>",
-  "<p>UNICEF is proud to continue to provide refugees with the cash assistance they need to support their children through 2016.  </p>"
+  "<p>On average, 55,000 children from 15000 families were given 20 JD <br> (28 USD) per child per month to <strong>cover the basic needs of children</strong>.</p>",
+  "<p>In June, August, and November 2015, <strong>an independent third party monitoring</strong> used surveys and focus groups to ask 500 families benefitting from the programme how they were managing the crisis they find themselves in. These families represented ...</p>",
+  "<p>Given that Syrian refugees are not allowed to work, they report a <strong>heavy dependence on cash assistance and food vouchers provided by UNICEF, UNHCR, and WFP</strong>. Even when assistance is cut back—as was the case when WFP cut its food vouchers in August 2015, it represents a significant part of refugee resources.</p>",
+  "<p>Over the course of the survey, <strong>men as an economic contributors to the family plummeted</strong>.  For the most part, this is not made up for by any other member of the family, but refugees did report a slight increase in children under 16 working.</p>",
+  "<p>While some expenditures varied seasonally, <strong>over the course of the ten months the main expenditure items remained consistent</strong>. Refugees were unable to decrease the costs of their highest expenses: rent,utilities, food, communications and education.  Although we know that 66% of refugees have debt, we see that over time refugees are less able to pay down their debt, and less able to save.</p>",
+  "<p><strong>Transportation to school and education expenses are the two biggest expenses related to children</strong>, followed by children’s clothes and shoes; and children’s medicine.  For families with four children or more, more money is spent on education, fresh foods and medicine.  This indicates that bigger families are able to more effectively share resources among their children, cutting costs in areas like clothes and shoes.</p>",
+  "<p>For the most part, <strong>families report that the amount of the grant was not able to change their reliance on most negative coping mechanisms</strong>.</p>",
+  "<p>Despite this, families reported that they were <strong>able to increase spending on basic needs for children and increase their wellbeing and living conditions</strong>. This, in turn, positively impacted their psychological wellbeing.</p>",
+  "<p>Children also <strong>entered school in progressively higher numbers</strong> over the course of the ten months.</p>",
+  "<p>Families also told us that <strong>children felt empowered</strong> because they knew the grant was for their needs.</p>",
+  "<p><strong>UNICEF’s Child Cash Grant</strong> contributed towards increased levels of family expenditure on child-specific needs and therefore, <strong>toward meeting the basic needs of their children</strong>. <br><br>  UNICEF is proud to continue to provide refugees with the cash assistance they need to support their children through 2016.</p>",
+  "<p><strong>Over 630,000 Syrian are officially registered as refugees in Jordan.</strong></p>",
+  "<p><strong>Many of these families have lost everything they own</strong>, have depleted their savings, and, often, their ability to borrow money.</p>",
+  "<p><strong>In such scenarios, it is often children who suffer most</strong>.<br> Years of education lost, malnutrition or health problems in the early years. These can have life-long negative repercussions.</p>",
+  "<p><strong>To help cover basic needs of children</strong>, starting in February 2015, <strong>UNICEF has transferred a monthly child cash grant</strong> to the most vulnerable Syrian families living in host communities in Jordan.</p>",
+
 ];
 
 Vis.Templates["sub-text"] =[
@@ -26,14 +31,8 @@ Vis.Templates["sub-text"] =[
 ];
 
 Vis.Templates["quote"] =[
-  "<p>My psychological state is much better. Now I am more relaxed because the cash grant we received covered hundreds of things we need, so it has improved my mental wellbeing. We are more relaxed, even my daughter is happy [since her medical need was covered].</p>",
-  "<p>I need to ensure a good education for my children. My situation back in Syria was very good, but now I have no future here in Jordan, but must secure a good future for my children. That’s my priority. I came to Amman to stay for 6 months, but then things deteriorated, and we’ve been here for 4 years now and things are getting harder….if I didn’t educate my children, then what kind of future will they have? A whole generation is now without education due to the war.</p>",
-  "<p>Even if my husband wants to work, he is so scared to do so as he will get deported.</p>",
-  "<p>To be filled ...</p>",
-  "<p>To be filled ...</p>",
-  "<p>To be filled ...</p>",
-  "<p>To be filled ...</p>",
-  "<p>[placeholder]</p>"
+  "",
+  "<p><i class='fa fa-quote-left fa-4'></i>Even if my husband wants to work, he is so scared to do so as he will get deported <i class='fa fa-quote-right fa-4'></p>"
 ];
 
 Vis.Templates["quote-ref"] =[

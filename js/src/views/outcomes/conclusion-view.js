@@ -5,14 +5,14 @@ Vis.Views.Conclusion = Backbone.View.extend({
   initialize: function () {
     var that = this;
 
-    if (that.model.get("scenario").page === 8) this.preRender(this.model.get("scenario").chapter);
+    if (that.model.get("scenario").page === 9) this.preRender(this.model.get("scenario").chapter);
 
     this.model.on("change:scenario", function() {
-      if (that.model.get("scenario").page === 8) this.preRender(that.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === 9) this.preRender(that.model.get("scenario").chapter);
       },this);
 
     Backbone.on("filtered", function(d) {
-      if (that.model.get("scenario").page === 8) this.render(that.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === 9) this.render(that.model.get("scenario").chapter);
       }, this);
   },
 

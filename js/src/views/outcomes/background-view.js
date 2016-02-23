@@ -14,7 +14,7 @@ Vis.Views.Background = Backbone.View.extend({
       var scenario = this.model.get("scenario"),
           that = this;
 
-      if (scenario.page === 1) {
+      if (scenario.page === 2) {
 
         $("#households-children").hide();
         $("#children-gender").hide();

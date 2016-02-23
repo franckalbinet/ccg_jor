@@ -7,14 +7,14 @@ Vis.Views.Incomes = Backbone.View.extend({
   initialize: function () {
     var that = this;
 
-    if (that.model.get("scenario").page === 2) this.preRender(this.model.get("scenario").chapter);
+    if (that.model.get("scenario").page === 3) this.preRender(this.model.get("scenario").chapter);
 
     this.model.on("change:scenario", function() {
-      if (that.model.get("scenario").page === 2) this.preRender(that.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === 3) this.preRender(that.model.get("scenario").chapter);
       },this);
 
     Backbone.on("filtered", function(d) {
-      if (that.model.get("scenario").page === 2) this.render(that.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === 3) this.render(that.model.get("scenario").chapter);
       }, this);
   },
 
@@ -63,7 +63,7 @@ Vis.Views.Incomes = Backbone.View.extend({
 
           this.chart = d3.barChartMultiStacked()
             .width(600).height(350)
-            .margins({top: 40, right: 280, bottom: 40, left: 150})
+            .margins({top: 40, right: 280, bottom: 40, left: 100})
             .data(data)
             .color(d3.scale.ordinal().range(["#003950", "#88A3B6", "#E59138","#EDDAC3"]).domain([1, 2, 5, 99]))
             .relativeTo(total)

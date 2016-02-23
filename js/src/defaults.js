@@ -35,7 +35,7 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
     LIVING_CONDITIONS: {1:"Yes", 2:"No, not at all"},
     BASIC_NEEDS: {1:"Significantly", 2:"Moderatly", 3:"Slightly", 4: "Not at all"},
     COPING_MECHANISMS: {1:"Reduce accomodation costs by any means",2:"Reducing food intake [portion size or nb. of meals]",
-                        3:"Choosing less preferred but cheaper food options",4:"Receiving cash assistance from family members [remittances]",
+                        3:"Choosing less preferred but cheaper food options",4:"Receiving cash assistance from family members",
                         5:"Receiving humanitarian assistance from NGOs/CBOs",6:"Selling properties/assets",7:"Selling food voucher",8:"Working more than one job",
                         9:"Borrowing money",10:"Using your savings",11:"Asking for money ",12:"Dropping children out of school",13:"Let your children work [child labor]",
                         14: "Let your children ask for money",15:"Reduction of essential expenditure on health",16:"Reduction of essential expenditure on education",

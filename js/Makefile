@@ -19,6 +19,7 @@ vis_src =	${vis_dir}/namespace.js\
 					${vis_dir}/views/profile/children-gender-view.js\
 					${vis_dir}/views/outcomes/background-view.js\
 					${vis_dir}/views/outcomes/coping-mechanisms-view.js\
+					${vis_dir}/views/outcomes/home-view.js\
 					${vis_dir}/views/outcomes/education-view.js\
 					${vis_dir}/views/outcomes/living-conditions-view.js\
 					${vis_dir}/views/outcomes/child-empowerment-view.js\

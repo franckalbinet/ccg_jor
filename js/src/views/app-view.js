@@ -32,6 +32,7 @@ Vis.Views.App = Backbone.View.extend({
           page = +scenario.page,
           chapter = +scenario.chapter;
 
+      new Vis.Views.Home({model: Vis.Models.app});
       new Vis.Views.Background({model: Vis.Models.app});
       new Vis.Views.Education({model: Vis.Models.app});
       new Vis.Views.Incomes({model: Vis.Models.app});

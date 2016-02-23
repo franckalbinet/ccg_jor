@@ -31,7 +31,7 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
           data = this.getData();
 
       this.chart = d3.timeLineNavigation()
-        .width(550).height(60)
+        .width(600).height(60)
         .margins({top: 30, right: 50, bottom: 10, left: 40})
         .data(data)
         .x(d3.time.scale().domain(d3.extent(data, function(d) { return d.time; })))
@@ -59,7 +59,6 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
         this.clock = setInterval(
           function() {
             var idx = that.getTimes().indexOf(that.cursor);
-            // console.log(that.cursor);
             if (idx !== -1) {
               var milestone = that.getData()[idx];
               Vis.Routers.app.navigate("#page/" + milestone.page + "/chapter/" + milestone.chapter, {trigger: true});

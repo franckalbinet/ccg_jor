@@ -7,14 +7,14 @@ Vis.Views.Expenditures = Backbone.View.extend({
     initialize: function () {
       var that = this;
 
-      if (that.model.get("scenario").page === 3) this.preRender(this.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === 4) this.preRender(this.model.get("scenario").chapter);
 
       this.model.on("change:scenario", function() {
-        if (that.model.get("scenario").page === 3) this.preRender(that.model.get("scenario").chapter);
+        if (that.model.get("scenario").page === 4) this.preRender(that.model.get("scenario").chapter);
         },this);
 
       Backbone.on("filtered", function(d) {
-        if (that.model.get("scenario").page === 3) this.render(that.model.get("scenario").chapter);
+        if (that.model.get("scenario").page === 4) this.render(that.model.get("scenario").chapter);
         }, this);
     },
 

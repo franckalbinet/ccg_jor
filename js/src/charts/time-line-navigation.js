@@ -58,6 +58,9 @@ d3.timeLineNavigation = function() {
         circles.exit().remove();
         circles.enter().append("circle");
         circles
+            .classed("hidden", function(d) {
+              return (d.hidden) ? true:false;
+            })
             .classed("elapsed", function(d) {
               var page = elapsed.page,
                   chapter = elapsed.chapter;
