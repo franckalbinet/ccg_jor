@@ -151,7 +151,7 @@ d3.barChartEducation = function() {
           .attr("class", "main title")
           .attr("text-anchor", "middle")
           .attr("x", +deltaX / 2)
-          .attr("y", -25)
+          .attr("y", -30)
           .text(title);
       }
     });

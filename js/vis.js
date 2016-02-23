@@ -1206,8 +1206,8 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
         case 1:
           this.chart[0] = d3.heatmap()
             .id(0)
-            .width(130).height(330)
-            .margins({top: 30, right: 20, bottom: 40, left: 30})
+            .width(130).height(350)
+            .margins({top: 40, right: 20, bottom: 40, left: 30})
             .data(this.getData(chapter, 0))
             .color(d3.scale.threshold()
               .domain([10,20,30,40,50,60,70,80,90,100.1])
@@ -2051,20 +2051,6 @@ Vis.Views.Incomes = Backbone.View.extend({
 
     switch(chapter) {
         case 1:
-          // this.chart = d3.multiSeriesTimeLine()
-          //   .width(600).height(350)
-          //   .margins({top: 40, right: 200, bottom: 40, left: 45})
-          //   .color(d3.scale.ordinal().range(["#5e5e66", "#e59138", "#6d8378", "#b45b49"]).domain([1, 2, 5, 99]))
-          //   .data(data)
-          //   .relativeTo(total)
-          //   .title("Main sources of income")
-          //   .xTitle("Wave")
-          //   .lookUp(Vis.DEFAULTS.LOOKUP_CODES.INCOME)
-          //   .on("highlighted", function (highlighted) {
-          //     // console.log("in on in chart");
-          //     that.highlighted = highlighted;
-          //     that.render(that.model.get("scenario").chapter); });
-
           this.chart = d3.barChartMultiStacked()
             .width(600).height(350)
             .margins({top: 40, right: 280, bottom: 40, left: 180})
@@ -6411,7 +6397,7 @@ d3.barChartEducation = function() {
           .attr("class", "main title")
           .attr("text-anchor", "middle")
           .attr("x", +deltaX / 2)
-          .attr("y", -25)
+          .attr("y", -30)
           .text(title);
       }
     });

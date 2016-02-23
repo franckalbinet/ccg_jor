@@ -50,8 +50,8 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
         case 1:
           this.chart[0] = d3.heatmap()
             .id(0)
-            .width(130).height(330)
-            .margins({top: 30, right: 20, bottom: 40, left: 30})
+            .width(130).height(350)
+            .margins({top: 40, right: 20, bottom: 40, left: 30})
             .data(this.getData(chapter, 0))
             .color(d3.scale.threshold()
               .domain([10,20,30,40,50,60,70,80,90,100.1])

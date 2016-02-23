@@ -91,8 +91,6 @@ h1,h2,h3,h4,h5 {
 /*
   Wireframe
 */
-
-
 .charts {
   height: 360px;
   margin-bottom: 0px;
@@ -104,6 +102,9 @@ h1,h2,h3,h4,h5 {
 }
 .outcomes #main-chart {
   height: 100%;
+}
+.profile {
+  margin-top: -11px;
 }
 /*.focus-group {
   height: 100%;
@@ -244,6 +245,7 @@ h1,h2,h3,h4,h5 {
 }
 .bar-chart-vert .x.label {
   font-size: 11px;
+  font-weight: 700;
   text-transform: uppercase;
   fill:#555;
 }
@@ -397,6 +399,7 @@ h1,h2,h3,h4,h5 {
 }
 
 #main-chart #living-conditions {
+  margin-top: -1px;
 
 }
 #main-chart #basic-needs {

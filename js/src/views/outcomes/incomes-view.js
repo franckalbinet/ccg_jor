@@ -48,20 +48,6 @@ Vis.Views.Incomes = Backbone.View.extend({
 
     switch(chapter) {
         case 1:
-          // this.chart = d3.multiSeriesTimeLine()
-          //   .width(600).height(350)
-          //   .margins({top: 40, right: 200, bottom: 40, left: 45})
-          //   .color(d3.scale.ordinal().range(["#5e5e66", "#e59138", "#6d8378", "#b45b49"]).domain([1, 2, 5, 99]))
-          //   .data(data)
-          //   .relativeTo(total)
-          //   .title("Main sources of income")
-          //   .xTitle("Wave")
-          //   .lookUp(Vis.DEFAULTS.LOOKUP_CODES.INCOME)
-          //   .on("highlighted", function (highlighted) {
-          //     // console.log("in on in chart");
-          //     that.highlighted = highlighted;
-          //     that.render(that.model.get("scenario").chapter); });
-
           this.chart = d3.barChartMultiStacked()
             .width(600).height(350)
             .margins({top: 40, right: 280, bottom: 40, left: 180})
