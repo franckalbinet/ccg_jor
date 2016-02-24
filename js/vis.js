@@ -764,9 +764,10 @@ Vis.Views.HouseholdsChildren = Backbone.View.extend({
         .width(150).height(155)
         .margins({top: 40, right: 20, bottom: 0, left: 45})
         .data(data)
-        .x(d3.scale.linear().domain([0, d3.max(data, function(d) { return d.values.length; })]))
+        .x(d3.scale.linear().domain([0, d3.max(data, function(d) { return d.relative; })]))
         .y(d3.scale.linear().domain([0,10]))
-        .xAxis(d3.svg.axis().orient("top").tickValues([50, 100]))
+        // .xAxis(d3.svg.axis().orient("top").tickValues([, 100]))
+        .xAxis(d3.svg.axis().orient("top").ticks(3).tickFormat(function(d) { return d + "%"; }))
         // .yAxis(d3.svg.axis().orient("left").tickValues(d3.range(1,10)))
         .yAxis(d3.svg.axis().orient("left").tickValues(d3.range(1,8)))
         .title("By nb. of children")
@@ -797,6 +798,12 @@ Vis.Views.HouseholdsChildren = Backbone.View.extend({
     getData: function() {
       var data = this.model.getHouseholdsByChildren();
       data = data.filter(function(d) { return d.key !== 0; });
+
+      var total = d3.sum(data.map(function(d) { return d.values.length; }));
+
+      data.forEach(function(d) {
+        return d.relative = Math.round(d.values.length * 100 / total); });
+
       return data;
     },
 
@@ -3399,7 +3406,8 @@ d3.barChartChildren = function() {
               return y(d.key) - barHeight/2  })
             .attr("width", function(d) {
               // return x(d.values.length); })
-              return x(d.count); })
+              // return x(d.count); })
+              return x(d.relative); })
             .attr("height", function(d) { return barHeight; });
       }
 
@@ -3462,14 +3470,22 @@ d3.barChartChildren = function() {
       }
 
       function _transformData(data) {
+        // var sumOver7 = d3.sum(
+        //   data.filter(function(d) { return d.key >= 7; })
+        //   .map(function(d) { return d.values.length; })
+        // )
+        // data = data
+        //   .filter(function(d) { return d.key < 7; })
+        //   .map(function(d) { return {key: d.key, count: d.values.length}; });
+        // data.push({key: 7, count: sumOver7});
         var sumOver7 = d3.sum(
           data.filter(function(d) { return d.key >= 7; })
-          .map(function(d) { return d.values.length; })
+          .map(function(d) { return d.relative; })
         )
         data = data
           .filter(function(d) { return d.key < 7; })
-          .map(function(d) { return {key: d.key, count: d.values.length}; });
-        data.push({key: 7, count: sumOver7});
+          .map(function(d) { return {key: d.key, relative: d.relative}; });
+        data.push({key: 7, relative: sumOver7});
         return data;
       }
 

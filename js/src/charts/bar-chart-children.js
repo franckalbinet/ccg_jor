@@ -68,7 +68,8 @@ d3.barChartChildren = function() {
               return y(d.key) - barHeight/2  })
             .attr("width", function(d) {
               // return x(d.values.length); })
-              return x(d.count); })
+              // return x(d.count); })
+              return x(d.relative); })
             .attr("height", function(d) { return barHeight; });
       }
 
@@ -131,14 +132,22 @@ d3.barChartChildren = function() {
       }
 
       function _transformData(data) {
+        // var sumOver7 = d3.sum(
+        //   data.filter(function(d) { return d.key >= 7; })
+        //   .map(function(d) { return d.values.length; })
+        // )
+        // data = data
+        //   .filter(function(d) { return d.key < 7; })
+        //   .map(function(d) { return {key: d.key, count: d.values.length}; });
+        // data.push({key: 7, count: sumOver7});
         var sumOver7 = d3.sum(
           data.filter(function(d) { return d.key >= 7; })
-          .map(function(d) { return d.values.length; })
+          .map(function(d) { return d.relative; })
         )
         data = data
           .filter(function(d) { return d.key < 7; })
-          .map(function(d) { return {key: d.key, count: d.values.length}; });
-        data.push({key: 7, count: sumOver7});
+          .map(function(d) { return {key: d.key, relative: d.relative}; });
+        data.push({key: 7, relative: sumOver7});
         return data;
       }
 
