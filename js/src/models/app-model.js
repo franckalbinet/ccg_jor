@@ -35,7 +35,7 @@ Vis.Models.App = Backbone.Model.extend({
     this.stoppedCopingHousehold.filter( this.filterExactList(this.getHouseholds()));
     this.ecoContribHousehold.filter( this.filterExactList(this.getHouseholds()));
 
-    if (this.get("scenario").page === 2) { // if children education page
+    if (this.get("scenario").page === 8) { // if children education page
       this.educationGender.filter(this.filterExactList(this.get("genders")));
       this.educationHead.filter(this.filterExactList(this.get("heads")));
       this.educationPoverty.filter(this.filterExactList(this.get("poverties")));

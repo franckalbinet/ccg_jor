@@ -268,7 +268,7 @@ Vis.Models.App = Backbone.Model.extend({
     this.stoppedCopingHousehold.filter( this.filterExactList(this.getHouseholds()));
     this.ecoContribHousehold.filter( this.filterExactList(this.getHouseholds()));
 
-    if (this.get("scenario").page === 2) { // if children education page
+    if (this.get("scenario").page === 8) { // if children education page
       this.educationGender.filter(this.filterExactList(this.get("genders")));
       this.educationHead.filter(this.filterExactList(this.get("heads")));
       this.educationPoverty.filter(this.filterExactList(this.get("poverties")));
@@ -6816,4 +6816,10 @@ Vis.Templates["background-sample"] =
   "  <div id='age' class='col-md-4'></div>" +
   "  <div id='gender' class='col-md-4'></div>" +
   "  <div id='poverty' class='col-md-4'></div>" +
+  " </div>";
+
+Vis.Templates["coping-mechanisms"] =
+  "<div id='coping-mechanisms' class='row'>" +
+  "  <div id='current' class='col-md-4'></div>" +
+  "  <div id='stopped' class='col-md-4'></div>" +
   " </div>";
