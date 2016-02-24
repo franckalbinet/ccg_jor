@@ -1322,10 +1322,10 @@ Vis.Views.Background = Backbone.View.extend({
             switch(index) {
               case 0:
                 return [
-                  ["0-1 year"].concat(d3.range(1,9).map(function(d) { return 1; })),
-                  ["2-4 years"].concat(d3.range(1,19).map(function(d) { return 1; })),
-                  ["5-11 years"].concat(d3.range(1,46).map(function(d) { return 1; })),
-                  ["12-15 years"].concat(d3.range(1,22).map(function(d) { return 1; })),
+                  ["0-1 year"].concat(d3.range(1,8).map(function(d) { return 1; })),
+                  ["2-4 years"].concat(d3.range(1,18).map(function(d) { return 1; })),
+                  ["5-11 years"].concat(d3.range(1,47).map(function(d) { return 1; })),
+                  ["12-15 years"].concat(d3.range(1,23).map(function(d) { return 1; })),
                   ["16-17 years"].concat(d3.range(1,9).map(function(d) { return 1; }))
                 ];
                 // var  = ["0-1 year"].concat(d3.range(1,7).map(function(d) { return 1; })),
@@ -1341,9 +1341,9 @@ Vis.Views.Background = Backbone.View.extend({
                 break;
               case 2:
                 return [
-                  ["Highly Vulnerable"].concat(d3.range(1,28).map(function(d) { return 1; })),
-                  ["Severely Vulnerable"].concat(d3.range(1,40).map(function(d) { return 1; })),
-                  ["Other"].concat(d3.range(1,33).map(function(d) { return 1; })),
+                  ["Highly Vulnerable"].concat(d3.range(1,41).map(function(d) { return 1; })),
+                  ["Severely Vulnerable"].concat(d3.range(1,59).map(function(d) { return 1; })),
+                  ["Children with specific needs"].concat(d3.range(1,3).map(function(d) { return 1; })),
                 ];
 
                 // var total = d3.sum(this.model.householdsByPoverty.top(Infinity), function(d) { return d.value.householdCount; });

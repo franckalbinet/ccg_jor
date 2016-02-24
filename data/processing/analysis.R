@@ -25,6 +25,9 @@ pdm3 <- read.table("./combined_3_rounds/pdm3.csv", sep = ",", header = TRUE, quo
 # all beneficiaries
 all_ben <- read.table("./all_beneficiaries.csv", sep = ",", header = TRUE, quote = "")
 all_ben <- tbl_df(all_ben)
+all_ben <- filter(all_ben, Poverty.Threshold != "")
+all_ben <- filter(all_ben, Poverty.Threshold != "Children with specific need (not abject or absolut)")
+
 
 all_gender <- table(all_ben$ChildSex)
 all_gender <- all_gender / length(all_ben$ID)
