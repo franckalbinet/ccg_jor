@@ -153,7 +153,7 @@ Vis.Views.Background = Backbone.View.extend({
                   title: "Poverty level",
                   label: {
                     threshold: 0.1
-                  }
+                  } 
               },
               color: {
                 pattern: ['#003950', '#E59138', '#88A3B6']

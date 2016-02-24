@@ -5,7 +5,7 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
   initialize: function () {
     var that = this;
 
-    this.chart = new Array(2);
+    this.chart = new Array(3);
 
     if (that.model.get("scenario").page === 5) this.preRender(this.model.get("scenario").chapter);
 
@@ -51,8 +51,6 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
     switch(chapter) {
         case 1:
           this.chart[0] = d3.heatmap()
-            // .id(0)
-            // .width(115).height(345)
             .width(115).height(325)
             .margins({top: 40, right: 20, bottom: 30, left: 10})
             .data(this.getData(chapter, 0))
@@ -66,8 +64,6 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
             .lookUp(Vis.DEFAULTS.LOOKUP_CODES.COPING_MECHANISMS);
 
           this.chart[1] = d3.heatmap()
-            // .id(1)
-            // .width(390).height(385)
             .width(390).height(365)
             .margins({top: 30, right: 300, bottom: 30, left: 5})
             .data(this.getData(chapter, 1))
@@ -82,6 +78,17 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
             .xTitle("")
             .hasNames(true)
             .lookUp(Vis.DEFAULTS.LOOKUP_CODES.COPING_MECHANISMS);
+
+          this.chart[2] = d3.heatmapLegend()
+            .width(100).height(310)
+            .margins({top: 100, right: 10, bottom: 10, left: 40})
+            // {values: [0,20,40,60,80,100]},
+            .data({
+              cold: ['#dae6e9','#c2d1d6','#abbdc5','#94a8b3','#7d94a2','#668190','#506e80','#395c6f','#224a5f','#003950'],
+              hot: ['#f6eae9','#eed2cc','#e4b9b1','#daa295','#ce8a7c','#c27362','#b45b49','#9a4d3e','#7e4033','#643228']}
+            )
+            .title("% of answers")
+            .xTitle("");
           break;
         case 2:
           break;
@@ -105,6 +112,8 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
             .data(this.getData(chapter, 1))
             .relativeTo(this.getTotalHouseholds(chapter, 1))
           d3.select("#stopped").call(this.chart[1]);
+
+          if (d3.select("#heatmap-legends svg").empty()) d3.select("#heatmap-legends").call(this.chart[2]);
 
           this.fixPositionning();
           break;

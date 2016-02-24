@@ -1216,7 +1216,7 @@ Vis.Views.Background = Backbone.View.extend({
                   title: "Poverty level",
                   label: {
                     threshold: 0.1
-                  }
+                  } 
               },
               color: {
                 pattern: ['#003950', '#E59138', '#88A3B6']
@@ -1462,7 +1462,7 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
   initialize: function () {
     var that = this;
 
-    this.chart = new Array(2);
+    this.chart = new Array(3);
 
     if (that.model.get("scenario").page === 5) this.preRender(this.model.get("scenario").chapter);
 
@@ -1508,8 +1508,6 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
     switch(chapter) {
         case 1:
           this.chart[0] = d3.heatmap()
-            // .id(0)
-            // .width(115).height(345)
             .width(115).height(325)
             .margins({top: 40, right: 20, bottom: 30, left: 10})
             .data(this.getData(chapter, 0))
@@ -1523,8 +1521,6 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
             .lookUp(Vis.DEFAULTS.LOOKUP_CODES.COPING_MECHANISMS);
 
           this.chart[1] = d3.heatmap()
-            // .id(1)
-            // .width(390).height(385)
             .width(390).height(365)
             .margins({top: 30, right: 300, bottom: 30, left: 5})
             .data(this.getData(chapter, 1))
@@ -1539,6 +1535,17 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
             .xTitle("")
             .hasNames(true)
             .lookUp(Vis.DEFAULTS.LOOKUP_CODES.COPING_MECHANISMS);
+
+          this.chart[2] = d3.heatmapLegend()
+            .width(100).height(310)
+            .margins({top: 100, right: 10, bottom: 10, left: 40})
+            // {values: [0,20,40,60,80,100]},
+            .data({
+              cold: ['#dae6e9','#c2d1d6','#abbdc5','#94a8b3','#7d94a2','#668190','#506e80','#395c6f','#224a5f','#003950'],
+              hot: ['#f6eae9','#eed2cc','#e4b9b1','#daa295','#ce8a7c','#c27362','#b45b49','#9a4d3e','#7e4033','#643228']}
+            )
+            .title("% of answers")
+            .xTitle("");
           break;
         case 2:
           break;
@@ -1562,6 +1569,8 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
             .data(this.getData(chapter, 1))
             .relativeTo(this.getTotalHouseholds(chapter, 1))
           d3.select("#stopped").call(this.chart[1]);
+
+          if (d3.select("#heatmap-legends svg").empty()) d3.select("#heatmap-legends").call(this.chart[2]);
 
           this.fixPositionning();
           break;
@@ -6420,6 +6429,336 @@ d3.heatmap = function() {
           .attr("class", "main title")
           .attr("text-anchor", "middle")
           .attr("x", +deltaX / 2)
+          .attr("y", -15)
+          .text(title);
+      }
+
+      function clickHandler(d) {
+        if (selected.length > 1) {
+          _listeners.filtered([d.key]);
+        } else {
+          if (selected[0] == d.key) {
+            _listeners.filtered(null);
+          } else {
+            _listeners.filtered([d.key]);
+          }
+        }
+      }
+
+      function isDataEmpty() {
+        return (d3.sum(data.map(function(d) { return d.count; }))) ? false : true;
+      }
+
+      function toPercentage(val) {
+        return Math.round((val/relativeTo)*100);
+      }
+
+      function _getDataBrushed(brush) {
+        var extent = brush.extent().map(function(d) { return Math.floor(d) + 0.5;});
+        return data
+          .map(function(d) { return d.key; })
+          .filter(function(d) {
+            return d >= extent[0] && d <= extent[1];
+          });
+      }
+    });
+  }
+
+  // Getters and Setters
+  chart.width = function(_) {
+    if (!arguments.length) return width;
+    width = _;
+    return chart;
+  };
+  chart.height = function(_) {
+    if (!arguments.length) return height;
+    height = _;
+    return chart;
+  };
+
+  chart.margins = function(_) {
+    if (!arguments.length) return margins;
+    margins = _;
+    return chart;
+  };
+  chart.data = function(_) {
+    if (!arguments.length) return data;
+    data = _;
+    return chart;
+  };
+  chart.xData = function(_) {
+    if (!arguments.length) return xData;
+    xData = _;
+    return chart;
+  };
+  chart.yData = function(_) {
+    if (!arguments.length) return yData;
+    yData = _;
+    return chart;
+  };
+  chart.elasticY = function(_) {
+    if (!arguments.length) return elasticY;
+    elasticY = _;
+    return chart;
+  };
+  chart.y = function(_) {
+    if (!arguments.length) return y;
+    y = _;
+    return chart;
+  };
+  chart.color = function(_) {
+    if (!arguments.length) return color;
+    color = _;
+    return chart;
+  };
+  chart.yAxis = function(_) {
+    if (!arguments.length) return yAxis;
+    yAxis = _;
+    return chart;
+  };
+  chart.relativeTo = function(_) {
+    if (!arguments.length) return relativeTo;
+    relativeTo = _;
+    return chart;
+  };
+  chart.hasBrush = function(_) {
+    if (!arguments.length) return hasBrush;
+    hasBrush = _;
+    return chart;
+  };
+  chart.brushExtent = function(_) {
+    if (!arguments.length) return brushExtent;
+    brushExtent = _;
+    return chart;
+  };
+  chart.selected = function(_) {
+    if (!arguments.length) return selected;
+    selected = _;
+    return chart;
+  };
+  chart.select = function(_) {
+    if (!arguments.length) return select;
+    select = _;
+    return chart;
+  };
+  chart.title = function(_) {
+    if (!arguments.length) return title;
+    title = _;
+    return chart;
+  };
+  chart.hasNames = function(_) {
+    if (!arguments.length) return hasNames;
+    hasNames = _;
+    return chart;
+  };
+  chart.xTitle = function(_) {
+    if (!arguments.length) return xTitle;
+    xTitle = _;
+    return chart;
+  };
+  chart.id = function(_) {
+    if (!arguments.length) return id;
+    id = _;
+    return chart;
+  };
+  chart.lookUp = function(_) {
+    if (!arguments.length) return lookUp;
+    lookUp = _;
+    return chart;
+  };
+
+  chart.on = function (event, listener) {
+    _listeners.on(event, listener);
+    return chart;
+  };
+
+  return chart;
+};
+/* CREATE BAR CHART MULTI STACKED INSTANCE*/
+d3.heatmapLegend = function() {
+  var width = 400,
+      height = 100,
+      margins = {top: 10, right: 25, bottom: 30, left: 20},
+      data = null,
+      x = d3.scale.ordinal(),
+      y = d3.scale.linear(),
+      color,
+      id = null,
+      relativeTo = null,
+      elasticY = false,
+      xData = null,
+      xDomain = null,
+      lookUp = null,
+      hasNames = true,
+      barHeight = 7,
+      barWidth = 11,
+      xAxis = d3.svg.axis().orient("bottom"),
+      // yAxis = d3.svg.axis().orient("right").tickValues([0, 25, 50, 75, 100]),
+      yAxis = d3.svg.axis().orient("left").tickValues([0, 25, 50, 75, 100]),
+      // yAxis = d3.svg.axis().orient("left"),
+      hasBrush = false,
+      hasYAxis = true,
+      title = "My title",
+      xTitle = "My title",
+      brushClickReset = false,
+      brush = d3.svg.brush(),
+      brushExtent = null,
+      select = null,
+      selected = null;
+
+  var _gWidth = 400,
+      _gHeight = 100,
+      _handlesWidth = 9,
+      _yCategories = null,
+      _gCells,
+      _gNames,
+      _gBrush,
+      _gXAxis,
+      _gYAxis,
+      _gLabel,
+      _gLegend,
+      _listeners = d3.dispatch("filtered", "filtering");
+
+  function chart(div) {
+    _gWidth = width - margins.left - margins.right;
+    _gHeight = height - margins.top - margins.bottom;
+    div.each(function() {
+      var div = d3.select(this),
+          g = div.select("g");
+
+      id = "#" + d3.select(this).attr("id");
+
+      // data = _transformData(data);
+
+      // create the skeleton chart.
+      if (g.empty()) _skeleton();
+
+      // if (select) {
+      //   var selection = select;
+      //   select = null;
+      //   _listeners.filtered(selection);
+      // }
+
+      // d3.select(this).attr("id")
+
+      d3.selectAll(id + " .x.axis text")
+        .data(["Jun.", "Aug.", "Nov."])
+        .text(function(d) { return d; });
+
+      // if (!isDataEmpty()) _render();
+      _render();
+
+      function _render() {
+        var cellHeight = y(0) - y(10);
+        _gCells.selectAll(".hot")
+            .data(data.hot)
+            .enter()
+          .append("rect")
+            .attr("class", "hot")
+            .attr("width", x.rangeBand())
+            .attr("height", cellHeight)
+            .attr("x", function(d) {
+                return x(1); })
+            .attr("y", function(d, i) {
+                return y(i*10) - cellHeight; })
+            .attr("fill", function(d) { return d});
+
+        _gCells.selectAll(".cold")
+            .data(data.cold)
+            .enter()
+          .append("rect")
+            .attr("class", "cold")
+            .attr("width", x.rangeBand())
+            .attr("height", cellHeight)
+            .attr("x", function(d) {
+                return x(2); })
+            .attr("y", function(d, i) {
+                return y(i*10) - cellHeight; })
+            .attr("fill", function(d) { return d});
+        // // join
+        // var cells = _gCells.selectAll(".cell")
+        //       .data(data);
+        //
+        // // enter
+        // cells
+        //   .enter()
+        //     .append("rect")
+        //     .attr("class", "cell");
+        //     // .attr("width", x.rangeBand())
+        //     // .attr("height", y.rangeBand());
+        //
+        // // exit
+        // cells.exit().remove();
+        //
+        // // update
+        // cells
+        //   .attr("x", function(d) {
+        //     return x(d.round); })
+        //   .attr("y", function(d) {
+        //     return y(d.key); })
+        //   .attr("fill", function(d) { return color(toPercentage(d.count)); });
+      }
+
+      // function _transformData(data) {
+      //   var flatData = [];
+      //
+      //   if(!_yCategories) _yCategories = _.without(data.map(function(d) {
+      //     return d.key; }).sort(function(a, b) { return a - b; }), 97);
+      //
+      //   data.filter(function(d) { return d!== 97; }).forEach(function(d) {
+      //     d.value.forEach(function(v) { return v.key = d.key });
+      //     flatData.push(d.value);
+      //   });
+      //
+      //   flatData = _.flatten(flatData);
+      //   flatData.forEach(function(d) { return d.joinId = _.values(d).join("-");});
+      //
+      //   return flatData;
+      // }
+
+      function _skeleton() {
+        // set scales range and domains
+        x.domain([1,2]);
+        x.rangeBands([0, _gWidth], 0.15);
+
+        y.domain([0, 100]);
+        y.range([_gHeight, 0]);
+
+        yAxis.tickValues([0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]).tickFormat(function(d) { return d + " %"; });
+        yAxis.scale(y);
+        // xAxis.scale(x);
+
+        // create chart container
+        g = div
+            .append("div").classed("heatmap", true)
+            .append("svg")
+            // .attr("id", "id-" + id)
+            .attr("width", width)
+            .attr("height", height)
+          .append("g")
+            .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
+
+        // g = div.append("svg")
+        //     .classed("heatmap", true)
+        //     .attr("id", "id-" + id)
+        //     .attr("width", width)
+        //     .attr("height", height)
+        //   .append("g")
+        //     .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
+
+        _gCells = g.append("g")
+            .attr("class", "cells");
+
+        _gYAxis = g.append("g")
+            .attr("class", "y axis")
+            // .attr("transform", "translate(63,0)")
+            .attr("transform", "translate(0,0)")
+            .call(yAxis);
+
+        g.append("text")
+          .attr("class", "main title")
+          .attr("text-anchor", "middle")
+          .attr("x", 5)
           .attr("y", -15)
           .text(title);
       }
