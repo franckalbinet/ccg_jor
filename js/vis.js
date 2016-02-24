@@ -62,9 +62,9 @@ Vis.utils = _.extend(Vis.DEFAULTS, {
     if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
     d3.select("#main-chart #living-conditions").remove();
     d3.select("#main-chart #background-sample").remove();
-    d3.select("#main-chart .heatmap").remove();
+    d3.select("#main-chart #coping-mechanisms").remove();
+    // d3.select("#main-chart .heatmap").remove();
     $(".outcomes").removeClass("col-md-12").addClass("col-md-8");
-    // d3.select(".charts #background-sample").remove();
   }
 
   // Timer: function(callback, delay) {
@@ -1451,7 +1451,8 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
   },
 
   preRender: function(chapter) {
-    var that = this;
+    var that = this,
+        template = _.template(Vis.Templates["coping-mechanisms"]);
 
     $("#households-children").show();
     $("#children-gender").hide();
@@ -1459,6 +1460,7 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
     // this.clearCharts();
     Vis.utils.clearCharts();
 
+    $("#main-chart").html(template());
     $(".profile").show();
 
     // set text content
@@ -1481,9 +1483,10 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
     switch(chapter) {
         case 1:
           this.chart[0] = d3.heatmap()
-            .id(0)
-            .width(130).height(350)
-            .margins({top: 40, right: 20, bottom: 40, left: 30})
+            // .id(0)
+            // .width(115).height(345)
+            .width(115).height(325)
+            .margins({top: 40, right: 20, bottom: 30, left: 10})
             .data(this.getData(chapter, 0))
             .color(d3.scale.threshold()
               .domain([10,20,30,40,50,60,70,80,90,100.1])
@@ -1495,16 +1498,17 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
             .lookUp(Vis.DEFAULTS.LOOKUP_CODES.COPING_MECHANISMS);
 
           this.chart[1] = d3.heatmap()
-            .id(1)
-            .width(400).height(380)
-            .margins({top: 30, right: 300, bottom: 40, left: 20})
+            // .id(1)
+            // .width(390).height(385)
+            .width(390).height(365)
+            .margins({top: 30, right: 300, bottom: 30, left: 5})
             .data(this.getData(chapter, 1))
             .color(d3.scale.threshold()
               // .domain([1,5,10,40,50,60,70,80,90,100.1])
               .domain([10,20,30,40,50,60,70,80,90,100.1])
               .range(['#dae6e9','#c2d1d6','#abbdc5','#94a8b3','#7d94a2','#668190','#506e80','#395c6f','#224a5f','#003950']))
             .relativeTo(this.getTotalHouseholds(chapter, 1))
-            .title("Stopped coping")
+            .title("Stopped coping mechanisms")
             // .titleDeltaY(-15)
             // .xTitleDeltaX()
             .xTitle("")
@@ -1527,12 +1531,14 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
           this.chart[0]
             .data(this.getData(chapter, 0))
             .relativeTo(this.getTotalHouseholds(chapter, 0))
-          d3.select("#main-chart").call(this.chart[0]);
+          d3.select("#current").call(this.chart[0]);
 
           this.chart[1]
             .data(this.getData(chapter, 1))
             .relativeTo(this.getTotalHouseholds(chapter, 1))
-          d3.select("#main-chart").call(this.chart[1]);
+          d3.select("#stopped").call(this.chart[1]);
+
+          this.fixPositionning();
           break;
         case 2:
           break;
@@ -1601,6 +1607,13 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
     // if (this.chart) this.chart = null;
     if (this.chart) this.chart = new Array(2);
     if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
+  },
+
+  fixPositionning: function() {
+    d3.select("#stopped .main.title").attr("x", 82);
+    // d3.selectAll("#main-chart .x.axis text")
+    //   .data(["Jun.", "Aug.", "Nov."])
+    //   .text(function(d) { return d; });
   }
 });
 // Home view
@@ -6210,8 +6223,10 @@ d3.heatmap = function() {
     _gHeight = height - margins.top - margins.bottom;
     div.each(function() {
       var div = d3.select(this),
-          g = div.select(".heatmap #id-" + id + " g");
-          // g = div.select("g");
+          // g = div.select(".heatmap #id-" + id + " g");
+          g = div.select("g");
+
+      id = "#" + d3.select(this).attr("id");
 
       data = _transformData(data);
 
@@ -6224,7 +6239,9 @@ d3.heatmap = function() {
       //   _listeners.filtered(selection);
       // }
 
-      d3.selectAll("#id-" + id + " .x.axis text")
+      // d3.select(this).attr("id")
+
+      d3.selectAll(id + " .x.axis text")
         .data(["Jun.", "Aug.", "Nov."])
         .text(function(d) { return d; });
 
@@ -6289,7 +6306,7 @@ d3.heatmap = function() {
         g = div
             .append("div").classed("heatmap", true)
             .append("svg")
-            .attr("id", "id-" + id)
+            // .attr("id", "id-" + id)
             .attr("width", width)
             .attr("height", height)
           .append("g")
@@ -6354,7 +6371,7 @@ d3.heatmap = function() {
         //     .style("text-anchor", "start")
         //     .text(function(d) { return lookUp[d] ; });
 
-        var deltaX = d3.select(".heatmap #id-" + id + " .x.axis path.domain")
+        var deltaX = d3.select(id + " .x.axis path.domain")
           .attr("d").split("H")[1].split("V")[0];
 
         g.append("text")
@@ -6820,6 +6837,7 @@ Vis.Templates["background-sample"] =
 
 Vis.Templates["coping-mechanisms"] =
   "<div id='coping-mechanisms' class='row'>" +
+  "  <div id='heatmap-legends' class='col-md-2'></div>" +
   "  <div id='current' class='col-md-4'></div>" +
-  "  <div id='stopped' class='col-md-4'></div>" +
+  "  <div id='stopped' class='col-md-6'></div>" +
   " </div>";

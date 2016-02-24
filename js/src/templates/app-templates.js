@@ -61,6 +61,7 @@ Vis.Templates["background-sample"] =
 
 Vis.Templates["coping-mechanisms"] =
   "<div id='coping-mechanisms' class='row'>" +
+  "  <div id='heatmap-legends' class='col-md-2'></div>" +
   "  <div id='current' class='col-md-4'></div>" +
-  "  <div id='stopped' class='col-md-4'></div>" +
+  "  <div id='stopped' class='col-md-6'></div>" +
   " </div>";

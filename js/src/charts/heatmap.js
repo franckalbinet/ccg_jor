@@ -47,8 +47,10 @@ d3.heatmap = function() {
     _gHeight = height - margins.top - margins.bottom;
     div.each(function() {
       var div = d3.select(this),
-          g = div.select(".heatmap #id-" + id + " g");
-          // g = div.select("g");
+          // g = div.select(".heatmap #id-" + id + " g");
+          g = div.select("g");
+
+      id = "#" + d3.select(this).attr("id");
 
       data = _transformData(data);
 
@@ -61,7 +63,9 @@ d3.heatmap = function() {
       //   _listeners.filtered(selection);
       // }
 
-      d3.selectAll("#id-" + id + " .x.axis text")
+      // d3.select(this).attr("id")
+
+      d3.selectAll(id + " .x.axis text")
         .data(["Jun.", "Aug.", "Nov."])
         .text(function(d) { return d; });
 
@@ -126,7 +130,7 @@ d3.heatmap = function() {
         g = div
             .append("div").classed("heatmap", true)
             .append("svg")
-            .attr("id", "id-" + id)
+            // .attr("id", "id-" + id)
             .attr("width", width)
             .attr("height", height)
           .append("g")
@@ -191,7 +195,7 @@ d3.heatmap = function() {
         //     .style("text-anchor", "start")
         //     .text(function(d) { return lookUp[d] ; });
 
-        var deltaX = d3.select(".heatmap #id-" + id + " .x.axis path.domain")
+        var deltaX = d3.select(id + " .x.axis path.domain")
           .attr("d").split("H")[1].split("V")[0];
 
         g.append("text")

@@ -362,14 +362,14 @@ h1,h2,h3,h4,h5 {
 #main-chart .heatmap {
   display: inline-block;
 }
-#main-chart .heatmap #id-0 {
+/*#main-chart .heatmap #id-0 {
   margin-left: 70px;
-}
+}*/
 #main-chart .heatmap rect {
   stroke: none;
-  fill-opacity: 0.85;
   fill-opacity: 1;
-  /*fill-opacity: 1;*/
+  stroke: #333;
+  stroke-width: 0.1px;
 }
 #main-chart .heatmap .names text {
   font-family: Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -422,6 +422,20 @@ h1,h2,h3,h4,h5 {
     font-size: 11px;
 }
 
+/* Coping mechanisms */
+#heatmap-legends {
+  height: 350px;
+  /*background-color: #efefef;*/
+}
+#current {
+  width: 110px;
+  margin-top: 31px;
+}
+#stopped {
+  width: 110px;
+  margin-top: -10px;
+  padding-left: 5px;
+}
 
 /* Living conditions charts */
 #main-chart #living-conditions {
