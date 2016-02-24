@@ -94,11 +94,71 @@ Vis.Views.Background = Backbone.View.extend({
       var that = this;
       switch(chapter) {
           case 1:
-            // this.chart
-            //   .data(this.getData(chapter))
-            //   .relativeTo(this.getTotalHouseholds(chapter))
-            // d3.select("#main-chart").call(this.chart);
-            // this.fixPositionning();
+            this.chart[0] = c3.generate({
+              bindto: d3.select("#background-sample #age"),
+              size: {
+                width: 270,
+                height: 270,
+              },
+              data: {
+                columns: that.getData(chapter, 0),
+                type : 'donut',
+                onclick: function (d, i) { console.log("onclick", d, i); },
+                onmouseover: function (d, i) { console.log("onmouseover", d, i); },
+                onmouseout: function (d, i) { console.log("onmouseout", d, i); }
+              },
+              donut: {
+                  title: "Children age"
+              },
+              color: {
+                pattern: ['#003950', '#E59138', '#88A3B6', '#609078', '#B45B49']
+              }
+            });
+
+            this.chart[1] = c3.generate({
+              bindto: d3.select("#background-sample #gender"),
+              size: {
+                width: 250,
+                height: 250,
+              },
+              data: {
+                columns: that.getData(chapter, 1),
+                type : 'donut',
+                onclick: function (d, i) { console.log("onclick", d, i); },
+                onmouseover: function (d, i) { console.log("onmouseover", d, i); },
+                onmouseout: function (d, i) { console.log("onmouseout", d, i); }
+              },
+              donut: {
+                  title: "Children gender"
+              },
+              color: {
+                pattern: ['#003950', '#E59138']
+              }
+            });
+
+            this.chart[2] = c3.generate({
+              bindto: d3.select("#background-sample #poverty"),
+              size: {
+                width: 270,
+                height: 270,
+              },
+              data: {
+                columns: that.getData(chapter, 2),
+                type : 'donut',
+                onclick: function (d, i) { console.log("onclick", d, i); },
+                onmouseover: function (d, i) { console.log("onmouseover", d, i); },
+                onmouseout: function (d, i) { console.log("onmouseout", d, i); }
+              },
+              donut: {
+                  title: "Poverty level",
+                  label: {
+                    threshold: 0.1
+                  }
+              },
+              color: {
+                pattern: ['#003950', '#E59138', '#88A3B6']
+              }
+            });
             break;
           case 2:
             this.chart[0] = c3.generate({
@@ -157,7 +217,7 @@ Vis.Views.Background = Backbone.View.extend({
                 onmouseout: function (d, i) { console.log("onmouseout", d, i); }
               },
               donut: {
-                  title: "Povery level",
+                  title: "Poverty level",
                   label: {
                     threshold: 0.1
                   }
@@ -196,6 +256,43 @@ Vis.Views.Background = Backbone.View.extend({
     getData: function(chapter, index) {
       switch(chapter) {
           case 1:
+            switch(index) {
+              case 0:
+                return [
+                  ["0-1 year"].concat(d3.range(1,9).map(function(d) { return 1; })),
+                  ["2-4 years"].concat(d3.range(1,19).map(function(d) { return 1; })),
+                  ["5-11 years"].concat(d3.range(1,46).map(function(d) { return 1; })),
+                  ["12-15 years"].concat(d3.range(1,22).map(function(d) { return 1; })),
+                  ["16-17 years"].concat(d3.range(1,9).map(function(d) { return 1; }))
+                ];
+                // var  = ["0-1 year"].concat(d3.range(1,7).map(function(d) { return 1; })),
+                //     resilient = ["Resilient"].concat(d3.range(1,3).map(function(d) { return 1; })),
+                //     severe = ["Severely Vulnerable"].concat(d3.range(1,41).map(function(d) { return 1; }));
+                // return [high, resilient, severe];
+                break;
+              case 1:
+              return [
+                ["Male"].concat(d3.range(1,52).map(function(d) { return 1; })),
+                ["Female"].concat(d3.range(1,50).map(function(d) { return 1; })),
+              ];
+                break;
+              case 2:
+                return [
+                  ["Highly Vulnerable"].concat(d3.range(1,28).map(function(d) { return 1; })),
+                  ["Severely Vulnerable"].concat(d3.range(1,40).map(function(d) { return 1; })),
+                  ["Other"].concat(d3.range(1,33).map(function(d) { return 1; })),
+                ];
+
+                // var total = d3.sum(this.model.householdsByPoverty.top(Infinity), function(d) { return d.value.householdCount; });
+                // return this.model.householdsByPoverty.top(Infinity).map(function(d) {
+                //   console.log(Math.round((d.value.householdCount / total)*100));
+                //   return [Vis.DEFAULTS.LOOKUP_CODES.POVERTY[d.key]]
+                //           .concat(d3.range(1, Math.round((d.value.householdCount / total)*100)+1).map());
+                // });
+                break;
+              default:
+                console.log("no matching case.")
+            }
             // return this.model.covChildExpByRound.top(Infinity);
             break;
           case 2:

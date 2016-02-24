@@ -22,6 +22,31 @@ pdm3 <- read.table("./combined_3_rounds/pdm3.csv", sep = ",", header = TRUE, quo
 #pdm3 <- read.table("./data/pdm3.csv", sep = ",", header = TRUE, quote = "")
 #pdm3_bis <- read.table("./data/pdm_combined.csv", sep = ",", header = TRUE, quote = "")
 
+# all beneficiaries
+all_ben <- read.table("./all_beneficiaries.csv", sep = ",", header = TRUE, quote = "")
+all_ben <- tbl_df(all_ben)
+
+all_gender <- table(all_ben$ChildSex)
+all_gender <- all_gender / length(all_ben$ID)
+# F         M 
+# 0.4882895 0.5117105 
+
+all_ben$ageClass <- cut(all_ben$ChildAge, breaks=c(-1,1,4,11,15,17))
+all_age <- table(all_ben$ageClass)
+all_age <- all_age / length(all_ben$ID)
+#   (-1,1]      (1,4]     (4,11]    (11,15]    (15,17] 
+#0.07769890 0.17814382 0.45200840 0.21201290 0.08013598 
+
+all_pov <- table(all_ben$Poverty.Threshold)
+all_pov <- all_pov / length(all_ben$ID)
+# other
+# 0.31931912 
+# abject 
+# 0.39190642 
+# absolute 
+# 0.27182743 
+# Children with specific need (not abject or absolut) 
+# 0.01694703 
 
 # dataset dims
 dim(pdm1) # 500 120 
