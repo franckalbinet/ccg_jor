@@ -54,7 +54,7 @@ Vis.Views.Incomes = Backbone.View.extend({
             .data(data)
             .color(d3.scale.ordinal().range(["#003950", "#88A3B6", "#E59138","#EDDAC3"]).domain([1, 2, 5, 99]))
             .relativeTo(total)
-            .title("Main sources of income (% of answers) - TBC")
+            .title("Main sources of income (% of answers)")
             .xTitle("")
             .lookUp(Vis.DEFAULTS.LOOKUP_CODES.INCOME);
 
