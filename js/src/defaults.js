@@ -19,7 +19,7 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
   },
   LOOKUP_CODES: {
     GOVERNORATES: {1:"Irbid", 2:"Ajloun", 3:"Jarash", 4:"Amman", 5:"Zarqa", 6:"Madaba", 11:"Mafraq", 99:"Others"},
-    POVERTY: {1:"High", 2:"Severe"},
+    POVERTY: {1:"High", 2:"Severe", 3:"Resilient"},
     HEAD: {1:"Father", 2:"Mother"},
     GENDER: {1:"Male", 2:"Female"},
     INCOME: {1:"Cash Assistance (UNICEF and UNHCR)", 2:"Food Voucher (WFP)", 5:"Paid labour", 99:"Other"},

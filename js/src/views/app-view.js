@@ -20,7 +20,7 @@ Vis.Views.App = Backbone.View.extend({
 
     initProfileViews: function() {
       new Vis.Views.HouseholdsChildren({model: Vis.Models.app});
-      new Vis.Views.ChildrenAge({model: Vis.Models.app});
+      // new Vis.Views.ChildrenAge({model: Vis.Models.app});
       new Vis.Views.HouseholdsLocation({model: Vis.Models.app});
       new Vis.Views.HouseholdsPoverty({model: Vis.Models.app});
       new Vis.Views.HouseholdsHead({model: Vis.Models.app});

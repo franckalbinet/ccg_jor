@@ -51,3 +51,10 @@ Vis.Templates["living-conditions"] =
   "  <div id='basic-needs' class='col-md-6'></div>" +
   "  <div id='improvement' class='col-md-6'></div>" +
   " </div>";
+
+Vis.Templates["background-sample"] =
+  "<div id='background-sample' class='row'>" +
+  "  <div id='age' class='col-md-4'></div>" +
+  "  <div id='gender' class='col-md-4'></div>" +
+  "  <div id='poverty' class='col-md-4'></div>" +
+  " </div>";

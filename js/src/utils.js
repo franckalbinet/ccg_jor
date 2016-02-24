@@ -4,8 +4,11 @@ Vis.utils = _.extend(Vis.DEFAULTS, {
   clearCharts: function() {
     if (this.chart) this.chart = null;
     if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
-    d3.select("main-chart #living-conditions").remove();
-    d3.select("main-chart .heatmap").remove();
+    d3.select("#main-chart #living-conditions").remove();
+    d3.select("#main-chart #background-sample").remove();
+    d3.select("#main-chart .heatmap").remove();
+    $(".outcomes").removeClass("col-md-12").addClass("col-md-8");
+    // d3.select(".charts #background-sample").remove();
   }
 
   // Timer: function(callback, delay) {

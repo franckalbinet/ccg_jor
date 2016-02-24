@@ -11,7 +11,6 @@ vis_src =	${vis_dir}/namespace.js\
 					${vis_dir}/models/app-model.js\
 					${vis_dir}/app.js\
 					${vis_dir}/views/app-view.js\
-					${vis_dir}/views/profile/children-age-view.js\
 					${vis_dir}/views/profile/households-children-view.js\
 					${vis_dir}/views/profile/households-location-view.js\
 					${vis_dir}/views/profile/households-poverty-view.js\

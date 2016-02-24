@@ -9,8 +9,8 @@ d3.barChartAge = function() {
       y = null,
       elasticY = false,
       xDomain = null,
-      barHeight = 7,
-      xAxis = d3.svg.axis().orient("bottom"),
+      barHeight = 15,
+      xAxis = d3.svg.axis().orient("bottom").tickValues([2,4]),
       yAxis = d3.svg.axis().orient("left"),
       hasBrush = false,
       hasYAxis = true,
@@ -51,6 +51,7 @@ d3.barChartAge = function() {
 
       function _render() {
         // EXIT - ENTER - UPDATE PATTERN
+        console.log(_gBars);
         var rects =  _gBars.selectAll("rect").data(data);
         rects.exit().remove();
         rects.enter().append("rect");
@@ -62,7 +63,9 @@ d3.barChartAge = function() {
             // .transition()
             .attr("x", function(d) { return 0; })
             .attr("y", function(d) { return y(d.key) - barHeight/2  })
-            .attr("width", function(d) { return x(d.value); })
+            .attr("width", function(d) {
+              console.log(toPercentage(d.value));
+              return x(toPercentage(d.value)); })
             .attr("height", function(d) { return barHeight; });
       }
 
@@ -70,6 +73,9 @@ d3.barChartAge = function() {
         // set scales range
         x.range([0 , _gWidth]);
         y.range([0, _gHeight]);
+
+        x.domain(getXExtent());
+
 
         // set brush
         if (hasBrush) brush.y(y);
@@ -108,16 +114,26 @@ d3.barChartAge = function() {
           .attr("y", -25)
           .text(title);
 
-        _gBrush = g.append("g").attr("class", "brush").call(brush);
-        _gBrush.selectAll("rect").attr("width", _gWidth);
+        if(hasBrush) {
+          _gBrush = g.append("g").attr("class", "brush").call(brush);
+          _gBrush.selectAll("rect").attr("width", _gWidth);
 
-        brush.on("brush", function() {
-          _listeners.filtering(_getDataBrushed(brush));
-        });
+          brush.on("brush", function() {
+            _listeners.filtering(_getDataBrushed(brush));
+          });
 
-        brush.on("brushend", function() {
-          _listeners.filtered(brush);
-        });
+          brush.on("brushend", function() {
+            _listeners.filtered(brush);
+          });
+        }
+      }
+
+      function toPercentage(val, round) {
+        return Math.round((val/relativeTo)*100);
+      }
+
+      function getXExtent() {
+        return [0, d3.max(data.map(function(d) { return toPercentage(d.value)}))];
       }
 
       function _getDataBrushed(brush) {
@@ -183,33 +199,11 @@ d3.barChartAge = function() {
     hasYAxis = _;
     return chart;
   };
-  // chart.brushClickReset = function(_) {
-  //   if (!arguments.length) return brushClickReset;
-  //   brushClickReset = _;
-  //   return chart;
-  // };
-  // chart.clearBrush = function(_) {
-  //   if (!arguments.length) {
-  //     _gBrush.call(brush.clear());
-  //     brush.event(_gBrush);
-  //   }
-  //   return chart;
-  // };
-  // chart.roundXDomain = function(_) {
-  //   if (!arguments.length) return roundXDomain;
-  //   roundXDomain = _;
-  //   return chart;
-  // };
   chart.hasBrush = function(_) {
     if (!arguments.length) return hasBrush;
     hasBrush = _;
     return chart;
   };
-  // chart.hasBrushLabel = function(_) {
-  //   if (!arguments.length) return hasBrushLabel;
-  //   hasBrushLabel = _;
-  //   return chart;
-  // };
   chart.brushExtent = function(_) {
     if (!arguments.length) return brushExtent;
     brushExtent = _;
@@ -220,17 +214,16 @@ d3.barChartAge = function() {
     selected = _;
     return chart;
   };
+  chart.relativeTo = function(_) {
+    if (!arguments.length) return relativeTo;
+    relativeTo = _;
+    return chart;
+  };
   chart.title = function(_) {
     if (!arguments.length) return title;
     title = _;
     return chart;
   };
-  // chart.brushExtentToMax = function(_) {
-  //   if (!arguments.length) return brushExtentToMax;
-  //   brushExtentToMax = _;
-  //   return chart;
-  // };
-
   chart.on = function (event, listener) {
     _listeners.on(event, listener);
     return chart;

@@ -30,7 +30,7 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
   },
   LOOKUP_CODES: {
     GOVERNORATES: {1:"Irbid", 2:"Ajloun", 3:"Jarash", 4:"Amman", 5:"Zarqa", 6:"Madaba", 11:"Mafraq", 99:"Others"},
-    POVERTY: {1:"High", 2:"Severe"},
+    POVERTY: {1:"High", 2:"Severe", 3:"Resilient"},
     HEAD: {1:"Father", 2:"Mother"},
     GENDER: {1:"Male", 2:"Female"},
     INCOME: {1:"Cash Assistance (UNICEF and UNHCR)", 2:"Food Voucher (WFP)", 5:"Paid labour", 99:"Other"},
@@ -60,8 +60,11 @@ Vis.utils = _.extend(Vis.DEFAULTS, {
   clearCharts: function() {
     if (this.chart) this.chart = null;
     if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
-    d3.select("main-chart #living-conditions").remove();
-    d3.select("main-chart .heatmap").remove();
+    d3.select("#main-chart #living-conditions").remove();
+    d3.select("#main-chart #background-sample").remove();
+    d3.select("#main-chart .heatmap").remove();
+    $(".outcomes").removeClass("col-md-12").addClass("col-md-8");
+    // d3.select(".charts #background-sample").remove();
   }
 
   // Timer: function(callback, delay) {
@@ -712,7 +715,7 @@ Vis.Views.App = Backbone.View.extend({
 
     initProfileViews: function() {
       new Vis.Views.HouseholdsChildren({model: Vis.Models.app});
-      new Vis.Views.ChildrenAge({model: Vis.Models.app});
+      // new Vis.Views.ChildrenAge({model: Vis.Models.app});
       new Vis.Views.HouseholdsLocation({model: Vis.Models.app});
       new Vis.Views.HouseholdsPoverty({model: Vis.Models.app});
       new Vis.Views.HouseholdsHead({model: Vis.Models.app});
@@ -743,52 +746,6 @@ Vis.Views.App = Backbone.View.extend({
       // Backbone.trigger("select:householdsLocation", [1]);
       // Backbone.trigger("select:householdsPoverty", [1]);
   });
-// Children by age chart
-Vis.Views.ChildrenAge = Backbone.View.extend({
-    el: '#children-age',
-
-    initialize: function () {
-      this.initChart();
-      Backbone.on("filtered", function(d) { this.render();}, this);
-      Backbone.on("brush:childrenAge", function(d) { this.brush(d);}, this);
-    },
-
-    initChart: function() {
-      var that = this,
-          data = this.model.childrenByAge.top(Infinity);
-
-      this.chart = d3.barChartAge()
-        .width(150).height(250)
-        .margins({top: 40, right: 20, bottom: 10, left: 45})
-        .data(data)
-        .x(d3.scale.linear().domain([0, d3.max(data, function(d) { return d.value; })]))
-        .y(d3.scale.linear().domain([0,18]))
-        .xAxis(d3.svg.axis().orient("top").tickValues([50, 100]))
-        .yAxis(d3.svg.axis().orient("left").tickValues(d3.range(1,18)))
-        .title("By age")
-        .hasBrush(true);
-
-      this.chart.on("filtering", function (selected) {
-        that.model.filterByAge(selected);
-      });
-
-      this.chart.on("filtered", function (brush) {
-        if (brush.empty()) that.model.filterByAge(null);
-      });
-
-      this.render();
-    },
-
-    render: function() {
-      this.chart.selected(this.model.get("ages"));
-      d3.select(this.el).call(this.chart);
-    },
-
-    brush: function(extent) {
-      this.chart.brushExtent(extent);
-      this.render();
-    }
-});
 // Households by nb. children chart
 Vis.Views.HouseholdsChildren = Backbone.View.extend({
     el: '#households-children',
@@ -1079,65 +1036,280 @@ Vis.Views.ChildrenGender = Backbone.View.extend({
       return (nullLength === data.length);
     }
 });
-// Incomes view
+// Expenditures children view
 Vis.Views.Background = Backbone.View.extend({
     el: '.container',
 
+    highlighted: [],
+
     initialize: function () {
-      this.dispatch(this.model.get("scenario"));
+      var that = this;
+
+      this.chart = new Array(3);
+
+      if (that.model.get("scenario").page === 2) this.preRender(this.model.get("scenario").chapter);
+
       this.model.on("change:scenario", function() {
-        this.dispatch(this.model.get("scenario"));
+        if (that.model.get("scenario").page === 2) this.preRender(that.model.get("scenario").chapter);
         },this);
-      Backbone.on("filtered", function(d) { this.render();}, this);
+
+      Backbone.on("filtered", function(d) {
+        if (that.model.get("scenario").page === 2) this.render(that.model.get("scenario").chapter);
+        }, this);
     },
 
-    dispatch: function(scenario) {
-      var scenario = this.model.get("scenario"),
-          that = this;
+    preRender: function(chapter) {
+      var that = this,
+          templateSample = _.template(Vis.Templates["background-sample"]);
 
-      if (scenario.page === 2) {
+      $("#households-children").show();
+      $("#children-gender").hide();
 
-        $("#households-children").hide();
-        $("#children-gender").hide();
+      // this.clearCharts();
+      Vis.utils.clearCharts();
 
-        // this.clearCharts();
+      $(".outcomes").removeClass("col-md-8").addClass("col-md-12");
+      $("#main-chart").html(templateSample());
 
-        Vis.utils.clearCharts();
+      $(".profile").hide();
 
-        $(".profile").hide();
-        // set text content
-        ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {
-          that.setTextContent(d);
-        });
+      // set text content
+      ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {
+        that.setTextContent(d);
+      });
 
-        $("#pending").hide();
-        $("#main-chart").hide();
-        switch(scenario.chapter) {
+      $("#pending").hide();
+
+      $("#main-chart").show();
+
+      this.initChart(chapter);
+    },
+
+    initChart: function(chapter) {
+      var that = this,
+          data = this.getData(chapter),
+          total = this.getTotal(chapter);
+
+      switch(chapter) {
           case 1:
-              // this.initChart();
-              break;
+            // this.chart = d3.barChartMultiStacked()
+            //   .width(600).height(350)
+            //   .margins({top: 40, right: 250, bottom: 40, left: 200})
+            //   .data(data)
+            //   .color(d3.scale.ordinal().range(["#80A6B1", "#b45b49"]).domain([1, 2]))
+            //   .relativeTo(total)
+            //   .title("Were you able to cover expenses for your children that were not a priority before ?")
+            //   .xTitle("")
+            //   .lookUp(Vis.DEFAULTS.LOOKUP_CODES.COV_CHILD_EXP);
+            break;
           case 2:
-              // code block
-              break;
+            /* barchart
+            this.chart = d3.barChartAge()
+              .width(200).height(400)
+              .margins({top: 40, right: 20, bottom: 10, left: 45})
+              .data(data)
+              .relativeTo(total)
+              // .x(d3.scale.linear().domain([0, d3.max(data, function(d) { return d.value; })]))
+              .x(d3.scale.linear())
+              .y(d3.scale.linear().domain([0,18]))
+              .xAxis(d3.svg.axis().orient("top").tickValues([50, 100]))
+              .yAxis(d3.svg.axis().orient("left").tickValues(d3.range(1,18)))
+              .title("By age")
+              .hasBrush(false);
+            */
+
+            break;
+
+          case 4:
+            break;
           default:
-              // default code block
+            console.log("no matching case.")
         }
+      this.render(chapter);
+    },
+
+    render: function(chapter) {
+      var that = this;
+      switch(chapter) {
+          case 1:
+            // this.chart
+            //   .data(this.getData(chapter))
+            //   .relativeTo(this.getTotalHouseholds(chapter))
+            // d3.select("#main-chart").call(this.chart);
+            // this.fixPositionning();
+            break;
+          case 2:
+            this.chart[0] = c3.generate({
+              bindto: d3.select("#background-sample #age"),
+              size: {
+                width: 270,
+                height: 270,
+              },
+              data: {
+                columns: that.getData(chapter, 0),
+                type : 'donut',
+                onclick: function (d, i) { console.log("onclick", d, i); },
+                onmouseover: function (d, i) { console.log("onmouseover", d, i); },
+                onmouseout: function (d, i) { console.log("onmouseout", d, i); }
+              },
+              donut: {
+                  title: "Children age"
+              },
+              color: {
+                pattern: ['#003950', '#E59138', '#88A3B6', '#609078', '#B45B49']
+              }
+            });
+
+            this.chart[1] = c3.generate({
+              bindto: d3.select("#background-sample #gender"),
+              size: {
+                width: 250,
+                height: 250,
+              },
+              data: {
+                columns: that.getData(chapter, 1),
+                type : 'donut',
+                onclick: function (d, i) { console.log("onclick", d, i); },
+                onmouseover: function (d, i) { console.log("onmouseover", d, i); },
+                onmouseout: function (d, i) { console.log("onmouseout", d, i); }
+              },
+              donut: {
+                  title: "Children gender"
+              },
+              color: {
+                pattern: ['#003950', '#E59138']
+              }
+            });
+
+            this.chart[2] = c3.generate({
+              bindto: d3.select("#background-sample #poverty"),
+              size: {
+                width: 270,
+                height: 270,
+              },
+              data: {
+                columns: that.getData(chapter, 2),
+                type : 'donut',
+                onclick: function (d, i) { console.log("onclick", d, i); },
+                onmouseover: function (d, i) { console.log("onmouseover", d, i); },
+                onmouseout: function (d, i) { console.log("onmouseout", d, i); }
+              },
+              donut: {
+                  title: "Povery level",
+                  label: {
+                    threshold: 0.1
+                  }
+              },
+              color: {
+                pattern: ['#003950', '#E59138', '#88A3B6']
+              }
+            });
+
+            /* barchart
+            this.chart
+              .selected(this.model.get("ages"))
+              .data(this.getData(chapter))
+            d3.select("#main-chart").call(this.chart);
+            */
+            break;
+          case 2:
+            // this.chart
+            //   .data(this.getData(chapter))
+            //   .relativeTo(this.getTotalHouseholds(chapter))
+            //   .highlighted(this.highlighted)
+            // d3.select("#main-chart").call(this.chart);
+            break;
+          case 4:
+            // this.chart
+            //   .data(this.getData(chapter))
+            //   .relativeTo(this.getTotalHouseholds(chapter))
+            // d3.select("#main-chart").call(this.chart);
+            // d3.selectAll(".bar-chart-multi-stacked rect").style("opacity", 0.7);
+            break;
+          default:
+            console.log("no matching case.")
+        }
+    },
+
+    getData: function(chapter, index) {
+      switch(chapter) {
+          case 1:
+            // return this.model.covChildExpByRound.top(Infinity);
+            break;
+          case 2:
+            switch(index) {
+              case 0:
+                return [
+                  ["0-1 year"].concat(d3.range(1,7).map(function(d) { return 1; })),
+                  ["2-4 years"].concat(d3.range(1,18).map(function(d) { return 1; })),
+                  ["5-11 years"].concat(d3.range(1,46).map(function(d) { return 1; })),
+                  ["12-15 years"].concat(d3.range(1,25).map(function(d) { return 1; })),
+                  ["16-17 years"].concat(d3.range(1,9).map(function(d) { return 1; }))
+                ];
+                // var  = ["0-1 year"].concat(d3.range(1,7).map(function(d) { return 1; })),
+                //     resilient = ["Resilient"].concat(d3.range(1,3).map(function(d) { return 1; })),
+                //     severe = ["Severely Vulnerable"].concat(d3.range(1,41).map(function(d) { return 1; }));
+                // return [high, resilient, severe];
+                break;
+              case 1:
+                var total = d3.sum(this.model.childrenByGender.top(Infinity), function(d) { return d.value; });
+                return this.model.childrenByGender.top(Infinity).map(function(d) {
+                  return [d.name].concat(d3.range(1, Math.round((d.value / total)*100) + 1).map(function(d) { return 1; }));
+                });
+                break;
+              case 2:
+                var high = ["Highly Vulnerable"].concat(d3.range(1,59).map(function(d) { return 1; })),
+                    resilient = ["Resilient"].concat(d3.range(1,3).map(function(d) { return 1; })),
+                    severe = ["Severely Vulnerable"].concat(d3.range(1,41).map(function(d) { return 1; }));
+                return [high, resilient, severe];
+
+                // var total = d3.sum(this.model.householdsByPoverty.top(Infinity), function(d) { return d.value.householdCount; });
+                // return this.model.householdsByPoverty.top(Infinity).map(function(d) {
+                //   console.log(Math.round((d.value.householdCount / total)*100));
+                //   return [Vis.DEFAULTS.LOOKUP_CODES.POVERTY[d.key]]
+                //           .concat(d3.range(1, Math.round((d.value.householdCount / total)*100)+1).map());
+                // });
+                break;
+              default:
+                console.log("no matching case.")
+            }
+            break;
+          // case 4:
+          //   return this.model.basicNeedsByRound.top(Infinity);
+          //   break;
+          default:
+            console.log("no matching case.")
+        }
+    },
+
+    // test: _.throttle(function (highlighted) {
+    //   this.highlighted = highlighted;
+    //   this.render(this.model.get("scenario").chapter);
+    //   console.log("test");
+    // }, 300),
+
+    getTotal: function(chapter) {
+      switch(chapter) {
+        case 1:
+          // return _.unique(this.model.expendituresHousehold.top(Infinity)
+          //         .map(function(d) { return d.hh })).length;
+          // return _.unique(this.model.outcomesHousehold.top(Infinity)
+          // .map(function(d) { return d.hh })).length;
+          break;
+        case 2:
+
+          break;
+        case 2:
+          return _.unique(this.model.expendituresChildHousehold.top(Infinity)
+                  .map(function(d) { return d.hh })).length;
+          break;
+        // case 4:
+        //   return _.unique(this.model.outcomesHousehold.top(Infinity)
+        //           .map(function(d) { return d.hh })).length;
+        //   break;
+        default:
+          console.log("no matching case.")
       }
-    },
-
-    render: function() {
-    },
-
-    initChart: function() {
-    },
-
-    getData: function() {
-      return this.model.incomesByType.top(Infinity);
-    },
-
-    getTotalHouseholds: function() {
-      return _.unique(this.model.incomesHousehold.top(Infinity).map(function(d) {
-         return d.hh })).length;
     },
 
     setTextContent: function(attr) {
@@ -1146,12 +1318,19 @@ Vis.Views.Background = Backbone.View.extend({
           template = _.template(Vis.Templates[attr][id]);
 
       $("#" + attr).html(template());
+
     },
 
     clearCharts: function() {
       if (this.chart) this.chart = null;
       // if(!d3.select("#main-chart svg").empty()) d3.select("#main-chart svg").remove();
       if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
+    },
+
+    fixPositionning: function() {
+      d3.selectAll("#main-chart .x.axis text")
+        .data(["Jun.", "Aug.", "Nov."])
+        .text(function(d) { return d; });
     }
 });
 // Coping mechanisms view
@@ -2743,7 +2922,7 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
             }
             that.cursor += 5;
           }
-          , 1000);
+          , 500);
       }
     },
 
@@ -2818,8 +2997,8 @@ d3.barChartAge = function() {
       y = null,
       elasticY = false,
       xDomain = null,
-      barHeight = 7,
-      xAxis = d3.svg.axis().orient("bottom"),
+      barHeight = 15,
+      xAxis = d3.svg.axis().orient("bottom").tickValues([2,4]),
       yAxis = d3.svg.axis().orient("left"),
       hasBrush = false,
       hasYAxis = true,
@@ -2860,6 +3039,7 @@ d3.barChartAge = function() {
 
       function _render() {
         // EXIT - ENTER - UPDATE PATTERN
+        console.log(_gBars);
         var rects =  _gBars.selectAll("rect").data(data);
         rects.exit().remove();
         rects.enter().append("rect");
@@ -2871,7 +3051,9 @@ d3.barChartAge = function() {
             // .transition()
             .attr("x", function(d) { return 0; })
             .attr("y", function(d) { return y(d.key) - barHeight/2  })
-            .attr("width", function(d) { return x(d.value); })
+            .attr("width", function(d) {
+              console.log(toPercentage(d.value));
+              return x(toPercentage(d.value)); })
             .attr("height", function(d) { return barHeight; });
       }
 
@@ -2879,6 +3061,9 @@ d3.barChartAge = function() {
         // set scales range
         x.range([0 , _gWidth]);
         y.range([0, _gHeight]);
+
+        x.domain(getXExtent());
+
 
         // set brush
         if (hasBrush) brush.y(y);
@@ -2917,16 +3102,26 @@ d3.barChartAge = function() {
           .attr("y", -25)
           .text(title);
 
-        _gBrush = g.append("g").attr("class", "brush").call(brush);
-        _gBrush.selectAll("rect").attr("width", _gWidth);
+        if(hasBrush) {
+          _gBrush = g.append("g").attr("class", "brush").call(brush);
+          _gBrush.selectAll("rect").attr("width", _gWidth);
 
-        brush.on("brush", function() {
-          _listeners.filtering(_getDataBrushed(brush));
-        });
+          brush.on("brush", function() {
+            _listeners.filtering(_getDataBrushed(brush));
+          });
 
-        brush.on("brushend", function() {
-          _listeners.filtered(brush);
-        });
+          brush.on("brushend", function() {
+            _listeners.filtered(brush);
+          });
+        }
+      }
+
+      function toPercentage(val, round) {
+        return Math.round((val/relativeTo)*100);
+      }
+
+      function getXExtent() {
+        return [0, d3.max(data.map(function(d) { return toPercentage(d.value)}))];
       }
 
       function _getDataBrushed(brush) {
@@ -2992,33 +3187,11 @@ d3.barChartAge = function() {
     hasYAxis = _;
     return chart;
   };
-  // chart.brushClickReset = function(_) {
-  //   if (!arguments.length) return brushClickReset;
-  //   brushClickReset = _;
-  //   return chart;
-  // };
-  // chart.clearBrush = function(_) {
-  //   if (!arguments.length) {
-  //     _gBrush.call(brush.clear());
-  //     brush.event(_gBrush);
-  //   }
-  //   return chart;
-  // };
-  // chart.roundXDomain = function(_) {
-  //   if (!arguments.length) return roundXDomain;
-  //   roundXDomain = _;
-  //   return chart;
-  // };
   chart.hasBrush = function(_) {
     if (!arguments.length) return hasBrush;
     hasBrush = _;
     return chart;
   };
-  // chart.hasBrushLabel = function(_) {
-  //   if (!arguments.length) return hasBrushLabel;
-  //   hasBrushLabel = _;
-  //   return chart;
-  // };
   chart.brushExtent = function(_) {
     if (!arguments.length) return brushExtent;
     brushExtent = _;
@@ -3029,17 +3202,16 @@ d3.barChartAge = function() {
     selected = _;
     return chart;
   };
+  chart.relativeTo = function(_) {
+    if (!arguments.length) return relativeTo;
+    relativeTo = _;
+    return chart;
+  };
   chart.title = function(_) {
     if (!arguments.length) return title;
     title = _;
     return chart;
   };
-  // chart.brushExtentToMax = function(_) {
-  //   if (!arguments.length) return brushExtentToMax;
-  //   brushExtentToMax = _;
-  //   return chart;
-  // };
-
   chart.on = function (event, listener) {
     _listeners.on(event, listener);
     return chart;
@@ -6540,4 +6712,11 @@ Vis.Templates["living-conditions"] =
   "<div id='living-conditions' class='row'>" +
   "  <div id='basic-needs' class='col-md-6'></div>" +
   "  <div id='improvement' class='col-md-6'></div>" +
+  " </div>";
+
+Vis.Templates["background-sample"] =
+  "<div id='background-sample' class='row'>" +
+  "  <div id='age' class='col-md-4'></div>" +
+  "  <div id='gender' class='col-md-4'></div>" +
+  "  <div id='poverty' class='col-md-4'></div>" +
   " </div>";
