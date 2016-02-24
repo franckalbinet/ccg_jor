@@ -83,7 +83,8 @@ d3.barChartLocation = function() {
             .attr("y", function(d) {
               return y(d.name) - barHeight/2  })
             .attr("width", function(d) {
-              return x(d.value.householdCount); })
+              // return x(d.value.householdCount); })
+              return x(d.relative); })
             .attr("height", function(d) { return barHeight; });
       }
 

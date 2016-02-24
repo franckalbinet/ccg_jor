@@ -40,6 +40,8 @@ Vis.Views.HouseholdsChildren = Backbone.View.extend({
         .data(this.getData())
         .selected(this.model.get("children"));
       d3.select(this.el).call(this.chart);
+
+      this.fixPositioning();
     },
 
     brush: function(extent) {
@@ -58,5 +60,9 @@ Vis.Views.HouseholdsChildren = Backbone.View.extend({
 
       return data;
     },
+
+    fixPositioning: function() {
+      d3.selectAll("#households-children .x.axis text").attr("y", 0);
+    }
 
 });
