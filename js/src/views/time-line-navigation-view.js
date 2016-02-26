@@ -65,7 +65,7 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
             }
             that.cursor += 5;
           }
-          , 5000);
+          , 1000);
       }
     },
 

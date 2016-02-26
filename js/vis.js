@@ -268,7 +268,7 @@ Vis.Models.App = Backbone.Model.extend({
     this.stoppedCopingHousehold.filter( this.filterExactList(this.getHouseholds()));
     this.ecoContribHousehold.filter( this.filterExactList(this.getHouseholds()));
 
-    if (this.get("scenario").page === 8) { // if children education page
+    if (this.get("scenario").page === 7) { // if children education page
       this.educationGender.filter(this.filterExactList(this.get("genders")));
       this.educationHead.filter(this.filterExactList(this.get("heads")));
       this.educationPoverty.filter(this.filterExactList(this.get("poverties")));
@@ -734,9 +734,10 @@ Vis.Views.App = Backbone.View.extend({
       new Vis.Views.Expenditures({model: Vis.Models.app});
       new Vis.Views.ExpendituresChildren({model: Vis.Models.app});
       new Vis.Views.CopingMechanisms({model: Vis.Models.app});
+      new Vis.Views.GrantImpacts({model: Vis.Models.app});
       new Vis.Views.ChildEmpowerment({model: Vis.Models.app});
       new Vis.Views.Conclusion({model: Vis.Models.app});
-      new Vis.Views.LivingConditions({model: Vis.Models.app});
+      new Vis.Views.FamilyConditions({model: Vis.Models.app});
       new Vis.Views.PsychologicalWellbeing({model: Vis.Models.app});
 
     }
@@ -1629,7 +1630,7 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
   },
 
   setTextContent: function(attr) {
-    var scenario = this.model.get("scenario")
+    var scenario = this.model.get("scenario"),
         id = this.model.getTemplateId(scenario.page, scenario.chapter, attr),
         template = _.template(Vis.Templates[attr][id]);
 
@@ -1782,14 +1783,14 @@ Vis.Views.Education = Backbone.View.extend({
   initialize: function () {
     var that = this;
 
-    if (that.model.get("scenario").page === 8) this.preRender(this.model.get("scenario").chapter);
+    if (that.model.get("scenario").page === 7) this.preRender(this.model.get("scenario").chapter);
 
     this.model.on("change:scenario", function() {
-      if (that.model.get("scenario").page === 8) this.preRender(that.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === 7) this.preRender(that.model.get("scenario").chapter);
       },this);
 
     Backbone.on("filtered", function(d) {
-      if (that.model.get("scenario").page === 8) this.render(that.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === 7) this.render(that.model.get("scenario").chapter);
       }, this);
   },
 
@@ -1904,29 +1905,26 @@ Vis.Views.Education = Backbone.View.extend({
     if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
   }
 });
-// Living conditions view
-Vis.Views.LivingConditions = Backbone.View.extend({
+// Family conditions view
+Vis.Views.FamilyConditions = Backbone.View.extend({
   el: '.container',
 
   initialize: function () {
     var that = this;
 
-    this.chart = new Array(2);
-
-    if (that.model.get("scenario").page === 6) this.preRender(this.model.get("scenario").chapter);
+    if (that.model.get("scenario").page === 9) this.preRender(this.model.get("scenario").chapter);
 
     this.model.on("change:scenario", function() {
-      if (that.model.get("scenario").page === 6) this.preRender(that.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === 9) this.preRender(that.model.get("scenario").chapter);
       },this);
 
     Backbone.on("filtered", function(d) {
-      if (that.model.get("scenario").page === 6) this.render(that.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === 9) this.render(that.model.get("scenario").chapter);
       }, this);
   },
 
   preRender: function(chapter) {
-    var that = this,
-        template = _.template(Vis.Templates["living-conditions"]);
+    var that = this;
 
     $("#households-children").show();
     $("#children-gender").hide();
@@ -1934,8 +1932,6 @@ Vis.Views.LivingConditions = Backbone.View.extend({
     // this.clearCharts();
 
     Vis.utils.clearCharts();
-
-    $("#main-chart").html(template());
 
     // set text content
     ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {
@@ -1950,31 +1946,20 @@ Vis.Views.LivingConditions = Backbone.View.extend({
   },
 
   initChart: function(chapter) {
-    var that = this;
-        // data = this.getData(chapter),
-        // total = this.getTotalHouseholds(chapter);
+    var that = this,
+        data = this.getData(chapter),
+        total = this.getTotalHouseholds(chapter);
 
     switch(chapter) {
         case 1:
-          this.chart[0] = d3.barChartMultiStacked()
-            .width(320).height(350)
-            .margins({top: 40, right: 110, bottom: 40, left: 60})
-            .data(this.getData(chapter, 0))
-            .color(d3.scale.ordinal().range(['#003950','#567888','#a1bdc5', "#B45B49"]).domain([1, 2, 3, 4]))
-            // .color(d3.scale.ordinal().range(['#3c5f6b','#6d8d97','#a1bdc5', "#B45B49"]).domain([1, 2, 3, 4]))
-            // .color(d3.scale.ordinal().range(['#486280','#748fa2','#a1bdc5', "#B45B49"]).domain([1, 2, 3, 4]))
-            .relativeTo(this.getTotalHouseholds(chapter, 0))
-            .title("Covering of children basic needs")
-            .xTitle("")
-            .lookUp(Vis.DEFAULTS.LOOKUP_CODES.BASIC_NEEDS);
-
-          this.chart[1] = d3.barChartMultiStacked()
-            .width(320).height(350)
-            .margins({top: 40, right: 110, bottom: 40, left: 80})
-            .data(this.getData(chapter, 1))
-            // .color(d3.scale.ordinal().range(["#003950", "#E59138"]).domain([1, 2]))
+          this.chart = d3.barChartMultiStacked()
+            // .width(320).height(350)
+            // .margins({top: 40, right: 110, bottom: 40, left: 80})
+            .width(600).height(350)
+            .margins({top: 40, right: 250, bottom: 40, left: 200})
+            .data(data)
             .color(d3.scale.ordinal().range(["#80A6B1", "#b45b49"]).domain([1, 2]))
-            .relativeTo(this.getTotalHouseholds(chapter, 1))
+            .relativeTo(total)
             .title("Improvement of family's overall living conditions")
             .xTitle("")
             .lookUp(Vis.DEFAULTS.LOOKUP_CODES.LIVING_CONDITIONS);
@@ -1990,39 +1975,24 @@ Vis.Views.LivingConditions = Backbone.View.extend({
   render: function(chapter) {
     switch(chapter) {
         case 1:
-          this.chart[0]
-            .data(this.getData(chapter, 0))
-            .relativeTo(this.getTotalHouseholds(chapter, 0))
-          d3.select("#basic-needs").call(this.chart[0]);
-
-          this.chart[1]
-            .data(this.getData(chapter, 1))
-            .relativeTo(this.getTotalHouseholds(chapter, 1))
-          d3.select("#improvement").call(this.chart[1]);
+          this.chart
+            .data(this.getData(chapter))
+            .relativeTo(this.getTotalHouseholds(chapter))
+          d3.select("#main-chart").call(this.chart);
 
           this.fixPositionning();
           break;
         case 2:
-          // this.chart
-          //   .data(this.getData(chapter))
-          //   .relativeTo(this.getTotalHouseholds(chapter))
-          // d3.select("#main-chart").call(this.chart);
           break;
         default:
           console.log("no matching case.")
       }
   },
 
-  getData: function(chapter, index) {
+  getData: function(chapter) {
     switch(chapter) {
         case 1:
-          if(index == 0) {
-             return this.model.basicNeedsByRound.top(Infinity);
-          } else {
-            return this.model.livingConditionsByRound.top(Infinity);
-            // return this.model.stoppedCopingByType.top(Infinity);
-          }
-
+          return this.model.livingConditionsByRound.top(Infinity);
           break;
         case 2:
           break;
@@ -2031,16 +2001,11 @@ Vis.Views.LivingConditions = Backbone.View.extend({
       }
   },
 
-  getTotalHouseholds: function(chapter, index) {
+  getTotalHouseholds: function(chapter) {
     switch(chapter) {
       case 1:
-        if(index == 0) {
-          return _.unique(this.model.outcomesHousehold.top(Infinity)
-                  .map(function(d) { return d.hh })).length;
-        } else {
-          return _.unique(this.model.outcomesHousehold.top(Infinity)
-          .map(function(d) { return d.hh })).length;
-        }
+        return _.unique(this.model.outcomesHousehold.top(Infinity)
+        .map(function(d) { return d.hh })).length;
         break;
       case 2:
         break;
@@ -2057,22 +2022,11 @@ Vis.Views.LivingConditions = Backbone.View.extend({
     $("#" + attr).html(template());
   },
 
-  // clearCharts: function() {
-  //   // if (this.chart) this.chart = null;
-  //   if (this.chart) this.chart = new Array(2);
-  //   if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
-  // },
-
   fixPositionning: function() {
-    d3.selectAll("#basic-needs .x.axis text")
-      .data(["Jun.", "Aug.", "Nov."])
-      .text(function(d) { return d; });
-
-    d3.selectAll("#improvement .x.axis text")
+    d3.selectAll("#main-chart .x.axis text")
       .data(["Jun.", "Aug.", "Nov."])
       .text(function(d) { return d; });
   }
-
 });
 // Children empowerment view
 Vis.Views.ChildEmpowerment = Backbone.View.extend({
@@ -2081,14 +2035,14 @@ Vis.Views.ChildEmpowerment = Backbone.View.extend({
   initialize: function () {
     var that = this;
 
-    if (that.model.get("scenario").page === 9) this.preRender(this.model.get("scenario").chapter);
+    if (that.model.get("scenario").page === 8) this.preRender(this.model.get("scenario").chapter);
 
     this.model.on("change:scenario", function() {
-      if (that.model.get("scenario").page === 9) this.preRender(that.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === 8) this.preRender(that.model.get("scenario").chapter);
       },this);
 
     Backbone.on("filtered", function(d) {
-      if (that.model.get("scenario").page === 9) this.render(that.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === 8) this.render(that.model.get("scenario").chapter);
       }, this);
   },
 
@@ -2376,7 +2330,7 @@ Vis.Views.Incomes = Backbone.View.extend({
         case 1:
           this.chart = d3.barChartMultiStacked()
             .width(600).height(350)
-            .margins({top: 40, right: 280, bottom: 40, left: 180})
+            .margins({top: 40, right: 280, bottom: 40, left: 160})
             .data(data)
             .color(d3.scale.ordinal().range(["#003950", "#88A3B6", "#E59138","#EDDAC3"]).domain([1, 2, 5, 99]))
             .relativeTo(total)
@@ -2564,32 +2518,12 @@ Vis.Views.Expenditures = Backbone.View.extend({
 
       switch(chapter) {
           case 1:
-            // this.chart = d3.multiSeriesTimeLine()
-            //   .width(600).height(350)
-            //   .margins({top: 40, right: 265, bottom: 40, left: 45})
-            //   .data(data)
-            //   .color(d3.scale.ordinal().range(
-            //     ["#003950","#745114","#88a3b6","#917E8A","#E59138","#6D8378",
-            //      "#5E6666","#4C4322","#B45B49","#804D00","#706B5A","#AEB883",
-            //      "#5F1D00","#A999A4"]).domain([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 97]))
-            //   .relativeTo(total)
-            //   .title("Expenditures that people who receive the Cash Grant spend it on")
-            //   .xTitle("Wave")
-            //   .lookUp(Vis.DEFAULTS.LOOKUP_CODES.EXPENDITURES)
-            //   .on("highlighted", function (highlighted) {
-            //     that.highlighted = highlighted;
-            //     that.render(that.model.get("scenario").chapter); });
-
             this.chart = d3.multiSeriesTimeLineAlt()
               .width(600).height(350)
               .margins({top: 40, right: 150, bottom: 40, left: 180})
               .data(data)
               .color(d3.scale.ordinal().range(
-                // ["#003950","#E59138","#609078"]).domain([1, 2, 3]))
                 ["#003950","#E59138","#5F1D00"]).domain([1, 2, 3]))
-                // ["#E59138","#88A3B6","#706B5A"]).domain([1, 2, 3]))
-                // ["#A1BDC5","#567888","#003950"]).domain([1, 2, 3]))
-                // ["#E59138","#003950","#B45B49"]).domain([1, 2, 3]))
               .relativeTo(total)
               .yDomain([1,2,4,3,9,10,7,5,6,8,11,13,12,97])
               .title("Expenditures that people who receive the Cash Grant spend it on")
@@ -2599,17 +2533,6 @@ Vis.Views.Expenditures = Backbone.View.extend({
                 that.highlighted = highlighted;
                 that.render(that.model.get("scenario").chapter); });
             break;
-          // case 2:
-          //   this.chart = d3.barChartMultiStacked()
-          //     .width(600).height(350)
-          //     .margins({top: 40, right: 280, bottom: 40, left: 150})
-          //     .data(data)
-          //     .color(d3.scale.ordinal().range(["#A999A4", "#C0B491", "#EDDAC3", "#80A6B1"]).domain([1, 2, 3, 99]))
-          //     .relativeTo(total)
-          //     .title("Children-specific expenditures [Mostly spent each month]")
-          //     .xTitle("")
-          //     .lookUp(Vis.DEFAULTS.LOOKUP_CODES.EXPENDITURES_CHILD_MOST);
-          //   break;
           case 2:
             this.chart = d3.multiSeriesTimeLineAlt()
               .width(600).height(350)
@@ -2617,10 +2540,6 @@ Vis.Views.Expenditures = Backbone.View.extend({
               .data(data)
               .color(d3.scale.ordinal().range(
                 ["#003950","#E59138","#5F1D00"]).domain([1, 2, 3]))
-                // ["#E59138","#88A3B6","#706B5A"]).domain([1, 2, 3]))
-                // ["#E59138","#003950","#B45B49"]).domain([1, 2, 3]))
-                // ["#E59138","#003950","#B45B49"]).domain([1, 2, 3]))
-                // ["#1f77b4","#d62728","#2ca02c"]).domain([1, 2, 3]))
               .relativeTo(total)
               .yDomain([10,6,3,9,7,5,2,11,4,12,13,99])
               .title("Children-specific expenditures")
@@ -2630,19 +2549,16 @@ Vis.Views.Expenditures = Backbone.View.extend({
                 that.highlighted = highlighted;
                 that.render(that.model.get("scenario").chapter); });
             break;
-
-          case 4:
-            // this.chart = d3.barChartMultiStacked()
-            //   .width(600).height(350)
-            //   .margins({top: 40, right: 280, bottom: 40, left: 150})
-            //   .data(data)
-            //   .color(d3.scale.ordinal().range(['#003950','#567888','#a1bdc5', "#B45B49"]).domain([1, 2, 3, 4]))
-            //   // .color(d3.scale.ordinal().range(['#3c5f6b','#6d8d97','#a1bdc5', "#B45B49"]).domain([1, 2, 3, 4]))
-            //   // .color(d3.scale.ordinal().range(['#486280','#748fa2','#a1bdc5', "#B45B49"]).domain([1, 2, 3, 4]))
-            //   .relativeTo(total)
-            //   .title("Covering of children basic needs")
-            //   .xTitle("")
-            //   .lookUp(Vis.DEFAULTS.LOOKUP_CODES.BASIC_NEEDS);
+          case 3:
+            this.chart = d3.barChartMultiStacked()
+              .width(600).height(350)
+              .margins({top: 40, right: 250, bottom: 40, left: 200})
+              .data(data)
+              .color(d3.scale.ordinal().range(["#80A6B1", "#b45b49"]).domain([1, 2]))
+              .relativeTo(total)
+              .title("Were you able to cover expenses for your children that were not a priority before ?")
+              .xTitle("")
+              .lookUp(Vis.DEFAULTS.LOOKUP_CODES.COV_CHILD_EXP);
             break;
           default:
             console.log("no matching case.")
@@ -2653,23 +2569,12 @@ Vis.Views.Expenditures = Backbone.View.extend({
     render: function(chapter) {
       switch(chapter) {
           case 1:
-            // this.chart
-            //   .data(this.getData(chapter))
-            //   .relativeTo(this.getTotalHouseholds(chapter))
-            //   .highlighted(this.highlighted)
-            // d3.select("#main-chart").call(this.chart);
             this.chart
               .data(this.getData(chapter))
               .relativeTo(this.getTotalHouseholds(chapter))
               .highlighted(this.highlighted)
             d3.select("#main-chart").call(this.chart);
             break;
-          // case 2:
-          //   this.chart
-          //     .data(this.getData(chapter))
-          //     .relativeTo(this.getTotalHouseholds(chapter))
-          //   d3.select("#main-chart").call(this.chart);
-          //   break;
           case 2:
             this.chart
               .data(this.getData(chapter))
@@ -2677,12 +2582,12 @@ Vis.Views.Expenditures = Backbone.View.extend({
               .highlighted(this.highlighted)
             d3.select("#main-chart").call(this.chart);
             break;
-          case 4:
-            // this.chart
-            //   .data(this.getData(chapter))
-            //   .relativeTo(this.getTotalHouseholds(chapter))
-            // d3.select("#main-chart").call(this.chart);
-            // d3.selectAll(".bar-chart-multi-stacked rect").style("opacity", 0.7);
+          case 3:
+            this.chart
+              .data(this.getData(chapter))
+              .relativeTo(this.getTotalHouseholds(chapter))
+            d3.select("#main-chart").call(this.chart);
+            this.fixPositionning();
             break;
           default:
             console.log("no matching case.")
@@ -2692,28 +2597,18 @@ Vis.Views.Expenditures = Backbone.View.extend({
     getData: function(chapter) {
       switch(chapter) {
           case 1:
-            // return this.model.expendituresByType.top(Infinity);
             return this.model.expendituresByRound.top(Infinity);
             break;
-          // case 2:
-          //   return this.model.expendituresChildMostByRound.top(Infinity);
-          //   break;
           case 2:
             return this.model.expendituresChildByRound.top(Infinity);
             break;
-          // case 4:
-          //   return this.model.basicNeedsByRound.top(Infinity);
-          //   break;
+          case 3:
+            return this.model.covChildExpByRound.top(Infinity);
+            break;
           default:
             console.log("no matching case.")
         }
     },
-
-    // test: _.throttle(function (highlighted) {
-    //   this.highlighted = highlighted;
-    //   this.render(this.model.get("scenario").chapter);
-    //   console.log("test");
-    // }, 300),
 
     getTotalHouseholds: function(chapter) {
       switch(chapter) {
@@ -2721,18 +2616,14 @@ Vis.Views.Expenditures = Backbone.View.extend({
           return _.unique(this.model.expendituresHousehold.top(Infinity)
                   .map(function(d) { return d.hh })).length;
           break;
-        // case 2:
-        //   return _.unique(this.model.outcomesHousehold.top(Infinity)
-        //           .map(function(d) { return d.hh })).length;
-        //   break;
         case 2:
           return _.unique(this.model.expendituresChildHousehold.top(Infinity)
                   .map(function(d) { return d.hh })).length;
           break;
-        // case 4:
-        //   return _.unique(this.model.outcomesHousehold.top(Infinity)
-        //           .map(function(d) { return d.hh })).length;
-        //   break;
+        case 3:
+          return _.unique(this.model.outcomesHousehold.top(Infinity)
+          .map(function(d) { return d.hh })).length;
+          break;
         default:
           console.log("no matching case.")
       }
@@ -2751,6 +2642,12 @@ Vis.Views.Expenditures = Backbone.View.extend({
       if (this.chart) this.chart = null;
       // if(!d3.select("#main-chart svg").empty()) d3.select("#main-chart svg").remove();
       if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
+    },
+
+    fixPositionning: function() {
+      d3.selectAll("#main-chart .x.axis text")
+        .data(["Jun.", "Aug.", "Nov."])
+        .text(function(d) { return d; });
     }
 });
 // Expenditures children view
@@ -2762,14 +2659,14 @@ Vis.Views.ExpendituresChildren = Backbone.View.extend({
     initialize: function () {
       var that = this;
 
-      if (that.model.get("scenario").page === 7) this.preRender(this.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === 99) this.preRender(this.model.get("scenario").chapter);
 
       this.model.on("change:scenario", function() {
-        if (that.model.get("scenario").page === 7) this.preRender(that.model.get("scenario").chapter);
+        if (that.model.get("scenario").page === 99) this.preRender(that.model.get("scenario").chapter);
         },this);
 
       Backbone.on("filtered", function(d) {
-        if (that.model.get("scenario").page === 7) this.render(that.model.get("scenario").chapter);
+        if (that.model.get("scenario").page === 99) this.render(that.model.get("scenario").chapter);
         }, this);
     },
 
@@ -2929,6 +2826,136 @@ Vis.Views.ExpendituresChildren = Backbone.View.extend({
         .text(function(d) { return d; });
     }
 });
+// Grant impacts view
+Vis.Views.GrantImpacts = Backbone.View.extend({
+  el: '.container',
+
+  initialize: function () {
+    var that = this;
+
+    if (that.model.get("scenario").page === 6) this.preRender(this.model.get("scenario").chapter);
+
+    this.model.on("change:scenario", function() {
+      if (that.model.get("scenario").page === 6) this.preRender(that.model.get("scenario").chapter);
+      },this);
+
+    Backbone.on("filtered", function(d) {
+      if (that.model.get("scenario").page === 6) this.render(that.model.get("scenario").chapter);
+      }, this);
+  },
+
+  preRender: function(chapter) {
+    var that = this;
+
+    $("#households-children").show();
+    $("#children-gender").hide();
+
+    // this.clearCharts();
+    Vis.utils.clearCharts();
+
+    $(".profile").show();
+
+    // set text content
+    ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {
+      that.setTextContent(d);
+    });
+
+    $("#pending").hide();
+
+    $("#main-chart").show();
+
+    this.initChart(chapter);
+  },
+
+  initChart: function(chapter) {
+    var that = this;
+        data = this.getData(chapter),
+        total = this.getTotalHouseholds(chapter);
+
+    switch(chapter) {
+        case 1:
+          this.chart = d3.barChartMultiStacked()
+            .width(600).height(350)
+            .margins({top: 40, right: 250, bottom: 40, left: 200})
+            .data(data)
+            .color(d3.scale.ordinal().range(['#003950','#567888','#a1bdc5', "#B45B49"]).domain([1, 2, 3, 4]))
+            .relativeTo(total)
+            .title("Covering of children basic needs")
+            .xTitle("")
+            .lookUp(Vis.DEFAULTS.LOOKUP_CODES.BASIC_NEEDS);
+          break;
+        case 2:
+          break;
+        case 4:
+          break;
+        default:
+          console.log("no matching case.")
+      }
+    this.render(chapter);
+  },
+
+  render: function(chapter) {
+    switch(chapter) {
+        case 1:
+          this.chart
+            .data(this.getData(chapter))
+            .relativeTo(this.getTotalHouseholds(chapter))
+          d3.select("#main-chart").call(this.chart);
+          this.fixPositionning();
+          break;
+        case 2:
+          break;
+        default:
+          console.log("no matching case.")
+      }
+  },
+
+  getData: function(chapter, index) {
+    switch(chapter) {
+        case 1:
+          return this.model.basicNeedsByRound.top(Infinity);
+          break;
+        case 2:
+          break;
+        default:
+          console.log("no matching case.")
+      }
+  },
+
+  getTotalHouseholds: function(chapter, index) {
+    switch(chapter) {
+      case 1:
+        return _.unique(this.model.outcomesHousehold.top(Infinity)
+                .map(function(d) { return d.hh })).length;
+        break;
+      case 2:
+        break;
+      default:
+        console.log("no matching case.")
+    }
+  },
+
+  setTextContent: function(attr) {
+    var scenario = this.model.get("scenario")
+        id = this.model.getTemplateId(scenario.page, scenario.chapter, attr),
+        template = _.template(Vis.Templates[attr][id]);
+
+    $("#" + attr).html(template());
+
+  },
+
+  clearCharts: function() {
+    // if (this.chart) this.chart = null;
+    if (this.chart) this.chart = new Array(2);
+    if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
+  },
+
+  fixPositionning: function() {
+    d3.selectAll("#basic-needs .x.axis text")
+      .data(["Jun.", "Aug.", "Nov."])
+      .text(function(d) { return d; });
+  }
+});
 // Psychological wellbeing view
 Vis.Views.PsychologicalWellbeing = Backbone.View.extend({
   el: '.container',
@@ -3067,7 +3094,7 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
             }
             that.cursor += 5;
           }
-          , 5000);
+          , 1000);
       }
     },
 
@@ -7151,22 +7178,23 @@ d3.barChartEducation = function() {
 };
 // Underscore Templates
 Vis.Templates["main-text"] =[
-  "<p>On average, 55,000 children from 15000 families were given 20 JD <br> (28 USD) per child per month to <strong>cover the basic needs of children</strong>.</p>",
-  "<p>In June, August, and November 2015, <strong>an independent third party monitoring</strong> used surveys and focus groups to <strong>ask 500 families</strong> benefitting from the programme how they were managing the crisis they find themselves in. These families represented ...</p>",
-  "<p>Given that Syrian refugees are not allowed to work, they report a <strong>heavy dependence on cash assistance and food vouchers provided by UNICEF, UNHCR, and WFP</strong>. Even when assistance is cut back—as was the case when WFP cut its food vouchers in August 2015, it represents a significant part of refugee resources.</p>",
-  "<p>Over the course of the survey, <strong>men as an economic contributors to the family plummeted</strong>.  For the most part, this is not made up for by any other member of the family, but refugees did report a slight increase in children under 16 working.</p>",
-  "<p>While some expenditures varied seasonally, <strong>over the course of the ten months the main expenditure items remained consistent</strong>. Refugees were unable to decrease the costs of their highest expenses: rent,utilities, food, communications and education.  Although we know that 66% of refugees have debt, we see that over time refugees are less able to pay down their debt, and less able to save.</p>",
-  "<p><strong>Transportation to school and education expenses are the two biggest expenses related to children</strong>, followed by children’s clothes and shoes; and children’s medicine. For families with four children or more, more money is spent on education, fresh foods and medicine.  This indicates that bigger families are able to more effectively share resources among their children, cutting costs in areas like clothes and shoes.</p>",
-  "<p>For the most part, <strong>families report that the amount of the grant was not able to change their reliance on most negative coping mechanisms</strong>.</p>",
-  "<p>Despite this, families reported that they were <strong>able to increase spending on basic needs for children and increase their wellbeing and living conditions</strong>. This, in turn, positively impacted their psychological wellbeing.</p>",
-  "<p>Children also <strong>entered school in progressively higher numbers</strong> over the course of the ten months.</p>",
-  "<p>Families also told us that <strong>children felt empowered</strong> because they knew the grant was for their needs.</p>",
-  "<p><strong>UNICEF’s Child Cash Grant</strong> contributed towards increased levels of family expenditure on child-specific needs and therefore, <strong>toward meeting the basic needs of their children</strong>. <br><br>  UNICEF is proud to continue to provide refugees with the cash assistance they need to support their children through 2016.</p>",
+  "<p>On average, 55,000 children from 15,000 families were given 20 JD <br> (28 USD) per child per month to <strong>cover the basic needs of children</strong>.</p>",
+  "<p>In June, August, and November 2015, <strong>an independent third party monitoring</strong> group conducted surveys and focus group discussions to <strong>ask 500 families</strong> benefitting from the programme how they were managing the crisis. These families represented <strong>1,504 children</strong>.</p>",
+  "<p>Given that Syrian refugees are not allowed to work, they report a <strong>heavy dependence on cash assistance and food vouchers provided by UNICEF, UNHCR, and WFP</strong>.</p>",
+  "<p>Over the course of the 10 months, <strong>men as an economic contributors to the family plummeted</strong>. This is not made up for by any other member of the family, but refugees did report a slight increase in children under 16 working.</p>",
+  "<p>While some expenditures varied seasonally, the <strong>main expenditure items remained consistent</strong>: rent, utilities, food, communications and education. Refugees were thus <strong>unable to decrease the costs of their highest expenses</strong>. We see that over time refugees are less able to pay down their debt, and less able to save.</p>",
+  "<p><strong>Education expenses, children’s clothes and shoes, children’s medicine and fresh foods are the biggest expenses related to children</strong>. <br>For families with four children or more, more money is spent on education, fresh foods and medicine.  This indicates that bigger families are able to more effectively share resources among their children, cutting costs in areas like clothes and shoes.</p>",
+  "<p>Families consistently reported being able to <strong>cover expenses for children that were not a priority before receiving the UNICEF child cash grant</strong>, and this increased over time.</p>",
+  "<p>For the most part, families report that the amount of the grant was <strong>not able to change their reliance on most negative coping mechanisms</strong>. <br>However, it <strong>did help stabilize their situation, preventing further deterioration</strong>.</p>",
+  "<p>Because of the grant, however, families were <strong>able to increase spending on basic needs for children.</strong></p>",
+  "<p><strong>Children also entered school in progressively higher numbers</strong> over the course of the ten months.</p>",
+  "<p>Families also told us that children <strong>felt empowered</strong> because they knew the grant was for their needs.</p>",
+  "<p>Despite deteriorating circumstances, families reported that they were <strong>able to increase spending on basic needs for children and increase their wellbeing and living conditions</strong>.<br>This, in turn, positively impacted their psychological wellbeing.</p>",
+  "<p><strong>UNICEF will continue to provide refugees with the child cash grant they need to support their children through 2016.</strong></p>",
   "<p><strong>Over 630,000 Syrian are officially registered as refugees in Jordan.</strong></p>",
-  "<p><strong>Many of these families have lost everything they own</strong>, have depleted their savings, and, often, their ability to borrow money.</p>",
+  "<p><strong>Many of these families have lost everything they own</strong>, are not allowed to work in Jordan, have depleted their savings, and, often, their ability to borrow money.</p>",
   "<p><strong>In such scenarios, it is often children who suffer most</strong>.<br> Years of education lost, malnutrition or health problems in the early years. These can have life-long negative repercussions.</p>",
   "<p><strong>To help cover basic needs of children</strong>, starting in February 2015, <strong>UNICEF has transferred a monthly child cash grant</strong> to the most vulnerable Syrian families living in host communities in Jordan.</p>",
-  "<p>Families consistently reported being <strong>able to cover expenses for children that were not a priority before</strong> received the UNICEF child cash grant and this increased over time.</p>"
 ];
 
 Vis.Templates["sub-text"] =[
@@ -7183,7 +7211,11 @@ Vis.Templates["sub-text"] =[
 
 Vis.Templates["quote"] =[
   "",
-  "<p><i class='fa fa-quote-left fa-4'></i>Even if my husband wants to work, he is so scared to do so as he will get deported <i class='fa fa-quote-right fa-4'></p>"
+  "<p><i class='fa fa-quote-left fa-4'></i>Even if my husband wants to work, he is so scared to do so as he will get deported.<i class='fa fa-quote-right fa-4'></i></p>",
+  "<p><i class='fa fa-quote-left fa-4'></i>Yes, people used to sell food items, but now after they reduced the amount of the food coupons the items they get are barely enough for their own needs.<i class='fa fa-quote-right fa-4'></i></p>",
+  "<p><i class='fa fa-quote-left fa-4'></i>Before the war, my situation back in Syria was very good, but now I have no future here in Jordan, but must secure a good future for my children. That’s my priority.<i class='fa fa-quote-right fa-4'></i><br><br><i class='fa fa-quote-left fa-4'></i>Last year two of my children were out of school, but when I started receiving the UNICEF cash assistance I was able to enrol them in school again.<i class='fa fa-quote-right fa-4'></i></p>",
+  "<p><i class='fa fa-quote-left fa-4'></i>My daughter is waiting for the cash grant so I can buy her trousers for school. All my children know about the cash grant and that they receive JD 20.<i class='fa fa-quote-right fa-4'></i></p>",
+  "<p><i class='fa fa-quote-left fa-4'></i>The cash grant, for me, is like I’ve been in the desert and I’m so thirsty, and someone gave me a cup of water.<i class='fa fa-quote-right fa-4'></i></p>"
 ];
 
 Vis.Templates["quote-ref"] =[

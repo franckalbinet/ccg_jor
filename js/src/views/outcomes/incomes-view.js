@@ -50,7 +50,7 @@ Vis.Views.Incomes = Backbone.View.extend({
         case 1:
           this.chart = d3.barChartMultiStacked()
             .width(600).height(350)
-            .margins({top: 40, right: 280, bottom: 40, left: 180})
+            .margins({top: 40, right: 280, bottom: 40, left: 160})
             .data(data)
             .color(d3.scale.ordinal().range(["#003950", "#88A3B6", "#E59138","#EDDAC3"]).domain([1, 2, 5, 99]))
             .relativeTo(total)

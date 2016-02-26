@@ -1,64 +1,63 @@
-// Education view
-Vis.Views.Education = Backbone.View.extend({
+// Family conditions view
+Vis.Views.FamilyConditions = Backbone.View.extend({
   el: '.container',
 
   initialize: function () {
     var that = this;
 
-    if (that.model.get("scenario").page === 7) this.preRender(this.model.get("scenario").chapter);
+    if (that.model.get("scenario").page === 9) this.preRender(this.model.get("scenario").chapter);
 
     this.model.on("change:scenario", function() {
-      if (that.model.get("scenario").page === 7) this.preRender(that.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === 9) this.preRender(that.model.get("scenario").chapter);
       },this);
 
     Backbone.on("filtered", function(d) {
-      if (that.model.get("scenario").page === 7) this.render(that.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === 9) this.render(that.model.get("scenario").chapter);
       }, this);
   },
 
   preRender: function(chapter) {
     var that = this;
 
-    // this.clearCharts();
-    Vis.utils.clearCharts();
+    $("#households-children").show();
+    $("#children-gender").hide();
 
-    $(".profile").show();
+    // this.clearCharts();
+
+    Vis.utils.clearCharts();
 
     // set text content
     ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {
       that.setTextContent(d);
     });
 
+    $(".profile").show();
     $("#pending").hide();
-
     $("#main-chart").show();
-
-    $("#households-children").hide();
-    $("#children-gender").show();
-
 
     this.initChart(chapter);
   },
 
   initChart: function(chapter) {
     var that = this,
-        data = this.getData(chapter);
-        // total = this.getTotalHouseholds(chapter);
+        data = this.getData(chapter),
+        total = this.getTotalHouseholds(chapter);
 
     switch(chapter) {
         case 1:
-          this.chart = d3.barChartEducation()
+          this.chart = d3.barChartMultiStacked()
+            // .width(320).height(350)
+            // .margins({top: 40, right: 110, bottom: 40, left: 80})
             .width(600).height(350)
-            .margins({top: 40, right: 240, bottom: 40, left: 140})
+            .margins({top: 40, right: 250, bottom: 40, left: 200})
             .data(data)
-            .title("Education attendance among school-aged children")
-            .xTitle("");
-
+            .color(d3.scale.ordinal().range(["#80A6B1", "#b45b49"]).domain([1, 2]))
+            .relativeTo(total)
+            .title("Improvement of family's overall living conditions")
+            .xTitle("")
+            .lookUp(Vis.DEFAULTS.LOOKUP_CODES.LIVING_CONDITIONS);
           break;
         case 2:
-          break;
-        case 4:
-          this.chart = d3.barChartMultiStacked()
           break;
         default:
           console.log("no matching case.")
@@ -71,12 +70,12 @@ Vis.Views.Education = Backbone.View.extend({
         case 1:
           this.chart
             .data(this.getData(chapter))
-            // .relativeTo(this.getTotalHouseholds(chapter))
+            .relativeTo(this.getTotalHouseholds(chapter))
           d3.select("#main-chart").call(this.chart);
+
+          this.fixPositionning();
           break;
         case 2:
-          break;
-        case 4:
           break;
         default:
           console.log("no matching case.")
@@ -86,11 +85,9 @@ Vis.Views.Education = Backbone.View.extend({
   getData: function(chapter) {
     switch(chapter) {
         case 1:
-          return this.model.educationByRound.top(Infinity);
+          return this.model.livingConditionsByRound.top(Infinity);
           break;
         case 2:
-          break;
-        case 4:
           break;
         default:
           console.log("no matching case.")
@@ -100,12 +97,10 @@ Vis.Views.Education = Backbone.View.extend({
   getTotalHouseholds: function(chapter) {
     switch(chapter) {
       case 1:
-        return _.unique(this.model.expendituresHousehold.top(Infinity)
-                .map(function(d) { return d.hh })).length;
+        return _.unique(this.model.outcomesHousehold.top(Infinity)
+        .map(function(d) { return d.hh })).length;
         break;
       case 2:
-        break;
-      case 4:
         break;
       default:
         console.log("no matching case.")
@@ -118,12 +113,11 @@ Vis.Views.Education = Backbone.View.extend({
         template = _.template(Vis.Templates[attr][id]);
 
     $("#" + attr).html(template());
-
   },
 
-  clearCharts: function() {
-    if (this.chart) this.chart = null;
-    // if(!d3.select("#main-chart svg").empty()) d3.select("#main-chart svg").remove();
-    if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
+  fixPositionning: function() {
+    d3.selectAll("#main-chart .x.axis text")
+      .data(["Jun.", "Aug.", "Nov."])
+      .text(function(d) { return d; });
   }
 });

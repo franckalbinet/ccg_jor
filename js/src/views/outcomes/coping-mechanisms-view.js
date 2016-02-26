@@ -172,7 +172,7 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
   },
 
   setTextContent: function(attr) {
-    var scenario = this.model.get("scenario")
+    var scenario = this.model.get("scenario"),
         id = this.model.getTemplateId(scenario.page, scenario.chapter, attr),
         template = _.template(Vis.Templates[attr][id]);
 
