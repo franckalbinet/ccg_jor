@@ -27,7 +27,7 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
     EXPENDITURES: {1:"Rent", 2:"Utilities", 3:"Communications", 4:"Food", 5:"Education", 6:"Health care services [adults]",
                    7:"Medicine [adults]", 8:"Health care services [children]", 9:"Medicine [children]", 10:"Transportation",
                   11:"Debt payoff", 12:"Savings", 13:"Other children expenditures", 97:"Other"},
-    EXPENDITURES_CHILDREN: {2:"Transportation to school", 3:"School-related expenses", 4:"Transport to healthcare facilities",
+    EXPENDITURES_CHILDREN: {1: "Tuition fees", 2:"Transportation to school", 3:"School-related expenses", 4:"Transport to healthcare facilities",
                             5:"Doctors fees for children",6:"Children’s medicine",7:"Infant/children’s milk and food",
                             9:"Fresh foods",10:"Children’s clothes and shoes",11:"Diapers/sanitation products",
                             12:"Recreation and toys",13:"Infant needs (e.g. pram)",99:"No spending on these items"},

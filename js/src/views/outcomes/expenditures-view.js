@@ -71,9 +71,10 @@ Vis.Views.Expenditures = Backbone.View.extend({
               .color(d3.scale.ordinal().range(
                 ["#003950","#E59138","#5F1D00"]).domain([1, 2, 3]))
               .relativeTo(total)
-              .yDomain([10,6,3,9,7,5,2,11,4,12,13,99])
+              .yDomain([10,6,3,9,1,7,5,2,11,4,12,13,99])
               .title("Children-specific expenditures")
               .xTitle("")
+              .isExpenditureChildren(true)
               .lookUp(Vis.DEFAULTS.LOOKUP_CODES.EXPENDITURES_CHILDREN)
               .on("highlighted", function (highlighted) {
                 that.highlighted = highlighted;

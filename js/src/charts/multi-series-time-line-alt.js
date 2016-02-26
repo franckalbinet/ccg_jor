@@ -19,6 +19,7 @@ d3.multiSeriesTimeLineAlt = function() {
       hasYAxis = true,
       title = "My title",
       xTitle = "My title",
+      isExpenditureChildren = false,
       highlighted = [];
 
   var _gWidth = 400,
@@ -62,7 +63,7 @@ d3.multiSeriesTimeLineAlt = function() {
       _gYAxis.transition().call(yAxis);
 
       if (!isDataEmpty()) _render();
-      
+
       d3.selectAll(".time-line .legends text")
       .data(["June", "August", "November"])
       .text(function(d) { return d; });
@@ -95,7 +96,6 @@ d3.multiSeriesTimeLineAlt = function() {
           .style("stroke", function(d) {
             return color(d.key); })
           .classed("highlighted", function(d) {
-            // console.log(highlighted);
             if (highlighted.length == 0) {
               _clearFigures();
               return false;
@@ -121,13 +121,19 @@ d3.multiSeriesTimeLineAlt = function() {
             y.domain().forEach(function(v) {
               reordered.push(  d.value.filter(function(f) { return f.category === v})[0])
             })
-            // return _line(d.value);
+            // special case of tuition fees for children expenditures - data is wrong
+            if (d.key == 1 && isExpenditureChildren) return _line(reordered.slice(0,4)) + _line(reordered.slice(5, -1));
             return _line(reordered);
           });
 
         // circles
         var circles = item.selectAll(".points")
-          .data(function(d){ return d.value});
+          .data(function(d){
+            // special case of tuition fees for children expenditures - data is wrong
+            if (isExpenditureChildren && this.parentNode.__data__.key == 1 ) {
+              return d.value.filter(function(v) { return v.category != 1});
+            }
+            return d.value});
 
         circles.enter().append("circle").attr("class", "points");
 
@@ -155,16 +161,12 @@ d3.multiSeriesTimeLineAlt = function() {
             return 2.5})
           .transition()
           .attr("cx", function(d) {
-            // return x(d.round); })
             return x(toPercentage(d.count)); })
           .attr("cy", function(d) {
-            // return y(toPercentage(d.count)); });
             return y(d.category); });
 
 
         var legend = _gLegend.selectAll(".legend")
-          // .data(getSortedKeys(), function(d) { return d.key; });
-          // .data(getSortedKeys(), function(d) { return d.key; });
           .data(color.domain());
 
         legend.enter()
@@ -172,7 +174,6 @@ d3.multiSeriesTimeLineAlt = function() {
           .attr("class", "legend")
           .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; })
           .on("mouseover", function(d) {
-            // if (highlighted && highlighted[0] !== d.key) {
               _listeners.highlighted([d.key]);
             if (highlighted && highlighted[0] !== d) {
               _listeners.highlighted([d]);
@@ -187,11 +188,9 @@ d3.multiSeriesTimeLineAlt = function() {
         legend
           .classed("highlighted", function(d) {
             if (highlighted.length == 0) return false;
-            // return (highlighted.indexOf(d.key) !== -1) ? true : false;
             return (highlighted.indexOf(d) !== -1) ? true : false;
           })
           .classed("not-highlighted", function(d) {
-            // return (highlighted.length > 0 && highlighted.indexOf(d.key) === -1) ?
             return (highlighted.length > 0 && highlighted.indexOf(d) === -1) ?
               true : false;
           })
@@ -204,7 +203,6 @@ d3.multiSeriesTimeLineAlt = function() {
               .attr("y", 0)
               .attr("dy", "0.3em")
               .style("text-anchor", "start")
-              // .text(function(d) { return lookUp[d.key] ; });
               .text(function(d) { return d ; });
 
           legend.append("line")
@@ -213,13 +211,11 @@ d3.multiSeriesTimeLineAlt = function() {
               .attr("y1", 0)
               .attr("y2", 0)
               .style("stroke", function(d) { return color(d); });
-              // .style("stroke", function(d) { return color(d.key); });
 
           legend.append("circle")
               .attr("cx", _gWidth + 63)
               .attr("cy", 0)
               .attr("r", 2.5)
-              // .style("fill", function(d) { return color(d.key); });
               .style("fill", function(d) { return color(d); });
 
           _hasLegend = true;
@@ -230,9 +226,13 @@ d3.multiSeriesTimeLineAlt = function() {
         var _dataVoronoi = [];
         data.forEach(function(d) {
           d.value.forEach(function(v) {
-            // _dataVoronoi.push({key: d.key, count: v.count, round: v.round}); });
             _dataVoronoi.push({key: d.key, count: v.count, category: v.category}); });
         });
+
+        // special case of tuition fees for children expenditures - data is wrong
+        if (isExpenditureChildren) {
+          _dataVoronoi = _dataVoronoi.filter(function(d) { return d.category != 1 || d.key != 1; })
+        }
 
         if(_hasDataChanged()) {
           _gVoronoi.selectAll("path").remove();
@@ -264,13 +264,15 @@ d3.multiSeriesTimeLineAlt = function() {
       }
 
       function _setFigures(feature) {
-        feature.value.forEach(function(d) {
+        // special case of tuition fees for children expenditures - data is wrong
+        values = feature.value;
+        if (isExpenditureChildren && feature.key == 1) {
+          values = values.filter(function(d) { return d.category != 1; });
+        }
+        values.forEach(function(d) {
           _gFigures.append("text")
-            // .attr("x", function() { return x(d.round); } )
-            // .attr("y", function() { return y(toPercentage(d.count)); } )
             .attr("x", function() { return x(toPercentage(d.count)); } )
             .attr("y", function() { return y(d.category); } )
-            // .attr("dy", -8)
             .attr("dy", 4)
             .attr("dx", 25)
             .attr("text-anchor", "middle")
@@ -281,12 +283,6 @@ d3.multiSeriesTimeLineAlt = function() {
       function _clearFigures() {
         _gFigures.selectAll("text").remove();
       }
-
-      // function _getMaxY() {
-      //   return d3.max(
-      //     _.flatten(data.map(function(d) { return d.valueId.split("-"); })),
-      //     function(d) { return toPercentage(+d); });
-      // }
 
       function _getMaxX() {
         return d3.max(
@@ -540,6 +536,11 @@ d3.multiSeriesTimeLineAlt = function() {
   chart.highlighted = function(_) {
     if (!arguments.length) return highlighted;
     highlighted = _;
+    return chart;
+  };
+  chart.isExpenditureChildren = function(_) {
+    if (!arguments.length) return isExpenditureChildren;
+    isExpenditureChildren = _;
     return chart;
   };
   chart.title = function(_) {
