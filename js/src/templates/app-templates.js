@@ -70,3 +70,13 @@ Vis.Templates["coping-mechanisms"] =
   "  <div id='current' class='col-md-4'></div>" +
   "  <div id='stopped' class='col-md-6'></div>" +
   " </div>";
+
+Vis.Templates["home"] =
+  "<div class='row home'>" +
+    "<div class='col-md-12'>" +
+      "<div class='photographs'>" +
+        "<img src='./css/img/pictures-home.png' alt='Photographs home'>" +
+      "</div>" +
+      "<img src='./css/img/logos.png' alt='Logos all'" +
+    "</div>" +
+  "</div>";

@@ -22,9 +22,10 @@ Vis.Views.Home = Backbone.View.extend({
     $("#households-children").show();
     $("#children-gender").hide();
 
-    // this.clearCharts();
     Vis.utils.clearCharts();
 
+    $(".home").show();
+    $(".charts").hide();
     $(".profile").hide();
 
     // set text content
@@ -34,7 +35,6 @@ Vis.Views.Home = Backbone.View.extend({
 
     $("#pending").hide();
 
-    $("#main-chart").show();
 
     // this.initChart(chapter);
   },

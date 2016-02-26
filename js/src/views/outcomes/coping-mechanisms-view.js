@@ -19,13 +19,12 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
   },
 
   preRender: function(chapter) {
-    var that = this,
+    var that = this;
         template = _.template(Vis.Templates["coping-mechanisms"]);
 
     $("#households-children").show();
     $("#children-gender").hide();
 
-    // this.clearCharts();
     Vis.utils.clearCharts();
 
     $("#main-chart").html(template());

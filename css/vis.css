@@ -98,26 +98,19 @@ h1,h2,h3,h4,h5 {
 .profile {
   margin-top: -11px;
 }
-#time-line-navigation {
-  /*border-top: 1px solid #d0d0d0;*/
-  /*border-top: 1px solid rgba(28,172,226,0.3);*/
-}
 #time-line-navigation .chart {
   width: 800px;
   margin-left: auto;
   margin-right: auto;
-  /*margin-left: -30px;*/
 }
-
 .footer {
-  margin-top: 20px;
+  margin-top: 10px;
   margin-bottom: 20px;
-  border-top: 1px solid #CCC;
+  /*border-top: 1px solid #DDD;*/
+  border-top: 1px solid rgba(28,171, 226, 0.2);
   font-size: 11px;
   color: #555;
-  /*padding-top: 10px;
-  color: #999;*/
-  /*color: #1CACE2;*/
+  color: #1CABE2;
 }
 .footer p {
   margin-bottom: 0px;
@@ -133,7 +126,6 @@ h1,h2,h3,h4,h5 {
 .footer .authors {
   padding-left: 220px;
 }
-
 
 /* text - narrative */
 .narration {
@@ -188,6 +180,26 @@ h1,h2,h3,h4,h5 {
   font-weight: 300;
   color: #555;
 }
+
+/* Home */
+.home {
+  height: 360px;
+  /*height: 285px;*/
+  text-align: center;
+}
+.home .photographs {
+  margin-bottom: 35px;
+}
+.home .photographs img {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+}
+.home .all-logos {
+  text-align: center;
+}
+
+
 
 /* Charts */
 .chart {

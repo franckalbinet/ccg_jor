@@ -63,8 +63,10 @@ Vis.utils = _.extend(Vis.DEFAULTS, {
     d3.select("#main-chart #living-conditions").remove();
     d3.select("#main-chart #background-sample").remove();
     d3.select("#main-chart #coping-mechanisms").remove();
-    // d3.select("#main-chart .heatmap").remove();
     $(".outcomes").removeClass("col-md-12").addClass("col-md-8");
+    $(".charts").show();
+    $(".profile").show();
+    $(".home").hide();
   }
 
   // Timer: function(callback, delay) {
@@ -1477,13 +1479,12 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
   },
 
   preRender: function(chapter) {
-    var that = this,
+    var that = this;
         template = _.template(Vis.Templates["coping-mechanisms"]);
 
     $("#households-children").show();
     $("#children-gender").hide();
 
-    // this.clearCharts();
     Vis.utils.clearCharts();
 
     $("#main-chart").html(template());
@@ -1675,9 +1676,10 @@ Vis.Views.Home = Backbone.View.extend({
     $("#households-children").show();
     $("#children-gender").hide();
 
-    // this.clearCharts();
     Vis.utils.clearCharts();
 
+    $(".home").show();
+    $(".charts").hide();
     $(".profile").hide();
 
     // set text content
@@ -1687,7 +1689,6 @@ Vis.Views.Home = Backbone.View.extend({
 
     $("#pending").hide();
 
-    $("#main-chart").show();
 
     // this.initChart(chapter);
   },
@@ -7248,3 +7249,13 @@ Vis.Templates["coping-mechanisms"] =
   "  <div id='current' class='col-md-4'></div>" +
   "  <div id='stopped' class='col-md-6'></div>" +
   " </div>";
+
+Vis.Templates["home"] =
+  "<div class='row home'>" +
+    "<div class='col-md-12'>" +
+      "<div class='photographs'>" +
+        "<img src='./css/img/pictures-home.png' alt='Photographs home'>" +
+      "</div>" +
+      "<img src='./css/img/logos.png' alt='Logos all'" +
+    "</div>" +
+  "</div>";

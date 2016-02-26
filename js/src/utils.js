@@ -7,8 +7,10 @@ Vis.utils = _.extend(Vis.DEFAULTS, {
     d3.select("#main-chart #living-conditions").remove();
     d3.select("#main-chart #background-sample").remove();
     d3.select("#main-chart #coping-mechanisms").remove();
-    // d3.select("#main-chart .heatmap").remove();
     $(".outcomes").removeClass("col-md-12").addClass("col-md-8");
+    $(".charts").show();
+    $(".profile").show();
+    $(".home").hide();
   }
 
   // Timer: function(callback, delay) {
