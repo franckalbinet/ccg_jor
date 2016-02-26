@@ -11,6 +11,7 @@ Vis.utils = _.extend(Vis.DEFAULTS, {
     $(".charts").show();
     $(".profile").show();
     $(".home").hide();
+    $(".conclusion").hide();
   }
 
   // Timer: function(callback, delay) {

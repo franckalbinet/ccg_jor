@@ -183,22 +183,41 @@ h1,h2,h3,h4,h5 {
 
 /* Home */
 .home {
-  height: 360px;
-  /*height: 285px;*/
+  height: 380px;
+  margin-top: -20px;
   text-align: center;
 }
 .home .photographs {
-  margin-bottom: 35px;
+  margin-bottom: 25px;
 }
 .home .photographs img {
   border: 1px solid #ddd;
   border-radius: 4px;
   padding: 5px;
 }
-.home .all-logos {
+
+/* Conclusion */
+.conclusion {
+  height: 480px;
+  margin-top: -60px;
   text-align: center;
 }
+.conclusion .photographs {
+  margin-bottom: 25px;
+}
+.conclusion .photographs img {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+}
+.conclusion p {
+  margin-left: auto;
+  margin-right: auto;
+  width: 600px;
+  font-size: 12px;
+  font-weight: 300px;
 
+}
 
 
 /* Charts */

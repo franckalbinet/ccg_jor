@@ -25,6 +25,7 @@ Vis.Views.Conclusion = Backbone.View.extend({
     // this.clearCharts();
     Vis.utils.clearCharts();
 
+    $(".conclusion").show();
     $(".profile").hide();
 
     // set text content
@@ -33,8 +34,7 @@ Vis.Views.Conclusion = Backbone.View.extend({
     });
 
     $("#pending").hide();
-
-    $("#main-chart").show();
+    $(".charts").hide();
 
     // this.initChart(chapter);
   },

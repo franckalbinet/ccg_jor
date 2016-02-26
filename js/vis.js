@@ -67,6 +67,7 @@ Vis.utils = _.extend(Vis.DEFAULTS, {
     $(".charts").show();
     $(".profile").show();
     $(".home").hide();
+    $(".conclusion").hide();
   }
 
   // Timer: function(callback, delay) {
@@ -2181,6 +2182,7 @@ Vis.Views.Conclusion = Backbone.View.extend({
     // this.clearCharts();
     Vis.utils.clearCharts();
 
+    $(".conclusion").show();
     $(".profile").hide();
 
     // set text content
@@ -2189,8 +2191,7 @@ Vis.Views.Conclusion = Backbone.View.extend({
     });
 
     $("#pending").hide();
-
-    $("#main-chart").show();
+    $(".charts").hide();
 
     // this.initChart(chapter);
   },
@@ -4602,7 +4603,8 @@ d3.timeLineNavigation = function() {
             .attr("cx", function(d) {
               return x(d.time); })
             .attr("cy", 0)
-            .attr("r", function(d) { return (d.isMain) ? 6:3; })
+            // .attr("r", function(d) { return (d.isMain) ? 6:3; })
+            .attr("r", function(d) { return (d.isMain) ? 5:3; })
             .on("mouseover", function(d) {
                 var _wasElapsed = d3.select(this).classed("elapsed"),
                     radius = (d.isMain) ? 8 : 5;
