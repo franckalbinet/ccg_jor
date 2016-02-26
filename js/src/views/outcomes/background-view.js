@@ -108,7 +108,7 @@ Vis.Views.Background = Backbone.View.extend({
                 onmouseout: function (d, i) { console.log("onmouseout", d, i); }
               },
               donut: {
-                  title: "Children age"
+                  title: "Age of children"
               },
               color: {
                 pattern: ['#003950', '#E59138', '#88A3B6', '#609078', '#B45B49']
@@ -129,7 +129,7 @@ Vis.Views.Background = Backbone.View.extend({
                 onmouseout: function (d, i) { console.log("onmouseout", d, i); }
               },
               donut: {
-                  title: "Children gender"
+                  title: "Gender of children"
               },
               color: {
                 pattern: ['#003950', '#E59138']
@@ -150,10 +150,10 @@ Vis.Views.Background = Backbone.View.extend({
                 onmouseout: function (d, i) { console.log("onmouseout", d, i); }
               },
               donut: {
-                  title: "Poverty level",
+                  title: "Vulnerability level",
                   label: {
                     threshold: 0.1
-                  } 
+                  }
               },
               color: {
                 pattern: ['#003950', '#E59138', '#88A3B6']
@@ -175,7 +175,7 @@ Vis.Views.Background = Backbone.View.extend({
                 onmouseout: function (d, i) { console.log("onmouseout", d, i); }
               },
               donut: {
-                  title: "Children age"
+                  title: "Age of children"
               },
               color: {
                 pattern: ['#003950', '#E59138', '#88A3B6', '#609078', '#B45B49']
@@ -196,7 +196,7 @@ Vis.Views.Background = Backbone.View.extend({
                 onmouseout: function (d, i) { console.log("onmouseout", d, i); }
               },
               donut: {
-                  title: "Children gender"
+                  title: "Gender of children"
               },
               color: {
                 pattern: ['#003950', '#E59138']
@@ -217,7 +217,7 @@ Vis.Views.Background = Backbone.View.extend({
                 onmouseout: function (d, i) { console.log("onmouseout", d, i); }
               },
               donut: {
-                  title: "Poverty level",
+                  title: "Vulnerability level",
                   label: {
                     threshold: 0.1
                   }

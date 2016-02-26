@@ -425,7 +425,7 @@ h1,h2,h3,h4,h5 {
 }
 .c3-chart-arcs-title {
     dominant-baseline: middle;
-    font-size: 1em;
+    font-size: 0.9em;
     font-weight: 700;
     text-transform: uppercase;
 }
