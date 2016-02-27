@@ -24,14 +24,12 @@ Vis.Views.Incomes = Backbone.View.extend({
     $("#households-children").show();
     $("#children-gender").hide();
 
-    // this.clearCharts();
     Vis.utils.clearCharts();
 
     $(".profile").show();
 
-    // set text content
-    ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {
-      that.setTextContent(d);
+    ["main-text", "quote"].forEach(function(d) {
+      Vis.utils.setTextContent.call(that, d);
     });
 
     $("#pending").hide();
@@ -74,19 +72,6 @@ Vis.Views.Incomes = Backbone.View.extend({
               that.highlighted = highlighted;
               that.render(that.model.get("scenario").chapter); });
           break;
-        case 4:
-          // this.chart = d3.barChartMultiStacked()
-          //   .width(455).height(350)
-          //   .margins({top: 40, right: 160, bottom: 40, left: 200})
-          //   .data(data)
-          //   .color(d3.scale.ordinal().range(['#003950','#567888','#a1bdc5', "#B45B49"]).domain([1, 2, 3, 4]))
-          //   // .color(d3.scale.ordinal().range(['#3c5f6b','#6d8d97','#a1bdc5', "#B45B49"]).domain([1, 2, 3, 4]))
-          //   // .color(d3.scale.ordinal().range(['#486280','#748fa2','#a1bdc5', "#B45B49"]).domain([1, 2, 3, 4]))
-          //   .relativeTo(total)
-          //   .title("Covering of children basic needs")
-          //   .xTitle("Wave")
-          //   .lookUp(Vis.DEFAULTS.LOOKUP_CODES.BASIC_NEEDS);
-          break;
         default:
           console.log("no matching case.")
       }
@@ -98,7 +83,6 @@ Vis.Views.Incomes = Backbone.View.extend({
         case 1:
           this.chart
             .data(this.getData(chapter))
-            // .highlighted(this.highlighted)
             .relativeTo(this.getTotalHouseholds(chapter))
           d3.select("#main-chart").call(this.chart);
           this.fixPositionning();
@@ -110,13 +94,6 @@ Vis.Views.Incomes = Backbone.View.extend({
             .relativeTo(this.getTotalHouseholds(chapter))
           d3.select("#main-chart").call(this.chart);
           break;
-        case 4:
-          // this.chart
-          //   .data(this.getData(chapter))
-          //   .relativeTo(this.getTotalHouseholds(chapter))
-          // d3.select("#main-chart").call(this.chart);
-          // d3.selectAll(".bar-chart-multi-stacked rect").style("opacity", 0.7);
-          break;
         default:
           console.log("no matching case.")
       }
@@ -125,14 +102,10 @@ Vis.Views.Incomes = Backbone.View.extend({
   getData: function(chapter) {
     switch(chapter) {
         case 1:
-          // return this.model.incomesByType.top(Infinity);
           return this.model.incomesByRound.top(Infinity);
           break;
         case 2:
           return this.model.ecoContribByType.top(Infinity);
-          break;
-        case 4:
-          // return this.model.basicNeedsByRound.top(Infinity);
           break;
         default:
           console.log("no matching case.")
@@ -146,40 +119,14 @@ Vis.Views.Incomes = Backbone.View.extend({
         this.model.incomesByRound.top(Infinity)
           .forEach(function(d) { totals[d.key] = d3.sum(d.value.map(function(v) { return v.count; })) });
         return totals;
-        // return _.unique(this.model.incomesHousehold.top(Infinity).map(function(d) {
-        //   return d.hh })).length;
         break;
       case 2:
         return _.unique(this.model.ecoContribHousehold.top(Infinity)
                 .map(function(d) { return d.hh })).length;
         break;
-      case 4:
-        // return _.unique(this.model.outcomesHousehold.top(Infinity)
-        //         .map(function(d) { return d.hh })).length;
-        break;
       default:
         console.log("no matching case.")
     }
-  },
-
-  // getHighlighted: function(highlighted) {
-  //   var bp = null;
-  // }
-
-  setTextContent: function(attr) {
-    var scenario = this.model.get("scenario")
-        id = this.model.getTemplateId(scenario.page, scenario.chapter, attr),
-        template = _.template(Vis.Templates[attr][id]);
-
-    $("#" + attr).html(template());
-
-  },
-
-  clearCharts: function() {
-    if (this.chart) this.chart = null;
-    if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
-    d3.select("main-chart #living-conditions").remove();
-    d3.select("main-chart .heatmap").remove();
   },
 
   fixPositionning: function() {

@@ -24,14 +24,12 @@ Vis.Views.Expenditures = Backbone.View.extend({
       $("#households-children").show();
       $("#children-gender").hide();
 
-      // this.clearCharts();
       Vis.utils.clearCharts();
 
       $(".profile").show();
 
-      // set text content
-      ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {
-        that.setTextContent(d);
+      ["main-text", "quote"].forEach(function(d) {
+        Vis.utils.setTextContent.call(that, d);
       });
 
       $("#pending").hide();
@@ -158,21 +156,6 @@ Vis.Views.Expenditures = Backbone.View.extend({
         default:
           console.log("no matching case.")
       }
-    },
-
-    setTextContent: function(attr) {
-      var scenario = this.model.get("scenario")
-          id = this.model.getTemplateId(scenario.page, scenario.chapter, attr),
-          template = _.template(Vis.Templates[attr][id]);
-
-      $("#" + attr).html(template());
-
-    },
-
-    clearCharts: function() {
-      if (this.chart) this.chart = null;
-      // if(!d3.select("#main-chart svg").empty()) d3.select("#main-chart svg").remove();
-      if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
     },
 
     fixPositionning: function() {

@@ -22,18 +22,15 @@ Vis.Views.GrantImpacts = Backbone.View.extend({
     $("#households-children").show();
     $("#children-gender").hide();
 
-    // this.clearCharts();
     Vis.utils.clearCharts();
 
     $(".profile").show();
 
-    // set text content
-    ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {
-      that.setTextContent(d);
+    ["main-text", "quote"].forEach(function(d) {
+      Vis.utils.setTextContent.call(that, d);
     });
 
     $("#pending").hide();
-
     $("#main-chart").show();
 
     this.initChart(chapter);
@@ -56,10 +53,6 @@ Vis.Views.GrantImpacts = Backbone.View.extend({
             .xTitle("")
             .lookUp(Vis.DEFAULTS.LOOKUP_CODES.BASIC_NEEDS);
           break;
-        case 2:
-          break;
-        case 4:
-          break;
         default:
           console.log("no matching case.")
       }
@@ -75,8 +68,6 @@ Vis.Views.GrantImpacts = Backbone.View.extend({
           d3.select("#main-chart").call(this.chart);
           this.fixPositionning();
           break;
-        case 2:
-          break;
         default:
           console.log("no matching case.")
       }
@@ -86,8 +77,6 @@ Vis.Views.GrantImpacts = Backbone.View.extend({
     switch(chapter) {
         case 1:
           return this.model.basicNeedsByRound.top(Infinity);
-          break;
-        case 2:
           break;
         default:
           console.log("no matching case.")
@@ -100,26 +89,9 @@ Vis.Views.GrantImpacts = Backbone.View.extend({
         return _.unique(this.model.outcomesHousehold.top(Infinity)
                 .map(function(d) { return d.hh })).length;
         break;
-      case 2:
-        break;
       default:
         console.log("no matching case.")
     }
-  },
-
-  setTextContent: function(attr) {
-    var scenario = this.model.get("scenario")
-        id = this.model.getTemplateId(scenario.page, scenario.chapter, attr),
-        template = _.template(Vis.Templates[attr][id]);
-
-    $("#" + attr).html(template());
-
-  },
-
-  clearCharts: function() {
-    // if (this.chart) this.chart = null;
-    if (this.chart) this.chart = new Array(2);
-    if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
   },
 
   fixPositionning: function() {

@@ -22,13 +22,10 @@ Vis.Views.FamilyConditions = Backbone.View.extend({
     $("#households-children").show();
     $("#children-gender").hide();
 
-    // this.clearCharts();
-
     Vis.utils.clearCharts();
 
-    // set text content
-    ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {
-      that.setTextContent(d);
+    ["main-text", "quote"].forEach(function(d) {
+      Vis.utils.setTextContent.call(that, d);
     });
 
     $(".profile").show();
@@ -46,8 +43,6 @@ Vis.Views.FamilyConditions = Backbone.View.extend({
     switch(chapter) {
         case 1:
           this.chart = d3.barChartMultiStacked()
-            // .width(320).height(350)
-            // .margins({top: 40, right: 110, bottom: 40, left: 80})
             .width(600).height(350)
             .margins({top: 40, right: 250, bottom: 40, left: 200})
             .data(data)
@@ -105,14 +100,6 @@ Vis.Views.FamilyConditions = Backbone.View.extend({
       default:
         console.log("no matching case.")
     }
-  },
-
-  setTextContent: function(attr) {
-    var scenario = this.model.get("scenario")
-        id = this.model.getTemplateId(scenario.page, scenario.chapter, attr),
-        template = _.template(Vis.Templates[attr][id]);
-
-    $("#" + attr).html(template());
   },
 
   fixPositionning: function() {

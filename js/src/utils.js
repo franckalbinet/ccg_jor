@@ -12,6 +12,16 @@ Vis.utils = _.extend(Vis.DEFAULTS, {
     $(".profile").show();
     $(".home").hide();
     $(".conclusion").hide();
+  },
+
+  setTextContent: function(attr) {
+    var scenario = this.model.get("scenario"),
+        id = this.model.getTemplateId(scenario.page, scenario.chapter, attr),
+        template = _.template(Vis.Templates[attr][id]);
+
+    if (attr == "main-text") $(".narration").animate({ opacity: 0 }, 0);
+    $("#" + attr).html(template());
+    if (attr == "main-text") $(".narration").animate({ opacity: 1 }, 1000);
   }
 
   // Timer: function(callback, delay) {

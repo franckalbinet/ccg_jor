@@ -31,8 +31,8 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
     $(".profile").show();
 
     // set text content
-    ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {
-      that.setTextContent(d);
+    ["main-text", "quote"].forEach(function(d) {
+      Vis.utils.setTextContent.call(that, d);
     });
 
     $("#pending").hide();
@@ -44,8 +44,6 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
 
   initChart: function(chapter) {
     var that = this;
-        // data = this.getData(chapter),
-        // total = this.getTotalHouseholds(chapter);
 
     switch(chapter) {
         case 1:
@@ -72,8 +70,6 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
               .range(['#dae6e9','#c2d1d6','#abbdc5','#94a8b3','#7d94a2','#668190','#506e80','#395c6f','#224a5f','#003950']))
             .relativeTo(this.getTotalHouseholds(chapter, 1))
             .title("Stopped coping mechanisms")
-            // .titleDeltaY(-15)
-            // .xTitleDeltaX()
             .xTitle("")
             .hasNames(true)
             .lookUp(Vis.DEFAULTS.LOOKUP_CODES.COPING_MECHANISMS);
@@ -81,17 +77,12 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
           this.chart[2] = d3.heatmapLegend()
             .width(100).height(310)
             .margins({top: 100, right: 10, bottom: 10, left: 40})
-            // {values: [0,20,40,60,80,100]},
             .data({
               cold: ['#dae6e9','#c2d1d6','#abbdc5','#94a8b3','#7d94a2','#668190','#506e80','#395c6f','#224a5f','#003950'],
               hot: ['#f6eae9','#eed2cc','#e4b9b1','#daa295','#ce8a7c','#c27362','#b45b49','#9a4d3e','#7e4033','#643228']}
             )
             .title("% of answers")
             .xTitle("");
-          break;
-        case 2:
-          break;
-        case 4:
           break;
         default:
           console.log("no matching case.")
@@ -116,10 +107,6 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
 
           this.fixPositionning();
           break;
-        case 2:
-          break;
-        case 4:
-          break;
         default:
           console.log("no matching case.")
       }
@@ -133,13 +120,6 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
           } else {
             return this.model.stoppedCopingByType.top(Infinity);
           }
-          // return (index == 0) ?
-          //   this.model.currentCopingByType.top(Infinity):
-          //   this.model.stoppedCopingByType.top(Infinity);
-          break;
-        case 2:
-          break;
-        case 4:
           break;
         default:
           console.log("no matching case.")
@@ -157,38 +137,12 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
             .map(function(d) { return d.hh })).length;
         }
         break;
-      case 2:
-        // return _.unique(this.model.outcomesHousehold.top(Infinity)
-        //         .map(function(d) { return d.hh })).length;
-        break;
-      case 4:
-        // return _.unique(this.model.outcomesHousehold.top(Infinity)
-        //         .map(function(d) { return d.hh })).length;
-        break;
       default:
         console.log("no matching case.")
     }
   },
 
-  setTextContent: function(attr) {
-    var scenario = this.model.get("scenario"),
-        id = this.model.getTemplateId(scenario.page, scenario.chapter, attr),
-        template = _.template(Vis.Templates[attr][id]);
-
-    $("#" + attr).html(template());
-
-  },
-
-  clearCharts: function() {
-    // if (this.chart) this.chart = null;
-    if (this.chart) this.chart = new Array(2);
-    if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
-  },
-
   fixPositionning: function() {
     d3.select("#stopped .main.title").attr("x", 82);
-    // d3.selectAll("#main-chart .x.axis text")
-    //   .data(["Jun.", "Aug.", "Nov."])
-    //   .text(function(d) { return d; });
   }
 });
