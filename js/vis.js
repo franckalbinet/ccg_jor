@@ -68,17 +68,21 @@ Vis.utils = _.extend(Vis.DEFAULTS, {
     $(".profile").show();
     $(".home").hide();
     $(".conclusion").hide();
+    if (Vis.utils.chartDelay) clearTimeout(Vis.utils.chartDelay);
   },
 
-  setTextContent: function(attr) {
+  setTextContent: function(attr, animated) {
+    if (typeof(animated) === "undefined") animated = true;
     var scenario = this.model.get("scenario"),
         id = this.model.getTemplateId(scenario.page, scenario.chapter, attr),
         template = _.template(Vis.Templates[attr][id]);
 
-    if (attr == "main-text") $(".narration").animate({ opacity: 0 }, 0);
+    if (attr == "main-text" && animated) $(".narration").animate({ opacity: 0 }, 0);
     $("#" + attr).html(template());
-    if (attr == "main-text") $(".narration").animate({ opacity: 1 }, 1000);
-  }
+    if (attr == "main-text" && animated) $(".narration").animate({ opacity: 1 }, 1500);
+  },
+
+  chartDelay: null,
 
   // Timer: function(callback, delay) {
   //     var timerId, start, remaining = delay;
@@ -908,14 +912,9 @@ Vis.Views.HouseholdsPoverty = Backbone.View.extend({
         .width(150).height(150)
         .margins({top: 40, right: 20, bottom: 0, left: 80})
         .data(data)
-        // .color(d3.scale.ordinal().range(["#538dbc", "#b6cee2"]).domain(["Severe", "High"]))
         .color(d3.scale.ordinal().range(["#5e5e66", "#80a6b1"]).domain(["Severe", "High"]))
         .title("By poverty level")
         .hasBrush(false);
-
-      // this.chart.on("filtering", function (selected) {
-      //   that.model.filterByLocation(selected);
-      // });
 
       this.chart.on("filtered", function (selected) {
         that.model.filterByPoverty(selected);
@@ -1118,7 +1117,11 @@ Vis.Views.Background = Backbone.View.extend({
       $("#pending").hide();
       $("#main-chart").show();
 
-      this.initChart(chapter);
+      $(".charts").animate({ opacity: 0 }, 0);
+      Vis.utils.chartDelay = setTimeout(function() {
+        that.initChart(chapter);
+        $(".charts").animate({ opacity: 1 }, 1500);
+      }, 4000);
     },
 
     initChart: function(chapter) {
@@ -1410,7 +1413,11 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
 
     $("#main-chart").show();
 
-    this.initChart(chapter);
+    $(".charts").animate({ opacity: 0 }, 0);
+    Vis.utils.chartDelay = setTimeout(function() {
+      that.initChart(chapter);
+      $(".charts").animate({ opacity: 1 }, 1500);
+    }, 4000);
   },
 
   initChart: function(chapter) {
@@ -1548,7 +1555,7 @@ Vis.Views.Home = Backbone.View.extend({
     $(".profile").hide();
 
     ["main-text", "quote"].forEach(function(d) {
-      Vis.utils.setTextContent.call(that, d);
+      Vis.utils.setTextContent.call(that, d, true);
     });
 
     $("#pending").hide();
@@ -1590,7 +1597,11 @@ Vis.Views.Education = Backbone.View.extend({
     $("#households-children").hide();
     $("#children-gender").show();
 
-    this.initChart(chapter);
+    $(".charts").animate({ opacity: 0 }, 0);
+    Vis.utils.chartDelay = setTimeout(function() {
+      that.initChart(chapter);
+      $(".charts").animate({ opacity: 1 }, 1500);
+    }, 4000);
   },
 
   initChart: function(chapter) {
@@ -1679,7 +1690,11 @@ Vis.Views.FamilyConditions = Backbone.View.extend({
     $("#pending").hide();
     $("#main-chart").show();
 
-    this.initChart(chapter);
+    $(".charts").animate({ opacity: 0 }, 0);
+    Vis.utils.chartDelay = setTimeout(function() {
+      that.initChart(chapter);
+      $(".charts").animate({ opacity: 1 }, 1500);
+    }, 4000);
   },
 
   initChart: function(chapter) {
@@ -1866,7 +1881,11 @@ Vis.Views.Incomes = Backbone.View.extend({
 
     $("#main-chart").show();
 
-    this.initChart(chapter);
+    $(".charts").animate({ opacity: 0 }, 0);
+    Vis.utils.chartDelay = setTimeout(function() {
+      that.initChart(chapter);
+      $(".charts").animate({ opacity: 1 }, 1500);
+    }, 4000);
   },
 
   initChart: function(chapter) {
@@ -1891,7 +1910,7 @@ Vis.Views.Incomes = Backbone.View.extend({
           this.chart = d3.multiSeriesTimeLine()
             .width(600).height(350)
             .margins({top: 40, right: 200, bottom: 40, left: 100})
-            .color(d3.scale.ordinal().range(["#E59138","#6D8378","#88a3b6","#003950", "#A999A4","#5F1D00"]).domain([1, 2, 3, 4, 5, 6]))
+            .color(d3.scale.ordinal().range(["#E59138","#003950","#88a3b6","#003950","#B45B49","#5F1D00"]).domain([1, 2, 3, 4, 5, 6]))
             .data(data)
             .relativeTo(total)
             .title("Main economic contributors to the family")
@@ -2003,7 +2022,11 @@ Vis.Views.Expenditures = Backbone.View.extend({
 
       $("#main-chart").show();
 
-      this.initChart(chapter);
+      $(".charts").animate({ opacity: 0 }, 0);
+      Vis.utils.chartDelay = setTimeout(function() {
+        that.initChart(chapter);
+        $(".charts").animate({ opacity: 1 }, 1500);
+      }, 4000);
     },
 
     initChart: function(chapter) {
@@ -2342,7 +2365,11 @@ Vis.Views.GrantImpacts = Backbone.View.extend({
     $("#pending").hide();
     $("#main-chart").show();
 
-    this.initChart(chapter);
+    $(".charts").animate({ opacity: 0 }, 0);
+    Vis.utils.chartDelay = setTimeout(function() {
+      that.initChart(chapter);
+      $(".charts").animate({ opacity: 1 }, 1500);
+    }, 4000);
   },
 
   initChart: function(chapter) {
@@ -2545,7 +2572,8 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
               var milestone = that.getData()[idx];
               Vis.Routers.app.navigate("#page/" + milestone.page + "/chapter/" + milestone.chapter, {trigger: true});
             }
-            that.cursor += 5;
+            // that.cursor += 5;
+            that.cursor += 1;
           }
           , 1000);
       }

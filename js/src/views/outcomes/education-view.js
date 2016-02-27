@@ -34,7 +34,11 @@ Vis.Views.Education = Backbone.View.extend({
     $("#households-children").hide();
     $("#children-gender").show();
 
-    this.initChart(chapter);
+    $(".charts").animate({ opacity: 0 }, 0);
+    Vis.utils.chartDelay = setTimeout(function() {
+      that.initChart(chapter);
+      $(".charts").animate({ opacity: 1 }, 1500);
+    }, 4000);
   },
 
   initChart: function(chapter) {

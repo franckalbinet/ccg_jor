@@ -63,7 +63,8 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
               var milestone = that.getData()[idx];
               Vis.Routers.app.navigate("#page/" + milestone.page + "/chapter/" + milestone.chapter, {trigger: true});
             }
-            that.cursor += 5;
+            // that.cursor += 5;
+            that.cursor += 1;
           }
           , 1000);
       }

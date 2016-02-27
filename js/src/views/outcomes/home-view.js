@@ -29,7 +29,7 @@ Vis.Views.Home = Backbone.View.extend({
     $(".profile").hide();
 
     ["main-text", "quote"].forEach(function(d) {
-      Vis.utils.setTextContent.call(that, d);
+      Vis.utils.setTextContent.call(that, d, true);
     });
 
     $("#pending").hide();

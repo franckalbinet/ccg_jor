@@ -36,7 +36,11 @@ Vis.Views.Incomes = Backbone.View.extend({
 
     $("#main-chart").show();
 
-    this.initChart(chapter);
+    $(".charts").animate({ opacity: 0 }, 0);
+    Vis.utils.chartDelay = setTimeout(function() {
+      that.initChart(chapter);
+      $(".charts").animate({ opacity: 1 }, 1500);
+    }, 4000);
   },
 
   initChart: function(chapter) {
@@ -61,7 +65,7 @@ Vis.Views.Incomes = Backbone.View.extend({
           this.chart = d3.multiSeriesTimeLine()
             .width(600).height(350)
             .margins({top: 40, right: 200, bottom: 40, left: 100})
-            .color(d3.scale.ordinal().range(["#E59138","#6D8378","#88a3b6","#003950", "#A999A4","#5F1D00"]).domain([1, 2, 3, 4, 5, 6]))
+            .color(d3.scale.ordinal().range(["#E59138","#003950","#88a3b6","#003950","#B45B49","#5F1D00"]).domain([1, 2, 3, 4, 5, 6]))
             .data(data)
             .relativeTo(total)
             .title("Main economic contributors to the family")

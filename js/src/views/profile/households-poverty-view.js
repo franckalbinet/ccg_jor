@@ -16,14 +16,9 @@ Vis.Views.HouseholdsPoverty = Backbone.View.extend({
         .width(150).height(150)
         .margins({top: 40, right: 20, bottom: 0, left: 80})
         .data(data)
-        // .color(d3.scale.ordinal().range(["#538dbc", "#b6cee2"]).domain(["Severe", "High"]))
         .color(d3.scale.ordinal().range(["#5e5e66", "#80a6b1"]).domain(["Severe", "High"]))
         .title("By poverty level")
         .hasBrush(false);
-
-      // this.chart.on("filtering", function (selected) {
-      //   that.model.filterByLocation(selected);
-      // });
 
       this.chart.on("filtered", function (selected) {
         that.model.filterByPoverty(selected);

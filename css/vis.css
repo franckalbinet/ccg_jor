@@ -28,7 +28,7 @@ ul, ol {
   pointer-events: none;
   margin-right: 10px;
   margin-left: 10px;
-  font-size: 12px;
+  font-size: 12 px;
 }
 
 /* fonts */
@@ -155,7 +155,7 @@ h1,h2,h3,h4,h5 {
   margin-right: auto;
   width: 500px;
   margin-top: 0px;
-  padding: 10px 0 2px 0;
+  padding: 10px 0 10px 0;
   font-size: 15px;
   color: #444;
   text-align: center;

@@ -12,17 +12,21 @@ Vis.utils = _.extend(Vis.DEFAULTS, {
     $(".profile").show();
     $(".home").hide();
     $(".conclusion").hide();
+    if (Vis.utils.chartDelay) clearTimeout(Vis.utils.chartDelay);
   },
 
-  setTextContent: function(attr) {
+  setTextContent: function(attr, animated) {
+    if (typeof(animated) === "undefined") animated = true;
     var scenario = this.model.get("scenario"),
         id = this.model.getTemplateId(scenario.page, scenario.chapter, attr),
         template = _.template(Vis.Templates[attr][id]);
 
-    if (attr == "main-text") $(".narration").animate({ opacity: 0 }, 0);
+    if (attr == "main-text" && animated) $(".narration").animate({ opacity: 0 }, 0);
     $("#" + attr).html(template());
-    if (attr == "main-text") $(".narration").animate({ opacity: 1 }, 1000);
-  }
+    if (attr == "main-text" && animated) $(".narration").animate({ opacity: 1 }, 1500);
+  },
+
+  chartDelay: null,
 
   // Timer: function(callback, delay) {
   //     var timerId, start, remaining = delay;
