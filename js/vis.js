@@ -6757,21 +6757,21 @@ d3.barChartEducation = function() {
 // Underscore Templates
 Vis.Templates["main-text"] =[
   "<p>On average, 55,000 children from 15,000 families were given 20 JD <br> (28 USD) per child per month to <strong>cover the basic needs of children</strong>.</p>",
-  "<p>In June, August, and November 2015, <strong>an independent third party monitoring</strong> group conducted surveys and focus group discussions to <strong>ask 500 families</strong> benefitting from the programme how they were managing the crisis. These families represented <strong>1,504 children</strong>.</p>",
+  "<p>In June, August, and November 2015, <strong>an independent third party monitoring</strong> agency conducted surveys and focus group discussions to <strong>ask 500 families</strong> benefitting from the programme how they were managing the crisis. <strong>431 families</strong> participating in all three rounds of the survey.These families represented <strong>1,504 children</strong>.</p>",
   "<p>Given that Syrian refugees are not allowed to work, they report a <strong>heavy dependence on cash assistance and food vouchers provided by UNICEF, UNHCR, and WFP</strong>.</p>",
   "<p>Over the course of the 10 months, <strong>men as an economic contributors to the family plummeted</strong>. This is not made up for by any other member of the family, but refugees did report a slight increase in children under 16 working.</p>",
-  "<p>While some expenditures varied seasonally, the <strong>main expenditure items remained consistent</strong>: rent, utilities, food, communications and education. Refugees were thus <strong>unable to decrease the costs of their highest expenses</strong>. We see that over time refugees are less able to pay down their debt, and less able to save.</p>",
+  "<p>While some expenditures varied seasonally, the <strong>main expenditure items remained consistent</strong>: rent, utilities, food, communications and education. We see that over time refugees are less able to pay down their debt, and less able to save.</p>",
   "<p><strong>Education expenses, children’s clothes and shoes, children’s medicine and fresh foods are the biggest expenses related to children</strong>. <br>For families with four children or more, more money is spent on education, fresh foods and medicine.  This indicates that bigger families are able to more effectively share resources among their children, cutting costs in areas like clothes and shoes.</p>",
   "<p>Families consistently reported being able to <strong>cover expenses for children that were not a priority before receiving the UNICEF child cash grant</strong>, and this increased over time.</p>",
-  "<p>For the most part, families report that the amount of the grant was <strong>not able to change their reliance on most negative coping mechanisms</strong>. <br>However, it <strong>did help stabilize their situation, preventing further deterioration</strong>.</p>",
+  "<p>For the most part, families report that the amount of the grant was <strong>not able to change their reliance on most negative coping mechanisms</strong>. <br>However, the overall mix of strategies that families use to manage the crisis has largely remained stable - ie. has not gotten worse.</p>",
   "<p>Because of the grant, however, families were <strong>able to increase spending on basic needs for children.</strong></p>",
-  "<p><strong>Children also entered school in progressively higher numbers</strong> over the course of the ten months.</p>",
+  "<p><strong>Children also entered school in marginally higher numbers</strong> over the course of the ten months.</p>",
   "<p>Families also told us that children <strong>felt empowered</strong> because they knew the grant was for their needs.</p>",
   "<p>Despite deteriorating circumstances, families reported that they were <strong>able to increase spending on basic needs for children and increase their wellbeing and living conditions</strong>.<br>This, in turn, positively impacted their psychological wellbeing.</p>",
   "<p><strong>UNICEF will continue to provide refugees with the child cash grant they need to support their children through 2016.</strong></p>",
-  "<p><strong>Over 630,000 Syrian are officially registered as refugees in Jordan.</strong></p>",
+  "<p><strong>Over 630,000 Syrian are officially registered as refugees in Jordan</strong>, with more than 82% of them residing in the host communities.</p>",
   "<p><strong>Many of these families have lost everything they own</strong>, are not allowed to work in Jordan, have depleted their savings, and, often, their ability to borrow money.</p>",
-  "<p><strong>In such scenarios, it is often children who suffer most</strong>.<br> Years of education lost, malnutrition or health problems in the early years. These can have life-long negative repercussions.</p>",
+  "<p><strong>In such scenarios, it is often children who suffer most</strong>.<br> Years of education lost, malnutrition or health problems in the early years: these can have life-long negative repercussions.</p>",
   "<p><strong>To help cover basic needs of children</strong>, starting in February 2015, <strong>UNICEF has transferred a monthly child cash grant</strong> to the most vulnerable Syrian families living in host communities in Jordan.</p>",
 ];
 
