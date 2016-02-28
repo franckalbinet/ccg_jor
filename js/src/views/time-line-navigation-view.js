@@ -17,6 +17,10 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
       this.initProgressLine();
       this.initChart();
       this.btnToPause($("#time-line-navigation .btn"));
+
+      var milestone = this.findMilestone();
+      this.cursor = milestone.time.getMilliseconds();
+
       this.model.on("change:scenario", function() {
         // set progressLine on origin when new scenario
         this.progressLine.set(0);
@@ -66,8 +70,8 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
       this.progressLine.animate(1, {duration: this.getDuration()});
       var that = this,
           milestone = this.findMilestone();
-      this.cursor = milestone.time.getMilliseconds();
       if(!this.clock) {
+        // this.cursor = milestone.time.getMilliseconds();
         this.clock = setInterval(
           function() {
             var idx = that.getTimes().indexOf(that.cursor);
@@ -155,7 +159,7 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
           - milestone.time.getMilliseconds();
         duration = duration * 1000 * (1 - elapsed);
       }
-      return duration;
+      return parseInt(duration);
     },
 
     initProgressLine: function() {
