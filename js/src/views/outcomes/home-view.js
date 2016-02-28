@@ -27,11 +27,16 @@ Vis.Views.Home = Backbone.View.extend({
     $(".home").show();
     $(".charts").hide();
     $(".profile").hide();
-    $(".page-header img").hide();
-    // $(".page-header h3").animate({"font-size": "21px"}, 500);
-    $(".page-header h3").css("font-size", "21px");
+
+    if (this.model.get("scenario").chapter == 1){
+      $(".page-header").css("visibility", "hidden");
+      $(".narration").hide();
+      $(".home-title").show();
+      $(".logos").css("visibility", "visible");
+    }
 
     if (this.model.get("scenario").chapter !== 1 ) {
+
       $(".narration").css("visibility", "visible");
       ["main-text", "quote"].forEach(function(d) {
         Vis.utils.setTextContent.call(that, d, true);

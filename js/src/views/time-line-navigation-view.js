@@ -153,7 +153,8 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
           elapsed = this.progressLine.value();
 
       if (id == this.model.data.milestones.length -1) {
-        duration == 0;
+        duration = 0;
+        this.progressLine.set(1);
       }  else {
         duration = this.model.data.milestones.filter(function(d) { return d.id == id+1 })[0].time.getMilliseconds()
           - milestone.time.getMilliseconds();

@@ -15,11 +15,13 @@ Vis.utils = _.extend(Vis.DEFAULTS, {
     $(".child-empowerment").hide();
     if (Vis.utils.chartDelay) clearTimeout(Vis.utils.chartDelay);
     if (Vis.utils.filterDelay) clearTimeout(Vis.utils.filterDelay);
-    $(".page-header img").show();
-    $(".page-header h3").css("font-size", "19px");
-    $(".narration").css("visibility", "visible");
+    // $(".page-header img").show();
+    $(".page-header").css("visibility", "visible");
+    // $(".narration").css("visibility", "visible");
+    $(".narration").show();
     Vis.Models.app.filterByChildren(null, true);
-    // $(".page-header h3").animate({"font-size": "19px"}, 500);
+    $(".home-title").hide();
+    $(".logos").css("visibility", "hidden");
   },
 
   setTextContent: function(attr, animated) {

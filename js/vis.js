@@ -71,11 +71,13 @@ Vis.utils = _.extend(Vis.DEFAULTS, {
     $(".child-empowerment").hide();
     if (Vis.utils.chartDelay) clearTimeout(Vis.utils.chartDelay);
     if (Vis.utils.filterDelay) clearTimeout(Vis.utils.filterDelay);
-    $(".page-header img").show();
-    $(".page-header h3").css("font-size", "19px");
-    $(".narration").css("visibility", "visible");
+    // $(".page-header img").show();
+    $(".page-header").css("visibility", "visible");
+    // $(".narration").css("visibility", "visible");
+    $(".narration").show();
     Vis.Models.app.filterByChildren(null, true);
-    // $(".page-header h3").animate({"font-size": "19px"}, 500);
+    $(".home-title").hide();
+    $(".logos").css("visibility", "hidden");
   },
 
   setTextContent: function(attr, animated) {
@@ -1595,11 +1597,16 @@ Vis.Views.Home = Backbone.View.extend({
     $(".home").show();
     $(".charts").hide();
     $(".profile").hide();
-    $(".page-header img").hide();
-    // $(".page-header h3").animate({"font-size": "21px"}, 500);
-    $(".page-header h3").css("font-size", "21px");
+
+    if (this.model.get("scenario").chapter == 1){
+      $(".page-header").css("visibility", "hidden");
+      $(".narration").hide();
+      $(".home-title").show();
+      $(".logos").css("visibility", "visible");
+    }
 
     if (this.model.get("scenario").chapter !== 1 ) {
+
       $(".narration").css("visibility", "visible");
       ["main-text", "quote"].forEach(function(d) {
         Vis.utils.setTextContent.call(that, d, true);
@@ -2723,7 +2730,8 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
           elapsed = this.progressLine.value();
 
       if (id == this.model.data.milestones.length -1) {
-        duration == 0;
+        duration = 0;
+        this.progressLine.set(1);
       }  else {
         duration = this.model.data.milestones.filter(function(d) { return d.id == id+1 })[0].time.getMilliseconds()
           - milestone.time.getMilliseconds();
