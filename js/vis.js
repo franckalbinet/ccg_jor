@@ -1599,22 +1599,22 @@ Vis.Views.Home = Backbone.View.extend({
     $(".charts").hide();
     $(".profile").hide();
 
-    if (this.model.get("scenario").chapter == 1){
+    // if (this.model.get("scenario").chapter == 1){
+    //
+    // }
+
+    if (this.model.get("scenario").chapter !== 1 ) {
+      // $(".narration").css("visibility", "visible");
+      $(".narration").show();
+      ["main-text", "quote"].forEach(function(d) {
+        Vis.utils.setTextContent.call(that, d, true);
+      });
+    } else {
       $(".page-header").css("visibility", "hidden");
       $(".narration").hide();
       $(".home-title").show();
       $(".logos").css("visibility", "visible");
       $(".footer").show();
-    }
-
-    if (this.model.get("scenario").chapter !== 1 ) {
-
-      $(".narration").css("visibility", "visible");
-      ["main-text", "quote"].forEach(function(d) {
-        Vis.utils.setTextContent.call(that, d, true);
-      });
-    } else {
-      $(".narration").css("visibility", "hidden");
     }
 
     $("#pending").hide();
