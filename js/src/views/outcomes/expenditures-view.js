@@ -115,6 +115,7 @@ Vis.Views.Expenditures = Backbone.View.extend({
             Vis.utils.filterDelay = setTimeout(function() {
               that.model.filterByChildren([4,5,6,7,8,9]);
             }, 3000);
+
             this.chart
               .data(this.getData(chapter))
               .relativeTo(this.getTotalHouseholds(chapter))

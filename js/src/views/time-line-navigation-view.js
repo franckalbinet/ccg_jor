@@ -18,11 +18,10 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
       this.initChart();
       this.btnToPause($("#time-line-navigation .btn"));
       this.model.on("change:scenario", function() {
-
         // set progressLine on origin when new scenario
         this.progressLine.set(0);
 
-        // this.duration = this.getDuration();
+        if(!this.isPaused()) this.progressLine.animate(1, {duration: this.getDuration()});
 
         var milestone = this.findMilestone();
         this.cursor = milestone.time.getMilliseconds();
@@ -64,8 +63,10 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
     },
 
     start: function() {
-      this.model.set("playing", true);
-      var that = this;
+      this.progressLine.animate(1, {duration: this.getDuration()});
+      var that = this,
+          milestone = this.findMilestone();
+      this.cursor = milestone.time.getMilliseconds();
       if(!this.clock) {
         this.clock = setInterval(
           function() {
@@ -74,7 +75,6 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
               var milestone = that.getData()[idx];
               Vis.Routers.app.navigate("#page/" + milestone.page + "/chapter/" + milestone.chapter, {trigger: true});
             }
-            // that.cursor += 5;
             that.cursor += 1;
           }
           , 1000);
@@ -82,7 +82,8 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
     },
 
     stop: function() {
-      this.model.set("playing", false);
+      this.progressLine.stop();
+      // this.model.set("playing", false);
       window.clearInterval(this.clock);
       this.clock = null;
     },
@@ -103,7 +104,6 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
         this.start();
       }
     },
-
 
     btnToPause: function(btn) {
       btn.removeClass("play").addClass("pause");
@@ -143,7 +143,19 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
     },
 
     getDuration: function() {
+      var duration = 0,
+          milestone = this.findMilestone(),
+          id = milestone.id,
+          elapsed = this.progressLine.value();
 
+      if (id == this.model.data.milestones.length -1) {
+        duration == 0;
+      }  else {
+        duration = this.model.data.milestones.filter(function(d) { return d.id == id+1 })[0].time.getMilliseconds()
+          - milestone.time.getMilliseconds();
+        duration = duration * 1000 * (1 - elapsed);
+      }
+      return duration;
     },
 
     initProgressLine: function() {
