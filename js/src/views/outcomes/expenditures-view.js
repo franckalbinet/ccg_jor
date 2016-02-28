@@ -14,7 +14,7 @@ Vis.Views.Expenditures = Backbone.View.extend({
         },this);
 
       Backbone.on("filtered", function(d) {
-        if (that.model.get("scenario").page === 4) this.render(that.model.get("scenario").chapter);
+        if (that.model.get("scenario").page === 4 && !d.silent) this.render(that.model.get("scenario").chapter);
         }, this);
     },
 
@@ -41,6 +41,7 @@ Vis.Views.Expenditures = Backbone.View.extend({
         that.initChart(chapter);
         $(".charts").animate({ opacity: 1 }, 1500);
       }, 4000);
+
     },
 
     initChart: function(chapter) {
@@ -101,6 +102,7 @@ Vis.Views.Expenditures = Backbone.View.extend({
     },
 
     render: function(chapter) {
+      var that = this;
       switch(chapter) {
           case 1:
             this.chart
@@ -110,6 +112,9 @@ Vis.Views.Expenditures = Backbone.View.extend({
             d3.select("#main-chart").call(this.chart);
             break;
           case 2:
+            Vis.utils.filterDelay = setTimeout(function() {
+              that.model.filterByChildren([4,5,6,7,8,9]);
+            }, 3000);
             this.chart
               .data(this.getData(chapter))
               .relativeTo(this.getTotalHouseholds(chapter))

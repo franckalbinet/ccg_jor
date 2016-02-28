@@ -14,7 +14,7 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
       },this);
 
     Backbone.on("filtered", function(d) {
-      if (that.model.get("scenario").page === 5) this.render(that.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === 5 && !d.silent) this.render(that.model.get("scenario").chapter);
       }, this);
   },
 

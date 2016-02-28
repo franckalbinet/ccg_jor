@@ -12,7 +12,7 @@ Vis.Views.ChildEmpowerment = Backbone.View.extend({
       },this);
 
     Backbone.on("filtered", function(d) {
-      if (that.model.get("scenario").page === 8) this.render(that.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === 8 && !d.silent) this.render(that.model.get("scenario").chapter);
       }, this);
   },
 
@@ -31,6 +31,10 @@ Vis.Views.ChildEmpowerment = Backbone.View.extend({
     });
 
     $("#pending").hide();
-    $("#main-chart").show();
+    $(".charts").hide();
+    $(".child-empowerment").animate({ opacity: 0 }, 0);
+    $(".child-empowerment").show();
+    $(".child-empowerment").animate({ opacity: 1 }, 1500);
+
   }
 });

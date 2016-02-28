@@ -12,7 +12,7 @@ Vis.Views.Home = Backbone.View.extend({
       },this);
 
     Backbone.on("filtered", function(d) {
-      if (that.model.get("scenario").page === 1) this.render(that.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === 1 && !d.silent) this.render(that.model.get("scenario").chapter);
       }, this);
   },
 
@@ -27,10 +27,18 @@ Vis.Views.Home = Backbone.View.extend({
     $(".home").show();
     $(".charts").hide();
     $(".profile").hide();
+    $(".page-header img").hide();
+    // $(".page-header h3").animate({"font-size": "21px"}, 500);
+    $(".page-header h3").css("font-size", "21px");
 
-    ["main-text", "quote"].forEach(function(d) {
-      Vis.utils.setTextContent.call(that, d, true);
-    });
+    if (this.model.get("scenario").chapter !== 1 ) {
+      $(".narration").css("visibility", "visible");
+      ["main-text", "quote"].forEach(function(d) {
+        Vis.utils.setTextContent.call(that, d, true);
+      });
+    } else {
+      $(".narration").css("visibility", "hidden");
+    }
 
     $("#pending").hide();
   }

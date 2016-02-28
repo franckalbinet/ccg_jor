@@ -14,7 +14,7 @@ Vis.Views.ExpendituresChildren = Backbone.View.extend({
         },this);
 
       Backbone.on("filtered", function(d) {
-        if (that.model.get("scenario").page === 99) this.render(that.model.get("scenario").chapter);
+        if (that.model.get("scenario").page === 99 && !d.silent) this.render(that.model.get("scenario").chapter);
         }, this);
     },
 

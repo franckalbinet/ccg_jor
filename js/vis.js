@@ -68,7 +68,14 @@ Vis.utils = _.extend(Vis.DEFAULTS, {
     $(".profile").show();
     $(".home").hide();
     $(".conclusion").hide();
+    $(".child-empowerment").hide();
     if (Vis.utils.chartDelay) clearTimeout(Vis.utils.chartDelay);
+    if (Vis.utils.filterDelay) clearTimeout(Vis.utils.filterDelay);
+    $(".page-header img").show();
+    $(".page-header h3").css("font-size", "19px");
+    $(".narration").css("visibility", "visible");
+    Vis.Models.app.filterByChildren(null, true);
+    // $(".page-header h3").animate({"font-size": "19px"}, 500);
   },
 
   setTextContent: function(attr, animated) {
@@ -83,6 +90,8 @@ Vis.utils = _.extend(Vis.DEFAULTS, {
   },
 
   chartDelay: null,
+
+  filterDelay: null,
 
   // Timer: function(callback, delay) {
   //     var timerId, start, remaining = delay;
@@ -280,7 +289,7 @@ Vis.Models.App = Backbone.Model.extend({
     Backbone.on("filtering", function(d) { this.sync(d); }, this);
   },
 
-  sync: function() {
+  sync: function(d) {
     this.incomesHousehold.filter( this.filterExactList(this.getHouseholds()));
     this.expendituresHousehold.filter( this.filterExactList(this.getHouseholds()));
     this.expendituresChildHousehold.filter( this.filterExactList(this.getHouseholds()));
@@ -295,7 +304,7 @@ Vis.Models.App = Backbone.Model.extend({
       this.educationPoverty.filter(this.filterExactList(this.get("poverties")));
       this.educationLoc.filter(this.filterExactList(this.get("locations")));
     }
-    Backbone.trigger("filtered");
+    Backbone.trigger("filtered", {silent: d});
   },
 
   // DIMENSION FILTER PROXIES
@@ -320,19 +329,20 @@ Vis.Models.App = Backbone.Model.extend({
     this.filterBy(args, "locations", this.householdsLocation, this.householdsByLocation);
   },
 
-  filterByChildren: function(args) {
+  filterByChildren: function(args, silent) {
     var that = this;
+    if (typeof(silent) === undefined) silent = false;
 
     this.set("children", args || [1,2,3,4,5,6,7,8,9]);
     if (args !== null) {
-      // if has 7 which measn 7+ actually -> include 8 and 9 as well
+      // if has 7 which means 7+ actually -> include 8 and 9 as well
       if (args.indexOf(7) !== -1) args = args.concat([8,9]);
       var filter = this.getHouseholdsFiltered(this.get("children"));
       this.childrenHousehold.filter(this.filterExactList(filter));
     } else {
       this.childrenHousehold.filter(null);
     }
-    Backbone.trigger("filtering");
+    Backbone.trigger("filtering", silent);
   },
 
   filterByHead: function(args) {
@@ -1096,7 +1106,7 @@ Vis.Views.Background = Backbone.View.extend({
         },this);
 
       Backbone.on("filtered", function(d) {
-        if (that.model.get("scenario").page === 2) this.render(that.model.get("scenario").chapter);
+        if (that.model.get("scenario").page === 2 && !d.silent) this.render(that.model.get("scenario").chapter);
         }, this);
     },
 
@@ -1418,7 +1428,7 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
       },this);
 
     Backbone.on("filtered", function(d) {
-      if (that.model.get("scenario").page === 5) this.render(that.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === 5 && !d.silent) this.render(that.model.get("scenario").chapter);
       }, this);
   },
 
@@ -1568,7 +1578,7 @@ Vis.Views.Home = Backbone.View.extend({
       },this);
 
     Backbone.on("filtered", function(d) {
-      if (that.model.get("scenario").page === 1) this.render(that.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === 1 && !d.silent) this.render(that.model.get("scenario").chapter);
       }, this);
   },
 
@@ -1583,10 +1593,18 @@ Vis.Views.Home = Backbone.View.extend({
     $(".home").show();
     $(".charts").hide();
     $(".profile").hide();
+    $(".page-header img").hide();
+    // $(".page-header h3").animate({"font-size": "21px"}, 500);
+    $(".page-header h3").css("font-size", "21px");
 
-    ["main-text", "quote"].forEach(function(d) {
-      Vis.utils.setTextContent.call(that, d, true);
-    });
+    if (this.model.get("scenario").chapter !== 1 ) {
+      $(".narration").css("visibility", "visible");
+      ["main-text", "quote"].forEach(function(d) {
+        Vis.utils.setTextContent.call(that, d, true);
+      });
+    } else {
+      $(".narration").css("visibility", "hidden");
+    }
 
     $("#pending").hide();
   }
@@ -1605,7 +1623,7 @@ Vis.Views.Education = Backbone.View.extend({
       },this);
 
     Backbone.on("filtered", function(d) {
-      if (that.model.get("scenario").page === 7) this.render(that.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === 7 && !d.silent) this.render(that.model.get("scenario").chapter);
       }, this);
   },
 
@@ -1700,7 +1718,7 @@ Vis.Views.FamilyConditions = Backbone.View.extend({
       },this);
 
     Backbone.on("filtered", function(d) {
-      if (that.model.get("scenario").page === 9) this.render(that.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === 9 && !d.silent) this.render(that.model.get("scenario").chapter);
       }, this);
   },
 
@@ -1814,7 +1832,7 @@ Vis.Views.ChildEmpowerment = Backbone.View.extend({
       },this);
 
     Backbone.on("filtered", function(d) {
-      if (that.model.get("scenario").page === 8) this.render(that.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === 8 && !d.silent) this.render(that.model.get("scenario").chapter);
       }, this);
   },
 
@@ -1833,7 +1851,11 @@ Vis.Views.ChildEmpowerment = Backbone.View.extend({
     });
 
     $("#pending").hide();
-    $("#main-chart").show();
+    $(".charts").hide();
+    $(".child-empowerment").animate({ opacity: 0 }, 0);
+    $(".child-empowerment").show();
+    $(".child-empowerment").animate({ opacity: 1 }, 1500);
+
   }
 });
 // Conclusion view
@@ -1850,7 +1872,7 @@ Vis.Views.Conclusion = Backbone.View.extend({
       },this);
 
     Backbone.on("filtered", function(d) {
-      if (that.model.get("scenario").page === 10) this.render(that.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === 10 && !d.silent) this.render(that.model.get("scenario").chapter);
       }, this);
   },
 
@@ -1889,7 +1911,7 @@ Vis.Views.Incomes = Backbone.View.extend({
       },this);
 
     Backbone.on("filtered", function(d) {
-      if (that.model.get("scenario").page === 3) this.render(that.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === 3  && !d.silent) this.render(that.model.get("scenario").chapter);
       }, this);
   },
 
@@ -2030,7 +2052,7 @@ Vis.Views.Expenditures = Backbone.View.extend({
         },this);
 
       Backbone.on("filtered", function(d) {
-        if (that.model.get("scenario").page === 4) this.render(that.model.get("scenario").chapter);
+        if (that.model.get("scenario").page === 4 && !d.silent) this.render(that.model.get("scenario").chapter);
         }, this);
     },
 
@@ -2057,6 +2079,7 @@ Vis.Views.Expenditures = Backbone.View.extend({
         that.initChart(chapter);
         $(".charts").animate({ opacity: 1 }, 1500);
       }, 4000);
+
     },
 
     initChart: function(chapter) {
@@ -2117,6 +2140,7 @@ Vis.Views.Expenditures = Backbone.View.extend({
     },
 
     render: function(chapter) {
+      var that = this;
       switch(chapter) {
           case 1:
             this.chart
@@ -2126,6 +2150,9 @@ Vis.Views.Expenditures = Backbone.View.extend({
             d3.select("#main-chart").call(this.chart);
             break;
           case 2:
+            Vis.utils.filterDelay = setTimeout(function() {
+              that.model.filterByChildren([4,5,6,7,8,9]);
+            }, 3000);
             this.chart
               .data(this.getData(chapter))
               .relativeTo(this.getTotalHouseholds(chapter))
@@ -2201,7 +2228,7 @@ Vis.Views.ExpendituresChildren = Backbone.View.extend({
         },this);
 
       Backbone.on("filtered", function(d) {
-        if (that.model.get("scenario").page === 99) this.render(that.model.get("scenario").chapter);
+        if (that.model.get("scenario").page === 99 && !d.silent) this.render(that.model.get("scenario").chapter);
         }, this);
     },
 
@@ -2375,7 +2402,7 @@ Vis.Views.ResultsChildren = Backbone.View.extend({
       },this);
 
     Backbone.on("filtered", function(d) {
-      if (that.model.get("scenario").page === 6) this.render(that.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === 6 && !d.silent) this.render(that.model.get("scenario").chapter);
       }, this);
   },
 
@@ -4187,8 +4214,8 @@ d3.timeLineNavigation = function() {
             .classed("elapsed", function(d) {
               var page = elapsed.page,
                   chapter = elapsed.chapter;
-              // return (+(d.page + d.chapter) <= (10 * page + chapter)) ?
-              return (d.page == page) ?
+              return (+(d.page + d.chapter) <= (10 * page + chapter)) ?
+              // return (d.page == page) ?
                 true : false;
             })
 
@@ -5004,7 +5031,7 @@ d3.multiSeriesTimeLineAlt = function() {
             return (highlighted.indexOf(d.key) === -1) ?
               true : false;
           })
-          .transition()
+          .transition().duration(1500)
           .attr("d", function(d) {
             var reordered = [];
             y.domain().forEach(function(v) {
@@ -5048,7 +5075,7 @@ d3.multiSeriesTimeLineAlt = function() {
             return color(parent.key); })
           .attr("r", function(d) {
             return 2.5})
-          .transition()
+          .transition().duration(1500)
           .attr("cx", function(d) {
             return x(toPercentage(d.count)); })
           .attr("cy", function(d) {

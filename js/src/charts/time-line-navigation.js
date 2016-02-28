@@ -118,8 +118,8 @@ d3.timeLineNavigation = function() {
             .classed("elapsed", function(d) {
               var page = elapsed.page,
                   chapter = elapsed.chapter;
-              // return (+(d.page + d.chapter) <= (10 * page + chapter)) ?
-              return (d.page == page) ?
+              return (+(d.page + d.chapter) <= (10 * page + chapter)) ?
+              // return (d.page == page) ?
                 true : false;
             })
 

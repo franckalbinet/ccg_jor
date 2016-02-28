@@ -28,7 +28,7 @@ Vis.Models.App = Backbone.Model.extend({
     Backbone.on("filtering", function(d) { this.sync(d); }, this);
   },
 
-  sync: function() {
+  sync: function(d) {
     this.incomesHousehold.filter( this.filterExactList(this.getHouseholds()));
     this.expendituresHousehold.filter( this.filterExactList(this.getHouseholds()));
     this.expendituresChildHousehold.filter( this.filterExactList(this.getHouseholds()));
@@ -43,7 +43,7 @@ Vis.Models.App = Backbone.Model.extend({
       this.educationPoverty.filter(this.filterExactList(this.get("poverties")));
       this.educationLoc.filter(this.filterExactList(this.get("locations")));
     }
-    Backbone.trigger("filtered");
+    Backbone.trigger("filtered", {silent: d});
   },
 
   // DIMENSION FILTER PROXIES
@@ -68,19 +68,20 @@ Vis.Models.App = Backbone.Model.extend({
     this.filterBy(args, "locations", this.householdsLocation, this.householdsByLocation);
   },
 
-  filterByChildren: function(args) {
+  filterByChildren: function(args, silent) {
     var that = this;
+    if (typeof(silent) === undefined) silent = false;
 
     this.set("children", args || [1,2,3,4,5,6,7,8,9]);
     if (args !== null) {
-      // if has 7 which measn 7+ actually -> include 8 and 9 as well
+      // if has 7 which means 7+ actually -> include 8 and 9 as well
       if (args.indexOf(7) !== -1) args = args.concat([8,9]);
       var filter = this.getHouseholdsFiltered(this.get("children"));
       this.childrenHousehold.filter(this.filterExactList(filter));
     } else {
       this.childrenHousehold.filter(null);
     }
-    Backbone.trigger("filtering");
+    Backbone.trigger("filtering", silent);
   },
 
   filterByHead: function(args) {
