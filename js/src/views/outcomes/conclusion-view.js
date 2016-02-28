@@ -31,6 +31,8 @@ Vis.Views.Conclusion = Backbone.View.extend({
       Vis.utils.setTextContent.call(that, d);
     });
 
+    $(".footer").show();
+
     $("#pending").hide();
     $(".charts").hide();
   }

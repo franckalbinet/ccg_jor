@@ -22,6 +22,7 @@ Vis.utils = _.extend(Vis.DEFAULTS, {
     Vis.Models.app.filterByChildren(null, true);
     $(".home-title").hide();
     $(".logos").css("visibility", "hidden");
+    $(".footer").hide();
   },
 
   setTextContent: function(attr, animated) {

@@ -33,6 +33,7 @@ Vis.Views.Home = Backbone.View.extend({
       $(".narration").hide();
       $(".home-title").show();
       $(".logos").css("visibility", "visible");
+      $(".footer").show();
     }
 
     if (this.model.get("scenario").chapter !== 1 ) {

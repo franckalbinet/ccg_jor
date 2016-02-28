@@ -78,6 +78,7 @@ Vis.utils = _.extend(Vis.DEFAULTS, {
     Vis.Models.app.filterByChildren(null, true);
     $(".home-title").hide();
     $(".logos").css("visibility", "hidden");
+    $(".footer").hide();
   },
 
   setTextContent: function(attr, animated) {
@@ -1603,6 +1604,7 @@ Vis.Views.Home = Backbone.View.extend({
       $(".narration").hide();
       $(".home-title").show();
       $(".logos").css("visibility", "visible");
+      $(".footer").show();
     }
 
     if (this.model.get("scenario").chapter !== 1 ) {
@@ -1899,6 +1901,8 @@ Vis.Views.Conclusion = Backbone.View.extend({
     ["main-text", "quote"].forEach(function(d) {
       Vis.utils.setTextContent.call(that, d);
     });
+
+    $(".footer").show();
 
     $("#pending").hide();
     $(".charts").hide();
