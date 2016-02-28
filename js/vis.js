@@ -4191,11 +4191,11 @@ d3.timeLineNavigation = function() {
         lines
             .attr("x1", function(d) { return x(d.time); })
             .attr("y1", function(d,i) {
-              return (i%2 == 0) ? 14 : -14;
+              return (i%2 == 0) ? -14 : 14;
             })
             .attr("x2", function(d) { return x(d.time); })
             .attr("y2", function(d,i) {
-              return (i%2 == 0) ? 10 : -10;
+              return (i%2 == 0) ? -10 : 10;
             });
 
 
@@ -4209,7 +4209,7 @@ d3.timeLineNavigation = function() {
             .attr("text-anchor", "middle")
             .attr("x", function(d) { return x(d.time); })
             .attr("y", function(d,i) {
-              return (i%2 == 0) ? 24 : -18;
+              return (i%2 == 0) ? -18 : 24;
             })
             .classed("elapsed", function(d) {
               var page = elapsed.page,
