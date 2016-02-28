@@ -6,17 +6,27 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
     cursor: 0,
     timer: null,
     last: false,
+    progressLine: null,
+    duration: 0,
 
     events: {
       "click button": "clickHandler",
     },
     initialize: function () {
       var that = this;
+      this.initProgressLine();
       this.initChart();
       this.btnToPause($("#time-line-navigation .btn"));
       this.model.on("change:scenario", function() {
+
+        // set progressLine on origin when new scenario
+        this.progressLine.set(0);
+
+        // this.duration = this.getDuration();
+
         var milestone = this.findMilestone();
         this.cursor = milestone.time.getMilliseconds();
+
         that.render();
         if(this.isLast()) {
           this.btnToPause($("#time-line-navigation .btn"));
@@ -54,6 +64,7 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
     },
 
     start: function() {
+      this.model.set("playing", true);
       var that = this;
       if(!this.clock) {
         this.clock = setInterval(
@@ -71,6 +82,7 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
     },
 
     stop: function() {
+      this.model.set("playing", false);
       window.clearInterval(this.clock);
       this.clock = null;
     },
@@ -128,5 +140,19 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
 
           return this.getData().filter(function(d) {
             return +d.chapter === chapter && +d.page === page ; })[0];
+    },
+
+    getDuration: function() {
+
+    },
+
+    initProgressLine: function() {
+      this.progressLine = new ProgressBar.Line('.line-down', {
+         color: '#888',
+         strokeWidth: 0.4,
+         duration: 1000,
+         trailColor: '#ccc',
+         trailWidth: 0.2
+      });
     }
 });

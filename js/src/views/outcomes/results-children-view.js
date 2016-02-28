@@ -1,5 +1,5 @@
-// Grant impacts view
-Vis.Views.GrantImpacts = Backbone.View.extend({
+// Results for Children view
+Vis.Views.ResultsChildren = Backbone.View.extend({
   el: '.container',
 
   initialize: function () {
@@ -53,7 +53,7 @@ Vis.Views.GrantImpacts = Backbone.View.extend({
             .data(data)
             .color(d3.scale.ordinal().range(['#003950','#567888','#a1bdc5', "#B45B49"]).domain([1, 2, 3, 4]))
             .relativeTo(total)
-            .title("Covering of children basic needs")
+            .title("Covering of children's basic needs")
             .xTitle("")
             .lookUp(Vis.DEFAULTS.LOOKUP_CODES.BASIC_NEEDS);
           break;

@@ -22,7 +22,7 @@ Vis.Views.HouseholdsChildren = Backbone.View.extend({
         .xAxis(d3.svg.axis().orient("top").ticks(3).tickFormat(function(d) { return d + "%"; }))
         // .yAxis(d3.svg.axis().orient("left").tickValues(d3.range(1,10)))
         .yAxis(d3.svg.axis().orient("left").tickValues(d3.range(1,8)))
-        .title("By nb. of children")
+        .title("By # of children")
         .hasBrush(true);
 
       this.chart.on("filtering", function (selected) {

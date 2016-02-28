@@ -26,13 +26,12 @@ pdm3 <- read.table("./combined_3_rounds/pdm3.csv", sep = ",", header = TRUE, quo
 all_ben <- read.table("./all_beneficiaries.csv", sep = ",", header = TRUE, quote = "")
 all_ben <- tbl_df(all_ben)
 all_ben <- filter(all_ben, Poverty.Threshold != "")
-all_ben <- filter(all_ben, Poverty.Threshold != "Children with specific need (not abject or absolut)")
+#all_ben <- filter(all_ben, Poverty.Threshold != "Children with specific need (not abject or absolut)")
 
 
 all_gender <- table(all_ben$ChildSex)
 all_gender <- all_gender / length(all_ben$ID)
-# F         M 
-# 0.4882895 0.5117105 
+
 
 all_ben$ageClass <- cut(all_ben$ChildAge, breaks=c(-1,1,4,11,15,17))
 all_age <- table(all_ben$ageClass)
@@ -335,9 +334,17 @@ expenditures_child_single <- tbl_df(expenditures_child_single)
 # merge  0 -> 99, 1 -> 3, 8 -> 7, 14 -> 12, 
 expenditures_child_single$Q14 <- as.numeric(levels(expenditures_child_single$Q14))[expenditures_child_single$Q14]
 expenditures_child_single$Q14[expenditures_child_single$Q14 %in% c(0)] <- 99
-expenditures_child_single$Q14[expenditures_child_single$Q14 %in% c(1)] <- 3
+#expenditures_child_single$Q14[expenditures_child_single$Q14 %in% c(1)] <- 3
 expenditures_child_single$Q14[expenditures_child_single$Q14 %in% c(8)] <- 7
 expenditures_child_single$Q14[expenditures_child_single$Q14 %in% c(14)] <- 12
+
+# remove School fees (1) for round 1 - data collection process was wrong
+# expenditures_child_single <- filter(expenditures_child_single, exp_child != 1 | round != 1)
+
+# remove School fees (1) for all rounds - data collection process was wrong
+# expenditures_child_single <- filter(expenditures_child_single, exp_child != 1 | round != 1)
+
+
 
 names(expenditures_child_single) <- c("hh","round","exp_child")
 expenditures_child_json <- toJSON(unname(split(expenditures_child_single, 1:nrow(expenditures_child_single))))

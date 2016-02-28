@@ -43,12 +43,6 @@ d3.timeLineNavigation = function() {
       // create the skeleton chart.
       if (g.empty()) _skeleton();
 
-      // if (brushExtent) {
-      //   brush.extent([brushExtent[0] - 0.5, brushExtent[1] - 0.5]);
-      //   _gBrush.call(brush);
-      //   brushExtent = null;
-      //   _listeners.filtering(_getDataBrushed(brush));
-      // }
       _render();
 
       function _render() {

@@ -226,7 +226,9 @@ Vis.Collections.App = Backbone.Collection.extend({
 
       // coerce data
       var timeFormatter = d3.time.format("%L");
+      var id = 0;
       milestones.forEach(function(d) {
+        d.id = id++;
         d.time = timeFormatter.parse(d.time.toString()),
         d.page = d.page.toString(),
         d.chapter = d.chapter.toString()
@@ -251,6 +253,8 @@ Vis.Collections.App = Backbone.Collection.extend({
 // Application model: save app. states
 Vis.Models.App = Backbone.Model.extend({
   defaults: {
+    // play status
+    playing: false,
     // navigation
     scenario: null,
 
@@ -751,7 +755,7 @@ Vis.Views.App = Backbone.View.extend({
       new Vis.Views.Expenditures({model: Vis.Models.app});
       new Vis.Views.ExpendituresChildren({model: Vis.Models.app});
       new Vis.Views.CopingMechanisms({model: Vis.Models.app});
-      new Vis.Views.GrantImpacts({model: Vis.Models.app});
+      new Vis.Views.ResultsChildren({model: Vis.Models.app});
       new Vis.Views.ChildEmpowerment({model: Vis.Models.app});
       new Vis.Views.Conclusion({model: Vis.Models.app});
       new Vis.Views.FamilyConditions({model: Vis.Models.app});
@@ -788,7 +792,7 @@ Vis.Views.HouseholdsChildren = Backbone.View.extend({
         .xAxis(d3.svg.axis().orient("top").ticks(3).tickFormat(function(d) { return d + "%"; }))
         // .yAxis(d3.svg.axis().orient("left").tickValues(d3.range(1,10)))
         .yAxis(d3.svg.axis().orient("left").tickValues(d3.range(1,8)))
-        .title("By nb. of children")
+        .title("By # of children")
         .hasBrush(true);
 
       this.chart.on("filtering", function (selected) {
@@ -1160,7 +1164,12 @@ Vis.Views.Background = Backbone.View.extend({
                 onmouseout: function (d, i) { console.log("onmouseout", d, i); }
               },
               donut: {
-                  title: "Age of children"
+                  title: "Age of children",
+                  label: {
+                    format: function (value, ratio, id) {
+                      return d3.format('f')(value) + "%";
+                    }
+                  }
               },
               color: {
                 pattern: ['#003950', '#E59138', '#88A3B6', '#609078', '#B45B49']
@@ -1181,7 +1190,12 @@ Vis.Views.Background = Backbone.View.extend({
                 onmouseout: function (d, i) { console.log("onmouseout", d, i); }
               },
               donut: {
-                  title: "Gender of children"
+                  title: "Gender of children",
+                  label: {
+                    format: function (value, ratio, id) {
+                      return d3.format('f')(value) + "%";
+                    }
+                  }
               },
               color: {
                 pattern: ['#003950', '#E59138']
@@ -1204,7 +1218,10 @@ Vis.Views.Background = Backbone.View.extend({
               donut: {
                   title: "Vulnerability level",
                   label: {
-                    threshold: 0.1
+                    threshold: 0.1,
+                    format: function (value, ratio, id) {
+                      return d3.format('f')(value) + "%";
+                    }
                   }
               },
               color: {
@@ -1227,7 +1244,12 @@ Vis.Views.Background = Backbone.View.extend({
                 onmouseout: function (d, i) { console.log("onmouseout", d, i); }
               },
               donut: {
-                  title: "Age of children"
+                  title: "Age of children",
+                  label: {
+                    format: function (value, ratio, id) {
+                      return d3.format('f')(value) + "%";
+                    }
+                  }
               },
               color: {
                 pattern: ['#003950', '#E59138', '#88A3B6', '#609078', '#B45B49']
@@ -1248,7 +1270,12 @@ Vis.Views.Background = Backbone.View.extend({
                 onmouseout: function (d, i) { console.log("onmouseout", d, i); }
               },
               donut: {
-                  title: "Gender of children"
+                  title: "Gender of children",
+                  label: {
+                    format: function (value, ratio, id) {
+                      return d3.format('f')(value) + "%";
+                    }
+                  }
               },
               color: {
                 pattern: ['#003950', '#E59138']
@@ -1271,7 +1298,10 @@ Vis.Views.Background = Backbone.View.extend({
               donut: {
                   title: "Vulnerability level",
                   label: {
-                    threshold: 0.1
+                    threshold: 0.1,
+                    format: function (value, ratio, id) {
+                      return d3.format('f')(value) + "%";
+                    }
                   }
               },
               color: {
@@ -2044,7 +2074,7 @@ Vis.Views.Expenditures = Backbone.View.extend({
                 ["#003950","#E59138","#5F1D00"]).domain([1, 2, 3]))
               .relativeTo(total)
               .yDomain([1,2,4,3,9,10,7,5,6,8,11,13,12,97])
-              .title("Expenditures that people who receive the Cash Grant spend it on")
+              .title("Reported expenditures")
               .xTitle("")
               .lookUp(Vis.DEFAULTS.LOOKUP_CODES.EXPENDITURES)
               .on("highlighted", function (highlighted) {
@@ -2059,7 +2089,8 @@ Vis.Views.Expenditures = Backbone.View.extend({
               .color(d3.scale.ordinal().range(
                 ["#003950","#E59138","#5F1D00"]).domain([1, 2, 3]))
               .relativeTo(total)
-              .yDomain([10,6,3,9,1,7,5,2,11,4,12,13,99])
+              // .yDomain([10,6,3,9,1,7,5,2,11,4,12,13,99])
+              .yDomain([10,6,3,9,7,5,2,11,4,12,13,99])
               .title("Children-specific expenditures")
               .xTitle("")
               .isExpenditureChildren(true)
@@ -2330,8 +2361,8 @@ Vis.Views.ExpendituresChildren = Backbone.View.extend({
         .text(function(d) { return d; });
     }
 });
-// Grant impacts view
-Vis.Views.GrantImpacts = Backbone.View.extend({
+// Results for Children view
+Vis.Views.ResultsChildren = Backbone.View.extend({
   el: '.container',
 
   initialize: function () {
@@ -2385,7 +2416,7 @@ Vis.Views.GrantImpacts = Backbone.View.extend({
             .data(data)
             .color(d3.scale.ordinal().range(['#003950','#567888','#a1bdc5', "#B45B49"]).domain([1, 2, 3, 4]))
             .relativeTo(total)
-            .title("Covering of children basic needs")
+            .title("Covering of children's basic needs")
             .xTitle("")
             .lookUp(Vis.DEFAULTS.LOOKUP_CODES.BASIC_NEEDS);
           break;
@@ -2515,17 +2546,27 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
     cursor: 0,
     timer: null,
     last: false,
+    progressLine: null,
+    duration: 0,
 
     events: {
       "click button": "clickHandler",
     },
     initialize: function () {
       var that = this;
+      this.initProgressLine();
       this.initChart();
       this.btnToPause($("#time-line-navigation .btn"));
       this.model.on("change:scenario", function() {
+
+        // set progressLine on origin when new scenario
+        this.progressLine.set(0);
+
+        // this.duration = this.getDuration();
+
         var milestone = this.findMilestone();
         this.cursor = milestone.time.getMilliseconds();
+
         that.render();
         if(this.isLast()) {
           this.btnToPause($("#time-line-navigation .btn"));
@@ -2563,6 +2604,7 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
     },
 
     start: function() {
+      this.model.set("playing", true);
       var that = this;
       if(!this.clock) {
         this.clock = setInterval(
@@ -2580,6 +2622,7 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
     },
 
     stop: function() {
+      this.model.set("playing", false);
       window.clearInterval(this.clock);
       this.clock = null;
     },
@@ -2637,6 +2680,20 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
 
           return this.getData().filter(function(d) {
             return +d.chapter === chapter && +d.page === page ; })[0];
+    },
+
+    getDuration: function() {
+
+    },
+
+    initProgressLine: function() {
+      this.progressLine = new ProgressBar.Line('.line-down', {
+         color: '#888',
+         strokeWidth: 0.4,
+         duration: 1000,
+         trailColor: '#ccc',
+         trailWidth: 0.2
+      });
     }
 });
 /* CREATE BAR CHART INSTANCE*/
@@ -4055,12 +4112,6 @@ d3.timeLineNavigation = function() {
       // create the skeleton chart.
       if (g.empty()) _skeleton();
 
-      // if (brushExtent) {
-      //   brush.extent([brushExtent[0] - 0.5, brushExtent[1] - 0.5]);
-      //   _gBrush.call(brush);
-      //   brushExtent = null;
-      //   _listeners.filtering(_getDataBrushed(brush));
-      // }
       _render();
 
       function _render() {
@@ -4960,7 +5011,7 @@ d3.multiSeriesTimeLineAlt = function() {
               reordered.push(  d.value.filter(function(f) { return f.category === v})[0])
             })
             // special case of tuition fees for children expenditures - data is wrong
-            if (d.key == 1 && isExpenditureChildren) return _line(reordered.slice(0,4)) + _line(reordered.slice(5, -1));
+            // if (d.key == 1 && isExpenditureChildren) return _line(reordered.slice(0,4)) + _line(reordered.slice(5, -1));
             return _line(reordered);
           });
 
@@ -4968,9 +5019,9 @@ d3.multiSeriesTimeLineAlt = function() {
         var circles = item.selectAll(".points")
           .data(function(d){
             // special case of tuition fees for children expenditures - data is wrong
-            if (isExpenditureChildren && this.parentNode.__data__.key == 1 ) {
-              return d.value.filter(function(v) { return v.category != 1});
-            }
+            // if (isExpenditureChildren && this.parentNode.__data__.key == 1 ) {
+            //   return d.value.filter(function(v) { return v.category != 1});
+            // }
             return d.value});
 
         circles.enter().append("circle").attr("class", "points");
@@ -5068,9 +5119,9 @@ d3.multiSeriesTimeLineAlt = function() {
         });
 
         // special case of tuition fees for children expenditures - data is wrong
-        if (isExpenditureChildren) {
-          _dataVoronoi = _dataVoronoi.filter(function(d) { return d.category != 1 || d.key != 1; })
-        }
+        // if (isExpenditureChildren) {
+        //   _dataVoronoi = _dataVoronoi.filter(function(d) { return d.category != 1 || d.key != 1; })
+        // }
 
         if(_hasDataChanged()) {
           _gVoronoi.selectAll("path").remove();
@@ -5104,9 +5155,9 @@ d3.multiSeriesTimeLineAlt = function() {
       function _setFigures(feature) {
         // special case of tuition fees for children expenditures - data is wrong
         values = feature.value;
-        if (isExpenditureChildren && feature.key == 1) {
-          values = values.filter(function(d) { return d.category != 1; });
-        }
+        // if (isExpenditureChildren && feature.key == 1) {
+        //   values = values.filter(function(d) { return d.category != 1; });
+        // }
         values.forEach(function(d) {
           _gFigures.append("text")
             .attr("x", function() { return x(toPercentage(d.count)); } )

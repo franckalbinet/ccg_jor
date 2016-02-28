@@ -122,7 +122,7 @@ d3.multiSeriesTimeLineAlt = function() {
               reordered.push(  d.value.filter(function(f) { return f.category === v})[0])
             })
             // special case of tuition fees for children expenditures - data is wrong
-            if (d.key == 1 && isExpenditureChildren) return _line(reordered.slice(0,4)) + _line(reordered.slice(5, -1));
+            // if (d.key == 1 && isExpenditureChildren) return _line(reordered.slice(0,4)) + _line(reordered.slice(5, -1));
             return _line(reordered);
           });
 
@@ -130,9 +130,9 @@ d3.multiSeriesTimeLineAlt = function() {
         var circles = item.selectAll(".points")
           .data(function(d){
             // special case of tuition fees for children expenditures - data is wrong
-            if (isExpenditureChildren && this.parentNode.__data__.key == 1 ) {
-              return d.value.filter(function(v) { return v.category != 1});
-            }
+            // if (isExpenditureChildren && this.parentNode.__data__.key == 1 ) {
+            //   return d.value.filter(function(v) { return v.category != 1});
+            // }
             return d.value});
 
         circles.enter().append("circle").attr("class", "points");
@@ -230,9 +230,9 @@ d3.multiSeriesTimeLineAlt = function() {
         });
 
         // special case of tuition fees for children expenditures - data is wrong
-        if (isExpenditureChildren) {
-          _dataVoronoi = _dataVoronoi.filter(function(d) { return d.category != 1 || d.key != 1; })
-        }
+        // if (isExpenditureChildren) {
+        //   _dataVoronoi = _dataVoronoi.filter(function(d) { return d.category != 1 || d.key != 1; })
+        // }
 
         if(_hasDataChanged()) {
           _gVoronoi.selectAll("path").remove();
@@ -266,9 +266,9 @@ d3.multiSeriesTimeLineAlt = function() {
       function _setFigures(feature) {
         // special case of tuition fees for children expenditures - data is wrong
         values = feature.value;
-        if (isExpenditureChildren && feature.key == 1) {
-          values = values.filter(function(d) { return d.category != 1; });
-        }
+        // if (isExpenditureChildren && feature.key == 1) {
+        //   values = values.filter(function(d) { return d.category != 1; });
+        // }
         values.forEach(function(d) {
           _gFigures.append("text")
             .attr("x", function() { return x(toPercentage(d.count)); } )

@@ -96,7 +96,9 @@ Vis.Collections.App = Backbone.Collection.extend({
 
       // coerce data
       var timeFormatter = d3.time.format("%L");
+      var id = 0;
       milestones.forEach(function(d) {
+        d.id = id++;
         d.time = timeFormatter.parse(d.time.toString()),
         d.page = d.page.toString(),
         d.chapter = d.chapter.toString()

@@ -84,7 +84,12 @@ Vis.Views.Background = Backbone.View.extend({
                 onmouseout: function (d, i) { console.log("onmouseout", d, i); }
               },
               donut: {
-                  title: "Age of children"
+                  title: "Age of children",
+                  label: {
+                    format: function (value, ratio, id) {
+                      return d3.format('f')(value) + "%";
+                    }
+                  }
               },
               color: {
                 pattern: ['#003950', '#E59138', '#88A3B6', '#609078', '#B45B49']
@@ -105,7 +110,12 @@ Vis.Views.Background = Backbone.View.extend({
                 onmouseout: function (d, i) { console.log("onmouseout", d, i); }
               },
               donut: {
-                  title: "Gender of children"
+                  title: "Gender of children",
+                  label: {
+                    format: function (value, ratio, id) {
+                      return d3.format('f')(value) + "%";
+                    }
+                  }
               },
               color: {
                 pattern: ['#003950', '#E59138']
@@ -128,7 +138,10 @@ Vis.Views.Background = Backbone.View.extend({
               donut: {
                   title: "Vulnerability level",
                   label: {
-                    threshold: 0.1
+                    threshold: 0.1,
+                    format: function (value, ratio, id) {
+                      return d3.format('f')(value) + "%";
+                    }
                   }
               },
               color: {
@@ -151,7 +164,12 @@ Vis.Views.Background = Backbone.View.extend({
                 onmouseout: function (d, i) { console.log("onmouseout", d, i); }
               },
               donut: {
-                  title: "Age of children"
+                  title: "Age of children",
+                  label: {
+                    format: function (value, ratio, id) {
+                      return d3.format('f')(value) + "%";
+                    }
+                  }
               },
               color: {
                 pattern: ['#003950', '#E59138', '#88A3B6', '#609078', '#B45B49']
@@ -172,7 +190,12 @@ Vis.Views.Background = Backbone.View.extend({
                 onmouseout: function (d, i) { console.log("onmouseout", d, i); }
               },
               donut: {
-                  title: "Gender of children"
+                  title: "Gender of children",
+                  label: {
+                    format: function (value, ratio, id) {
+                      return d3.format('f')(value) + "%";
+                    }
+                  }
               },
               color: {
                 pattern: ['#003950', '#E59138']
@@ -195,7 +218,10 @@ Vis.Views.Background = Backbone.View.extend({
               donut: {
                   title: "Vulnerability level",
                   label: {
-                    threshold: 0.1
+                    threshold: 0.1,
+                    format: function (value, ratio, id) {
+                      return d3.format('f')(value) + "%";
+                    }
                   }
               },
               color: {

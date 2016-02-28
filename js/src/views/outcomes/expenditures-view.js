@@ -58,7 +58,7 @@ Vis.Views.Expenditures = Backbone.View.extend({
                 ["#003950","#E59138","#5F1D00"]).domain([1, 2, 3]))
               .relativeTo(total)
               .yDomain([1,2,4,3,9,10,7,5,6,8,11,13,12,97])
-              .title("Expenditures that people who receive the Cash Grant spend it on")
+              .title("Reported expenditures")
               .xTitle("")
               .lookUp(Vis.DEFAULTS.LOOKUP_CODES.EXPENDITURES)
               .on("highlighted", function (highlighted) {
@@ -73,7 +73,8 @@ Vis.Views.Expenditures = Backbone.View.extend({
               .color(d3.scale.ordinal().range(
                 ["#003950","#E59138","#5F1D00"]).domain([1, 2, 3]))
               .relativeTo(total)
-              .yDomain([10,6,3,9,1,7,5,2,11,4,12,13,99])
+              // .yDomain([10,6,3,9,1,7,5,2,11,4,12,13,99])
+              .yDomain([10,6,3,9,7,5,2,11,4,12,13,99])
               .title("Children-specific expenditures")
               .xTitle("")
               .isExpenditureChildren(true)

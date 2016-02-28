@@ -1,6 +1,8 @@
 // Application model: save app. states
 Vis.Models.App = Backbone.Model.extend({
   defaults: {
+    // play status
+    playing: false,
     // navigation
     scenario: null,
 
