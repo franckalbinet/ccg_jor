@@ -98,14 +98,10 @@ h1,h2,h3,h4,h5 {
   margin-right: auto;
 }
 .footer {
-  margin-top: 30px;
+  /*margin-top: 30px;*/
   margin-bottom: 20px;
-  /*border-top: 1px solid #DDD;*/
-  /*border-top: 1px solid rgba(28,171, 226, 0.2);*/
-  /*border-top: 1px solid #888;*/
   font-size: 0.75em;
   color: #888;
-  /*color: #1CABE2;*/
 }
 .footer p {
   margin-bottom: 0px;
@@ -391,7 +387,6 @@ h1,h2,h3,h4,h5 {
   font-size: 11px;
 }
 
-
 #main-chart .main.title {
   font-size: 11px;
   font-weight: 700;
@@ -497,6 +492,9 @@ h1,h2,h3,h4,h5 {
 
 
 /* time line navigation */
+.nav {
+  margin-bottom: 40px;
+}
 .btn {
   font-size: 12px;
   padding: 5px 10px;
