@@ -2670,7 +2670,7 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
             }
             that.cursor += 1;
           }
-          , 1000);
+          , 1500);
       }
     },
 
@@ -2747,7 +2747,7 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
       }  else {
         duration = this.model.data.milestones.filter(function(d) { return d.id == id+1 })[0].time.getMilliseconds()
           - milestone.time.getMilliseconds();
-        duration = duration * 1000 * (1 - elapsed);
+        duration = duration * 1500 * (1 - elapsed);
       }
       return parseInt(duration);
     },
@@ -2756,7 +2756,7 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
       this.progressLine = new ProgressBar.Line('.line-down', {
          color: '#888',
          strokeWidth: 0.4,
-         duration: 1000,
+         duration: 1500,
          trailColor: '#ccc',
          trailWidth: 0.2
       });
