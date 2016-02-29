@@ -22,7 +22,7 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
     POVERTY: {1:"High", 2:"Severe", 3:"Resilient"},
     HEAD: {1:"Father", 2:"Mother"},
     GENDER: {1:"Male", 2:"Female"},
-    INCOME: {1:"Cash Assistance (UNICEF and UNHCR)", 2:"Food Voucher (WFP)", 5:"Paid labour", 99:"Other"},
+    INCOME: {1:"Cash Assistance UNICEF & UNHCR", 2:"Food Voucher WFP", 5:"Paid labour", 99:"Other"},
     ECO_CONTRIBUTORS: {1:"Father",2:"Mother",3:"Other adult",4:"Child over 16",5:"Child under 16",6:"None"},
     EXPENDITURES: {1:"Rent", 2:"Utilities", 3:"Communications", 4:"Food", 5:"Education", 6:"Health care services [adults]",
                    7:"Medicine [adults]", 8:"Health care services [children]", 9:"Medicine [children]", 10:"Transportation",
@@ -40,6 +40,7 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
                         5:"Receiving humanitarian assistance from NGOs/CBOs",6:"Selling properties/assets",7:"Selling food voucher",8:"Working more than one job",
                         9:"Borrowing money",10:"Using your savings",11:"Asking for money ",12:"Dropping children out of school",13:"Let your children work [child labor]",
                         14: "Let your children ask for money",15:"Reduction of essential expenditure on health",16:"Reduction of essential expenditure on education",
-                        17:"Immigrate to another country for residency",18:"Move back to the refugee camp",19:"Return to Syria",97:"Other"}
+                        17:"Immigrate to another country for residency",18:"Move back to the refugee camp",19:"Return to Syria",97:"Other"},
+    WAVES: {1: "June", 2: "August", 3: "November"}
   }
 });

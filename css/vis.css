@@ -97,14 +97,17 @@ h1,h2,h3,h4,h5 {
   margin-left: auto;
   margin-right: auto;
 }
+
+/* Footer */
 .footer {
-  /*margin-top: 30px;*/
   margin-bottom: 20px;
   font-size: 0.75em;
+  text-align: center;
   color: #888;
 }
 .footer p {
   margin-bottom: 0px;
+  /*border-bottom: 1px solid #ddd;*/
 }
 .footer .title {
   font-weight: 700;
@@ -112,11 +115,6 @@ h1,h2,h3,h4,h5 {
 .footer .item {
 }
 .footer .credits {
-  text-align: center;
-  /*padding-left: 100px;*/
-}
-.footer .authors {
-  padding-left: 220px;
 }
 
 /* text - narrative */
@@ -256,8 +254,7 @@ h1,h2,h3,h4,h5 {
 }
 
 .bar-chart-vert rect.not-selected {
-  /*fill: #ddd;*/
-  fill: #ddd;
+  fill: #dedede;
 }
 .bar-chart-vert .axis {
   font: 10px sans-serif;

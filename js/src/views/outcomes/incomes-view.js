@@ -50,15 +50,16 @@ Vis.Views.Incomes = Backbone.View.extend({
 
     switch(chapter) {
         case 1:
-          this.chart = d3.barChartMultiStacked()
+          this.chart = d3.barChartMultiClustered()
             .width(600).height(350)
-            .margins({top: 40, right: 280, bottom: 40, left: 160})
+            .margins({top: 40, right: 100, bottom: 40, left: 60})
             .data(data)
-            .color(d3.scale.ordinal().range(["#003950", "#88A3B6", "#E59138","#EDDAC3"]).domain([1, 2, 5, 99]))
+            .color(d3.scale.ordinal().range(["#003950", "#E59138", "#609078"]).domain([1, 2, 3]))
             .relativeTo(total)
-            .title("Main sources of income (% of answers)")
+            .title("Main sources of income")
             .xTitle("")
-            .lookUp(Vis.DEFAULTS.LOOKUP_CODES.INCOME);
+            .lookUpX(Vis.DEFAULTS.LOOKUP_CODES.INCOME)
+            .lookUpColors(Vis.DEFAULTS.LOOKUP_CODES.WAVES);
 
           break;
         case 2:
@@ -106,7 +107,8 @@ Vis.Views.Incomes = Backbone.View.extend({
   getData: function(chapter) {
     switch(chapter) {
         case 1:
-          return this.model.incomesByRound.top(Infinity);
+          // return this.model.incomesByRound.top(Infinity);
+          return this.model.incomesByType.top(Infinity);
           break;
         case 2:
           return this.model.ecoContribByType.top(Infinity);
@@ -119,10 +121,12 @@ Vis.Views.Incomes = Backbone.View.extend({
   getTotalHouseholds: function(chapter) {
     switch(chapter) {
       case 1:
-        var totals = {};
-        this.model.incomesByRound.top(Infinity)
-          .forEach(function(d) { totals[d.key] = d3.sum(d.value.map(function(v) { return v.count; })) });
-        return totals;
+        // var totals = {};
+        // this.model.incomesByRound.top(Infinity)
+        //   .forEach(function(d) { totals[d.key] = d3.sum(d.value.map(function(v) { return v.count; })) });
+        // return totals;
+        return _.unique(this.model.incomesType.top(Infinity)
+                .map(function(d) { return d.hh })).length;
         break;
       case 2:
         return _.unique(this.model.ecoContribHousehold.top(Infinity)
@@ -134,8 +138,11 @@ Vis.Views.Incomes = Backbone.View.extend({
   },
 
   fixPositionning: function() {
-    d3.selectAll("#main-chart .x.axis text")
-      .data(["Jun.", "Aug.", "Nov."])
-      .text(function(d) { return d; });
+    d3.select(".legends").attr("transform", "translate(-40,0)");
+    // d3.selectAll("#main-chart .x.axis text")
+    //   .data(["UN Cash Assistance", "WFP Voucher", "Paid Labour", "Other"])
+    //   .text(function(d) { return d; });
+
+      // Cash Assistance (UNICEF and UNHCR)", 2:"Food Voucher (WFP)", 5:"Paid labour", 99:"Other"
   }
 });

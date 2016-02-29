@@ -1,7 +1,7 @@
 // Underscore Templates
 Vis.Templates["main-text"] =[
   "<p>On average, 55,000 children from 15,000 families were given 20 JD <br> (28 USD) per child per month to <strong>cover the basic needs of children</strong>.</p>",
-  "<p>In June, August, and November 2015, <strong>an independent third party monitoring</strong> agency conducted surveys and focus group discussions to <strong>ask 500 families</strong> benefitting from the programme how they were managing the crisis. <strong>431 families</strong> participating in all three rounds of the survey.These families represented <strong>1,504 children</strong>.</p>",
+  "<p>In June, August, and November 2015, <strong>an independent third party monitoring</strong> agency conducted surveys and focus group discussions to <strong>ask 500 families</strong> benefitting from the programme how they were managing the crisis. <strong>431 families</strong> participated in all three rounds of the survey. These families represented <strong>1,504 children</strong>.</p>",
   "<p>Given that Syrian refugees are not allowed to work, they report a <strong>heavy dependence on cash assistance and food vouchers provided by UNICEF, UNHCR, and WFP</strong>.</p>",
   "<p>Over the course of the 10 months, <strong>men as an economic contributors to the family plummeted</strong>. This is not made up for by any other member of the family, but refugees did report a slight increase in children under 16 working.</p>",
   "<p>While some expenditures varied seasonally, the <strong>main expenditure items remained consistent</strong>: rent, utilities, food, communications and education. We see that over time refugees are less able to pay down their debt, and less able to save.</p>",
