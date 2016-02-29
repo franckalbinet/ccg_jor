@@ -80,6 +80,7 @@ Vis.utils = _.extend(Vis.DEFAULTS, {
     $(".home-title").hide();
     $(".logos").css("visibility", "hidden");
     $(".footer").hide();
+    $(".home .ui").css("visibility", "hidden");
   },
 
   setTextContent: function(attr, animated) {
@@ -1612,6 +1613,7 @@ Vis.Views.Home = Backbone.View.extend({
       });
     } else {
       $(".page-header").css("visibility", "hidden");
+      $(".home .ui").css("visibility", "visible");
       $(".narration").hide();
       $(".home-title").show();
       $(".logos").css("visibility", "visible");

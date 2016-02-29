@@ -23,6 +23,7 @@ Vis.utils = _.extend(Vis.DEFAULTS, {
     $(".home-title").hide();
     $(".logos").css("visibility", "hidden");
     $(".footer").hide();
+    $(".home .ui").css("visibility", "hidden");
   },
 
   setTextContent: function(attr, animated) {

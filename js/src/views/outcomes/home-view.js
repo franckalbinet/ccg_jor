@@ -40,6 +40,7 @@ Vis.Views.Home = Backbone.View.extend({
       });
     } else {
       $(".page-header").css("visibility", "hidden");
+      $(".home .ui").css("visibility", "visible");
       $(".narration").hide();
       $(".home-title").show();
       $(".logos").css("visibility", "visible");
