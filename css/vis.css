@@ -92,6 +92,13 @@ h1,h2,h3,h4,h5 {
 .profile {
   margin-top: -11px;
 }
+.profile .ui {
+  font-size: 0.77em;
+  font-weight: 500;
+  color: #888;
+  padding-left: 45px;
+  margin-top: -14px;
+}
 #time-line-navigation .chart {
   width: 800px;
   margin-left: auto;
