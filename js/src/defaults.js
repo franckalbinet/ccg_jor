@@ -15,7 +15,9 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
     EDUCATION: "education.json",
     ECO_CONTRIBUTORS: "eco_contributors.json",
     EXPENDITURES_CHILDREN: "expenditures_children.json",
-    MILESTONES: "milestones.json"
+    MILESTONES: "milestones.json",
+    GOV_CENTROIDS: "gov_centroids.json",
+    GOV: "gov_s4.json"
   },
   LOOKUP_CODES: {
     GOVERNORATES: {1:"Irbid", 2:"Ajloun", 3:"Jarash", 4:"Amman", 5:"Zarqa", 6:"Madaba", 11:"Mafraq", 99:"Others"},

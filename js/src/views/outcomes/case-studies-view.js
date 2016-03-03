@@ -1,5 +1,5 @@
-// Children empowerment view
-Vis.Views.ChildEmpowerment = Backbone.View.extend({
+// Case Studies view
+Vis.Views.CaseStudies = Backbone.View.extend({
   el: '.container',
 
   initialize: function () {
@@ -22,7 +22,7 @@ Vis.Views.ChildEmpowerment = Backbone.View.extend({
     $("#households-children").show();
     $("#children-gender").hide();
 
-    Vis.utils.clearCharts();
+    Vis.utils.resetLayout();
 
     $(".profile").hide();
 

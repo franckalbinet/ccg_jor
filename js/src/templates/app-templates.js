@@ -9,7 +9,7 @@ Vis.Templates["main-text"] =[
   "<p>Families consistently reported being able to <strong>cover expenses for children that were not a priority before receiving the UNICEF child cash grant</strong>, and this increased over time.</p>",
   "<p>For the most part, families report that the amount of the grant was <strong>not able to change their reliance on most negative coping mechanisms</strong>. <br>However, the overall mix of strategies that families use to manage the crisis has largely remained stable - ie. has not gotten worse.</p>",
   "<p>Because of the grant, however, families were <strong>able to increase spending on basic needs for children.</strong></p>",
-  "<p><strong>Children also entered school in marginally higher numbers</strong> over the course of the ten months.</p>",
+  "<p>Refugees demonstrated a <strong>continued commitment to their children’s education</strong>, with enrollment marginally increasing over the ten months.</p>",
   "<p>Families also told us that children <strong>felt empowered</strong> because they knew the grant was for their needs.</p>",
   "<p>Despite deteriorating circumstances, families reported that they were <strong>able to increase spending on basic needs for children and increase their wellbeing and living conditions</strong>.<br>This, in turn, positively impacted their psychological wellbeing.</p>",
   "<p><strong>UNICEF will continue to provide refugees with the child cash grant they need to support their children through 2016.</strong></p>",
@@ -56,6 +56,18 @@ Vis.Templates["living-conditions"] =
   "  <div id='basic-needs' class='col-md-6'></div>" +
   "  <div id='improvement' class='col-md-6'></div>" +
   " </div>";
+
+// Vis.Templates["background-beneficiaries"] =
+//   "<div id='background-beneficiaries' class='row'>" +
+//   "  <div id='map' class='col-md-8'></div>" +
+//   "  <div id='demographics' class='col-md-4'>"+
+//   "    <div class='row'>" +
+//   "      <div id='age' class='col-md-12'></div>" +
+//   "      <div id='gender' class='col-md-12'></div>" +
+//   "      <div id='poverty' class='col-md-12'></div>" +
+//   "    </div>" +
+//   "  </div>" +
+//   "</div>";
 
 Vis.Templates["background-sample"] =
   "<div id='background-sample' class='row'>" +

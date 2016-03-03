@@ -88,12 +88,25 @@ Vis.Collections.App = Backbone.Collection.extend({
           })
         },
         that.url + Vis.DEFAULTS.DATASETS.EXPENDITURES_CHILDREN)
+      .defer(
+        function(url, callback) {
+          d3.json(url, function(error, result) {
+            callback(error, result);
+          })
+        },
+        that.url + Vis.DEFAULTS.DATASETS.GOV_CENTROIDS)
+      .defer(
+        function(url, callback) {
+          d3.json(url, function(error, result) {
+            callback(error, result);
+          })
+        },
+        that.url + Vis.DEFAULTS.DATASETS.GOV)
       .await(_ready);
 
     // on success
-    function _ready(error, children, households, outcomes, milestones, incomes, expenditures, currentCoping, stoppedCoping, education, ecoContributors, expendituresChild) {
+    function _ready(error, children, households, outcomes, milestones, incomes, expenditures, currentCoping, stoppedCoping, education, ecoContributors, expendituresChild, govCentroids, gov) {
       var that = this;
-
       // coerce data
       var timeFormatter = d3.time.format("%L");
       var id = 0;
@@ -115,7 +128,9 @@ Vis.Collections.App = Backbone.Collection.extend({
         education: education,
         ecoContributors: ecoContributors,
         expendituresChild: expendituresChild,
-        milestones: milestones
+        milestones: milestones,
+        gov: topojson.feature(gov, gov.objects.gov).features,
+        govCentroids: govCentroids
       });
     }
   }

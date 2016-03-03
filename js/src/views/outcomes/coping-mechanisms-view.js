@@ -25,7 +25,7 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
     $("#households-children").show();
     $("#children-gender").hide();
 
-    Vis.utils.clearCharts();
+    Vis.utils.resetLayout();
 
     $("#main-chart").html(template());
     $(".profile").show();

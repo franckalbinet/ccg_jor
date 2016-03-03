@@ -1,5 +1,5 @@
-// Home view
-Vis.Views.Home = Backbone.View.extend({
+// Context view
+Vis.Views.Context = Backbone.View.extend({
   el: '.container',
 
   initialize: function () {
@@ -19,21 +19,13 @@ Vis.Views.Home = Backbone.View.extend({
   render: function(chapter) {
     var that = this;
 
-    $("#households-children").show();
-    $("#children-gender").hide();
-
-    Vis.utils.clearCharts();
+    Vis.utils.resetLayout();
 
     $(".home").show();
     $(".charts").hide();
     $(".profile").hide();
 
-    // if (this.model.get("scenario").chapter == 1){
-    //
-    // }
-
     if (this.model.get("scenario").chapter !== 1 ) {
-      // $(".narration").css("visibility", "visible");
       $(".narration").show();
       ["main-text", "quote"].forEach(function(d) {
         Vis.utils.setTextContent.call(that, d, true);

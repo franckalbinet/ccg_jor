@@ -22,7 +22,7 @@ Vis.Views.FamilyConditions = Backbone.View.extend({
     $("#households-children").show();
     $("#children-gender").hide();
 
-    Vis.utils.clearCharts();
+    Vis.utils.resetLayout();
 
     ["main-text", "quote"].forEach(function(d) {
       Vis.utils.setTextContent.call(that, d);

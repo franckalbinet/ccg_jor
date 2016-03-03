@@ -19,7 +19,7 @@ Vis.Views.Education = Backbone.View.extend({
   preRender: function(chapter) {
     var that = this;
 
-    Vis.utils.clearCharts();
+    Vis.utils.resetLayout();
 
     $(".profile").show();
 

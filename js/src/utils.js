@@ -1,29 +1,37 @@
 /*  Utilities functions*/
 Vis.utils = _.extend(Vis.DEFAULTS, {
 
-  clearCharts: function() {
-    if (this.chart) this.chart = null;
-    if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
-    d3.select("#main-chart #living-conditions").remove();
-    d3.select("#main-chart #background-sample").remove();
-    d3.select("#main-chart #coping-mechanisms").remove();
+  resetLayout: function() {
+    Vis.utils.resetChartsCanvas();
+
+
     $(".outcomes").removeClass("col-md-12").addClass("col-md-8");
     $(".charts").show();
     $(".profile").show();
     $(".home").hide();
     $(".conclusion").hide();
     $(".child-empowerment").hide();
-    if (Vis.utils.chartDelay) clearTimeout(Vis.utils.chartDelay);
-    if (Vis.utils.filterDelay) clearTimeout(Vis.utils.filterDelay);
-    // $(".page-header img").show();
+    Vis.utils.clearTimer();
     $(".page-header").css("visibility", "visible");
-    // $(".narration").css("visibility", "visible");
     $(".narration").show();
     Vis.Models.app.filterByChildren(null, true);
     $(".home-title").hide();
     $(".logos").css("visibility", "hidden");
     $(".footer").hide();
     $(".home .ui").css("visibility", "hidden");
+  },
+
+  clearTimer: function() {
+    if (Vis.utils.chartDelay) clearTimeout(Vis.utils.chartDelay);
+    if (Vis.utils.filterDelay) clearTimeout(Vis.utils.filterDelay);
+  },
+
+  resetChartsCanvas: function() {
+    if (this.chart) this.chart = null;
+    if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
+    d3.select("#main-chart #living-conditions").remove();
+    d3.select("#main-chart #background-sample").remove();
+    d3.select("#main-chart #coping-mechanisms").remove();
   },
 
   setTextContent: function(attr, animated) {

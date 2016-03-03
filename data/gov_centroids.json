@@ -1,0 +1,19 @@
+{
+"type": "FeatureCollection",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+                                                                                
+"features": [
+{ "type": "Feature", "properties": { "adm1_code": 1704, "count": 1520, "lon": 35.804000, "lat": 31.159000 }, "geometry": { "type": "Point", "coordinates": [ 35.804356262180846, 31.159302895634355 ] } },
+{ "type": "Feature", "properties": { "adm1_code": 1710, "count": 835, "lon": 35.706000, "lat": 31.605000 }, "geometry": { "type": "Point", "coordinates": [ 35.705944287222835, 31.604972964893395 ] } },
+{ "type": "Feature", "properties": { "adm1_code": 1705, "count": 16359, "lon": 36.350000, "lat": 31.602000 }, "geometry": { "type": "Point", "coordinates": [ 36.350201628483632, 31.6015751400742 ] } },
+{ "type": "Feature", "properties": { "adm1_code": 1703, "count": 150, "lon": 35.351000, "lat": 29.809000 }, "geometry": { "type": "Point", "coordinates": [ 35.350565080693322, 29.809034412102648 ] } },
+{ "type": "Feature", "properties": { "adm1_code": 1706, "count": 199, "lon": 35.669000, "lat": 30.791000 }, "geometry": { "type": "Point", "coordinates": [ 35.668748141542004, 30.791314180423669 ] } },
+{ "type": "Feature", "properties": { "adm1_code": 1712, "count": 7076, "lon": 36.845000, "lat": 31.838000 }, "geometry": { "type": "Point", "coordinates": [ 36.844622377983931, 31.838474049845885 ] } },
+{ "type": "Feature", "properties": { "adm1_code": 1709, "count": 887, "lon": 36.567000, "lat": 30.354000 }, "geometry": { "type": "Point", "coordinates": [ 36.567475697203889, 30.354239193620622 ] } },
+{ "type": "Feature", "properties": { "adm1_code": 1701, "count": 855, "lon": 35.718000, "lat": 32.323000 }, "geometry": { "type": "Point", "coordinates": [ 35.717544953279834, 32.322566484657244 ] } },
+{ "type": "Feature", "properties": { "adm1_code": 1702, "count": 2423, "lon": 35.633000, "lat": 31.903000 }, "geometry": { "type": "Point", "coordinates": [ 35.633249336380572, 31.903376203092424 ] } },
+{ "type": "Feature", "properties": { "adm1_code": 1707, "count": 15867, "lon": 35.802000, "lat": 32.546000 }, "geometry": { "type": "Point", "coordinates": [ 35.80172898401694, 32.545783499781329 ] } },
+{ "type": "Feature", "properties": { "adm1_code": 1711, "count": 7019, "lon": 37.940000, "lat": 32.385000 }, "geometry": { "type": "Point", "coordinates": [ 37.939861477281625, 32.38458843139253 ] } },
+{ "type": "Feature", "properties": { "adm1_code": 1708, "count": 1274, "lon": 35.867000, "lat": 32.261000 }, "geometry": { "type": "Point", "coordinates": [ 35.866531995649737, 32.261181602241138 ] } }
+]
+}

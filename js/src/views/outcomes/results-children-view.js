@@ -22,7 +22,7 @@ Vis.Views.ResultsChildren = Backbone.View.extend({
     $("#households-children").show();
     $("#children-gender").hide();
 
-    Vis.utils.clearCharts();
+    Vis.utils.resetLayout();
 
     $(".profile").show();
 

@@ -1,5 +1,5 @@
-// Conclusion view
-Vis.Views.Conclusion = Backbone.View.extend({
+// Further resources view
+Vis.Views.FurtherResources = Backbone.View.extend({
   el: '.container',
 
   initialize: function () {
@@ -22,7 +22,7 @@ Vis.Views.Conclusion = Backbone.View.extend({
     $("#households-children").show();
     $("#children-gender").hide();
 
-    Vis.utils.clearCharts();
+    Vis.utils.resetLayout();
 
     $(".conclusion").show();
     $(".profile").hide();

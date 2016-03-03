@@ -32,7 +32,7 @@ Vis.Views.App = Backbone.View.extend({
           page = +scenario.page,
           chapter = +scenario.chapter;
 
-      new Vis.Views.Home({model: Vis.Models.app});
+      new Vis.Views.Context({model: Vis.Models.app});
       new Vis.Views.Background({model: Vis.Models.app});
       new Vis.Views.Education({model: Vis.Models.app});
       new Vis.Views.Incomes({model: Vis.Models.app});
@@ -40,8 +40,8 @@ Vis.Views.App = Backbone.View.extend({
       new Vis.Views.ExpendituresChildren({model: Vis.Models.app});
       new Vis.Views.CopingMechanisms({model: Vis.Models.app});
       new Vis.Views.ResultsChildren({model: Vis.Models.app});
-      new Vis.Views.ChildEmpowerment({model: Vis.Models.app});
-      new Vis.Views.Conclusion({model: Vis.Models.app});
+      new Vis.Views.CaseStudies({model: Vis.Models.app});
+      new Vis.Views.FurtherResources({model: Vis.Models.app});
       new Vis.Views.FamilyConditions({model: Vis.Models.app});
       new Vis.Views.PsychologicalWellbeing({model: Vis.Models.app});
 

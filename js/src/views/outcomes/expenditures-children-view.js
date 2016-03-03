@@ -24,8 +24,7 @@ Vis.Views.ExpendituresChildren = Backbone.View.extend({
       $("#households-children").show();
       $("#children-gender").hide();
 
-      // this.clearCharts();
-      Vis.utils.clearCharts();
+      Vis.utils.resetLayout();
 
       $(".profile").show();
 

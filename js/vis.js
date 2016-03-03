@@ -26,7 +26,9 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
     EDUCATION: "education.json",
     ECO_CONTRIBUTORS: "eco_contributors.json",
     EXPENDITURES_CHILDREN: "expenditures_children.json",
-    MILESTONES: "milestones.json"
+    MILESTONES: "milestones.json",
+    GOV_CENTROIDS: "gov_centroids.json",
+    GOV: "gov_s4.json"
   },
   LOOKUP_CODES: {
     GOVERNORATES: {1:"Irbid", 2:"Ajloun", 3:"Jarash", 4:"Amman", 5:"Zarqa", 6:"Madaba", 11:"Mafraq", 99:"Others"},
@@ -58,29 +60,37 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
 /*  Utilities functions*/
 Vis.utils = _.extend(Vis.DEFAULTS, {
 
-  clearCharts: function() {
-    if (this.chart) this.chart = null;
-    if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
-    d3.select("#main-chart #living-conditions").remove();
-    d3.select("#main-chart #background-sample").remove();
-    d3.select("#main-chart #coping-mechanisms").remove();
+  resetLayout: function() {
+    Vis.utils.resetChartsCanvas();
+
+
     $(".outcomes").removeClass("col-md-12").addClass("col-md-8");
     $(".charts").show();
     $(".profile").show();
     $(".home").hide();
     $(".conclusion").hide();
     $(".child-empowerment").hide();
-    if (Vis.utils.chartDelay) clearTimeout(Vis.utils.chartDelay);
-    if (Vis.utils.filterDelay) clearTimeout(Vis.utils.filterDelay);
-    // $(".page-header img").show();
+    Vis.utils.clearTimer();
     $(".page-header").css("visibility", "visible");
-    // $(".narration").css("visibility", "visible");
     $(".narration").show();
     Vis.Models.app.filterByChildren(null, true);
     $(".home-title").hide();
     $(".logos").css("visibility", "hidden");
     $(".footer").hide();
     $(".home .ui").css("visibility", "hidden");
+  },
+
+  clearTimer: function() {
+    if (Vis.utils.chartDelay) clearTimeout(Vis.utils.chartDelay);
+    if (Vis.utils.filterDelay) clearTimeout(Vis.utils.filterDelay);
+  },
+
+  resetChartsCanvas: function() {
+    if (this.chart) this.chart = null;
+    if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
+    d3.select("#main-chart #living-conditions").remove();
+    d3.select("#main-chart #background-sample").remove();
+    d3.select("#main-chart #coping-mechanisms").remove();
   },
 
   setTextContent: function(attr, animated) {
@@ -232,12 +242,25 @@ Vis.Collections.App = Backbone.Collection.extend({
           })
         },
         that.url + Vis.DEFAULTS.DATASETS.EXPENDITURES_CHILDREN)
+      .defer(
+        function(url, callback) {
+          d3.json(url, function(error, result) {
+            callback(error, result);
+          })
+        },
+        that.url + Vis.DEFAULTS.DATASETS.GOV_CENTROIDS)
+      .defer(
+        function(url, callback) {
+          d3.json(url, function(error, result) {
+            callback(error, result);
+          })
+        },
+        that.url + Vis.DEFAULTS.DATASETS.GOV)
       .await(_ready);
 
     // on success
-    function _ready(error, children, households, outcomes, milestones, incomes, expenditures, currentCoping, stoppedCoping, education, ecoContributors, expendituresChild) {
+    function _ready(error, children, households, outcomes, milestones, incomes, expenditures, currentCoping, stoppedCoping, education, ecoContributors, expendituresChild, govCentroids, gov) {
       var that = this;
-
       // coerce data
       var timeFormatter = d3.time.format("%L");
       var id = 0;
@@ -259,7 +282,9 @@ Vis.Collections.App = Backbone.Collection.extend({
         education: education,
         ecoContributors: ecoContributors,
         expendituresChild: expendituresChild,
-        milestones: milestones
+        milestones: milestones,
+        gov: topojson.feature(gov, gov.objects.gov).features,
+        govCentroids: govCentroids
       });
     }
   }
@@ -763,7 +788,7 @@ Vis.Views.App = Backbone.View.extend({
           page = +scenario.page,
           chapter = +scenario.chapter;
 
-      new Vis.Views.Home({model: Vis.Models.app});
+      new Vis.Views.Context({model: Vis.Models.app});
       new Vis.Views.Background({model: Vis.Models.app});
       new Vis.Views.Education({model: Vis.Models.app});
       new Vis.Views.Incomes({model: Vis.Models.app});
@@ -771,8 +796,8 @@ Vis.Views.App = Backbone.View.extend({
       new Vis.Views.ExpendituresChildren({model: Vis.Models.app});
       new Vis.Views.CopingMechanisms({model: Vis.Models.app});
       new Vis.Views.ResultsChildren({model: Vis.Models.app});
-      new Vis.Views.ChildEmpowerment({model: Vis.Models.app});
-      new Vis.Views.Conclusion({model: Vis.Models.app});
+      new Vis.Views.CaseStudies({model: Vis.Models.app});
+      new Vis.Views.FurtherResources({model: Vis.Models.app});
       new Vis.Views.FamilyConditions({model: Vis.Models.app});
       new Vis.Views.PsychologicalWellbeing({model: Vis.Models.app});
 
@@ -1122,7 +1147,7 @@ Vis.Views.Background = Backbone.View.extend({
       $("#households-children").show();
       $("#children-gender").hide();
 
-      Vis.utils.clearCharts();
+      Vis.utils.resetLayout();
 
       $(".outcomes").removeClass("col-md-8").addClass("col-md-12");
       $("#main-chart").html(templateSample());
@@ -1140,7 +1165,8 @@ Vis.Views.Background = Backbone.View.extend({
       Vis.utils.chartDelay = setTimeout(function() {
         that.initChart(chapter);
         $(".charts").animate({ opacity: 1 }, 1500);
-      }, 4000);
+      // }, 4000);
+    }, 500);
     },
 
     initChart: function(chapter) {
@@ -1446,7 +1472,7 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
     $("#households-children").show();
     $("#children-gender").hide();
 
-    Vis.utils.clearCharts();
+    Vis.utils.resetLayout();
 
     $("#main-chart").html(template());
     $(".profile").show();
@@ -1571,8 +1597,8 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
     d3.select("#stopped .main.title").attr("x", 82);
   }
 });
-// Home view
-Vis.Views.Home = Backbone.View.extend({
+// Context view
+Vis.Views.Context = Backbone.View.extend({
   el: '.container',
 
   initialize: function () {
@@ -1592,21 +1618,13 @@ Vis.Views.Home = Backbone.View.extend({
   render: function(chapter) {
     var that = this;
 
-    $("#households-children").show();
-    $("#children-gender").hide();
-
-    Vis.utils.clearCharts();
+    Vis.utils.resetLayout();
 
     $(".home").show();
     $(".charts").hide();
     $(".profile").hide();
 
-    // if (this.model.get("scenario").chapter == 1){
-    //
-    // }
-
     if (this.model.get("scenario").chapter !== 1 ) {
-      // $(".narration").css("visibility", "visible");
       $(".narration").show();
       ["main-text", "quote"].forEach(function(d) {
         Vis.utils.setTextContent.call(that, d, true);
@@ -1644,7 +1662,7 @@ Vis.Views.Education = Backbone.View.extend({
   preRender: function(chapter) {
     var that = this;
 
-    Vis.utils.clearCharts();
+    Vis.utils.resetLayout();
 
     $(".profile").show();
 
@@ -1742,7 +1760,7 @@ Vis.Views.FamilyConditions = Backbone.View.extend({
     $("#households-children").show();
     $("#children-gender").hide();
 
-    Vis.utils.clearCharts();
+    Vis.utils.resetLayout();
 
     ["main-text", "quote"].forEach(function(d) {
       Vis.utils.setTextContent.call(that, d);
@@ -1832,8 +1850,8 @@ Vis.Views.FamilyConditions = Backbone.View.extend({
       .text(function(d) { return d; });
   }
 });
-// Children empowerment view
-Vis.Views.ChildEmpowerment = Backbone.View.extend({
+// Case Studies view
+Vis.Views.CaseStudies = Backbone.View.extend({
   el: '.container',
 
   initialize: function () {
@@ -1856,7 +1874,7 @@ Vis.Views.ChildEmpowerment = Backbone.View.extend({
     $("#households-children").show();
     $("#children-gender").hide();
 
-    Vis.utils.clearCharts();
+    Vis.utils.resetLayout();
 
     $(".profile").hide();
 
@@ -1872,8 +1890,8 @@ Vis.Views.ChildEmpowerment = Backbone.View.extend({
 
   }
 });
-// Conclusion view
-Vis.Views.Conclusion = Backbone.View.extend({
+// Further resources view
+Vis.Views.FurtherResources = Backbone.View.extend({
   el: '.container',
 
   initialize: function () {
@@ -1896,7 +1914,7 @@ Vis.Views.Conclusion = Backbone.View.extend({
     $("#households-children").show();
     $("#children-gender").hide();
 
-    Vis.utils.clearCharts();
+    Vis.utils.resetLayout();
 
     $(".conclusion").show();
     $(".profile").hide();
@@ -1937,7 +1955,7 @@ Vis.Views.Incomes = Backbone.View.extend({
     $("#households-children").show();
     $("#children-gender").hide();
 
-    Vis.utils.clearCharts();
+    Vis.utils.resetLayout();
 
     $(".profile").show();
 
@@ -2085,7 +2103,7 @@ Vis.Views.Expenditures = Backbone.View.extend({
       $("#households-children").show();
       $("#children-gender").hide();
 
-      Vis.utils.clearCharts();
+      Vis.utils.resetLayout();
 
       $(".profile").show();
 
@@ -2262,8 +2280,7 @@ Vis.Views.ExpendituresChildren = Backbone.View.extend({
       $("#households-children").show();
       $("#children-gender").hide();
 
-      // this.clearCharts();
-      Vis.utils.clearCharts();
+      Vis.utils.resetLayout();
 
       $(".profile").show();
 
@@ -2436,7 +2453,7 @@ Vis.Views.ResultsChildren = Backbone.View.extend({
     $("#households-children").show();
     $("#children-gender").hide();
 
-    Vis.utils.clearCharts();
+    Vis.utils.resetLayout();
 
     $(".profile").show();
 
@@ -7151,7 +7168,7 @@ Vis.Templates["main-text"] =[
   "<p>Families consistently reported being able to <strong>cover expenses for children that were not a priority before receiving the UNICEF child cash grant</strong>, and this increased over time.</p>",
   "<p>For the most part, families report that the amount of the grant was <strong>not able to change their reliance on most negative coping mechanisms</strong>. <br>However, the overall mix of strategies that families use to manage the crisis has largely remained stable - ie. has not gotten worse.</p>",
   "<p>Because of the grant, however, families were <strong>able to increase spending on basic needs for children.</strong></p>",
-  "<p><strong>Children also entered school in marginally higher numbers</strong> over the course of the ten months.</p>",
+  "<p>Refugees demonstrated a <strong>continued commitment to their children’s education</strong>, with enrollment marginally increasing over the ten months.</p>",
   "<p>Families also told us that children <strong>felt empowered</strong> because they knew the grant was for their needs.</p>",
   "<p>Despite deteriorating circumstances, families reported that they were <strong>able to increase spending on basic needs for children and increase their wellbeing and living conditions</strong>.<br>This, in turn, positively impacted their psychological wellbeing.</p>",
   "<p><strong>UNICEF will continue to provide refugees with the child cash grant they need to support their children through 2016.</strong></p>",
@@ -7198,6 +7215,18 @@ Vis.Templates["living-conditions"] =
   "  <div id='basic-needs' class='col-md-6'></div>" +
   "  <div id='improvement' class='col-md-6'></div>" +
   " </div>";
+
+// Vis.Templates["background-beneficiaries"] =
+//   "<div id='background-beneficiaries' class='row'>" +
+//   "  <div id='map' class='col-md-8'></div>" +
+//   "  <div id='demographics' class='col-md-4'>"+
+//   "    <div class='row'>" +
+//   "      <div id='age' class='col-md-12'></div>" +
+//   "      <div id='gender' class='col-md-12'></div>" +
+//   "      <div id='poverty' class='col-md-12'></div>" +
+//   "    </div>" +
+//   "  </div>" +
+//   "</div>";
 
 Vis.Templates["background-sample"] =
   "<div id='background-sample' class='row'>" +

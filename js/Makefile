@@ -18,11 +18,11 @@ vis_src =	${vis_dir}/namespace.js\
 					${vis_dir}/views/profile/children-gender-view.js\
 					${vis_dir}/views/outcomes/background-view.js\
 					${vis_dir}/views/outcomes/coping-mechanisms-view.js\
-					${vis_dir}/views/outcomes/home-view.js\
+					${vis_dir}/views/outcomes/context-view.js\
 					${vis_dir}/views/outcomes/education-view.js\
 					${vis_dir}/views/outcomes/family-conditions-view.js\
-					${vis_dir}/views/outcomes/child-empowerment-view.js\
-					${vis_dir}/views/outcomes/conclusion-view.js\
+					${vis_dir}/views/outcomes/case-studies-view.js\
+					${vis_dir}/views/outcomes/further-resources-view.js\
 					${vis_dir}/views/outcomes/incomes-view.js\
 					${vis_dir}/views/outcomes/expenditures-view.js\
 					${vis_dir}/views/outcomes/expenditures-children-view.js\

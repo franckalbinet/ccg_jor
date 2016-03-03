@@ -27,7 +27,7 @@ Vis.Views.Background = Backbone.View.extend({
       $("#households-children").show();
       $("#children-gender").hide();
 
-      Vis.utils.clearCharts();
+      Vis.utils.resetLayout();
 
       $(".outcomes").removeClass("col-md-8").addClass("col-md-12");
       $("#main-chart").html(templateSample());
@@ -45,7 +45,8 @@ Vis.Views.Background = Backbone.View.extend({
       Vis.utils.chartDelay = setTimeout(function() {
         that.initChart(chapter);
         $(".charts").animate({ opacity: 1 }, 1500);
-      }, 4000);
+      // }, 4000);
+    }, 500);
     },
 
     initChart: function(chapter) {
