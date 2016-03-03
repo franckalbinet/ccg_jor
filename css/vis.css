@@ -108,24 +108,36 @@ h1,h2,h3,h4,h5 {
 /* Footer */
 .footer {
   margin-bottom: 20px;
-  font-size: 0.75em;
+  font-size: 0.8em;
   text-align: center;
   color: #888;
 }
 .footer p {
   margin-bottom: 0px;
-  /*border-bottom: 1px solid #ddd;*/
 }
 .footer .title {
   font-weight: 700;
+  margin-bottom: 5px;
 }
-.footer .task {
-  /*color: #666;*/
+.footer .topic,
+.footer .author {
+  display: inline-block;
+  font-size: 0.9em;
 }
-.footer .item {
+.footer .topic {
+  padding-right: 5px;
+  padding-left: 2px;
+  font-weight: 700;
+
 }
-.footer .credits {
+.footer .author {
+  padding-right: 5px;
+  border-right: 1px solid #888;
 }
+.footer p span:last-child {
+  border-right: none;
+}
+
 
 /* text - narrative */
 .narration {
