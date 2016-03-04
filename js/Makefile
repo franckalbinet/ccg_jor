@@ -26,9 +26,7 @@ vis_src =	${vis_dir}/namespace.js\
 					${vis_dir}/views/outcomes/further-resources-view.js\
 					${vis_dir}/views/outcomes/incomes-view.js\
 					${vis_dir}/views/outcomes/expenditures-view.js\
-					${vis_dir}/views/outcomes/expenditures-children-view.js\
 					${vis_dir}/views/outcomes/results-children-view.js\
-					${vis_dir}/views/outcomes/psychological-wellbeing-view.js\
 					${vis_dir}/views/time-line-navigation-view.js\
 					${vis_dir}/charts/bar-chart-age.js\
 					${vis_dir}/charts/bar-chart-children.js\

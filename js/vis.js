@@ -59,7 +59,7 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
   SELECTORS: {
     PROGRESS_LINE: "#line-down"
   },
-  VIEW_PAGE_LOOKUP: {"context": 1, "background": 2, "incomes": 3, "expenditures": 4}
+  VIEW_PAGE_LOOKUP: {"context": 1, "background": 2, "incomes": 3, "expenditures": 4, "copingMechanisms": 5}
 });
 /*  Utilities functions*/
 Vis.utils = _.extend(Vis.DEFAULTS, {
@@ -786,13 +786,11 @@ Vis.Views.App = Backbone.View.extend({
       new Vis.Views.Education({model: Vis.Models.app});
       new Vis.Views.Incomes({model: Vis.Models.app});
       new Vis.Views.Expenditures({model: Vis.Models.app});
-      new Vis.Views.ExpendituresChildren({model: Vis.Models.app});
       new Vis.Views.CopingMechanisms({model: Vis.Models.app});
       new Vis.Views.ResultsChildren({model: Vis.Models.app});
       new Vis.Views.CaseStudies({model: Vis.Models.app});
       new Vis.Views.FurtherResources({model: Vis.Models.app});
       new Vis.Views.FamilyConditions({model: Vis.Models.app});
-      new Vis.Views.PsychologicalWellbeing({model: Vis.Models.app});
     }
   });
 // Households by nb. children chart
@@ -1390,117 +1388,121 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
   el: '.container',
 
   initialize: function () {
-    var that = this;
+    var that = this,
+        viewId = Vis.DEFAULTS.VIEW_PAGE_LOOKUP["copingMechanisms"];
 
-    this.chart = new Array(3);
-
-    if (that.model.get("scenario").page === 5) this.preRender(this.model.get("scenario").chapter);
+    if (that.model.get("scenario").page === viewId) this.render();
 
     this.model.on("change:scenario", function() {
-      if (that.model.get("scenario").page === 5) this.preRender(that.model.get("scenario").chapter);
+      this.chart =  null;
+      if (that.model.get("scenario").page === viewId) this.render();
       },this);
 
     Backbone.on("filtered", function(d) {
-      if (that.model.get("scenario").page === 5 && !d.silent) this.render(that.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === viewId && !d.silent) this.renderChart();
       }, this);
   },
 
-  preRender: function(chapter) {
-    var that = this;
-        template = _.template(Vis.Templates["coping-mechanisms"]);
+  render: function() {
+    var that = this,
+        scenario = this.model.get("scenario"),
+        chapter = scenario.chapter;
 
-    $("#households-children").show();
-    $("#children-gender").hide();
+    this.renderTemplate();
+    this.renderChart();
 
-    Vis.utils.resetLayout();
-
-    $("#main-chart").html(template());
-    $(".profile").show();
-
-    // set text content
-    ["main-text", "quote"].forEach(function(d) {
-      Vis.utils.setTextContent.call(that, d);
-    });
-
-    $("#pending").hide();
-
-    $("#main-chart").show();
-
-    $(".charts").animate({ opacity: 0 }, 0);
+    $("#charts").animate({ opacity: 0 }, 0);
     Vis.utils.chartDelay = setTimeout(function() {
-      that.initChart(chapter);
-      $(".charts").animate({ opacity: 1 }, 1500);
-    }, 4000);
+      $("#charts").animate({ opacity: 1 }, 1000);
+    }, 2000);
+
+    Backbone.trigger("view:rendered");
   },
 
-  initChart: function(chapter) {
-    var that = this;
+  renderTemplate: function() {
+    var templateNarration = _.template(Vis.Templates["narration"]),
+        templateCharts = _.template(Vis.Templates["charts-profile"]),
+        templateCopingMechanisms = _.template(Vis.Templates["coping-mechanisms"]),
+        templateMainText = this.model.getTemplateMainText(),
+        templateQuote = this.model.getTemplateQuote();
 
-    switch(chapter) {
-        case 1:
-          this.chart[0] = d3.heatmap()
-            .width(115).height(325)
-            .margins({top: 40, right: 20, bottom: 30, left: 10})
-            .data(this.getData(chapter, 0))
-            .color(d3.scale.threshold()
-              .domain([10,20,30,40,50,60,70,80,90,100.1])
-               .range(['#f6eae9','#eed2cc','#e4b9b1','#daa295','#ce8a7c','#c27362','#b45b49','#9a4d3e','#7e4033','#643228']))
-            .relativeTo(this.getTotalHouseholds(chapter, 0))
-            .title("Currently used")
-            .xTitle("")
-            .hasNames(false)
-            .lookUp(Vis.DEFAULTS.LOOKUP_CODES.COPING_MECHANISMS);
+        Vis.utils.reset();
 
-          this.chart[1] = d3.heatmap()
-            .width(390).height(365)
-            .margins({top: 30, right: 300, bottom: 30, left: 5})
-            .data(this.getData(chapter, 1))
-            .color(d3.scale.threshold()
-              // .domain([1,5,10,40,50,60,70,80,90,100.1])
-              .domain([10,20,30,40,50,60,70,80,90,100.1])
-              .range(['#dae6e9','#c2d1d6','#abbdc5','#94a8b3','#7d94a2','#668190','#506e80','#395c6f','#224a5f','#003950']))
-            .relativeTo(this.getTotalHouseholds(chapter, 1))
-            .title("Stopped coping mechanisms")
-            .xTitle("")
-            .hasNames(true)
-            .lookUp(Vis.DEFAULTS.LOOKUP_CODES.COPING_MECHANISMS);
-
-          this.chart[2] = d3.heatmapLegend()
-            .width(100).height(310)
-            .margins({top: 100, right: 10, bottom: 10, left: 40})
-            .data({
-              cold: ['#dae6e9','#c2d1d6','#abbdc5','#94a8b3','#7d94a2','#668190','#506e80','#395c6f','#224a5f','#003950'],
-              hot: ['#f6eae9','#eed2cc','#e4b9b1','#daa295','#ce8a7c','#c27362','#b45b49','#9a4d3e','#7e4033','#643228']}
-            )
-            .title("% of answers")
-            .xTitle("");
-          break;
-        default:
-          console.log("no matching case.")
-      }
-    this.render(chapter);
+        $("#content").html(templateNarration() + templateCharts());
+        new Vis.Views.Profile();
+        $("#main-chart").html(templateCopingMechanisms());
+        $("#main-text").html(templateMainText());
+        $("#quote").html(templateQuote());
+        $("#narration").animate({ opacity: 0 }, 0);
+        $("#narration").animate({ opacity: 1 }, 1500);
   },
+  renderChart: function() {
+    var that = this,
+        scenario = this.model.get("scenario"),
+        chapter = scenario.chapter,
+        total = this.getTotalHouseholds(chapter);
 
-  render: function(chapter) {
-    switch(chapter) {
-        case 1:
-          this.chart[0]
-            .data(this.getData(chapter, 0))
-            .relativeTo(this.getTotalHouseholds(chapter, 0))
-          d3.select("#current").call(this.chart[0]);
+        switch(chapter) {
+          case 1:
+            // if does not exist - init
+            if (!this.chart) {
+              this.chart = new Array(3);
+              this.chart[0] = d3.heatmap()
+                .width(115).height(325)
+                .margins({top: 40, right: 20, bottom: 30, left: 10})
+                .data(this.getData(chapter, 0))
+                .color(d3.scale.threshold()
+                  .domain([10,20,30,40,50,60,70,80,90,100.1])
+                   .range(['#f6eae9','#eed2cc','#e4b9b1','#daa295','#ce8a7c','#c27362','#b45b49','#9a4d3e','#7e4033','#643228']))
+                .relativeTo(this.getTotalHouseholds(chapter, 0))
+                .title("Currently used")
+                .xTitle("")
+                .hasNames(false)
+                .lookUp(Vis.DEFAULTS.LOOKUP_CODES.COPING_MECHANISMS);
 
-          this.chart[1]
-            .data(this.getData(chapter, 1))
-            .relativeTo(this.getTotalHouseholds(chapter, 1))
-          d3.select("#stopped").call(this.chart[1]);
+              this.chart[1] = d3.heatmap()
+                .width(390).height(365)
+                .margins({top: 30, right: 300, bottom: 30, left: 5})
+                .data(this.getData(chapter, 1))
+                .color(d3.scale.threshold()
+                  // .domain([1,5,10,40,50,60,70,80,90,100.1])
+                  .domain([10,20,30,40,50,60,70,80,90,100.1])
+                  .range(['#dae6e9','#c2d1d6','#abbdc5','#94a8b3','#7d94a2','#668190','#506e80','#395c6f','#224a5f','#003950']))
+                .relativeTo(this.getTotalHouseholds(chapter, 1))
+                .title("Stopped coping mechanisms")
+                .xTitle("")
+                .hasNames(true)
+                .lookUp(Vis.DEFAULTS.LOOKUP_CODES.COPING_MECHANISMS);
 
-          if (d3.select("#heatmap-legends svg").empty()) d3.select("#heatmap-legends").call(this.chart[2]);
+              this.chart[2] = d3.heatmapLegend()
+                .width(100).height(310)
+                .margins({top: 100, right: 10, bottom: 10, left: 40})
+                .data({
+                  cold: ['#dae6e9','#c2d1d6','#abbdc5','#94a8b3','#7d94a2','#668190','#506e80','#395c6f','#224a5f','#003950'],
+                  hot: ['#f6eae9','#eed2cc','#e4b9b1','#daa295','#ce8a7c','#c27362','#b45b49','#9a4d3e','#7e4033','#643228']}
+                )
+                .title("% of answers")
+                .xTitle("");
+              }
+            break;
+          default:
+            console.log("no matching case.");
+        }
+        // render
+        this.chart[0]
+          .data(this.getData(chapter, 0))
+          .relativeTo(this.getTotalHouseholds(chapter, 0))
+        d3.select("#current").call(this.chart[0]);
 
-          this.fixPositionning();
-          break;
-        default:
-          console.log("no matching case.")
-      }
+        this.chart[1]
+          .data(this.getData(chapter, 1))
+          .relativeTo(this.getTotalHouseholds(chapter, 1))
+        d3.select("#stopped").call(this.chart[1]);
+
+        if (d3.select("#heatmap-legends svg").empty()) d3.select("#heatmap-legends").call(this.chart[2]);
+
+        this.fixPositionning();
+
   },
 
   getData: function(chapter, index) {
@@ -2212,181 +2214,6 @@ Vis.Views.Expenditures = Backbone.View.extend({
         .text(function(d) { return d; });
     }
 });
-// Expenditures children view
-Vis.Views.ExpendituresChildren = Backbone.View.extend({
-    el: '.container',
-
-    highlighted: [],
-
-    initialize: function () {
-      var that = this;
-
-      if (that.model.get("scenario").page === 99) this.preRender(this.model.get("scenario").chapter);
-
-      this.model.on("change:scenario", function() {
-        if (that.model.get("scenario").page === 99) this.preRender(that.model.get("scenario").chapter);
-        },this);
-
-      Backbone.on("filtered", function(d) {
-        if (that.model.get("scenario").page === 99 && !d.silent) this.render(that.model.get("scenario").chapter);
-        }, this);
-    },
-
-    preRender: function(chapter) {
-      var that = this;
-
-      $("#households-children").show();
-      $("#children-gender").hide();
-
-      Vis.utils.resetLayout();
-
-      $(".profile").show();
-
-      // set text content
-      ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {
-        that.setTextContent(d);
-      });
-
-      $("#pending").hide();
-
-      $("#main-chart").show();
-
-      this.initChart(chapter);
-    },
-
-    initChart: function(chapter) {
-      var that = this,
-          data = this.getData(chapter),
-          total = this.getTotalHouseholds(chapter);
-
-      switch(chapter) {
-          case 1:
-            this.chart = d3.barChartMultiStacked()
-              .width(600).height(350)
-              .margins({top: 40, right: 250, bottom: 40, left: 200})
-              .data(data)
-              .color(d3.scale.ordinal().range(["#80A6B1", "#b45b49"]).domain([1, 2]))
-              .relativeTo(total)
-              .title("Were you able to cover expenses for your children that were not a priority before ?")
-              .xTitle("")
-              .lookUp(Vis.DEFAULTS.LOOKUP_CODES.COV_CHILD_EXP);
-            break;
-          case 2:
-            break;
-
-          case 4:
-            break;
-          default:
-            console.log("no matching case.")
-        }
-      this.render(chapter);
-    },
-
-    render: function(chapter) {
-      switch(chapter) {
-          case 1:
-            this.chart
-              .data(this.getData(chapter))
-              .relativeTo(this.getTotalHouseholds(chapter))
-            d3.select("#main-chart").call(this.chart);
-            this.fixPositionning();
-            break;
-          // case 2:
-          //   this.chart
-          //     .data(this.getData(chapter))
-          //     .relativeTo(this.getTotalHouseholds(chapter))
-          //   d3.select("#main-chart").call(this.chart);
-          //   break;
-          case 2:
-            // this.chart
-            //   .data(this.getData(chapter))
-            //   .relativeTo(this.getTotalHouseholds(chapter))
-            //   .highlighted(this.highlighted)
-            // d3.select("#main-chart").call(this.chart);
-            break;
-          case 4:
-            // this.chart
-            //   .data(this.getData(chapter))
-            //   .relativeTo(this.getTotalHouseholds(chapter))
-            // d3.select("#main-chart").call(this.chart);
-            // d3.selectAll(".bar-chart-multi-stacked rect").style("opacity", 0.7);
-            break;
-          default:
-            console.log("no matching case.")
-        }
-    },
-
-    getData: function(chapter) {
-      switch(chapter) {
-          case 1:
-            return this.model.covChildExpByRound.top(Infinity);
-            break;
-          // case 2:
-          //   return this.model.expendituresChildMostByRound.top(Infinity);
-          //   break;
-          case 2:
-            // return this.model.expendituresChildByRound.top(Infinity);
-            break;
-          // case 4:
-          //   return this.model.basicNeedsByRound.top(Infinity);
-          //   break;
-          default:
-            console.log("no matching case.")
-        }
-    },
-
-    // test: _.throttle(function (highlighted) {
-    //   this.highlighted = highlighted;
-    //   this.render(this.model.get("scenario").chapter);
-    //   console.log("test");
-    // }, 300),
-
-    getTotalHouseholds: function(chapter) {
-      switch(chapter) {
-        case 1:
-          // return _.unique(this.model.expendituresHousehold.top(Infinity)
-          //         .map(function(d) { return d.hh })).length;
-          return _.unique(this.model.outcomesHousehold.top(Infinity)
-          .map(function(d) { return d.hh })).length;
-          break;
-        // case 2:
-        //   return _.unique(this.model.outcomesHousehold.top(Infinity)
-        //           .map(function(d) { return d.hh })).length;
-        //   break;
-        case 2:
-          return _.unique(this.model.expendituresChildHousehold.top(Infinity)
-                  .map(function(d) { return d.hh })).length;
-          break;
-        // case 4:
-        //   return _.unique(this.model.outcomesHousehold.top(Infinity)
-        //           .map(function(d) { return d.hh })).length;
-        //   break;
-        default:
-          console.log("no matching case.")
-      }
-    },
-
-    setTextContent: function(attr) {
-      var scenario = this.model.get("scenario")
-          id = this.model.getTemplateId(scenario.page, scenario.chapter, attr),
-          template = _.template(Vis.Templates[attr][id]);
-
-      $("#" + attr).html(template());
-
-    },
-
-    clearCharts: function() {
-      if (this.chart) this.chart = null;
-      // if(!d3.select("#main-chart svg").empty()) d3.select("#main-chart svg").remove();
-      if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
-    },
-
-    fixPositionning: function() {
-      d3.selectAll("#main-chart .x.axis text")
-        .data(["Jun.", "Aug.", "Nov."])
-        .text(function(d) { return d; });
-    }
-});
 // Results for Children view
 Vis.Views.ResultsChildren = Backbone.View.extend({
   el: '.container',
@@ -2491,77 +2318,6 @@ Vis.Views.ResultsChildren = Backbone.View.extend({
     d3.selectAll("#basic-needs .x.axis text")
       .data(["Jun.", "Aug.", "Nov."])
       .text(function(d) { return d; });
-  }
-});
-// Psychological wellbeing view
-Vis.Views.PsychologicalWellbeing = Backbone.View.extend({
-  el: '.container',
-
-  initialize: function () {
-    this.dispatch(this.model.get("scenario"));
-    this.model.on("change:scenario", function() {
-      this.dispatch(this.model.get("scenario"));
-      },this);
-    Backbone.on("filtered", function(d) { this.render();}, this);
-  },
-
-  dispatch: function(scenario) {
-    var scenario = this.model.get("scenario"),
-        that = this;
-
-    // if (scenario.page === 7) {
-    //
-    //
-    //   $(".profile").hide();
-    //   this.clearCharts();
-    //   // set text content
-    //   ["main-text", "sub-text", "quote", "quote-ref"].forEach(function(d) {
-    //     that.setTextContent(d);
-    //   });
-    //
-    //   $("#pending").show();
-    //   $("#main-chart").hide();
-    //
-    //   switch(scenario.chapter) {
-    //     case 1:
-    //         // this.initChart();
-    //         break;
-    //     case 2:
-    //         // code block
-    //         break;
-    //     default:
-    //         // default code block
-    //   }
-    // }
-  },
-
-  render: function() {
-  },
-
-  initChart: function() {
-  },
-
-  getData: function() {
-    return this.model.incomesByType.top(Infinity);
-  },
-
-  getTotalHouseholds: function() {
-    return _.unique(this.model.incomesHousehold.top(Infinity).map(function(d) {
-       return d.hh })).length;
-  },
-
-  setTextContent: function(attr) {
-    var scenario = this.model.get("scenario")
-        id = this.model.getTemplateId(scenario.page, scenario.chapter, attr),
-        template = _.template(Vis.Templates[attr][id]);
-
-    $("#" + attr).html(template());
-  },
-
-  clearCharts: function() {
-    if (this.chart) this.chart = null;
-    // if(!d3.select(".time-line svg").empty()) d3.select(".time-line svg").remove();
-    if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
   }
 });
 // Background view -- 1
@@ -4186,18 +3942,17 @@ d3.timeLineNavigation = function() {
             .attr("cx", function(d) {
               return x(d.time); })
             .attr("cy", 0)
-            // .attr("r", function(d) { return (d.isMain) ? 6:3; })
-            .attr("r", function(d) { return (d.isMain) ? 5:3; })
+            .attr("r", function(d) { return (d.isMain) ? 5:2; })
             .on("mouseover", function(d) {
                 var _wasElapsed = d3.select(this).classed("elapsed"),
-                    radius = (d.isMain) ? 8 : 5;
+                    radius = (d.isMain) ? 10 : 7;
                 d3.select(this)
                 .transition(100)
                 .attr("r", radius);
             })
             .on("mouseout", function(d) {
                 var _isElapsed = d3.select(this).classed("elapsed"),
-                    radius = (d.isMain) ? 6 : 3;
+                    radius = (d.isMain) ? 5 : 2;
 
                 d3.select(this)
                 .classed("elapsed", _wasElapsed || _isElapsed)
@@ -6324,22 +6079,22 @@ d3.heatmap = function() {
         xAxis.scale(x);
 
         // create chart container
-        g = div
-            .append("div").classed("heatmap", true)
-            .append("svg")
+        // g = div
+        //     // .append("div").classed("heatmap", true)
+        //     .append("svg")
+        //     // .attr("id", "id-" + id)
+        //     .attr("width", width)
+        //     .attr("height", height)
+        //   .append("g")
+        //     .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
+
+        g = div.append("svg")
+            .classed("heatmap", true)
             // .attr("id", "id-" + id)
             .attr("width", width)
             .attr("height", height)
           .append("g")
             .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
-
-        // g = div.append("svg")
-        //     .classed("heatmap", true)
-        //     .attr("id", "id-" + id)
-        //     .attr("width", width)
-        //     .attr("height", height)
-        //   .append("g")
-        //     .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
 
         _gCells = g.append("g")
             .attr("class", "cells");
@@ -6570,9 +6325,7 @@ d3.heatmapLegend = function() {
       barHeight = 7,
       barWidth = 11,
       xAxis = d3.svg.axis().orient("bottom"),
-      // yAxis = d3.svg.axis().orient("right").tickValues([0, 25, 50, 75, 100]),
       yAxis = d3.svg.axis().orient("left").tickValues([0, 25, 50, 75, 100]),
-      // yAxis = d3.svg.axis().orient("left"),
       hasBrush = false,
       hasYAxis = true,
       title = "My title",
@@ -6652,46 +6405,7 @@ d3.heatmapLegend = function() {
             .attr("y", function(d, i) {
                 return y(i*10) - cellHeight; })
             .attr("fill", function(d) { return d});
-        // // join
-        // var cells = _gCells.selectAll(".cell")
-        //       .data(data);
-        //
-        // // enter
-        // cells
-        //   .enter()
-        //     .append("rect")
-        //     .attr("class", "cell");
-        //     // .attr("width", x.rangeBand())
-        //     // .attr("height", y.rangeBand());
-        //
-        // // exit
-        // cells.exit().remove();
-        //
-        // // update
-        // cells
-        //   .attr("x", function(d) {
-        //     return x(d.round); })
-        //   .attr("y", function(d) {
-        //     return y(d.key); })
-        //   .attr("fill", function(d) { return color(toPercentage(d.count)); });
       }
-
-      // function _transformData(data) {
-      //   var flatData = [];
-      //
-      //   if(!_yCategories) _yCategories = _.without(data.map(function(d) {
-      //     return d.key; }).sort(function(a, b) { return a - b; }), 97);
-      //
-      //   data.filter(function(d) { return d!== 97; }).forEach(function(d) {
-      //     d.value.forEach(function(v) { return v.key = d.key });
-      //     flatData.push(d.value);
-      //   });
-      //
-      //   flatData = _.flatten(flatData);
-      //   flatData.forEach(function(d) { return d.joinId = _.values(d).join("-");});
-      //
-      //   return flatData;
-      // }
 
       function _skeleton() {
         // set scales range and domains
@@ -6703,25 +6417,24 @@ d3.heatmapLegend = function() {
 
         yAxis.tickValues([0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]).tickFormat(function(d) { return d + " %"; });
         yAxis.scale(y);
-        // xAxis.scale(x);
 
         // create chart container
-        g = div
-            .append("div").classed("heatmap", true)
-            .append("svg")
+        // g = div
+        //     .append("div").classed("heatmap", true)
+        //     .append("svg")
+        //     // .attr("id", "id-" + id)
+        //     .attr("width", width)
+        //     .attr("height", height)
+        //   .append("g")
+        //     .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
+
+        g = div.append("svg")
+            .classed("heatmap", true)
             // .attr("id", "id-" + id)
             .attr("width", width)
             .attr("height", height)
           .append("g")
             .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
-
-        // g = div.append("svg")
-        //     .classed("heatmap", true)
-        //     .attr("id", "id-" + id)
-        //     .attr("width", width)
-        //     .attr("height", height)
-        //   .append("g")
-        //     .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
 
         _gCells = g.append("g")
             .attr("class", "cells");

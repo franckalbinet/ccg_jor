@@ -127,22 +127,22 @@ d3.heatmap = function() {
         xAxis.scale(x);
 
         // create chart container
-        g = div
-            .append("div").classed("heatmap", true)
-            .append("svg")
+        // g = div
+        //     // .append("div").classed("heatmap", true)
+        //     .append("svg")
+        //     // .attr("id", "id-" + id)
+        //     .attr("width", width)
+        //     .attr("height", height)
+        //   .append("g")
+        //     .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
+
+        g = div.append("svg")
+            .classed("heatmap", true)
             // .attr("id", "id-" + id)
             .attr("width", width)
             .attr("height", height)
           .append("g")
             .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
-
-        // g = div.append("svg")
-        //     .classed("heatmap", true)
-        //     .attr("id", "id-" + id)
-        //     .attr("width", width)
-        //     .attr("height", height)
-        //   .append("g")
-        //     .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
 
         _gCells = g.append("g")
             .attr("class", "cells");

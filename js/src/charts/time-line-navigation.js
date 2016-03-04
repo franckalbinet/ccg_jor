@@ -64,18 +64,17 @@ d3.timeLineNavigation = function() {
             .attr("cx", function(d) {
               return x(d.time); })
             .attr("cy", 0)
-            // .attr("r", function(d) { return (d.isMain) ? 6:3; })
-            .attr("r", function(d) { return (d.isMain) ? 5:3; })
+            .attr("r", function(d) { return (d.isMain) ? 5:2; })
             .on("mouseover", function(d) {
                 var _wasElapsed = d3.select(this).classed("elapsed"),
-                    radius = (d.isMain) ? 8 : 5;
+                    radius = (d.isMain) ? 10 : 7;
                 d3.select(this)
                 .transition(100)
                 .attr("r", radius);
             })
             .on("mouseout", function(d) {
                 var _isElapsed = d3.select(this).classed("elapsed"),
-                    radius = (d.isMain) ? 6 : 3;
+                    radius = (d.isMain) ? 5 : 2;
 
                 d3.select(this)
                 .classed("elapsed", _wasElapsed || _isElapsed)

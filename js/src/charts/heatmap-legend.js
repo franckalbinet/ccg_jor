@@ -17,9 +17,7 @@ d3.heatmapLegend = function() {
       barHeight = 7,
       barWidth = 11,
       xAxis = d3.svg.axis().orient("bottom"),
-      // yAxis = d3.svg.axis().orient("right").tickValues([0, 25, 50, 75, 100]),
       yAxis = d3.svg.axis().orient("left").tickValues([0, 25, 50, 75, 100]),
-      // yAxis = d3.svg.axis().orient("left"),
       hasBrush = false,
       hasYAxis = true,
       title = "My title",
@@ -99,46 +97,7 @@ d3.heatmapLegend = function() {
             .attr("y", function(d, i) {
                 return y(i*10) - cellHeight; })
             .attr("fill", function(d) { return d});
-        // // join
-        // var cells = _gCells.selectAll(".cell")
-        //       .data(data);
-        //
-        // // enter
-        // cells
-        //   .enter()
-        //     .append("rect")
-        //     .attr("class", "cell");
-        //     // .attr("width", x.rangeBand())
-        //     // .attr("height", y.rangeBand());
-        //
-        // // exit
-        // cells.exit().remove();
-        //
-        // // update
-        // cells
-        //   .attr("x", function(d) {
-        //     return x(d.round); })
-        //   .attr("y", function(d) {
-        //     return y(d.key); })
-        //   .attr("fill", function(d) { return color(toPercentage(d.count)); });
       }
-
-      // function _transformData(data) {
-      //   var flatData = [];
-      //
-      //   if(!_yCategories) _yCategories = _.without(data.map(function(d) {
-      //     return d.key; }).sort(function(a, b) { return a - b; }), 97);
-      //
-      //   data.filter(function(d) { return d!== 97; }).forEach(function(d) {
-      //     d.value.forEach(function(v) { return v.key = d.key });
-      //     flatData.push(d.value);
-      //   });
-      //
-      //   flatData = _.flatten(flatData);
-      //   flatData.forEach(function(d) { return d.joinId = _.values(d).join("-");});
-      //
-      //   return flatData;
-      // }
 
       function _skeleton() {
         // set scales range and domains
@@ -150,25 +109,24 @@ d3.heatmapLegend = function() {
 
         yAxis.tickValues([0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]).tickFormat(function(d) { return d + " %"; });
         yAxis.scale(y);
-        // xAxis.scale(x);
 
         // create chart container
-        g = div
-            .append("div").classed("heatmap", true)
-            .append("svg")
+        // g = div
+        //     .append("div").classed("heatmap", true)
+        //     .append("svg")
+        //     // .attr("id", "id-" + id)
+        //     .attr("width", width)
+        //     .attr("height", height)
+        //   .append("g")
+        //     .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
+
+        g = div.append("svg")
+            .classed("heatmap", true)
             // .attr("id", "id-" + id)
             .attr("width", width)
             .attr("height", height)
           .append("g")
             .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
-
-        // g = div.append("svg")
-        //     .classed("heatmap", true)
-        //     .attr("id", "id-" + id)
-        //     .attr("width", width)
-        //     .attr("height", height)
-        //   .append("g")
-        //     .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
 
         _gCells = g.append("g")
             .attr("class", "cells");
