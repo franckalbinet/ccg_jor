@@ -8,6 +8,14 @@ Vis.utils = _.extend(Vis.DEFAULTS, {
     $(".footer").hide();
   },
 
+  // renderProfileViews: function {
+  //   new Vis.Views.HouseholdsChildren({model: Vis.Models.app});
+  //   new Vis.Views.HouseholdsLocation({model: Vis.Models.app});
+  //   new Vis.Views.HouseholdsPoverty({model: Vis.Models.app});
+  //   new Vis.Views.HouseholdsHead({model: Vis.Models.app});
+  //   new Vis.Views.ChildrenGender({model: Vis.Models.app});
+  // },
+
   resetLayout: function() {
     Vis.utils.resetChartsCanvas();
 
@@ -27,21 +35,10 @@ Vis.utils = _.extend(Vis.DEFAULTS, {
     $(".home .ui").css("visibility", "hidden");
   },
 
-  resetRefactored: function() {
-    $(".page-header").css("visibility", "visible");
-  },
 
   clearTimer: function() {
     if (Vis.utils.chartDelay) clearTimeout(Vis.utils.chartDelay);
     if (Vis.utils.filterDelay) clearTimeout(Vis.utils.filterDelay);
-  },
-
-  resetChartsCanvas: function() {
-    if (this.chart) this.chart = null;
-    if(!d3.select("#main-chart svg").empty()) d3.selectAll("#main-chart svg").remove();
-    d3.select("#main-chart #living-conditions").remove();
-    d3.select("#main-chart #background-sample").remove();
-    d3.select("#main-chart #coping-mechanisms").remove();
   },
 
   setTextContent: function(attr, animated) {

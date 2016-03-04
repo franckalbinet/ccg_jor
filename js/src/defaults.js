@@ -47,5 +47,6 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
   },
   SELECTORS: {
     PROGRESS_LINE: "#line-down"
-  }
+  },
+  VIEW_PAGE_LOOKUP: {"context": 1, "background": 2, "incomes": 3 }
 });

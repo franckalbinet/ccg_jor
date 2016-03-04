@@ -3,22 +3,24 @@ Vis.Views.Context = Backbone.View.extend({
   el: '.container',
 
   initialize: function () {
-    var that = this;
+    var that = this,
+        viewId = Vis.DEFAULTS.VIEW_PAGE_LOOKUP["context"];
 
-    if (that.model.get("scenario").page === 1) this.render(this.model.get("scenario").chapter);
+    if (that.model.get("scenario").page === viewId) this.render();
 
     this.model.on("change:scenario", function() {
-      if (that.model.get("scenario").page === 1) this.render(that.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === viewId) this.render();
       },this);
 
     Backbone.on("filtered", function(d) {
-      if (that.model.get("scenario").page === 1 && !d.silent) this.render(that.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === viewId && !d.silent) this.render(that.model.get("scenario").chapter);
       }, this);
   },
 
-  render: function(chapter) {
+  render: function() {
     var that = this,
-        scenario = this.model.get("scenario");
+        scenario = this.model.get("scenario"),
+        chapter = scenario.chapter;
 
     switch (this.model.get("scenario").chapter) {
       case 1:

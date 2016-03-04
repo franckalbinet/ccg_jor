@@ -174,7 +174,6 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
           //  trailWidth: 0.2
            trailWidth: 0.2
         });
-        console.log("set to 0");
         this.progressLine.set(0);
         d3.select(Vis.DEFAULTS.SELECTORS.PROGRESS_LINE + " svg").attr("viewBox", "0 0 100 1")
       }

@@ -52,7 +52,6 @@ Vis.Models.App = Backbone.Model.extend({
   },
 
   filterByGender: function(args) {
-    console.log(args);
     this.filterBy(args, "genders", this.childrenGender, this.childrenByGender);
   },
 
@@ -85,7 +84,6 @@ Vis.Models.App = Backbone.Model.extend({
   },
 
   filterByHead: function(args) {
-    console.log(args);
     this.filterBy(args, "heads", this.householdsHead, this.householdsByHead);
   },
 
@@ -224,6 +222,12 @@ Vis.Models.App = Backbone.Model.extend({
     return _.template(Vis.Templates["main-text"][id]);
   },
 
+  getTemplateQuote: function() {
+    var scenario = this.get("scenario"),
+        id = this.getTemplateId(scenario.page, scenario.chapter, "quote");
+    return _.template(Vis.Templates["quote"][id]);
+  },
+
   // getMainTextTemplateId: function(page, chapter) {
   //   return this.data.milestones
   //     .filter(function(d) {
@@ -231,19 +235,19 @@ Vis.Models.App = Backbone.Model.extend({
   //     .mainText;
   // },
 
-  getSubTextTemplateId: function(page, chapter) {
-    return this.data.milestones
-      .filter(function(d) {
-        return +d.page === +page && +d.chapter === +chapter; })[0]
-      .subText;
-  },
+  // getSubTextTemplateId: function(page, chapter) {
+  //   return this.data.milestones
+  //     .filter(function(d) {
+  //       return +d.page === +page && +d.chapter === +chapter; })[0]
+  //     .subText;
+  // },
 
-  getQuoteTemplateId: function(page, chapter) {
-    return this.data.milestones
-      .filter(function(d) {
-        return +d.page === +page && +d.chapter === +chapter; })[0]
-      .subText;
-  },
+  // getQuoteTemplateId: function(page, chapter) {
+  //   return this.data.milestones
+  //     .filter(function(d) {
+  //       return +d.page === +page && +d.chapter === +chapter; })[0]
+  //     .subText;
+  // },
 
   getMilestones: function() {
     return this.data.milestones;

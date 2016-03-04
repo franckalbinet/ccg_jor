@@ -16,6 +16,7 @@ vis_src =	${vis_dir}/namespace.js\
 					${vis_dir}/views/profile/households-poverty-view.js\
 					${vis_dir}/views/profile/households-head-view.js\
 					${vis_dir}/views/profile/children-gender-view.js\
+					${vis_dir}/views/profile/profile-view.js\
 					${vis_dir}/views/outcomes/background-view.js\
 					${vis_dir}/views/outcomes/coping-mechanisms-view.js\
 					${vis_dir}/views/outcomes/context-view.js\

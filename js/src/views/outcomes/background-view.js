@@ -3,26 +3,54 @@ Vis.Views.Background = Backbone.View.extend({
     el: '.container',
 
     initialize: function () {
-      var that = this;
+      var that = this,
+          viewId = Vis.DEFAULTS.VIEW_PAGE_LOOKUP["background"];
 
       this.chart = new Array(3);
 
-      if (that.model.get("scenario").page === 2) this.render(this.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === viewId) this.render();
 
       this.model.on("change:scenario", function() {
-        if (that.model.get("scenario").page === 2) this.render(that.model.get("scenario").chapter);
+        if (that.model.get("scenario").page === viewId) this.render();
         },this);
     },
 
-    render: function(chapter) {
+    render: function() {
       var that = this,
-          scenario = this.model.get("scenario");
+          scenario = this.model.get("scenario"),
+          chapter = scenario.chapter;
+
+      this.renderTemplate();
+      this.renderChart(chapter);
+
+      Backbone.trigger("view:rendered");
+    },
+
+    renderTemplate: function() {
+      var templateNarration =  _.template(Vis.Templates["narration"]),
+          templateCharts =  _.template(Vis.Templates["background-sample"]),
+          templateMainText = this.model.getTemplateMainText();
+
+      Vis.utils.reset();
+
+      $("#content").html(templateNarration() + templateCharts());
+      $("#main-text").html(templateMainText());
+      $("#narration").animate({ opacity: 0 }, 0);
+      $("#narration").animate({ opacity: 1 }, 1500);
+
+      $("#background-sample").animate({ opacity: 0 }, 0);
+      Vis.utils.chartDelay = setTimeout(function() {
+        $("#background-sample").animate({ opacity: 1 }, 1000);
+      }, 2000);
+    },
+
+    renderChart: function(chapter) {
+      var that = this;
 
       switch(chapter) {
           case 1:
-            this.renderTemplates();
-
-            // chart rendering
+            // chart rendering -- population of beneficiaries
+            // by age
             this.chart[0] = c3.generate({
               bindto: d3.select("#background-sample #age"),
               size: {
@@ -46,7 +74,7 @@ Vis.Views.Background = Backbone.View.extend({
                 pattern: ['#003950', '#E59138', '#88A3B6', '#609078', '#B45B49']
               }
             });
-
+            // by gender
             this.chart[1] = c3.generate({
               bindto: d3.select("#background-sample #gender"),
               size: {
@@ -69,7 +97,7 @@ Vis.Views.Background = Backbone.View.extend({
                 pattern: ['#003950', '#E59138']
               }
             });
-
+            // by povery
             this.chart[2] = c3.generate({
               bindto: d3.select("#background-sample #poverty"),
               size: {
@@ -95,9 +123,8 @@ Vis.Views.Background = Backbone.View.extend({
             });
             break;
           case 2:
-            this.renderTemplates();
-
-            // chart rendering
+            // chart rendering - sample
+            // by age
             this.chart[0] = c3.generate({
               bindto: d3.select("#background-sample #age"),
               size: {
@@ -121,7 +148,7 @@ Vis.Views.Background = Backbone.View.extend({
                 pattern: ['#003950', '#E59138', '#88A3B6', '#609078', '#B45B49']
               }
             });
-
+            // by gender
             this.chart[1] = c3.generate({
               bindto: d3.select("#background-sample #gender"),
               size: {
@@ -144,7 +171,7 @@ Vis.Views.Background = Backbone.View.extend({
                 pattern: ['#003950', '#E59138']
               }
             });
-
+            // by poverty
             this.chart[2] = c3.generate({
               bindto: d3.select("#background-sample #poverty"),
               size: {
@@ -172,25 +199,7 @@ Vis.Views.Background = Backbone.View.extend({
           default:
             console.log("no matching case.")
       }
-      Backbone.trigger("view:rendered");
-    },
 
-    renderTemplates: function() {
-      var templateNarration =  _.template(Vis.Templates["narration"]),
-          templateCharts =  _.template(Vis.Templates["background-sample"]),
-          templateMainText = this.model.getTemplateMainText();
-
-      Vis.utils.reset();
-
-      $("#content").html(templateNarration() + templateCharts());
-      $("#main-text").html(templateMainText());
-      $("#narration").animate({ opacity: 0 }, 0);
-      $("#narration").animate({ opacity: 1 }, 1500);
-
-      $("#background-sample").animate({ opacity: 0 }, 0);
-      Vis.utils.chartDelay = setTimeout(function() {
-        $("#background-sample").animate({ opacity: 1 }, 1000);
-      }, 2000);
     },
 
     getData: function(chapter, index) {
@@ -253,8 +262,5 @@ Vis.Views.Background = Backbone.View.extend({
           default:
             console.log("no matching case.")
         }
-    },
-
-
-
+    }
 });
