@@ -115,7 +115,7 @@ d3.multiSeriesTimeLineAlt = function() {
             return (highlighted.indexOf(d.key) === -1) ?
               true : false;
           })
-          .transition().duration(1500)
+          .transition()
           .attr("d", function(d) {
             var reordered = [];
             y.domain().forEach(function(v) {
@@ -159,7 +159,7 @@ d3.multiSeriesTimeLineAlt = function() {
             return color(parent.key); })
           .attr("r", function(d) {
             return 2.5})
-          .transition().duration(1500)
+          .transition()
           .attr("cx", function(d) {
             return x(toPercentage(d.count)); })
           .attr("cy", function(d) {

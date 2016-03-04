@@ -5,52 +5,64 @@ Vis.Views.Expenditures = Backbone.View.extend({
     highlighted: [],
 
     initialize: function () {
-      var that = this;
+      var that = this,
+          viewId = Vis.DEFAULTS.VIEW_PAGE_LOOKUP["expenditures"];
 
-      if (that.model.get("scenario").page === 4) this.preRender(this.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === viewId) this.render();
 
       this.model.on("change:scenario", function() {
-        if (that.model.get("scenario").page === 4) this.preRender(that.model.get("scenario").chapter);
+        this.chart = null;
+        if (that.model.get("scenario").page === viewId) this.render();
         },this);
 
       Backbone.on("filtered", function(d) {
-        if (that.model.get("scenario").page === 4 && !d.silent) this.render(that.model.get("scenario").chapter);
+        if (that.model.get("scenario").page === 4 && !d.silent) this.renderChart();
         }, this);
     },
 
-    preRender: function(chapter) {
-      var that = this;
+    render: function() {
+      var that = this,
+          scenario = this.model.get("scenario"),
+          chapter = scenario.chapter;
 
-      $("#households-children").show();
-      $("#children-gender").hide();
+      this.renderTemplate();
+      this.renderChart();
 
-      Vis.utils.resetLayout();
-
-      $(".profile").show();
-
-      ["main-text", "quote"].forEach(function(d) {
-        Vis.utils.setTextContent.call(that, d);
-      });
-
-      $("#pending").hide();
-
-      $("#main-chart").show();
-
-      $(".charts").animate({ opacity: 0 }, 0);
+      $("#charts").animate({ opacity: 0 }, 0);
       Vis.utils.chartDelay = setTimeout(function() {
-        that.initChart(chapter);
-        $(".charts").animate({ opacity: 1 }, 1500);
-      }, 4000);
+        $("#charts").animate({ opacity: 1 }, 1000);
+      }, 2000);
 
+      Backbone.trigger("view:rendered");
     },
 
-    initChart: function(chapter) {
+    renderTemplate: function() {
+      var templateNarration = _.template(Vis.Templates["narration"]),
+          templateCharts = _.template(Vis.Templates["charts-profile"]),
+          templateMainText = this.model.getTemplateMainText(),
+          templateQuote = this.model.getTemplateQuote();
+
+          Vis.utils.reset();
+
+          $("#content").html(templateNarration() + templateCharts());
+          new Vis.Views.Profile();
+          $("#main-text").html(templateMainText());
+          $("#quote").html(templateQuote());
+          $("#narration").animate({ opacity: 0 }, 0);
+          $("#narration").animate({ opacity: 1 }, 1500);
+    },
+
+    renderChart: function() {
       var that = this,
-          data = this.getData(chapter),
-          total = this.getTotalHouseholds(chapter);
+          scenario = this.model.get("scenario"),
+          chapter = scenario.chapter,
+          total = this.getTotalHouseholds(chapter),
+          data = this.getData(chapter);
 
       switch(chapter) {
-          case 1:
+        case 1:
+          // if does not exist - init
+          if (!this.chart) {
             this.chart = d3.multiSeriesTimeLineAlt()
               .width(600).height(350)
               .margins({top: 40, right: 150, bottom: 40, left: 180})
@@ -64,9 +76,18 @@ Vis.Views.Expenditures = Backbone.View.extend({
               .lookUp(Vis.DEFAULTS.LOOKUP_CODES.EXPENDITURES)
               .on("highlighted", function (highlighted) {
                 that.highlighted = highlighted;
-                that.render(that.model.get("scenario").chapter); });
+                that.renderChart(that.model.get("scenario").chapter); });
+            }
+            // render
+            this.chart
+              .data(this.getData(chapter))
+              .relativeTo(this.getTotalHouseholds(chapter))
+              .highlighted(this.highlighted)
+            d3.select("#main-chart").call(this.chart);
             break;
-          case 2:
+        case 2:
+          // if does not exist - init
+          if (!this.chart) {
             this.chart = d3.multiSeriesTimeLineAlt()
               .width(600).height(350)
               .margins({top: 40, right: 150, bottom: 40, left: 180})
@@ -74,7 +95,6 @@ Vis.Views.Expenditures = Backbone.View.extend({
               .color(d3.scale.ordinal().range(
                 ["#003950","#E59138","#5F1D00"]).domain([1, 2, 3]))
               .relativeTo(total)
-              // .yDomain([10,6,3,9,1,7,5,2,11,4,12,13,99])
               .yDomain([10,6,3,9,7,5,2,11,4,12,13,99])
               .title("Children-specific expenditures")
               .xTitle("")
@@ -82,9 +102,18 @@ Vis.Views.Expenditures = Backbone.View.extend({
               .lookUp(Vis.DEFAULTS.LOOKUP_CODES.EXPENDITURES_CHILDREN)
               .on("highlighted", function (highlighted) {
                 that.highlighted = highlighted;
-                that.render(that.model.get("scenario").chapter); });
-            break;
-          case 3:
+                that.renderChart(that.model.get("scenario").chapter); });
+          }
+          // render
+          this.chart
+            .data(this.getData(chapter))
+            .relativeTo(this.getTotalHouseholds(chapter))
+            .highlighted(this.highlighted)
+          d3.select("#main-chart").call(this.chart);
+          break;
+        case 3:
+          // if does not exist - init
+          if (!this.chart) {
             this.chart = d3.barChartMultiStacked()
               .width(600).height(350)
               .margins({top: 40, right: 250, bottom: 40, left: 200})
@@ -94,44 +123,17 @@ Vis.Views.Expenditures = Backbone.View.extend({
               .title("Were you able to cover expenses for your children that were not a priority before ?")
               .xTitle("")
               .lookUp(Vis.DEFAULTS.LOOKUP_CODES.COV_CHILD_EXP);
-            break;
-          default:
-            console.log("no matching case.")
-        }
-      this.render(chapter);
-    },
-
-    render: function(chapter) {
-      var that = this;
-      switch(chapter) {
-          case 1:
-            this.chart
-              .data(this.getData(chapter))
-              .relativeTo(this.getTotalHouseholds(chapter))
-              .highlighted(this.highlighted)
-            d3.select("#main-chart").call(this.chart);
-            break;
-          case 2:
-            Vis.utils.filterDelay = setTimeout(function() {
-              that.model.filterByChildren([4,5,6,7,8,9]);
-            }, 3000);
-
-            this.chart
-              .data(this.getData(chapter))
-              .relativeTo(this.getTotalHouseholds(chapter))
-              .highlighted(this.highlighted)
-            d3.select("#main-chart").call(this.chart);
-            break;
-          case 3:
-            this.chart
-              .data(this.getData(chapter))
-              .relativeTo(this.getTotalHouseholds(chapter))
-            d3.select("#main-chart").call(this.chart);
-            this.fixPositionning();
-            break;
-          default:
-            console.log("no matching case.")
-        }
+          }
+          // render
+          this.chart
+            .data(this.getData(chapter))
+            .relativeTo(this.getTotalHouseholds(chapter))
+          d3.select("#main-chart").call(this.chart);
+          this.fixPositionning();
+          break;
+        default:
+          console.log("no matching case.")
+      }
     },
 
     getData: function(chapter) {
