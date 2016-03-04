@@ -44,5 +44,8 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
                         14: "Let your children ask for money",15:"Reduction of essential expenditure on health",16:"Reduction of essential expenditure on education",
                         17:"Immigrate to another country for residency",18:"Move back to the refugee camp",19:"Return to Syria",97:"Other"},
     WAVES: {1: "June", 2: "August", 3: "November"}
+  },
+  SELECTORS: {
+    PROGRESS_LINE: "#line-down"
   }
 });

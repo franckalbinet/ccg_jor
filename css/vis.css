@@ -36,7 +36,9 @@ h1,h2,h3,h4,h5 {
   font-family: "Roboto", sans-serif;
 }
 
-/* page header */
+/* ============================================================== */
+/*                       Page header                              */
+/* ============================================================== */
 .page-header {
   padding-bottom: 0px;
   margin-top: 30px;
@@ -58,6 +60,108 @@ h1,h2,h3,h4,h5 {
   margin-bottom: 0px;
 }
 
+/* ============================================================== */
+/*                       Content container                        */
+/* ============================================================== */
+#content {
+  height: 610px;
+}
+
+/* ============================================================== */
+/*                       Front page                               */
+/* ============================================================== */
+#front-page {
+  box-sizing: border-box;
+  text-align: center;
+}
+#front-page .photographs {
+  height: 300px;
+}
+#front-page .photographs img {
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  padding: 5px;
+}
+#front-page .title {
+  height: 200px;
+  padding-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+}
+#front-page .title p {
+  color: #1CABE2;
+  font-weight: 400;
+  font-size: 19px;
+}
+#front-page h3 {
+  font-weight: 700;
+  font-size: 21px;
+  color: #1CABE2;
+  margin-bottom: 0px;
+  text-transform: uppercase;
+}
+#front-page .ui {
+  height: 35px;
+  font-size: 0.8em;
+  font-weight: 500;
+  color: #888;
+  padding-top: 20px;
+}
+#front-page .logos {
+  height: 75px;
+}
+
+/* ============================================================== */
+/*                       Narration                                */
+/* ============================================================== */
+#narration {
+  height: 250px;
+  width: 960px;
+  min-height: 15em;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+#narration #line-up {
+  margin-left: auto;
+  margin-right: auto;
+  width: 150px;
+  height: 1px;
+  background-color: #888;
+}
+#narration #line-down {
+  margin-left: auto;
+  margin-right: auto;
+  width: 300px;
+  shape-rendering: crispEdges;
+}
+#narration #main-text {
+  font-family: "Roboto", sans-serif;
+  margin-left: auto;
+  margin-right: auto;
+  width: 500px;
+  margin-top: 0px;
+  padding: 10px 0 10px 0;
+  font-size: 15px;
+  color: #444;
+  text-align: center;
+}
+#narration #main-text p {
+  margin-bottom: 0px;
+  padding: 10px 0 10px 0;
+}
+#narration #quote {
+  margin-left: auto;
+  margin-right: auto;
+  width: 650px;
+  font-size: 14px;
+  font-style: italic;
+  color: #444;
+  font-weight: 300;
+  text-align: center;
+}
+
+
 /* placeholders -- for debug */
 .placeholder {
   background-color: #eee;
@@ -74,10 +178,11 @@ h1,h2,h3,h4,h5 {
   color: #A0A0A0;
 }
 
-/*
-  Wireframe
-*/
-.charts {
+
+
+
+
+#charts {
   height: 360px;
   margin-bottom: 0px;
 }
@@ -139,99 +244,6 @@ h1,h2,h3,h4,h5 {
 }
 
 
-/* text - narrative */
-.narration {
-  height: 250px;
-  width: 960px;
-  min-height: 15em;
-  display: table-cell;
-  vertical-align: middle;
-}
-
-.line-up {
-  margin-left: auto;
-  margin-right: auto;
-  width: 150px;
-  height: 1px;
-  background-color: #888;
-}
-.line-down {
-  margin-left: auto;
-  margin-right: auto;
-  width: 300px;
-}
-#main-text {
-  margin-left: auto;
-  margin-right: auto;
-  width: 500px;
-  margin-top: 0px;
-  padding: 10px 0 10px 0;
-  font-size: 15px;
-  color: #444;
-  text-align: center;
-}
-#main-text p {
-  margin-bottom: 0px;
-  padding: 10px 0 10px 0;
-}
-#quote {
-  margin-left: auto;
-  margin-right: auto;
-  width: 650px;
-  font-size: 14px;
-  font-style: italic;
-  color: #444;
-  font-weight: 300;
-  text-align: center;
-}
-#sub-text {
-  font-size: 13px;
-  width: 450px;
-  font-weight: 300;
-  color: #555;
-}
-
-/* Home */
-.home {
-  height: 380px;
-  margin-top: -20px;
-  text-align: center;
-}
-.home .photographs {
-  margin-bottom: 40px;
-}
-.home .photographs img {
-  border: 1px solid #ddd;
-  border-radius: 2px;
-  padding: 5px;
-}
-.home-title {
-  height: 250px;
-  min-height: 15em;
-  margin-left: auto;
-  margin-right: auto;
-  width: 600px;
-  /*padding-top: 120px;*/
-  padding-top: 100px;
-}
-.home-title h3 {
-  font-weight: 700;
-  font-size: 21px;
-  color: #1CABE2;
-  margin-bottom: 0px;
-  text-transform: uppercase;
-}
-.home-title p {
-  color: #1CABE2;
-  font-weight: 400;
-  font-size: 19px;
-}
-.home .ui {
-  font-size: 0.8em;
-  font-weight: 500;
-  color: #888;
-  margin-top: 20px;
-}
 
 /* Conclusion */
 .conclusion {

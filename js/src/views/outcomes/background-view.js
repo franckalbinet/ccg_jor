@@ -2,75 +2,27 @@
 Vis.Views.Background = Backbone.View.extend({
     el: '.container',
 
-    highlighted: [],
-
     initialize: function () {
       var that = this;
 
       this.chart = new Array(3);
 
-      if (that.model.get("scenario").page === 2) this.preRender(this.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === 2) this.render(this.model.get("scenario").chapter);
 
       this.model.on("change:scenario", function() {
-        if (that.model.get("scenario").page === 2) this.preRender(that.model.get("scenario").chapter);
+        if (that.model.get("scenario").page === 2) this.render(that.model.get("scenario").chapter);
         },this);
-
-      Backbone.on("filtered", function(d) {
-        if (that.model.get("scenario").page === 2 && !d.silent) this.render(that.model.get("scenario").chapter);
-        }, this);
-    },
-
-    preRender: function(chapter) {
-      var that = this,
-          templateSample = _.template(Vis.Templates["background-sample"]);
-
-      $("#households-children").show();
-      $("#children-gender").hide();
-
-      Vis.utils.resetLayout();
-
-      $(".outcomes").removeClass("col-md-8").addClass("col-md-12");
-      $("#main-chart").html(templateSample());
-
-      $(".profile").hide();
-
-      ["main-text", "quote"].forEach(function(d) {
-        Vis.utils.setTextContent.call(that, d);
-      });
-
-      $("#pending").hide();
-      $("#main-chart").show();
-
-      $(".charts").animate({ opacity: 0 }, 0);
-      Vis.utils.chartDelay = setTimeout(function() {
-        that.initChart(chapter);
-        $(".charts").animate({ opacity: 1 }, 1500);
-      // }, 4000);
-    }, 500);
-    },
-
-    initChart: function(chapter) {
-      var that = this,
-          data = this.getData(chapter),
-          total = this.getTotal(chapter);
-
-      switch(chapter) {
-          case 1:
-            break;
-          case 2:
-            break;
-          case 4:
-            break;
-          default:
-            console.log("no matching case.")
-        }
-      this.render(chapter);
     },
 
     render: function(chapter) {
-      var that = this;
+      var that = this,
+          scenario = this.model.get("scenario");
+
       switch(chapter) {
           case 1:
+            this.renderTemplates();
+
+            // chart rendering
             this.chart[0] = c3.generate({
               bindto: d3.select("#background-sample #age"),
               size: {
@@ -80,9 +32,6 @@ Vis.Views.Background = Backbone.View.extend({
               data: {
                 columns: that.getData(chapter, 0),
                 type : 'donut',
-                onclick: function (d, i) { console.log("onclick", d, i); },
-                onmouseover: function (d, i) { console.log("onmouseover", d, i); },
-                onmouseout: function (d, i) { console.log("onmouseout", d, i); },
                 order: null
               },
               donut: {
@@ -106,10 +55,7 @@ Vis.Views.Background = Backbone.View.extend({
               },
               data: {
                 columns: that.getData(chapter, 1),
-                type : 'donut',
-                onclick: function (d, i) { console.log("onclick", d, i); },
-                onmouseover: function (d, i) { console.log("onmouseover", d, i); },
-                onmouseout: function (d, i) { console.log("onmouseout", d, i); }
+                type : 'donut'
               },
               donut: {
                   title: "Gender of children",
@@ -132,10 +78,7 @@ Vis.Views.Background = Backbone.View.extend({
               },
               data: {
                 columns: that.getData(chapter, 2),
-                type : 'donut',
-                onclick: function (d, i) { console.log("onclick", d, i); },
-                onmouseover: function (d, i) { console.log("onmouseover", d, i); },
-                onmouseout: function (d, i) { console.log("onmouseout", d, i); }
+                type : 'donut'
               },
               donut: {
                   title: "Vulnerability level",
@@ -152,6 +95,9 @@ Vis.Views.Background = Backbone.View.extend({
             });
             break;
           case 2:
+            this.renderTemplates();
+
+            // chart rendering
             this.chart[0] = c3.generate({
               bindto: d3.select("#background-sample #age"),
               size: {
@@ -161,9 +107,6 @@ Vis.Views.Background = Backbone.View.extend({
               data: {
                 columns: that.getData(chapter, 0),
                 type : 'donut',
-                onclick: function (d, i) { console.log("onclick", d, i); },
-                onmouseover: function (d, i) { console.log("onmouseover", d, i); },
-                onmouseout: function (d, i) { console.log("onmouseout", d, i); },
                 order: null
               },
               donut: {
@@ -187,10 +130,7 @@ Vis.Views.Background = Backbone.View.extend({
               },
               data: {
                 columns: that.getData(chapter, 1),
-                type : 'donut',
-                onclick: function (d, i) { console.log("onclick", d, i); },
-                onmouseover: function (d, i) { console.log("onmouseover", d, i); },
-                onmouseout: function (d, i) { console.log("onmouseout", d, i); }
+                type : 'donut'
               },
               donut: {
                   title: "Gender of children",
@@ -213,10 +153,7 @@ Vis.Views.Background = Backbone.View.extend({
               },
               data: {
                 columns: that.getData(chapter, 2),
-                type : 'donut',
-                onclick: function (d, i) { console.log("onclick", d, i); },
-                onmouseover: function (d, i) { console.log("onmouseover", d, i); },
-                onmouseout: function (d, i) { console.log("onmouseout", d, i); }
+                type : 'donut'
               },
               donut: {
                   title: "Vulnerability level",
@@ -231,14 +168,29 @@ Vis.Views.Background = Backbone.View.extend({
                 pattern: ['#003950', '#E59138', '#88A3B6']
               }
             });
-            break;
-          case 2:
-            break;
-          case 4:
             break;
           default:
             console.log("no matching case.")
-        }
+      }
+      Backbone.trigger("view:rendered");
+    },
+
+    renderTemplates: function() {
+      var templateNarration =  _.template(Vis.Templates["narration"]),
+          templateCharts =  _.template(Vis.Templates["background-sample"]),
+          templateMainText = this.model.getTemplateMainText();
+
+      Vis.utils.reset();
+
+      $("#content").html(templateNarration() + templateCharts());
+      $("#main-text").html(templateMainText());
+      $("#narration").animate({ opacity: 0 }, 0);
+      $("#narration").animate({ opacity: 1 }, 1500);
+
+      $("#background-sample").animate({ opacity: 0 }, 0);
+      Vis.utils.chartDelay = setTimeout(function() {
+        $("#background-sample").animate({ opacity: 1 }, 1000);
+      }, 2000);
     },
 
     getData: function(chapter, index) {
@@ -303,25 +255,6 @@ Vis.Views.Background = Backbone.View.extend({
         }
     },
 
-    getTotal: function(chapter) {
-      switch(chapter) {
-        case 1:
-          break;
-        case 2:
 
-          break;
-        case 2:
-          return _.unique(this.model.expendituresChildHousehold.top(Infinity)
-                  .map(function(d) { return d.hh })).length;
-          break;
-        default:
-          console.log("no matching case.")
-      }
-    },
 
-    fixPositionning: function() {
-      d3.selectAll("#main-chart .x.axis text")
-        .data(["Jun.", "Aug.", "Nov."])
-        .text(function(d) { return d; });
-    }
 });

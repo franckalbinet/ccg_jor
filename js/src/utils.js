@@ -1,9 +1,15 @@
 /*  Utilities functions*/
 Vis.utils = _.extend(Vis.DEFAULTS, {
 
+  reset: function() {
+    Vis.utils.clearTimer();
+    $(".page-header").css("visibility", "visible");
+    $("#narration").css("height", "250px");
+    $(".footer").hide();
+  },
+
   resetLayout: function() {
     Vis.utils.resetChartsCanvas();
-
 
     $(".outcomes").removeClass("col-md-12").addClass("col-md-8");
     $(".charts").show();
@@ -19,6 +25,10 @@ Vis.utils = _.extend(Vis.DEFAULTS, {
     $(".logos").css("visibility", "hidden");
     $(".footer").hide();
     $(".home .ui").css("visibility", "hidden");
+  },
+
+  resetRefactored: function() {
+    $(".page-header").css("visibility", "visible");
   },
 
   clearTimer: function() {

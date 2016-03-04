@@ -210,24 +210,6 @@ Vis.Models.App = Backbone.Model.extend({
       .filter(function(d) {
         return selection.indexOf(d.values) > -1 })
       .map(function(d) { return +d.key; });
-
-    //   var byNbChildren = d3.nest()
-    //         .key(function(d) { return d.age; })
-    //         .rollup(function(leaves) {
-    //           return {
-    //             length: leaves.length,
-    //             hh: leaves.map(function(d) { return d.hh; })
-    //            };
-    //         })
-    //       .entries(this.data.children)
-    //       .map(function(d) { return {key: +d.key, values: d.values}; });
-    //   var households = [];
-    //   byNbChildren.forEach(function(d) {
-    //     if (selection.indexOf(d.key) > -1) {
-    //       households = households.concat(d.values.hh)
-    //     }
-    //   });
-    // return households;
   },
 
   getTemplateId: function(page, chapter, attr) {
@@ -236,12 +218,18 @@ Vis.Models.App = Backbone.Model.extend({
         return +d.page === +page && +d.chapter === +chapter; })[0][attr];
   },
 
-  getMainTextTemplateId: function(page, chapter) {
-    return this.data.milestones
-      .filter(function(d) {
-        return +d.page === +page && +d.chapter === +chapter; })[0]
-      .mainText;
+  getTemplateMainText: function() {
+    var scenario = this.get("scenario"),
+        id = this.getTemplateId(scenario.page, scenario.chapter, "main-text");
+    return _.template(Vis.Templates["main-text"][id]);
   },
+
+  // getMainTextTemplateId: function(page, chapter) {
+  //   return this.data.milestones
+  //     .filter(function(d) {
+  //       return +d.page === +page && +d.chapter === +chapter; })[0]
+  //     .mainText;
+  // },
 
   getSubTextTemplateId: function(page, chapter) {
     return this.data.milestones
