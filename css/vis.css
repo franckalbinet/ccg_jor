@@ -26,9 +26,14 @@ ul, ol {
 /* font-awesome icons */
 .fa-4 {
   pointer-events: none;
-  margin-right: 10px;
-  margin-left: 10px;
-  font-size: 12 px;
+  margin-right: 5px;
+  font-size: 1.3em;
+}
+.fa-3 {
+  pointer-events: none;
+  margin-right: 5px;
+  margin-left: 5px;
+  font-size: 0.8em;
 }
 
 /* fonts */
@@ -182,9 +187,6 @@ h1,h2,h3,h4,h5 {
   padding-bottom: 5px;
   cursor: pointer;
 }
-
-
-
 #case-studies .photographs img {
   border: 1px solid #ddd;
   border-radius: 2px;
@@ -194,23 +196,45 @@ h1,h2,h3,h4,h5 {
   height: 95%;
 }
 
-
-/*.child-empowerment {
+/* ============================================================== */
+/*                       Further resources                        */
+/* ============================================================== */
+#further-resources {
   height: 360px;
-  margin-top: -60px;
   text-align: center;
 }
-.child-empowerment .photographs img {
-  border: 1px solid #ddd;
-  border-radius: 2px;
-  padding: 5px;
-  text-align: center;
+#further-resources .documents {
+  margin-bottom: 30px;
 }
-*/
+#further-resources .documents .title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  fill: #555;
+  margin-bottom: 5px;
+}
+#further-resources .links a {
+  display: inline-block;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-right: 1px solid #1cabe2;
+  font-size: 12px;
+}
+#further-resources .links a:last-child {
+  border-right: none;
+}
 
+#further-resources p {
+  margin-left: auto;
+  margin-right: auto;
+  width: 600px;
+  font-size: 12px;
+  font-weight: 300px;
+}
 
-
-/* placeholders -- for debug */
+/* ============================================================== */
+/*                     Placeholders -- debugging purpose          */
+/* ============================================================== */
 .placeholder {
   background-color: #eee;
 }
@@ -226,10 +250,9 @@ h1,h2,h3,h4,h5 {
   color: #A0A0A0;
 }
 
-
-
-
-
+/* ============================================================== */
+/*                       Charts                                   */
+/* ============================================================== */
 #charts {
   height: 360px;
   margin-bottom: 0px;
@@ -258,7 +281,9 @@ h1,h2,h3,h4,h5 {
   margin-right: auto;
 }
 
-/* Footer */
+/* ============================================================== */
+/*                       Footer                                   */
+/* ============================================================== */
 .footer {
   margin-bottom: 20px;
   font-size: 0.8em;
@@ -291,31 +316,6 @@ h1,h2,h3,h4,h5 {
   border-right: none;
 }
 
-
-
-/* Conclusion */
-.conclusion {
-  height: 480px;
-  margin-top: -60px;
-  text-align: center;
-}
-.conclusion .photographs {
-  margin-bottom: 25px;
-}
-.conclusion .photographs img {
-  border: 1px solid #ddd;
-  border-radius: 2px;
-  padding: 5px;
-}
-.conclusion p {
-  margin-left: auto;
-  margin-right: auto;
-  width: 600px;
-  font-size: 12px;
-  font-weight: 300px;
-}
-
-
 /* Charts */
 .chart {
   font-family: "Open", sans-serif;
@@ -323,7 +323,6 @@ h1,h2,h3,h4,h5 {
 .bar-chart-vert rect {
   fill: #538dbc;
   fill: #5e5e66;
-  /*fill: #7A7A85;*/
   stroke: none;
   fill-opacity: 1;
 }

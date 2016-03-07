@@ -49,5 +49,6 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
     PROGRESS_LINE: "#line-down"
   },
   VIEW_PAGE_LOOKUP: {"context": 1, "background": 2, "incomes": 3, "expenditures": 4, "copingMechanisms": 5,
-                     "resultsChildren": 6, "education": 7, "caseStudies": 8, "familyConditions": 9}
+                     "resultsChildren": 6, "education": 7, "caseStudies": 8, "familyConditions": 9,
+                     "furtherResources": 10}
 });

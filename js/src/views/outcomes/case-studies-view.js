@@ -9,7 +9,6 @@ Vis.Views.CaseStudies = Backbone.View.extend({
     if (that.model.get("scenario").page === viewId) this.render();
 
     this.model.on("change:scenario", function() {
-      this.chart =  null;
       if (that.model.get("scenario").page === viewId) this.render();
       },this);
 
@@ -21,7 +20,6 @@ Vis.Views.CaseStudies = Backbone.View.extend({
         chapter = scenario.chapter;
 
     this.renderTemplate();
-    // this.renderChart();
 
     $("#case-studies").animate({ opacity: 0 }, 0);
     Vis.utils.chartDelay = setTimeout(function() {
@@ -45,27 +43,5 @@ Vis.Views.CaseStudies = Backbone.View.extend({
         $("#quote").html(templateQuote());
         $("#narration").animate({ opacity: 0 }, 0);
         $("#narration").animate({ opacity: 1 }, 1500);
-  },
-
-  // preRender: function(chapter) {
-  //   var that = this;
-  //
-  //   $("#households-children").show();
-  //   $("#children-gender").hide();
-  //
-  //   Vis.utils.resetLayout();
-  //
-  //   $(".profile").hide();
-  //
-  //   ["main-text", "quote"].forEach(function(d) {
-  //     Vis.utils.setTextContent.call(that, d);
-  //   });
-  //
-  //   $("#pending").hide();
-  //   $(".charts").hide();
-  //   $(".child-empowerment").animate({ opacity: 0 }, 0);
-  //   $(".child-empowerment").show();
-  //   $(".child-empowerment").animate({ opacity: 1 }, 1500);
-  //
-  // }
+  }
 });

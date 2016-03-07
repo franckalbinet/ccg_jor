@@ -21,11 +21,11 @@ Vis.Templates["main-text"] = [
 
 Vis.Templates["quote"] = [
   "",
-  "<p><i class='fa fa-quote-left fa-4'></i>Even if my husband wants to work, he is so scared to do so as he will get deported.<i class='fa fa-quote-right fa-4'></i></p>",
-  "<p><i class='fa fa-quote-left fa-4'></i>Yes, people used to sell food items, but now after they reduced the amount of the food coupons the items they get are barely enough for their own needs.<i class='fa fa-quote-right fa-4'></i></p>",
-  "<p><i class='fa fa-quote-left fa-4'></i>Before the war, my situation back in Syria was very good, but now I have no future here in Jordan, but must secure a good future for my children. That’s my priority.<i class='fa fa-quote-right fa-4'></i><br><br><i class='fa fa-quote-left fa-4'></i>Last year two of my children were out of school, but when I started receiving the UNICEF cash assistance I was able to enrol them in school again.<i class='fa fa-quote-right fa-4'></i></p>",
-  "<p><i class='fa fa-quote-left fa-4'></i>My daughter is waiting for the cash grant so I can buy her trousers for school. All my children know about the cash grant and that they receive JD 20.<i class='fa fa-quote-right fa-4'></i></p>",
-  "<p><i class='fa fa-quote-left fa-4'></i>The cash grant, for me, is like I’ve been in the desert and I’m so thirsty, and someone gave me a cup of water.<i class='fa fa-quote-right fa-4'></i></p>"
+  "<p><i class='fa fa-quote-left fa-3'></i>Even if my husband wants to work, he is so scared to do so as he will get deported.<i class='fa fa-quote-right fa-3'></i></p>",
+  "<p><i class='fa fa-quote-left fa-3'></i>Yes, people used to sell food items, but now after they reduced the amount of the food coupons the items they get are barely enough for their own needs.<i class='fa fa-quote-right fa-3'></i></p>",
+  "<p><i class='fa fa-quote-left fa-3'></i>Before the war, my situation back in Syria was very good, but now I have no future here in Jordan, but must secure a good future for my children. That’s my priority.<i class='fa fa-quote-right fa-3'></i><br><br><i class='fa fa-quote-left fa-3'></i>Last year two of my children were out of school, but when I started receiving the UNICEF cash assistance I was able to enrol them in school again.<i class='fa fa-quote-right fa-3'></i></p>",
+  "<p><i class='fa fa-quote-left fa-3'></i>My daughter is waiting for the cash grant so I can buy her trousers for school. All my children know about the cash grant and that they receive JD 20.<i class='fa fa-quote-right fa-3'></i></p>",
+  "<p><i class='fa fa-quote-left fa-3'></i>The cash grant, for me, is like I’ve been in the desert and I’m so thirsty, and someone gave me a cup of water.<i class='fa fa-quote-right fa-3'></i></p>"
 ];
 
 Vis.Templates["narration"] =
@@ -56,7 +56,7 @@ Vis.Templates["front-page"] =
 Vis.Templates["case-studies"] =
   "<div id='case-studies' class='row '>" +
   " <div class='col-md-12'>" +
-  "  <div class='title'>Explore three case studies below:</div>" +
+  "  <div class='title'>Explore three case studies below.</div>" +
   " </div>" +
   "  <div class='col-md-4'>" +
   "    <div class='reference'><a>Case study 1: The Abdullah Family</a></div>" +
@@ -79,23 +79,32 @@ Vis.Templates["case-studies"] =
   "</div>";
 
 Vis.Templates["further-resources"] =
-"<div class='row conclusion'>" +
+"<div id='further-resources' class='row'>" +
 "  <div class='col-md-12'>" +
-"    <div class='photographs'>" +
-"      <img src='./css/img/pictures-conclusion.png' alt='Photographs home'>" +
+"    <div class='documents'>" +
+"      <div class='title'><i class='fa fa-file-pdf-o fa-4'></i>Post Distribution Monitoring Reports:</div>" +
+"      <div class='links'>" +
+"        <a href='http://www.unicef.org/jordan/WindowofHope_UNICEFJordanPDM_report_childcashgrantSep2015_2_mb.pdf'>February-June 2015</a>" +
+"        <a href='http://www.unicef.org/jordan/UNICEF_CCG-_2PDM_Report_Dec2015_lowres.pdf'>July-August 2015</a>" +
+"        <a href='http://www.unicef.org/jordan/A_Window_of_Hope_December_2015.pdf'>2015 [Final Report]</a>" +
+"      </div>" +
 "    </div>" +
-"    <div class='col-md-12'>" +
+"    <div class='documents'>" +
+"      <div class='title'><i class='fa fa-table fa-4'></i>Questionnaire files:</div>" +
+"      <div class='links'>" +
+"        <a href='http://www.unicef.org/jordan/WindowofHope_UNICEFJordanPDM_report_childcashgrantSep2015_2_mb.pdf'>Link to questionnaire - missing</a>" +
+"      </div>" +
+"    </div>" +
+"    <div class='thanks'>" +
 "      <p>The UNICEF Child Cash Grant Programme was implemented with the generous contribution from" +
-"         the <strong>United Nations Central Emergency Response Fund (CERF), European Commission\'s Humanitarian Aid" +
-"         and Civil Protection Department (ECHO)</strong>, and the Governments of <strong>Canada, Kuwait</strong> and <strong>the Netherlands</strong>." +
+"        the <strong>United Nations Central Emergency Response Fund (CERF), European Commission\'s Humanitarian Aid" +
+"        and Civil Protection Department (ECHO)</strong>, and the Governments of <strong>Canada, Kuwait</strong> and <strong>the Netherlands</strong>." +
 "      </p>" +
 "      <p>" +
 "        UNICEF would like to thank the UNHCR Jordan Office for their support and partnership in the Child Cash Grant programme." +
 "      </p>" +
 "      <p>" +
-"        <a href='http://www.unicef.org/jordan/resources_10112.html'>Post-Distribution Monitoring Report</a>" +
-"      </p>" +
-"      <p>" +
+"      <br>" +
 "        <strong>UNICEF Jordan Country Office<br> Amman, Jordan</strong><br>" +
 "        <a href='www.unicef.org/Jordan'>www.unicef.org/Jordan</a>" +
 "      </p>" +

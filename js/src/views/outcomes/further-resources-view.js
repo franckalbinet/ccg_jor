@@ -3,37 +3,46 @@ Vis.Views.FurtherResources = Backbone.View.extend({
   el: '.container',
 
   initialize: function () {
-    var that = this;
+    var that = this,
+        viewId = Vis.DEFAULTS.VIEW_PAGE_LOOKUP["furtherResources"];
 
-    if (that.model.get("scenario").page === 10) this.preRender(this.model.get("scenario").chapter);
+    if (that.model.get("scenario").page === viewId) this.render();
 
     this.model.on("change:scenario", function() {
-      if (that.model.get("scenario").page === 10) this.preRender(that.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === viewId) this.render();
       },this);
-
-    Backbone.on("filtered", function(d) {
-      if (that.model.get("scenario").page === 10 && !d.silent) this.render(that.model.get("scenario").chapter);
-      }, this);
   },
 
-  preRender: function(chapter) {
-    var that = this;
+  render: function() {
+    var that = this,
+        scenario = this.model.get("scenario"),
+        chapter = scenario.chapter;
 
-    $("#households-children").show();
-    $("#children-gender").hide();
+    this.renderTemplate();
 
-    Vis.utils.resetLayout();
+    $("#further-resources").animate({ opacity: 0 }, 0);
+    Vis.utils.chartDelay = setTimeout(function() {
+      $("#further-resources").animate({ opacity: 1 }, 1000);
+    }, 2000);
 
-    $(".conclusion").show();
-    $(".profile").hide();
+    Backbone.trigger("view:rendered");
+  },
 
-    ["main-text", "quote"].forEach(function(d) {
-      Vis.utils.setTextContent.call(that, d);
-    });
+  renderTemplate: function() {
+    var templateNarration = _.template(Vis.Templates["narration"]),
+        templateContent = _.template(Vis.Templates["further-resources"]),
+        templateMainText = this.model.getTemplateMainText(),
+        templateQuote = this.model.getTemplateQuote();
 
-    $(".footer").show();
+        Vis.utils.reset();
 
-    $("#pending").hide();
-    $(".charts").hide();
+        $("#content").html(templateNarration() + templateContent());
+        new Vis.Views.Profile();
+        $("#main-text").html(templateMainText());
+        $("#quote").html(templateQuote());
+        $("#narration").animate({ opacity: 0 }, 0);
+        $("#narration").animate({ opacity: 1 }, 1500);
+
+        $(".footer").show();
   }
 });
