@@ -41,12 +41,13 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
                         3:"Choosing less preferred but cheaper food options",4:"Receiving cash assistance from family members",
                         5:"Receiving humanitarian assistance from NGOs/CBOs",6:"Selling properties/assets",7:"Selling food voucher",8:"Working more than one job",
                         9:"Borrowing money",10:"Using your savings",11:"Asking for money ",12:"Dropping children out of school",13:"Let your children work [child labor]",
-                        14: "Let your children ask for money",15:"Reduction of essential expenditure on health",16:"Reduction of essential expenditure on education",
+                        14:"Let your children ask for money",15:"Reduction of essential expenditure on health",16:"Reduction of essential expenditure on education",
                         17:"Immigrate to another country for residency",18:"Move back to the refugee camp",19:"Return to Syria",97:"Other"},
     WAVES: {1: "June", 2: "August", 3: "November"}
   },
   SELECTORS: {
     PROGRESS_LINE: "#line-down"
   },
-  VIEW_PAGE_LOOKUP: {"context": 1, "background": 2, "incomes": 3, "expenditures": 4, "copingMechanisms": 5}
+  VIEW_PAGE_LOOKUP: {"context": 1, "background": 2, "incomes": 3, "expenditures": 4, "copingMechanisms": 5,
+                     "resultsChildren": 6, "education": 7, "caseStudies": 8, "familyConditions": 9}
 });

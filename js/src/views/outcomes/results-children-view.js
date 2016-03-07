@@ -3,50 +3,64 @@ Vis.Views.ResultsChildren = Backbone.View.extend({
   el: '.container',
 
   initialize: function () {
-    var that = this;
+    var that = this,
+        viewId = Vis.DEFAULTS.VIEW_PAGE_LOOKUP["resultsChildren"];
 
-    if (that.model.get("scenario").page === 6) this.preRender(this.model.get("scenario").chapter);
+    if (that.model.get("scenario").page === viewId) this.render();
 
     this.model.on("change:scenario", function() {
-      if (that.model.get("scenario").page === 6) this.preRender(that.model.get("scenario").chapter);
+      this.chart =  null;
+      if (that.model.get("scenario").page === viewId) this.render();
       },this);
 
     Backbone.on("filtered", function(d) {
-      if (that.model.get("scenario").page === 6 && !d.silent) this.render(that.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === viewId  && !d.silent) this.renderChart();
       }, this);
   },
 
-  preRender: function(chapter) {
-    var that = this;
+  render: function() {
+    var that = this,
+        scenario = this.model.get("scenario"),
+        chapter = scenario.chapter;
 
-    $("#households-children").show();
-    $("#children-gender").hide();
+    this.renderTemplate();
+    this.renderChart();
 
-    Vis.utils.resetLayout();
-
-    $(".profile").show();
-
-    ["main-text", "quote"].forEach(function(d) {
-      Vis.utils.setTextContent.call(that, d);
-    });
-
-    $("#pending").hide();
-    $("#main-chart").show();
-
-    $(".charts").animate({ opacity: 0 }, 0);
+    $("#charts").animate({ opacity: 0 }, 0);
     Vis.utils.chartDelay = setTimeout(function() {
-      that.initChart(chapter);
-      $(".charts").animate({ opacity: 1 }, 1500);
-    }, 4000);
+      $("#charts").animate({ opacity: 1 }, 1000);
+    }, 2000);
+
+    Backbone.trigger("view:rendered");
   },
 
-  initChart: function(chapter) {
-    var that = this;
-        data = this.getData(chapter),
-        total = this.getTotalHouseholds(chapter);
+  renderTemplate: function() {
+    var templateNarration = _.template(Vis.Templates["narration"]),
+        templateCharts = _.template(Vis.Templates["charts-profile"]),
+        templateMainText = this.model.getTemplateMainText(),
+        templateQuote = this.model.getTemplateQuote();
+
+        Vis.utils.reset();
+
+        $("#content").html(templateNarration() + templateCharts());
+        new Vis.Views.Profile();
+        $("#main-text").html(templateMainText());
+        $("#quote").html(templateQuote());
+        $("#narration").animate({ opacity: 0 }, 0);
+        $("#narration").animate({ opacity: 1 }, 1500);
+  },
+
+  renderChart: function() {
+    var that = this,
+        scenario = this.model.get("scenario"),
+        chapter = scenario.chapter,
+        total = this.getTotalHouseholds(chapter),
+        data = this.getData(chapter);
 
     switch(chapter) {
-        case 1:
+      case 1:
+        // if does not exist - init
+        if (!this.chart) {
           this.chart = d3.barChartMultiStacked()
             .width(600).height(350)
             .margins({top: 40, right: 250, bottom: 40, left: 200})
@@ -56,25 +70,18 @@ Vis.Views.ResultsChildren = Backbone.View.extend({
             .title("Covering of children's basic needs")
             .xTitle("")
             .lookUp(Vis.DEFAULTS.LOOKUP_CODES.BASIC_NEEDS);
-          break;
-        default:
-          console.log("no matching case.")
-      }
-    this.render(chapter);
-  },
+        }
+        // render
+        this.chart
+          .data(this.getData(chapter))
+          .relativeTo(this.getTotalHouseholds(chapter))
+        d3.select("#main-chart").call(this.chart);
+        this.fixPositionning();
 
-  render: function(chapter) {
-    switch(chapter) {
-        case 1:
-          this.chart
-            .data(this.getData(chapter))
-            .relativeTo(this.getTotalHouseholds(chapter))
-          d3.select("#main-chart").call(this.chart);
-          this.fixPositionning();
-          break;
-        default:
-          console.log("no matching case.")
-      }
+        break;
+      default:
+        console.log("no matching case.")
+    }
   },
 
   getData: function(chapter, index) {

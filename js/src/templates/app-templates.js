@@ -54,8 +54,24 @@ Vis.Templates["front-page"] =
   "</div>";
 
 Vis.Templates["case-studies"] =
-  "<div class='row child-empowerment'>" +
-  "  <div class='col-md-12'>" +
+  "<div id='case-studies' class='row '>" +
+  " <div class='col-md-12'>" +
+  "  <div class='title'>Explore three case studies below:</div>" +
+  " </div>" +
+  "  <div class='col-md-4'>" +
+  "    <div class='reference'><a>Case study 1: The Abdullah Family</a></div>" +
+  "    <div class='photographs'>" +
+  "      <img src='./css/img/pictures_child_empowerment.png' alt='Photographs home'>" +
+  "    </div>" +
+  "  </div>" +
+  "  <div class='col-md-4'>" +
+  "    <div class='reference'><a>Case study X: ...</a></div>" +
+  "    <div class='photographs'>" +
+  "      <img src='./css/img/pictures_child_empowerment.png' alt='Photographs home'>" +
+  "    </div>" +
+  "  </div>" +
+  "  <div class='col-md-4'>" +
+  "    <div class='reference'><a>Case study X: ...</a></div>" +
   "    <div class='photographs'>" +
   "      <img src='./css/img/pictures_child_empowerment.png' alt='Photographs home'>" +
   "    </div>" +

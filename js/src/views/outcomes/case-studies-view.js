@@ -3,38 +3,69 @@ Vis.Views.CaseStudies = Backbone.View.extend({
   el: '.container',
 
   initialize: function () {
-    var that = this;
+    var that = this,
+        viewId = Vis.DEFAULTS.VIEW_PAGE_LOOKUP["caseStudies"];
 
-    if (that.model.get("scenario").page === 8) this.preRender(this.model.get("scenario").chapter);
+    if (that.model.get("scenario").page === viewId) this.render();
 
     this.model.on("change:scenario", function() {
-      if (that.model.get("scenario").page === 8) this.preRender(that.model.get("scenario").chapter);
+      this.chart =  null;
+      if (that.model.get("scenario").page === viewId) this.render();
       },this);
 
-    Backbone.on("filtered", function(d) {
-      if (that.model.get("scenario").page === 8 && !d.silent) this.render(that.model.get("scenario").chapter);
-      }, this);
   },
 
-  preRender: function(chapter) {
-    var that = this;
+  render: function() {
+    var that = this,
+        scenario = this.model.get("scenario"),
+        chapter = scenario.chapter;
 
-    $("#households-children").show();
-    $("#children-gender").hide();
+    this.renderTemplate();
+    // this.renderChart();
 
-    Vis.utils.resetLayout();
+    $("#case-studies").animate({ opacity: 0 }, 0);
+    Vis.utils.chartDelay = setTimeout(function() {
+      $("#case-studies").animate({ opacity: 1 }, 1000);
+    }, 2000);
 
-    $(".profile").hide();
+    Backbone.trigger("view:rendered");
+  },
 
-    ["main-text", "quote"].forEach(function(d) {
-      Vis.utils.setTextContent.call(that, d);
-    });
+  renderTemplate: function() {
+    var templateNarration = _.template(Vis.Templates["narration"]),
+        templateContent = _.template(Vis.Templates["case-studies"]),
+        templateMainText = this.model.getTemplateMainText(),
+        templateQuote = this.model.getTemplateQuote();
 
-    $("#pending").hide();
-    $(".charts").hide();
-    $(".child-empowerment").animate({ opacity: 0 }, 0);
-    $(".child-empowerment").show();
-    $(".child-empowerment").animate({ opacity: 1 }, 1500);
+        Vis.utils.reset();
 
-  }
+        $("#content").html(templateNarration() + templateContent());
+        new Vis.Views.Profile();
+        $("#main-text").html(templateMainText());
+        $("#quote").html(templateQuote());
+        $("#narration").animate({ opacity: 0 }, 0);
+        $("#narration").animate({ opacity: 1 }, 1500);
+  },
+
+  // preRender: function(chapter) {
+  //   var that = this;
+  //
+  //   $("#households-children").show();
+  //   $("#children-gender").hide();
+  //
+  //   Vis.utils.resetLayout();
+  //
+  //   $(".profile").hide();
+  //
+  //   ["main-text", "quote"].forEach(function(d) {
+  //     Vis.utils.setTextContent.call(that, d);
+  //   });
+  //
+  //   $("#pending").hide();
+  //   $(".charts").hide();
+  //   $(".child-empowerment").animate({ opacity: 0 }, 0);
+  //   $(".child-empowerment").show();
+  //   $(".child-empowerment").animate({ opacity: 1 }, 1500);
+  //
+  // }
 });

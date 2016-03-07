@@ -161,6 +161,54 @@ h1,h2,h3,h4,h5 {
   text-align: center;
 }
 
+/* ============================================================== */
+/*                       Case studies                             */
+/* ============================================================== */
+#case-studies {
+  height: 360px;
+  padding-top: 10px;
+}
+#case-studies .title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  fill: #555;
+  padding-bottom: 20px;
+}
+#case-studies .reference {
+  font-size: 13px;
+  font-weight: 500;
+  fill: #555;
+  padding-bottom: 5px;
+  cursor: pointer;
+}
+
+
+
+#case-studies .photographs img {
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  padding: 5px;
+  text-align: center;
+  width: 95%;
+  height: 95%;
+}
+
+
+/*.child-empowerment {
+  height: 360px;
+  margin-top: -60px;
+  text-align: center;
+}
+.child-empowerment .photographs img {
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  padding: 5px;
+  text-align: center;
+}
+*/
+
+
 
 /* placeholders -- for debug */
 .placeholder {
@@ -267,18 +315,6 @@ h1,h2,h3,h4,h5 {
   font-weight: 300px;
 }
 
-.child-empowerment {
-  height: 360px;
-  /*margin-top: -60px;*/
-  text-align: center;
-}
-.child-empowerment .photographs img {
-  border: 1px solid #ddd;
-  border-radius: 2px;
-  padding: 5px;
-  text-align: center;
-  /*margin-bottom: 25px;*/
-}
 
 /* Charts */
 .chart {
@@ -611,6 +647,7 @@ h1,h2,h3,h4,h5 {
 }
 #time-line-navigation text.elapsed {
   font-weight: bold;
+  font-size: 11px;
   color: #333;
 
 }

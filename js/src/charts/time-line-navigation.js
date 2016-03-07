@@ -67,7 +67,7 @@ d3.timeLineNavigation = function() {
             .attr("r", function(d) { return (d.isMain) ? 5:2; })
             .on("mouseover", function(d) {
                 var _wasElapsed = d3.select(this).classed("elapsed"),
-                    radius = (d.isMain) ? 10 : 7;
+                    radius = (d.isMain) ? 8 : 5;
                 d3.select(this)
                 .transition(100)
                 .attr("r", radius);
@@ -117,8 +117,8 @@ d3.timeLineNavigation = function() {
             .classed("elapsed", function(d) {
               var page = elapsed.page,
                   chapter = elapsed.chapter;
-              return (+(d.page + d.chapter) <= (10 * page + chapter)) ?
-              // return (d.page == page) ?
+              // return (+(d.page + d.chapter) <= (10 * page + chapter)) ?
+              return (d.page == page && d.chapter == chapter) ?
                 true : false;
             })
 

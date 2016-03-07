@@ -52,14 +52,15 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
                         3:"Choosing less preferred but cheaper food options",4:"Receiving cash assistance from family members",
                         5:"Receiving humanitarian assistance from NGOs/CBOs",6:"Selling properties/assets",7:"Selling food voucher",8:"Working more than one job",
                         9:"Borrowing money",10:"Using your savings",11:"Asking for money ",12:"Dropping children out of school",13:"Let your children work [child labor]",
-                        14: "Let your children ask for money",15:"Reduction of essential expenditure on health",16:"Reduction of essential expenditure on education",
+                        14:"Let your children ask for money",15:"Reduction of essential expenditure on health",16:"Reduction of essential expenditure on education",
                         17:"Immigrate to another country for residency",18:"Move back to the refugee camp",19:"Return to Syria",97:"Other"},
     WAVES: {1: "June", 2: "August", 3: "November"}
   },
   SELECTORS: {
     PROGRESS_LINE: "#line-down"
   },
-  VIEW_PAGE_LOOKUP: {"context": 1, "background": 2, "incomes": 3, "expenditures": 4, "copingMechanisms": 5}
+  VIEW_PAGE_LOOKUP: {"context": 1, "background": 2, "incomes": 3, "expenditures": 4, "copingMechanisms": 5,
+                     "resultsChildren": 6, "education": 7, "caseStudies": 8, "familyConditions": 9}
 });
 /*  Utilities functions*/
 Vis.utils = _.extend(Vis.DEFAULTS, {
@@ -1607,73 +1608,79 @@ Vis.Views.Education = Backbone.View.extend({
   el: '.container',
 
   initialize: function () {
-    var that = this;
+    var that = this,
+        viewId = Vis.DEFAULTS.VIEW_PAGE_LOOKUP["education"];
 
-    if (that.model.get("scenario").page === 7) this.preRender(this.model.get("scenario").chapter);
+    if (that.model.get("scenario").page === viewId) this.render();
 
     this.model.on("change:scenario", function() {
-      if (that.model.get("scenario").page === 7) this.preRender(that.model.get("scenario").chapter);
+      this.chart =  null;
+      if (that.model.get("scenario").page === viewId) this.render();
       },this);
 
     Backbone.on("filtered", function(d) {
-      if (that.model.get("scenario").page === 7 && !d.silent) this.render(that.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === viewId  && !d.silent) this.renderChart();
       }, this);
   },
 
-  preRender: function(chapter) {
-    var that = this;
+  render: function() {
+    var that = this,
+        scenario = this.model.get("scenario"),
+        chapter = scenario.chapter;
 
-    Vis.utils.resetLayout();
+    this.renderTemplate();
+    this.renderChart();
 
-    $(".profile").show();
-
-    ["main-text", "quote"].forEach(function(d) {
-      Vis.utils.setTextContent.call(that, d);
-    });
-
-    $("#pending").hide();
-
-    $("#main-chart").show();
-
-    $("#households-children").hide();
-    $("#children-gender").show();
-
-    $(".charts").animate({ opacity: 0 }, 0);
+    $("#charts").animate({ opacity: 0 }, 0);
     Vis.utils.chartDelay = setTimeout(function() {
-      that.initChart(chapter);
-      $(".charts").animate({ opacity: 1 }, 1500);
-    }, 4000);
+      $("#charts").animate({ opacity: 1 }, 1000);
+    }, 2000);
+
+    Backbone.trigger("view:rendered");
   },
 
-  initChart: function(chapter) {
+  renderTemplate: function() {
+    var templateNarration = _.template(Vis.Templates["narration"]),
+        templateCharts = _.template(Vis.Templates["charts-profile"]),
+        templateMainText = this.model.getTemplateMainText(),
+        templateQuote = this.model.getTemplateQuote();
+
+        Vis.utils.reset();
+
+        $("#content").html(templateNarration() + templateCharts());
+        new Vis.Views.Profile();
+        $("#main-text").html(templateMainText());
+        $("#quote").html(templateQuote());
+        $("#narration").animate({ opacity: 0 }, 0);
+        $("#narration").animate({ opacity: 1 }, 1500);
+  },
+
+  renderChart: function() {
     var that = this,
+        scenario = this.model.get("scenario"),
+        chapter = scenario.chapter,
+        total = this.getTotalHouseholds(chapter),
         data = this.getData(chapter);
 
     switch(chapter) {
-        case 1:
+      case 1:
+        // if does not exist - init
+        if (!this.chart) {
           this.chart = d3.barChartEducation()
             .width(600).height(350)
             .margins({top: 40, right: 240, bottom: 40, left: 140})
             .data(data)
             .title("Education attendance among school-aged children")
             .xTitle("");
-          break;
-        default:
-          console.log("no matching case.")
-      }
-    this.render(chapter);
-  },
-
-  render: function(chapter) {
-    switch(chapter) {
-        case 1:
-          this.chart
-            .data(this.getData(chapter))
-          d3.select("#main-chart").call(this.chart);
-          break;
-        default:
-          console.log("no matching case.")
-      }
+        }
+        // render
+        this.chart
+          .data(this.getData(chapter))
+        d3.select("#main-chart").call(this.chart);
+        break;
+      default:
+        console.log("no matching case.")
+    }
   },
 
   getData: function(chapter) {
@@ -1702,70 +1709,74 @@ Vis.Views.FamilyConditions = Backbone.View.extend({
   el: '.container',
 
   initialize: function () {
-    var that = this;
+    var that = this,
+        viewId = Vis.DEFAULTS.VIEW_PAGE_LOOKUP["familyConditions"];
 
-    if (that.model.get("scenario").page === 9) this.preRender(this.model.get("scenario").chapter);
+    if (that.model.get("scenario").page === viewId) this.render();
 
     this.model.on("change:scenario", function() {
-      if (that.model.get("scenario").page === 9) this.preRender(that.model.get("scenario").chapter);
+      this.chart =  null;
+      if (that.model.get("scenario").page === viewId) this.render();
       },this);
 
     Backbone.on("filtered", function(d) {
-      if (that.model.get("scenario").page === 9 && !d.silent) this.render(that.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === viewId  && !d.silent) this.renderChart();
       }, this);
   },
 
-  preRender: function(chapter) {
-    var that = this;
-
-    $("#households-children").show();
-    $("#children-gender").hide();
-
-    Vis.utils.resetLayout();
-
-    ["main-text", "quote"].forEach(function(d) {
-      Vis.utils.setTextContent.call(that, d);
-    });
-
-    $(".profile").show();
-    $("#pending").hide();
-    $("#main-chart").show();
-
-    $(".charts").animate({ opacity: 0 }, 0);
-    Vis.utils.chartDelay = setTimeout(function() {
-      that.initChart(chapter);
-      $(".charts").animate({ opacity: 1 }, 1500);
-    }, 4000);
-  },
-
-  initChart: function(chapter) {
+  render: function() {
     var that = this,
-        data = this.getData(chapter),
-        total = this.getTotalHouseholds(chapter);
+        scenario = this.model.get("scenario"),
+        chapter = scenario.chapter;
 
-    switch(chapter) {
-        case 1:
-          this.chart = d3.barChartMultiStacked()
-            .width(600).height(350)
-            .margins({top: 40, right: 250, bottom: 40, left: 200})
-            .data(data)
-            .color(d3.scale.ordinal().range(["#80A6B1", "#b45b49"]).domain([1, 2]))
-            .relativeTo(total)
-            .title("Improvement of family's overall living conditions")
-            .xTitle("")
-            .lookUp(Vis.DEFAULTS.LOOKUP_CODES.LIVING_CONDITIONS);
-          break;
-        case 2:
-          break;
-        default:
-          console.log("no matching case.")
-      }
-    this.render(chapter);
+    this.renderTemplate();
+    this.renderChart();
+
+    $("#charts").animate({ opacity: 0 }, 0);
+    Vis.utils.chartDelay = setTimeout(function() {
+      $("#charts").animate({ opacity: 1 }, 1000);
+    }, 2000);
+
+    Backbone.trigger("view:rendered");
   },
 
-  render: function(chapter) {
+  renderTemplate: function() {
+    var templateNarration = _.template(Vis.Templates["narration"]),
+        templateCharts = _.template(Vis.Templates["charts-profile"]),
+        templateMainText = this.model.getTemplateMainText(),
+        templateQuote = this.model.getTemplateQuote();
+
+        Vis.utils.reset();
+
+        $("#content").html(templateNarration() + templateCharts());
+        new Vis.Views.Profile();
+        $("#main-text").html(templateMainText());
+        $("#quote").html(templateQuote());
+        $("#narration").animate({ opacity: 0 }, 0);
+        $("#narration").animate({ opacity: 1 }, 1500);
+  },
+
+  renderChart: function() {
+    var that = this,
+        scenario = this.model.get("scenario"),
+        chapter = scenario.chapter,
+        total = this.getTotalHouseholds(chapter),
+        data = this.getData(chapter);
+
     switch(chapter) {
         case 1:
+          // if does not exist - init
+          if (!this.chart) {
+            this.chart = d3.barChartMultiStacked()
+              .width(600).height(350)
+              .margins({top: 40, right: 250, bottom: 40, left: 200})
+              .data(data)
+              .color(d3.scale.ordinal().range(["#80A6B1", "#b45b49"]).domain([1, 2]))
+              .relativeTo(total)
+              .title("Improvement of family's overall living conditions")
+              .xTitle("")
+              .lookUp(Vis.DEFAULTS.LOOKUP_CODES.LIVING_CONDITIONS);
+          }
           this.chart
             .data(this.getData(chapter))
             .relativeTo(this.getTotalHouseholds(chapter))
@@ -1778,7 +1789,49 @@ Vis.Views.FamilyConditions = Backbone.View.extend({
         default:
           console.log("no matching case.")
       }
-  },
+    },
+
+  // initChart: function(chapter) {
+  //   var that = this,
+  //       data = this.getData(chapter),
+  //       total = this.getTotalHouseholds(chapter);
+  //
+  //   switch(chapter) {
+  //       case 1:
+  //         this.chart = d3.barChartMultiStacked()
+  //           .width(600).height(350)
+  //           .margins({top: 40, right: 250, bottom: 40, left: 200})
+  //           .data(data)
+  //           .color(d3.scale.ordinal().range(["#80A6B1", "#b45b49"]).domain([1, 2]))
+  //           .relativeTo(total)
+  //           .title("Improvement of family's overall living conditions")
+  //           .xTitle("")
+  //           .lookUp(Vis.DEFAULTS.LOOKUP_CODES.LIVING_CONDITIONS);
+  //         break;
+  //       case 2:
+  //         break;
+  //       default:
+  //         console.log("no matching case.")
+  //     }
+  //   this.render(chapter);
+  // },
+  //
+  // render: function(chapter) {
+  //   switch(chapter) {
+  //       case 1:
+  //         this.chart
+  //           .data(this.getData(chapter))
+  //           .relativeTo(this.getTotalHouseholds(chapter))
+  //         d3.select("#main-chart").call(this.chart);
+  //
+  //         this.fixPositionning();
+  //         break;
+  //       case 2:
+  //         break;
+  //       default:
+  //         console.log("no matching case.")
+  //     }
+  // },
 
   getData: function(chapter) {
     switch(chapter) {
@@ -1816,40 +1869,71 @@ Vis.Views.CaseStudies = Backbone.View.extend({
   el: '.container',
 
   initialize: function () {
-    var that = this;
+    var that = this,
+        viewId = Vis.DEFAULTS.VIEW_PAGE_LOOKUP["caseStudies"];
 
-    if (that.model.get("scenario").page === 8) this.preRender(this.model.get("scenario").chapter);
+    if (that.model.get("scenario").page === viewId) this.render();
 
     this.model.on("change:scenario", function() {
-      if (that.model.get("scenario").page === 8) this.preRender(that.model.get("scenario").chapter);
+      this.chart =  null;
+      if (that.model.get("scenario").page === viewId) this.render();
       },this);
 
-    Backbone.on("filtered", function(d) {
-      if (that.model.get("scenario").page === 8 && !d.silent) this.render(that.model.get("scenario").chapter);
-      }, this);
   },
 
-  preRender: function(chapter) {
-    var that = this;
+  render: function() {
+    var that = this,
+        scenario = this.model.get("scenario"),
+        chapter = scenario.chapter;
 
-    $("#households-children").show();
-    $("#children-gender").hide();
+    this.renderTemplate();
+    // this.renderChart();
 
-    Vis.utils.resetLayout();
+    $("#case-studies").animate({ opacity: 0 }, 0);
+    Vis.utils.chartDelay = setTimeout(function() {
+      $("#case-studies").animate({ opacity: 1 }, 1000);
+    }, 2000);
 
-    $(".profile").hide();
+    Backbone.trigger("view:rendered");
+  },
 
-    ["main-text", "quote"].forEach(function(d) {
-      Vis.utils.setTextContent.call(that, d);
-    });
+  renderTemplate: function() {
+    var templateNarration = _.template(Vis.Templates["narration"]),
+        templateContent = _.template(Vis.Templates["case-studies"]),
+        templateMainText = this.model.getTemplateMainText(),
+        templateQuote = this.model.getTemplateQuote();
 
-    $("#pending").hide();
-    $(".charts").hide();
-    $(".child-empowerment").animate({ opacity: 0 }, 0);
-    $(".child-empowerment").show();
-    $(".child-empowerment").animate({ opacity: 1 }, 1500);
+        Vis.utils.reset();
 
-  }
+        $("#content").html(templateNarration() + templateContent());
+        new Vis.Views.Profile();
+        $("#main-text").html(templateMainText());
+        $("#quote").html(templateQuote());
+        $("#narration").animate({ opacity: 0 }, 0);
+        $("#narration").animate({ opacity: 1 }, 1500);
+  },
+
+  // preRender: function(chapter) {
+  //   var that = this;
+  //
+  //   $("#households-children").show();
+  //   $("#children-gender").hide();
+  //
+  //   Vis.utils.resetLayout();
+  //
+  //   $(".profile").hide();
+  //
+  //   ["main-text", "quote"].forEach(function(d) {
+  //     Vis.utils.setTextContent.call(that, d);
+  //   });
+  //
+  //   $("#pending").hide();
+  //   $(".charts").hide();
+  //   $(".child-empowerment").animate({ opacity: 0 }, 0);
+  //   $(".child-empowerment").show();
+  //   $(".child-empowerment").animate({ opacity: 1 }, 1500);
+  //
+  // }
 });
 // Further resources view
 Vis.Views.FurtherResources = Backbone.View.extend({
@@ -2219,50 +2303,64 @@ Vis.Views.ResultsChildren = Backbone.View.extend({
   el: '.container',
 
   initialize: function () {
-    var that = this;
+    var that = this,
+        viewId = Vis.DEFAULTS.VIEW_PAGE_LOOKUP["resultsChildren"];
 
-    if (that.model.get("scenario").page === 6) this.preRender(this.model.get("scenario").chapter);
+    if (that.model.get("scenario").page === viewId) this.render();
 
     this.model.on("change:scenario", function() {
-      if (that.model.get("scenario").page === 6) this.preRender(that.model.get("scenario").chapter);
+      this.chart =  null;
+      if (that.model.get("scenario").page === viewId) this.render();
       },this);
 
     Backbone.on("filtered", function(d) {
-      if (that.model.get("scenario").page === 6 && !d.silent) this.render(that.model.get("scenario").chapter);
+      if (that.model.get("scenario").page === viewId  && !d.silent) this.renderChart();
       }, this);
   },
 
-  preRender: function(chapter) {
-    var that = this;
+  render: function() {
+    var that = this,
+        scenario = this.model.get("scenario"),
+        chapter = scenario.chapter;
 
-    $("#households-children").show();
-    $("#children-gender").hide();
+    this.renderTemplate();
+    this.renderChart();
 
-    Vis.utils.resetLayout();
-
-    $(".profile").show();
-
-    ["main-text", "quote"].forEach(function(d) {
-      Vis.utils.setTextContent.call(that, d);
-    });
-
-    $("#pending").hide();
-    $("#main-chart").show();
-
-    $(".charts").animate({ opacity: 0 }, 0);
+    $("#charts").animate({ opacity: 0 }, 0);
     Vis.utils.chartDelay = setTimeout(function() {
-      that.initChart(chapter);
-      $(".charts").animate({ opacity: 1 }, 1500);
-    }, 4000);
+      $("#charts").animate({ opacity: 1 }, 1000);
+    }, 2000);
+
+    Backbone.trigger("view:rendered");
   },
 
-  initChart: function(chapter) {
-    var that = this;
-        data = this.getData(chapter),
-        total = this.getTotalHouseholds(chapter);
+  renderTemplate: function() {
+    var templateNarration = _.template(Vis.Templates["narration"]),
+        templateCharts = _.template(Vis.Templates["charts-profile"]),
+        templateMainText = this.model.getTemplateMainText(),
+        templateQuote = this.model.getTemplateQuote();
+
+        Vis.utils.reset();
+
+        $("#content").html(templateNarration() + templateCharts());
+        new Vis.Views.Profile();
+        $("#main-text").html(templateMainText());
+        $("#quote").html(templateQuote());
+        $("#narration").animate({ opacity: 0 }, 0);
+        $("#narration").animate({ opacity: 1 }, 1500);
+  },
+
+  renderChart: function() {
+    var that = this,
+        scenario = this.model.get("scenario"),
+        chapter = scenario.chapter,
+        total = this.getTotalHouseholds(chapter),
+        data = this.getData(chapter);
 
     switch(chapter) {
-        case 1:
+      case 1:
+        // if does not exist - init
+        if (!this.chart) {
           this.chart = d3.barChartMultiStacked()
             .width(600).height(350)
             .margins({top: 40, right: 250, bottom: 40, left: 200})
@@ -2272,25 +2370,18 @@ Vis.Views.ResultsChildren = Backbone.View.extend({
             .title("Covering of children's basic needs")
             .xTitle("")
             .lookUp(Vis.DEFAULTS.LOOKUP_CODES.BASIC_NEEDS);
-          break;
-        default:
-          console.log("no matching case.")
-      }
-    this.render(chapter);
-  },
+        }
+        // render
+        this.chart
+          .data(this.getData(chapter))
+          .relativeTo(this.getTotalHouseholds(chapter))
+        d3.select("#main-chart").call(this.chart);
+        this.fixPositionning();
 
-  render: function(chapter) {
-    switch(chapter) {
-        case 1:
-          this.chart
-            .data(this.getData(chapter))
-            .relativeTo(this.getTotalHouseholds(chapter))
-          d3.select("#main-chart").call(this.chart);
-          this.fixPositionning();
-          break;
-        default:
-          console.log("no matching case.")
-      }
+        break;
+      default:
+        console.log("no matching case.")
+    }
   },
 
   getData: function(chapter, index) {
@@ -3945,7 +4036,7 @@ d3.timeLineNavigation = function() {
             .attr("r", function(d) { return (d.isMain) ? 5:2; })
             .on("mouseover", function(d) {
                 var _wasElapsed = d3.select(this).classed("elapsed"),
-                    radius = (d.isMain) ? 10 : 7;
+                    radius = (d.isMain) ? 8 : 5;
                 d3.select(this)
                 .transition(100)
                 .attr("r", radius);
@@ -3995,8 +4086,8 @@ d3.timeLineNavigation = function() {
             .classed("elapsed", function(d) {
               var page = elapsed.page,
                   chapter = elapsed.chapter;
-              return (+(d.page + d.chapter) <= (10 * page + chapter)) ?
-              // return (d.page == page) ?
+              // return (+(d.page + d.chapter) <= (10 * page + chapter)) ?
+              return (d.page == page && d.chapter == chapter) ?
                 true : false;
             })
 
@@ -6894,8 +6985,24 @@ Vis.Templates["front-page"] =
   "</div>";
 
 Vis.Templates["case-studies"] =
-  "<div class='row child-empowerment'>" +
-  "  <div class='col-md-12'>" +
+  "<div id='case-studies' class='row '>" +
+  " <div class='col-md-12'>" +
+  "  <div class='title'>Explore three case studies below:</div>" +
+  " </div>" +
+  "  <div class='col-md-4'>" +
+  "    <div class='reference'><a>Case study 1: The Abdullah Family</a></div>" +
+  "    <div class='photographs'>" +
+  "      <img src='./css/img/pictures_child_empowerment.png' alt='Photographs home'>" +
+  "    </div>" +
+  "  </div>" +
+  "  <div class='col-md-4'>" +
+  "    <div class='reference'><a>Case study X: ...</a></div>" +
+  "    <div class='photographs'>" +
+  "      <img src='./css/img/pictures_child_empowerment.png' alt='Photographs home'>" +
+  "    </div>" +
+  "  </div>" +
+  "  <div class='col-md-4'>" +
+  "    <div class='reference'><a>Case study X: ...</a></div>" +
   "    <div class='photographs'>" +
   "      <img src='./css/img/pictures_child_empowerment.png' alt='Photographs home'>" +
   "    </div>" +
