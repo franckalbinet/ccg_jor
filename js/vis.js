@@ -6960,7 +6960,7 @@ Vis.Templates["front-page"] =
   "  <div class='col-md-12'>" +
   "    <div class='title'>" +
   "      <h3>UNICEF Child Cash Grant Programme in Jordan</h3>" +
-  "      <p class='lead'>Post Distribution Monitoring Results | 2015</p>" +
+  "      <p>Post Distribution Monitoring Results | 2015</p>" +
   "    </div>" +
   "    <div class='photographs'>" +
   "      <img src='./css/img/pictures-home.png' alt='Photographs home'>" +
@@ -6999,7 +6999,7 @@ Vis.Templates["further-resources"] =
 "<div id='further-resources' class='row'>" +
 "  <div class='col-md-12'>" +
 "    <div class='documents'>" +
-"      <div class='title'><i class='fa fa-file-pdf-o fa-4'></i>Post Distribution Monitoring Reports:</div>" +
+"      <div class='title'><i class='fa fa-file-pdf-o fa-4'></i>Post Distribution Monitoring Reports</div>" +
 "      <div class='links'>" +
 "        <a href='http://www.unicef.org/jordan/WindowofHope_UNICEFJordanPDM_report_childcashgrantSep2015_2_mb.pdf'>February-June 2015</a>" +
 "        <a href='http://www.unicef.org/jordan/UNICEF_CCG-_2PDM_Report_Dec2015_lowres.pdf'>July-August 2015</a>" +
@@ -7007,9 +7007,11 @@ Vis.Templates["further-resources"] =
 "      </div>" +
 "    </div>" +
 "    <div class='documents'>" +
-"      <div class='title'><i class='fa fa-table fa-4'></i>Questionnaire files:</div>" +
+"      <div class='title'><i class='fa fa-table fa-4'></i>Questionnaire files</div>" +
 "      <div class='links'>" +
-"        <a href='http://www.unicef.org/jordan/WindowofHope_UNICEFJordanPDM_report_childcashgrantSep2015_2_mb.pdf'>Link to questionnaire - missing</a>" +
+"        <a href='http://www.unicef.org/jordan/WindowofHope_UNICEFJordanPDM_report_childcashgrantSep2015_2_mb.pdf'>Link 1 - missing</a>" +
+"        <a href='http://www.unicef.org/jordan/WindowofHope_UNICEFJordanPDM_report_childcashgrantSep2015_2_mb.pdf'>Link 2 - missing</a>" +
+"        <a href='http://www.unicef.org/jordan/WindowofHope_UNICEFJordanPDM_report_childcashgrantSep2015_2_mb.pdf'>Link 3 - missing</a>" +
 "      </div>" +
 "    </div>" +
 "    <div class='thanks'>" +
