@@ -2431,9 +2431,9 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
       // this.model.on("change:scenario", function() {
       Backbone.on("view:rendered", function() {
 
-        this.initProgressLine();
+        if (this.hasProgressLineContainer()) this.initProgressLine();
 
-        if(!this.isPaused()) this.progressLine.animate(1, {duration: this.getDuration()});
+        if(!this.isPaused() && this.hasProgressLineContainer()) this.progressLine.animate(1, {duration: this.getDuration()});
 
         var milestone = this.findMilestone();
         this.cursor = milestone.time.getMilliseconds();
@@ -2475,7 +2475,7 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
     },
 
     start: function() {
-      this.progressLine.animate(1, {duration: this.getDuration()});
+      if (this.hasProgressLineContainer()) this.progressLine.animate(1, {duration: this.getDuration()});
       var that = this,
           milestone = this.findMilestone();
       if(!this.clock) {
@@ -2494,7 +2494,7 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
     },
 
     stop: function() {
-      this.progressLine.stop();
+      if (this.hasProgressLineContainer()) this.progressLine.stop();
       window.clearInterval(this.clock);
       this.clock = null;
     },
@@ -2571,7 +2571,7 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
     },
 
     initProgressLine: function() {
-      if(this.hasProgressLine()) {
+      // if(this.hasProgressLineContainer()) {
         if(this.progressLine) this.progressLine.destroy();
         this.progressLine = new ProgressBar.Line(Vis.DEFAULTS.SELECTORS.PROGRESS_LINE, {
            color: "#888",
@@ -2584,10 +2584,10 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
         });
         this.progressLine.set(0);
         d3.select(Vis.DEFAULTS.SELECTORS.PROGRESS_LINE + " svg").attr("viewBox", "0 0 100 1")
-      }
+      // }
     },
 
-    hasProgressLine: function() {
+    hasProgressLineContainer: function() {
       return $(Vis.DEFAULTS.SELECTORS.PROGRESS_LINE).length > 0 ? true : false;
     }
 });
@@ -7397,7 +7397,7 @@ Vis.Templates["charts-profile"] =
   "  </div>" +
   "  <div class='col-md-4 profile'>" +
   "    <div class='row'>" +
-  "      <div class='ui'>[ Click to select categories of interest ]</div>" +
+  "      <div class='ui'>[ Click to select/unselect categories of interest ]</div>" +
   "      <div class='col-md-6'>" +
   "        <div id='households-children' class='chart profile-chart bar-chart-vert'></div>" +
   "        <div style='display: none;' id='children-gender' class='chart profile-chart bar-chart-vert bar-chart-stacked-single'></div>" +

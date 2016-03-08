@@ -121,7 +121,7 @@ Vis.Templates["charts-profile"] =
   "  </div>" +
   "  <div class='col-md-4 profile'>" +
   "    <div class='row'>" +
-  "      <div class='ui'>[ Click to select categories of interest ]</div>" +
+  "      <div class='ui'>[ Click to select/unselect categories of interest ]</div>" +
   "      <div class='col-md-6'>" +
   "        <div id='households-children' class='chart profile-chart bar-chart-vert'></div>" +
   "        <div style='display: none;' id='children-gender' class='chart profile-chart bar-chart-vert bar-chart-stacked-single'></div>" +
