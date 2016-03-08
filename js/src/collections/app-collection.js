@@ -129,7 +129,7 @@ Vis.Collections.App = Backbone.Collection.extend({
         ecoContributors: ecoContributors,
         expendituresChild: expendituresChild,
         milestones: milestones,
-        gov: topojson.feature(gov, gov.objects.gov).features,
+        gov: gov,
         govCentroids: govCentroids
       });
     }

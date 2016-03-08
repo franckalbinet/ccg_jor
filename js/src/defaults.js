@@ -17,10 +17,13 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
     EXPENDITURES_CHILDREN: "expenditures_children.json",
     MILESTONES: "milestones.json",
     GOV_CENTROIDS: "gov_centroids.json",
-    GOV: "gov_s4.json"
+    GOV: "gov_s8.json"
+    // GOV: "gov.json"
   },
   LOOKUP_CODES: {
     GOVERNORATES: {1:"Irbid", 2:"Ajloun", 3:"Jarash", 4:"Amman", 5:"Zarqa", 6:"Madaba", 11:"Mafraq", 99:"Others"},
+    GOVERNORATES_MAP: {1701:"Ajlun", 1705:"Amman", 1703:"Al Aqabah", 1702:"Al Balqa", 1707:"Irbid", 1708:"Jarash", 1704:"Al Karak",
+                       1709:"Ma'an",1710:"Madaba",1711:"Al Mafraq",1706:"At Tafilah",1712:"Az Zarqa"},
     POVERTY: {1:"High", 2:"Severe", 3:"Resilient"},
     HEAD: {1:"Father", 2:"Mother"},
     GENDER: {1:"Male", 2:"Female"},

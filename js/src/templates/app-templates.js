@@ -155,6 +155,18 @@ Vis.Templates["background-sample"] =
   "  <div id='poverty' class='col-md-4'></div>" +
   " </div>";
 
+Vis.Templates["background-population"] =
+  "<div id='background-population' class='row'>" +
+  "  <div id='age' class='col-md-4'></div>" +
+  "  <div id='gender' class='col-md-4'></div>" +
+  "  <div id='poverty' class='col-md-4'></div>" +
+  " </div>";
+
+Vis.Templates["background-population-map"] =
+  "<div id='background-population-map' class='row'>" +
+  "  <div id='map' class='col-md-12'></div>" +
+  " </div>";
+
 Vis.Templates["coping-mechanisms"] =
   "<div id='coping-mechanisms' class='row'>" +
   "  <div id='heatmap-legends' class='col-md-2'></div>" +

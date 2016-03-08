@@ -8,34 +8,6 @@ Vis.utils = _.extend(Vis.DEFAULTS, {
     $(".footer").hide();
   },
 
-  // renderProfileViews: function {
-  //   new Vis.Views.HouseholdsChildren({model: Vis.Models.app});
-  //   new Vis.Views.HouseholdsLocation({model: Vis.Models.app});
-  //   new Vis.Views.HouseholdsPoverty({model: Vis.Models.app});
-  //   new Vis.Views.HouseholdsHead({model: Vis.Models.app});
-  //   new Vis.Views.ChildrenGender({model: Vis.Models.app});
-  // },
-
-  resetLayout: function() {
-    Vis.utils.resetChartsCanvas();
-
-    $(".outcomes").removeClass("col-md-12").addClass("col-md-8");
-    $(".charts").show();
-    $(".profile").show();
-    $(".home").hide();
-    $(".conclusion").hide();
-    $(".child-empowerment").hide();
-    Vis.utils.clearTimer();
-    $(".page-header").css("visibility", "visible");
-    $(".narration").show();
-    Vis.Models.app.filterByChildren(null, true);
-    $(".home-title").hide();
-    $(".logos").css("visibility", "hidden");
-    $(".footer").hide();
-    $(".home .ui").css("visibility", "hidden");
-  },
-
-
   clearTimer: function() {
     if (Vis.utils.chartDelay) clearTimeout(Vis.utils.chartDelay);
     if (Vis.utils.filterDelay) clearTimeout(Vis.utils.filterDelay);

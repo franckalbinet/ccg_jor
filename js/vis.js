@@ -28,10 +28,13 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
     EXPENDITURES_CHILDREN: "expenditures_children.json",
     MILESTONES: "milestones.json",
     GOV_CENTROIDS: "gov_centroids.json",
-    GOV: "gov_s4.json"
+    GOV: "gov_s8.json"
+    // GOV: "gov.json"
   },
   LOOKUP_CODES: {
     GOVERNORATES: {1:"Irbid", 2:"Ajloun", 3:"Jarash", 4:"Amman", 5:"Zarqa", 6:"Madaba", 11:"Mafraq", 99:"Others"},
+    GOVERNORATES_MAP: {1701:"Ajlun", 1705:"Amman", 1703:"Al Aqabah", 1702:"Al Balqa", 1707:"Irbid", 1708:"Jarash", 1704:"Al Karak",
+                       1709:"Ma'an",1710:"Madaba",1711:"Al Mafraq",1706:"At Tafilah",1712:"Az Zarqa"},
     POVERTY: {1:"High", 2:"Severe", 3:"Resilient"},
     HEAD: {1:"Father", 2:"Mother"},
     GENDER: {1:"Male", 2:"Female"},
@@ -72,34 +75,6 @@ Vis.utils = _.extend(Vis.DEFAULTS, {
     $("#narration").css("height", "250px");
     $(".footer").hide();
   },
-
-  // renderProfileViews: function {
-  //   new Vis.Views.HouseholdsChildren({model: Vis.Models.app});
-  //   new Vis.Views.HouseholdsLocation({model: Vis.Models.app});
-  //   new Vis.Views.HouseholdsPoverty({model: Vis.Models.app});
-  //   new Vis.Views.HouseholdsHead({model: Vis.Models.app});
-  //   new Vis.Views.ChildrenGender({model: Vis.Models.app});
-  // },
-
-  resetLayout: function() {
-    Vis.utils.resetChartsCanvas();
-
-    $(".outcomes").removeClass("col-md-12").addClass("col-md-8");
-    $(".charts").show();
-    $(".profile").show();
-    $(".home").hide();
-    $(".conclusion").hide();
-    $(".child-empowerment").hide();
-    Vis.utils.clearTimer();
-    $(".page-header").css("visibility", "visible");
-    $(".narration").show();
-    Vis.Models.app.filterByChildren(null, true);
-    $(".home-title").hide();
-    $(".logos").css("visibility", "hidden");
-    $(".footer").hide();
-    $(".home .ui").css("visibility", "hidden");
-  },
-
 
   clearTimer: function() {
     if (Vis.utils.chartDelay) clearTimeout(Vis.utils.chartDelay);
@@ -296,7 +271,7 @@ Vis.Collections.App = Backbone.Collection.extend({
         ecoContributors: ecoContributors,
         expendituresChild: expendituresChild,
         milestones: milestones,
-        gov: topojson.feature(gov, gov.objects.gov).features,
+        gov: gov,
         govCentroids: govCentroids
       });
     }
@@ -1141,24 +1116,39 @@ Vis.Views.Background = Backbone.View.extend({
           scenario = this.model.get("scenario"),
           chapter = scenario.chapter;
 
-      this.renderTemplate();
+      this.renderTemplate(chapter);
       this.renderChart(chapter);
 
       Backbone.trigger("view:rendered");
     },
 
-    renderTemplate: function() {
+    renderTemplate: function(chapter) {
       var templateNarration =  _.template(Vis.Templates["narration"]),
-          templateCharts =  _.template(Vis.Templates["background-sample"]),
           templateMainText = this.model.getTemplateMainText();
 
       Vis.utils.reset();
 
+      switch(chapter) {
+          case 1:
+            var templateCharts =  _.template(Vis.Templates["background-population-map"]);
+            break;
+          case 2:
+            var templateCharts =  _.template(Vis.Templates["background-population"]);
+            break;
+          case 3:
+            var templateCharts =  _.template(Vis.Templates["background-sample"]);
+            break;
+          default:
+            console.log("no matching case.");
+      }
+
+      var wasMapTemplate = $("#background-population-map").length;
       $("#content").html(templateNarration() + templateCharts());
       $("#main-text").html(templateMainText());
-      $("#narration").animate({ opacity: 0 }, 0);
-      $("#narration").animate({ opacity: 1 }, 1500);
-
+      if (chapter != 2 || wasMapTemplate == 0) {
+        $("#narration").animate({ opacity: 0 }, 0);
+        $("#narration").animate({ opacity: 1 }, 1500);
+      }
       $("#background-sample").animate({ opacity: 0 }, 0);
       Vis.utils.chartDelay = setTimeout(function() {
         $("#background-sample").animate({ opacity: 1 }, 1000);
@@ -1170,10 +1160,21 @@ Vis.Views.Background = Backbone.View.extend({
 
       switch(chapter) {
           case 1:
+            var data = this.getData(chapter);
+            this.chart = d3.mapBeneficiaries()
+              .width(930).height(355)
+              .margins({top: 55, right: 40, bottom: 40, left: 40})
+              .data(data)
+              .title("# of children by Jordan's governorates");
+
+            // render
+            d3.select("#background-population-map #map").call(this.chart);
+            break;
+          case 2:
             // chart rendering -- population of beneficiaries
             // by age
             this.chart[0] = c3.generate({
-              bindto: d3.select("#background-sample #age"),
+              bindto: d3.select("#background-population #age"),
               size: {
                 width: 270,
                 height: 270,
@@ -1197,7 +1198,7 @@ Vis.Views.Background = Backbone.View.extend({
             });
             // by gender
             this.chart[1] = c3.generate({
-              bindto: d3.select("#background-sample #gender"),
+              bindto: d3.select("#background-population #gender"),
               size: {
                 width: 250,
                 height: 250,
@@ -1220,7 +1221,7 @@ Vis.Views.Background = Backbone.View.extend({
             });
             // by povery
             this.chart[2] = c3.generate({
-              bindto: d3.select("#background-sample #poverty"),
+              bindto: d3.select("#background-population #poverty"),
               size: {
                 width: 270,
                 height: 270,
@@ -1243,7 +1244,7 @@ Vis.Views.Background = Backbone.View.extend({
               }
             });
             break;
-          case 2:
+          case 3:
             // chart rendering - sample
             // by age
             this.chart[0] = c3.generate({
@@ -1326,6 +1327,9 @@ Vis.Views.Background = Backbone.View.extend({
     getData: function(chapter, index) {
       switch(chapter) {
           case 1:
+            return {polygons: this.model.data.gov, centroids: this.model.data.govCentroids};
+            break;
+          case 2:
             switch(index) {
               case 0:
                 return [
@@ -1353,7 +1357,7 @@ Vis.Views.Background = Backbone.View.extend({
                 console.log("no matching case.")
             }
             break;
-          case 2:
+          case 3:
             switch(index) {
               case 0:
                 return [
@@ -1366,10 +1370,10 @@ Vis.Views.Background = Backbone.View.extend({
                 break;
               case 1:
                 var total = d3.sum(this.model.childrenByGender.top(Infinity), function(d) { return d.value; });
-                return this.model.childrenByGender.top(Infinity).map(function(d) {
-                  return [d.name].concat(d3.range(1, Math.round((d.value / total)*100) + 1).map(function(d) { return 1; }));
-                });
-                break;
+                  return this.model.childrenByGender.top(Infinity).map(function(d) {
+                    return [Vis.DEFAULTS.LOOKUP_CODES.GENDER[d.key]].concat(d3.range(1, Math.round((d.value / total)*100) + 1).map(function(d) { return 1; }));
+                  });
+                  break;
               case 2:
                 var high = ["Highly Vulnerable"].concat(d3.range(1,59).map(function(d) { return 1; })),
                     resilient = ["Resilient"].concat(d3.range(1,3).map(function(d) { return 1; })),
@@ -3983,6 +3987,7 @@ d3.timeLineNavigation = function() {
       _handlesWidth = 9,
       _wasElapsed = null,
       _gBars,
+      _gLabels,
       _gBrush,
       _gXAxis,
       _gYAxis,
@@ -6915,6 +6920,257 @@ d3.barChartEducation = function() {
 
   return chart;
 };
+/* MAP BENEFICIARIES INSTANCE*/
+d3.mapBeneficiaries = function() {
+
+  var width = 400,
+      height = 100,
+      margins = {top: 10, right: 25, bottom: 30, left: 20},
+      data = null,
+      title = "My title";
+
+  var _gWidth = 400,
+      _gHeight = 100,
+      _projection = null,
+      _gLabels = null,
+      _gLines = null,
+      _figureFormat = d3.format(",");
+      _circleScale = d3.scale.sqrt(),
+      _leftLabelAxis = null,
+      _rightLabelAxis = null,
+      _listeners = d3.dispatch("filtered", "filtering");
+
+  function chart(div) {
+    _gWidth = width - margins.left - margins.right;
+    _gHeight = height - margins.top - margins.bottom;
+
+    div.each(function() {
+      var div = d3.select(this),
+          g = div.select("g");
+
+      // create the skeleton chart.
+      if (g.empty()) _skeleton();
+
+      _render();
+
+      function _render() {
+
+        // _gAdmin.append("path")
+        // .datum(topojson.mesh(data.polygons, data.polygons.objects.gov, function(a, b) { return a == b; }))
+        // .attr("class", "admin-background")
+        // .attr("d", _path);
+
+        _gAdmin.selectAll("path")
+            // .data(data.polygons)
+            .data(topojson.feature(data.polygons, data.polygons.objects.gov).features)
+            // .data(topojson.mesh(data.polygons, data.polygons.objects.gov, function(a, b) { return a !== b; }).features)
+          .enter().append("path")
+            .attr("class", "admin-boundaries")
+            .attr("d", _path);
+
+
+        _gPop.selectAll(".centroid")
+            .data(data.centroids.features.sort(function(a,b) {
+              return b.properties.count - a.properties.count; }))
+          .enter().append("circle")
+            .attr("class", "centroid")
+            .attr("data-id", function(d) { return d.properties.adm1_code; })
+            .classed("empty", function(d) {
+              return (d.properties.adm1_code == 1705 || d.properties.adm1_code == 1707);
+            })
+            .attr("transform", function(d) {
+              return "translate(" + _projection(d.geometry.coordinates) + ")"; })
+            .attr("r", function(d) {
+              return _circleScale(d.properties.count);
+            });
+
+        // refactoring required
+        // left labels
+        var _dataLeft = data.centroids.features
+            .filter(function(d) {
+              return d.properties.lon < 36.4 && [1705,1707].indexOf(d.properties.adm1_code) == -1 ; })
+            .sort(function(a,b) {
+              return b.properties.lat - a.properties.lat; });
+
+        _leftLabelAxis.domain(d3.range(0, _dataLeft.length));
+
+        var _leftLabel = _gLabels.selectAll("label-left")
+            .data(_dataLeft)
+          .enter().append("g")
+            .attr("class", "label label-left")
+            .attr("data-id", function(d) { return d.properties.adm1_code; })
+            .attr("transform", function(d, i) {
+              return "translate(200," + _leftLabelAxis(i) + ")"; });
+
+        _leftLabel.append("text")
+          .attr("class", "admin-name")
+          .text(function(d) {
+            return Vis.DEFAULTS.LOOKUP_CODES.GOVERNORATES_MAP[d.properties.adm1_code]; })
+          .attr("dy", -15);
+
+        _leftLabel.append("text")
+          .attr("class", "admin-count")
+          .text(function(d) { return _figureFormat(d.properties.count); });
+
+        // right labels
+        var _dataRight = data.centroids.features
+            .filter(function(d) {
+              return d.properties.lon > 36.4 && [1705,1707].indexOf(d.properties.adm1_code) == -1 ; })
+            .sort(function(a,b) {
+              return b.properties.lat - a.properties.lat; });
+
+        _rightLabelAxis.domain(d3.range(0, _dataRight.length));
+
+        var _rightLabel = _gLabels.selectAll("label-right")
+            .data(_dataRight)
+          .enter().append("g")
+            .attr("class", "label label-right")
+            .attr("data-id", function(d) { return d.properties.adm1_code; })
+            .attr("transform", function(d, i) {
+              return "translate(600," + _rightLabelAxis(i) + ")"; });
+
+        _rightLabel.append("text")
+          .attr("class", "admin-name")
+          .text(function(d) {
+            return Vis.DEFAULTS.LOOKUP_CODES.GOVERNORATES_MAP[d.properties.adm1_code]; })
+          .attr("dy", -15);
+
+        _rightLabel.append("text")
+          .attr("class", "admin-count")
+          .text(function(d) { return _figureFormat(d.properties.count); });
+
+        // center labels
+        var _dataCenter = data.centroids.features
+            .filter(function(d) { return [1705,1707].indexOf(d.properties.adm1_code) != -1 ; });
+
+        var _centerLabel = _gLabels.selectAll("label-center")
+            .data(_dataCenter)
+          .enter().append("g")
+            .attr("class", "label label-center")
+            .attr("data-id", function(d) { return d.properties.adm1_code; })
+            .attr("transform", function(d, i) {
+              var _pos = _path.centroid(d);
+              _pos[0] += -18;
+              _pos[1] += 10;
+              return "translate(" + _pos + ")"; })
+
+        _centerLabel.append("text")
+          .attr("class", "admin-name")
+          .text(function(d) {
+            return Vis.DEFAULTS.LOOKUP_CODES.GOVERNORATES_MAP[d.properties.adm1_code]; })
+          .attr("dy", -15);
+
+        _centerLabel.append("text")
+          .attr("class", "admin-count")
+          .text(function(d) { return _figureFormat(d.properties.count); });
+
+        // lines
+        _gLabels.selectAll(".label-left")[0].forEach(function(d,i) {
+          _gLines.append("path")
+            .attr("class", "label-line")
+            .attr("d", function(v) {
+              var _centroidCoord = _projection(d.__data__.geometry.coordinates);
+              _centroidCoord[0] += -_circleScale(d.__data__.properties.count) - 3;
+              return "M260," + (_leftLabelAxis(i)-15) + "h20L" + _centroidCoord[0] + "," + _centroidCoord[1];
+            })
+        })
+
+        _gLabels.selectAll(".label-right")[0].forEach(function(d,i) {
+          _gLines.append("path")
+            .attr("class", "label-line")
+            .attr("d", function(v) {
+              var _centroidCoord = _projection(d.__data__.geometry.coordinates);
+              _centroidCoord[0] += _circleScale(d.__data__.properties.count) + 3;
+              return "M580," + (_rightLabelAxis(i)-15) + "h-20L" + _centroidCoord[0] + "," + _centroidCoord[1];
+            })
+        })
+
+
+      }
+
+      function _skeleton() {
+        // create chart container
+        g = div.append("svg")
+            .attr("width", width)
+            .attr("height", height)
+          .append("g")
+            .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
+
+        _circleScale
+          .domain(d3.extent(data.centroids.features, function(d) { return d.properties.count; }))
+          .range([2, 40]);
+
+        _gAdmin = g.append("g")
+            .attr("class", "admin-boundaries");
+
+        _gPop = g.append("g")
+            .attr("class", "population");
+
+        _gLabels = g.append("g")
+            .attr("class", "labels");
+
+        _gLines = g.append("g")
+            .attr("class", "lines");
+
+        _projection = d3.geo.mercator()
+          .center([32, 36])
+          .scale(4000)
+          .translate([70, -260]);
+
+        _path = d3.geo.path()
+          .projection(_projection);
+
+
+        _leftLabelAxis = d3.scale.ordinal()
+          .rangeRoundPoints([30, _gHeight]);
+
+        _rightLabelAxis = d3.scale.ordinal()
+          .rangeRoundPoints([30, _gHeight]);
+
+        g.append("text")
+            .attr("class", "title")
+            .attr("x", _gWidth/2.2)
+            .attr("y", -50)
+            .attr("dy", ".35em")
+            .text(title);
+      }
+
+    });
+  }
+
+  // Getters and Setters
+  chart.width = function(_) {
+    if (!arguments.length) return width;
+    width = _;
+    return chart;
+  };
+  chart.height = function(_) {
+    if (!arguments.length) return height;
+    height = _;
+    return chart;
+  };
+  chart.margins = function(_) {
+    if (!arguments.length) return margins;
+    margins = _;
+    return chart;
+  };
+  chart.data = function(_) {
+    if (!arguments.length) return data;
+    data = _;
+    return chart;
+  };
+  chart.title = function(_) {
+    if (!arguments.length) return title;
+    title = _;
+    return chart;
+  };
+  chart.on = function (event, listener) {
+    _listeners.on(event, listener);
+    return chart;
+  };
+
+  return chart;
+};
 // Underscore Templates
 Vis.Templates["main-text"] = [
   "<p>On average, 55,000 children from 15,000 families were given 20 JD <br> (28 USD) per child per month to <strong>cover the basic needs of children</strong>.</p>",
@@ -7070,6 +7326,18 @@ Vis.Templates["background-sample"] =
   "  <div id='age' class='col-md-4'></div>" +
   "  <div id='gender' class='col-md-4'></div>" +
   "  <div id='poverty' class='col-md-4'></div>" +
+  " </div>";
+
+Vis.Templates["background-population"] =
+  "<div id='background-population' class='row'>" +
+  "  <div id='age' class='col-md-4'></div>" +
+  "  <div id='gender' class='col-md-4'></div>" +
+  "  <div id='poverty' class='col-md-4'></div>" +
+  " </div>";
+
+Vis.Templates["background-population-map"] =
+  "<div id='background-population-map' class='row'>" +
+  "  <div id='map' class='col-md-12'></div>" +
   " </div>";
 
 Vis.Templates["coping-mechanisms"] =

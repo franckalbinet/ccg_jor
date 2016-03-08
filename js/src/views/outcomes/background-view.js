@@ -20,24 +20,39 @@ Vis.Views.Background = Backbone.View.extend({
           scenario = this.model.get("scenario"),
           chapter = scenario.chapter;
 
-      this.renderTemplate();
+      this.renderTemplate(chapter);
       this.renderChart(chapter);
 
       Backbone.trigger("view:rendered");
     },
 
-    renderTemplate: function() {
+    renderTemplate: function(chapter) {
       var templateNarration =  _.template(Vis.Templates["narration"]),
-          templateCharts =  _.template(Vis.Templates["background-sample"]),
           templateMainText = this.model.getTemplateMainText();
 
       Vis.utils.reset();
 
+      switch(chapter) {
+          case 1:
+            var templateCharts =  _.template(Vis.Templates["background-population-map"]);
+            break;
+          case 2:
+            var templateCharts =  _.template(Vis.Templates["background-population"]);
+            break;
+          case 3:
+            var templateCharts =  _.template(Vis.Templates["background-sample"]);
+            break;
+          default:
+            console.log("no matching case.");
+      }
+
+      var wasMapTemplate = $("#background-population-map").length;
       $("#content").html(templateNarration() + templateCharts());
       $("#main-text").html(templateMainText());
-      $("#narration").animate({ opacity: 0 }, 0);
-      $("#narration").animate({ opacity: 1 }, 1500);
-
+      if (chapter != 2 || wasMapTemplate == 0) {
+        $("#narration").animate({ opacity: 0 }, 0);
+        $("#narration").animate({ opacity: 1 }, 1500);
+      }
       $("#background-sample").animate({ opacity: 0 }, 0);
       Vis.utils.chartDelay = setTimeout(function() {
         $("#background-sample").animate({ opacity: 1 }, 1000);
@@ -49,10 +64,21 @@ Vis.Views.Background = Backbone.View.extend({
 
       switch(chapter) {
           case 1:
+            var data = this.getData(chapter);
+            this.chart = d3.mapBeneficiaries()
+              .width(930).height(355)
+              .margins({top: 55, right: 40, bottom: 40, left: 40})
+              .data(data)
+              .title("# of children by Jordan's governorates");
+
+            // render
+            d3.select("#background-population-map #map").call(this.chart);
+            break;
+          case 2:
             // chart rendering -- population of beneficiaries
             // by age
             this.chart[0] = c3.generate({
-              bindto: d3.select("#background-sample #age"),
+              bindto: d3.select("#background-population #age"),
               size: {
                 width: 270,
                 height: 270,
@@ -76,7 +102,7 @@ Vis.Views.Background = Backbone.View.extend({
             });
             // by gender
             this.chart[1] = c3.generate({
-              bindto: d3.select("#background-sample #gender"),
+              bindto: d3.select("#background-population #gender"),
               size: {
                 width: 250,
                 height: 250,
@@ -99,7 +125,7 @@ Vis.Views.Background = Backbone.View.extend({
             });
             // by povery
             this.chart[2] = c3.generate({
-              bindto: d3.select("#background-sample #poverty"),
+              bindto: d3.select("#background-population #poverty"),
               size: {
                 width: 270,
                 height: 270,
@@ -122,7 +148,7 @@ Vis.Views.Background = Backbone.View.extend({
               }
             });
             break;
-          case 2:
+          case 3:
             // chart rendering - sample
             // by age
             this.chart[0] = c3.generate({
@@ -205,6 +231,9 @@ Vis.Views.Background = Backbone.View.extend({
     getData: function(chapter, index) {
       switch(chapter) {
           case 1:
+            return {polygons: this.model.data.gov, centroids: this.model.data.govCentroids};
+            break;
+          case 2:
             switch(index) {
               case 0:
                 return [
@@ -232,7 +261,7 @@ Vis.Views.Background = Backbone.View.extend({
                 console.log("no matching case.")
             }
             break;
-          case 2:
+          case 3:
             switch(index) {
               case 0:
                 return [
@@ -245,10 +274,10 @@ Vis.Views.Background = Backbone.View.extend({
                 break;
               case 1:
                 var total = d3.sum(this.model.childrenByGender.top(Infinity), function(d) { return d.value; });
-                return this.model.childrenByGender.top(Infinity).map(function(d) {
-                  return [d.name].concat(d3.range(1, Math.round((d.value / total)*100) + 1).map(function(d) { return 1; }));
-                });
-                break;
+                  return this.model.childrenByGender.top(Infinity).map(function(d) {
+                    return [Vis.DEFAULTS.LOOKUP_CODES.GENDER[d.key]].concat(d3.range(1, Math.round((d.value / total)*100) + 1).map(function(d) { return 1; }));
+                  });
+                  break;
               case 2:
                 var high = ["Highly Vulnerable"].concat(d3.range(1,59).map(function(d) { return 1; })),
                     resilient = ["Resilient"].concat(d3.range(1,3).map(function(d) { return 1; })),

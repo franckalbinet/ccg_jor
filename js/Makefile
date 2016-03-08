@@ -41,6 +41,7 @@ vis_src =	${vis_dir}/namespace.js\
 					${vis_dir}/charts/heatmap.js\
 					${vis_dir}/charts/heatmap-legend.js\
 					${vis_dir}/charts/bar-chart-education.js\
+					${vis_dir}/charts/map-beneficiaries.js\
 					${vis_dir}/templates/app-templates.js\
 
 # vis.js build

@@ -28,6 +28,7 @@ d3.timeLineNavigation = function() {
       _handlesWidth = 9,
       _wasElapsed = null,
       _gBars,
+      _gLabels,
       _gBrush,
       _gXAxis,
       _gYAxis,
