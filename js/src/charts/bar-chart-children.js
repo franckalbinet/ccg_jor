@@ -20,6 +20,7 @@ d3.barChartChildren = function() {
       brushClickReset = false,
       brush = d3.svg.brush(),
       brushExtent = null,
+      select = null,
       selected = null;
 
   var _gWidth = 400,
@@ -43,11 +44,16 @@ d3.barChartChildren = function() {
       // create the skeleton chart.
       if (g.empty()) _skeleton();
 
-      if (brushExtent) {
-        brush.extent([brushExtent[0] - 0.5, brushExtent[1] - 0.5]);
-        _gBrush.call(brush);
-        brushExtent = null;
-        _listeners.filtering(_getDataBrushed(brush));
+      // if (brushExtent) {
+      //   brush.extent([brushExtent[0] - 0.5, brushExtent[1] - 0.5]);
+      //   _gBrush.call(brush);
+      //   brushExtent = null;
+      //   _listeners.filtering(_getDataBrushed(brush));
+      // }
+      if (select) {
+        var selection = select;
+        select = null;
+        _listeners.filtered(selection);
       }
       _render();
 
@@ -56,21 +62,58 @@ d3.barChartChildren = function() {
         var rects =  _gBars.selectAll("rect")
           .data(data, function(d) { return d.key; });
         rects.exit().remove();
-        rects.enter().append("rect");
+        rects.enter().append("rect")
+          .on("click", clickHandler)
+          .on("mouseover", function(d) {
+            d3.select(this)
+              .attr("height", barHeight + 2)
+              .attr("y", function(d) {
+                return y(d.key) - barHeight/2 - 1 });
+            d3.select(this).classed("hovered", true);
+          })
+          .on("mouseout", function(d) {
+            d3.select(this)
+              .attr("height", barHeight)
+              .attr("y", function(d) {
+                return y(d.key) - barHeight/2 })
+            d3.select(this).classed("hovered", false);
+          })
+
         rects
             .classed("not-selected", function(d) {
-              if (hasBrush) return (selected.indexOf(d.key) === -1) ? true : false;
-              return false;
+              return (selected.indexOf(d.key) === -1) ? true : false;
             })
             // .transition()
             .attr("x", function(d) { return 0; })
             .attr("y", function(d) {
+              // return y(d.name) - barHeight/2  })
               return y(d.key) - barHeight/2  })
             .attr("width", function(d) {
-              // return x(d.values.length); })
-              // return x(d.count); })
+              // return x(d.value.householdCount); })
               return x(d.relative); })
             .attr("height", function(d) { return barHeight; });
+
+        // EXIT - ENTER - UPDATE PATTERN
+        // var rects =  _gBars.selectAll("rect")
+        //   .data(data, function(d) { return d.key; });
+        // rects.exit().remove();
+        // rects.enter().append("rect");
+        // rects
+        //     .classed("not-selected", function(d) {
+        //       if (hasBrush) return (selected.indexOf(d.key) === -1) ? true : false;
+        //       return false;
+        //     })
+        //     // .transition()
+        //     .attr("x", function(d) { return 0; })
+        //     .attr("y", function(d) {
+        //       return y(d.key) - barHeight/2  })
+        //     .attr("width", function(d) {
+        //       // return x(d.values.length); })
+        //       // return x(d.count); })
+        //       return x(d.relative); })
+        //     .attr("height", function(d) { return barHeight; });
+
+
       }
 
       function _skeleton() {
@@ -79,7 +122,7 @@ d3.barChartChildren = function() {
         y.range([0, _gHeight]);
 
         // set brush
-        if (hasBrush) brush.y(y);
+        // if (hasBrush) brush.y(y);
 
         xAxis
           .innerTickSize(-_gHeight)
@@ -119,16 +162,28 @@ d3.barChartChildren = function() {
           .data(["1","2","3","4","5","6","7+"])
           .text(function(d) { return d; })
 
-        _gBrush = g.append("g").attr("class", "brush").call(brush);
-        _gBrush.selectAll("rect").attr("width", _gWidth);
+        // _gBrush = g.append("g").attr("class", "brush").call(brush);
+        // _gBrush.selectAll("rect").attr("width", _gWidth);
+        //
+        // brush.on("brush", function() {
+        //   _listeners.filtering(_getDataBrushed(brush));
+        // });
+        //
+        // brush.on("brushend", function() {
+        //   _listeners.filtered(brush);
+        // });
+      }
 
-        brush.on("brush", function() {
-          _listeners.filtering(_getDataBrushed(brush));
-        });
-
-        brush.on("brushend", function() {
-          _listeners.filtered(brush);
-        });
+      function clickHandler(d) {
+        // if clicked rect is already selected
+        if (selected.indexOf(d.key) != -1) {
+          if (selected.length > 1) {
+            _listeners.filtered(_.without(selected, d.key));
+          }
+        } else {
+          selected.push(d.key);
+          _listeners.filtered(selected);
+        }
       }
 
       function _transformData(data) {
@@ -251,6 +306,11 @@ d3.barChartChildren = function() {
   //   hasBrushLabel = _;
   //   return chart;
   // };
+  chart.select = function(_) {
+    if (!arguments.length) return select;
+    select = _;
+    return chart;
+  };
   chart.brushExtent = function(_) {
     if (!arguments.length) return brushExtent;
     brushExtent = _;

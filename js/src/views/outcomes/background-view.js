@@ -52,10 +52,16 @@ Vis.Views.Background = Backbone.View.extend({
       if (chapter != 2 || wasMapTemplate == 0) {
         $("#narration").animate({ opacity: 0 }, 0);
         $("#narration").animate({ opacity: 1 }, 1500);
+        $("#background-population").animate({ opacity: 0 }, 0);
+        Vis.utils.chartDelay = setTimeout(function() {
+          $("#background-population").animate({ opacity: 1 }, 1000);
+        }, 2000);
       }
       $("#background-sample").animate({ opacity: 0 }, 0);
+      $("#background-population-map").animate({ opacity: 0 }, 0);
       Vis.utils.chartDelay = setTimeout(function() {
         $("#background-sample").animate({ opacity: 1 }, 1000);
+        $("#background-population-map").animate({ opacity: 1 }, 1000);
       }, 2000);
     },
 

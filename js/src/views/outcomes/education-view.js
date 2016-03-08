@@ -44,6 +44,8 @@ Vis.Views.Education = Backbone.View.extend({
 
         $("#content").html(templateNarration() + templateCharts());
         new Vis.Views.Profile();
+        $("#households-children").hide();
+        $("#children-gender").show();
         $("#main-text").html(templateMainText());
         $("#quote").html(templateQuote());
         $("#narration").animate({ opacity: 0 }, 0);

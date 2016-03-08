@@ -16,14 +16,9 @@ Vis.Views.HouseholdsHead = Backbone.View.extend({
         .width(150).height(150)
         .margins({top: 40, right: 20, bottom: 10, left: 80})
         .data(data)
-        // .color(d3.scale.ordinal().range(["#538dbc", "#d2766c"]).domain(["Female", "Male"]))
         .color(d3.scale.ordinal().range(["#5e5e66", "#80a6b1"]).domain(["Female", "Male"]))
         .title("By head of family")
         .hasBrush(false);
-
-      // this.chart.on("filtering", function (selected) {
-      //   that.model.filterByLocation(selected);
-      // });
 
       this.chart.on("filtered", function (selected) {
         that.model.filterByHead(selected);

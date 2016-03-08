@@ -16,11 +16,9 @@ Vis.Views.HouseholdsLocation = Backbone.View.extend({
         .width(150).height(135)
         .margins({top: 40, right: 20, bottom: 10, left: 45})
         .data(data)
-        // .x(d3.scale.linear().domain([0, d3.max(data, function(d) { return d.value.householdCount; })]))
         .x(d3.scale.linear().domain([0, d3.max(data, function(d) { return d.relative; })]))
         .y(d3.scale.ordinal().domain(["Amman", "Irbid", "Mafraq", "Zarqa", "Madaba", "Jarash", "Ajloun", "Others"]))
         .xAxis(d3.svg.axis().orient("top").ticks(3).tickFormat(function(d) { return d + "%"; }))
-        // .xAxis(d3.svg.axis().orient("top").tickValues([50, 100]))
         .yAxis(d3.svg.axis().orient("left"))
         .title("By governorate")
         .hasBrush(false);

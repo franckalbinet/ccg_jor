@@ -69,8 +69,6 @@ d3.barChartLocation = function() {
               .attr("height", barHeight)
               .attr("y", function(d) {
                 return y(d.name) - barHeight/2 })
-
-
             d3.select(this).classed("hovered", false);
           })
 
@@ -95,7 +93,7 @@ d3.barChartLocation = function() {
         y.rangeRoundPoints([0, _gHeight], 0, 0.5);
 
         // set brush
-        if (hasBrush) brush.y(y);
+        // if (hasBrush) brush.y(y);
 
         xAxis
           .innerTickSize(-_gHeight - 10)
@@ -136,17 +134,30 @@ d3.barChartLocation = function() {
           .text(title);
       }
 
+      // function clickHandler(d) {
+      //   if (selected.length > 1) {
+      //     _listeners.filtered([d.key]);
+      //   } else {
+      //     if (selected[0] == d.key) {
+      //       _listeners.filtered(null);
+      //     } else {
+      //       _listeners.filtered([d.key]);
+      //     }
+      //   }
+      // }
+
       function clickHandler(d) {
-        if (selected.length > 1) {
-          _listeners.filtered([d.key]);
-        } else {
-          if (selected[0] == d.key) {
-            _listeners.filtered(null);
-          } else {
-            _listeners.filtered([d.key]);
+        // if clicked rect is already selected
+        if (selected.indexOf(d.key) != -1) {
+          if (selected.length > 1) {
+            _listeners.filtered(_.without(selected, d.key));
           }
+        } else {
+          selected.push(d.key);
+          _listeners.filtered(selected);
         }
       }
+
 
       function _getDataBrushed(brush) {
         var extent = brush.extent().map(function(d) { return Math.floor(d) + 0.5;});

@@ -6,6 +6,8 @@ Vis.utils = _.extend(Vis.DEFAULTS, {
     $(".page-header").css("visibility", "visible");
     $("#narration").css("height", "250px");
     $(".footer").hide();
+    $("#children-gender").hide();
+    $("#households-children").show();
   },
 
   clearTimer: function() {

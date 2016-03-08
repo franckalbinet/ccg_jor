@@ -23,13 +23,16 @@ Vis.Views.HouseholdsChildren = Backbone.View.extend({
         .title("By # of children")
         .hasBrush(true);
 
-      this.chart.on("filtering", function (selected) {
+      this.chart.on("filtered", function (selected) {
         that.model.filterByChildren(selected);
       });
-
-      this.chart.on("filtered", function (brush) {
-        if (brush.empty()) that.model.filterByChildren(null, null);
-      });
+      // this.chart.on("filtering", function (selected) {
+      //   that.model.filterByChildren(selected);
+      // });
+      //
+      // this.chart.on("filtered", function (brush) {
+      //   if (brush.empty()) that.model.filterByChildren(null, null);
+      // });
       this.render();
     },
 

@@ -176,15 +176,27 @@ d3.barChartStackedChildren = function() {
           .text(title);
       }
 
+      // function clickHandler(d) {
+      //   if (selected.length > 1) {
+      //     _listeners.filtered([d.key]);
+      //   } else {
+      //     if (selected[0] == d.key) {
+      //       _listeners.filtered(null);
+      //     } else {
+      //       _listeners.filtered([d.key]);
+      //     }
+      //   }
+      // }
+
       function clickHandler(d) {
-        if (selected.length > 1) {
-          _listeners.filtered([d.key]);
-        } else {
-          if (selected[0] == d.key) {
-            _listeners.filtered(null);
-          } else {
-            _listeners.filtered([d.key]);
+        // if clicked rect is already selected
+        if (selected.indexOf(d.key) != -1) {
+          if (selected.length > 1) {
+            _listeners.filtered(_.without(selected, d.key));
           }
+        } else {
+          selected.push(d.key);
+          _listeners.filtered(selected);
         }
       }
 

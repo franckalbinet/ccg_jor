@@ -176,17 +176,32 @@ d3.barChartStackedHouseholds = function() {
           .text(title);
       }
 
+      // function clickHandler(d) {
+      //   if (selected.length > 1) {
+      //     _listeners.filtered([d.key]);
+      //   } else {
+      //     if (selected[0] == d.key) {
+      //       _listeners.filtered(null);
+      //     } else {
+      //       _listeners.filtered([d.key]);
+      //     }
+      //   }
+      // }
+
       function clickHandler(d) {
-        if (selected.length > 1) {
-          _listeners.filtered([d.key]);
-        } else {
-          if (selected[0] == d.key) {
-            _listeners.filtered(null);
-          } else {
-            _listeners.filtered([d.key]);
+        // if clicked rect is already selected
+        if (selected.indexOf(d.key) != -1) {
+          // 2 because of key value 97
+          if (selected.length > 2) {
+            _listeners.filtered(_.without(selected, d.key));
           }
+        } else {
+          selected.push(d.key);
+          _listeners.filtered(selected);
         }
+
       }
+
 
       function _getDataBrushed(brush) {
         var extent = brush.extent().map(function(d) { return Math.floor(d) + 0.5;});

@@ -74,6 +74,8 @@ Vis.utils = _.extend(Vis.DEFAULTS, {
     $(".page-header").css("visibility", "visible");
     $("#narration").css("height", "250px");
     $(".footer").hide();
+    $("#children-gender").hide();
+    $("#households-children").show();
   },
 
   clearTimer: function() {
@@ -795,13 +797,16 @@ Vis.Views.HouseholdsChildren = Backbone.View.extend({
         .title("By # of children")
         .hasBrush(true);
 
-      this.chart.on("filtering", function (selected) {
+      this.chart.on("filtered", function (selected) {
         that.model.filterByChildren(selected);
       });
-
-      this.chart.on("filtered", function (brush) {
-        if (brush.empty()) that.model.filterByChildren(null, null);
-      });
+      // this.chart.on("filtering", function (selected) {
+      //   that.model.filterByChildren(selected);
+      // });
+      //
+      // this.chart.on("filtered", function (brush) {
+      //   if (brush.empty()) that.model.filterByChildren(null, null);
+      // });
       this.render();
     },
 
@@ -854,11 +859,9 @@ Vis.Views.HouseholdsLocation = Backbone.View.extend({
         .width(150).height(135)
         .margins({top: 40, right: 20, bottom: 10, left: 45})
         .data(data)
-        // .x(d3.scale.linear().domain([0, d3.max(data, function(d) { return d.value.householdCount; })]))
         .x(d3.scale.linear().domain([0, d3.max(data, function(d) { return d.relative; })]))
         .y(d3.scale.ordinal().domain(["Amman", "Irbid", "Mafraq", "Zarqa", "Madaba", "Jarash", "Ajloun", "Others"]))
         .xAxis(d3.svg.axis().orient("top").ticks(3).tickFormat(function(d) { return d + "%"; }))
-        // .xAxis(d3.svg.axis().orient("top").tickValues([50, 100]))
         .yAxis(d3.svg.axis().orient("left"))
         .title("By governorate")
         .hasBrush(false);
@@ -979,14 +982,9 @@ Vis.Views.HouseholdsHead = Backbone.View.extend({
         .width(150).height(150)
         .margins({top: 40, right: 20, bottom: 10, left: 80})
         .data(data)
-        // .color(d3.scale.ordinal().range(["#538dbc", "#d2766c"]).domain(["Female", "Male"]))
         .color(d3.scale.ordinal().range(["#5e5e66", "#80a6b1"]).domain(["Female", "Male"]))
         .title("By head of family")
         .hasBrush(false);
-
-      // this.chart.on("filtering", function (selected) {
-      //   that.model.filterByLocation(selected);
-      // });
 
       this.chart.on("filtered", function (selected) {
         that.model.filterByHead(selected);
@@ -1041,7 +1039,6 @@ Vis.Views.ChildrenGender = Backbone.View.extend({
         .margins({top: 40, right: 20, bottom: 1, left: 93})
         .data(data)
         .color(d3.scale.ordinal().range(["#5e5e66", "#80a6b1"]).domain(["Female", "Male"]))
-        // .color(d3.scale.ordinal().range(["#538dbc", "#d2766c"]).domain(["Female", "Male"]))
         .title("By gender")
         .hasBrush(false);
 
@@ -1148,10 +1145,16 @@ Vis.Views.Background = Backbone.View.extend({
       if (chapter != 2 || wasMapTemplate == 0) {
         $("#narration").animate({ opacity: 0 }, 0);
         $("#narration").animate({ opacity: 1 }, 1500);
+        $("#background-population").animate({ opacity: 0 }, 0);
+        Vis.utils.chartDelay = setTimeout(function() {
+          $("#background-population").animate({ opacity: 1 }, 1000);
+        }, 2000);
       }
       $("#background-sample").animate({ opacity: 0 }, 0);
+      $("#background-population-map").animate({ opacity: 0 }, 0);
       Vis.utils.chartDelay = setTimeout(function() {
         $("#background-sample").animate({ opacity: 1 }, 1000);
+        $("#background-population-map").animate({ opacity: 1 }, 1000);
       }, 2000);
     },
 
@@ -1654,6 +1657,8 @@ Vis.Views.Education = Backbone.View.extend({
 
         $("#content").html(templateNarration() + templateCharts());
         new Vis.Views.Profile();
+        $("#households-children").hide();
+        $("#children-gender").show();
         $("#main-text").html(templateMainText());
         $("#quote").html(templateQuote());
         $("#narration").animate({ opacity: 0 }, 0);
@@ -2841,6 +2846,7 @@ d3.barChartChildren = function() {
       brushClickReset = false,
       brush = d3.svg.brush(),
       brushExtent = null,
+      select = null,
       selected = null;
 
   var _gWidth = 400,
@@ -2864,11 +2870,16 @@ d3.barChartChildren = function() {
       // create the skeleton chart.
       if (g.empty()) _skeleton();
 
-      if (brushExtent) {
-        brush.extent([brushExtent[0] - 0.5, brushExtent[1] - 0.5]);
-        _gBrush.call(brush);
-        brushExtent = null;
-        _listeners.filtering(_getDataBrushed(brush));
+      // if (brushExtent) {
+      //   brush.extent([brushExtent[0] - 0.5, brushExtent[1] - 0.5]);
+      //   _gBrush.call(brush);
+      //   brushExtent = null;
+      //   _listeners.filtering(_getDataBrushed(brush));
+      // }
+      if (select) {
+        var selection = select;
+        select = null;
+        _listeners.filtered(selection);
       }
       _render();
 
@@ -2877,21 +2888,58 @@ d3.barChartChildren = function() {
         var rects =  _gBars.selectAll("rect")
           .data(data, function(d) { return d.key; });
         rects.exit().remove();
-        rects.enter().append("rect");
+        rects.enter().append("rect")
+          .on("click", clickHandler)
+          .on("mouseover", function(d) {
+            d3.select(this)
+              .attr("height", barHeight + 2)
+              .attr("y", function(d) {
+                return y(d.key) - barHeight/2 - 1 });
+            d3.select(this).classed("hovered", true);
+          })
+          .on("mouseout", function(d) {
+            d3.select(this)
+              .attr("height", barHeight)
+              .attr("y", function(d) {
+                return y(d.key) - barHeight/2 })
+            d3.select(this).classed("hovered", false);
+          })
+
         rects
             .classed("not-selected", function(d) {
-              if (hasBrush) return (selected.indexOf(d.key) === -1) ? true : false;
-              return false;
+              return (selected.indexOf(d.key) === -1) ? true : false;
             })
             // .transition()
             .attr("x", function(d) { return 0; })
             .attr("y", function(d) {
+              // return y(d.name) - barHeight/2  })
               return y(d.key) - barHeight/2  })
             .attr("width", function(d) {
-              // return x(d.values.length); })
-              // return x(d.count); })
+              // return x(d.value.householdCount); })
               return x(d.relative); })
             .attr("height", function(d) { return barHeight; });
+
+        // EXIT - ENTER - UPDATE PATTERN
+        // var rects =  _gBars.selectAll("rect")
+        //   .data(data, function(d) { return d.key; });
+        // rects.exit().remove();
+        // rects.enter().append("rect");
+        // rects
+        //     .classed("not-selected", function(d) {
+        //       if (hasBrush) return (selected.indexOf(d.key) === -1) ? true : false;
+        //       return false;
+        //     })
+        //     // .transition()
+        //     .attr("x", function(d) { return 0; })
+        //     .attr("y", function(d) {
+        //       return y(d.key) - barHeight/2  })
+        //     .attr("width", function(d) {
+        //       // return x(d.values.length); })
+        //       // return x(d.count); })
+        //       return x(d.relative); })
+        //     .attr("height", function(d) { return barHeight; });
+
+
       }
 
       function _skeleton() {
@@ -2900,7 +2948,7 @@ d3.barChartChildren = function() {
         y.range([0, _gHeight]);
 
         // set brush
-        if (hasBrush) brush.y(y);
+        // if (hasBrush) brush.y(y);
 
         xAxis
           .innerTickSize(-_gHeight)
@@ -2940,16 +2988,28 @@ d3.barChartChildren = function() {
           .data(["1","2","3","4","5","6","7+"])
           .text(function(d) { return d; })
 
-        _gBrush = g.append("g").attr("class", "brush").call(brush);
-        _gBrush.selectAll("rect").attr("width", _gWidth);
+        // _gBrush = g.append("g").attr("class", "brush").call(brush);
+        // _gBrush.selectAll("rect").attr("width", _gWidth);
+        //
+        // brush.on("brush", function() {
+        //   _listeners.filtering(_getDataBrushed(brush));
+        // });
+        //
+        // brush.on("brushend", function() {
+        //   _listeners.filtered(brush);
+        // });
+      }
 
-        brush.on("brush", function() {
-          _listeners.filtering(_getDataBrushed(brush));
-        });
-
-        brush.on("brushend", function() {
-          _listeners.filtered(brush);
-        });
+      function clickHandler(d) {
+        // if clicked rect is already selected
+        if (selected.indexOf(d.key) != -1) {
+          if (selected.length > 1) {
+            _listeners.filtered(_.without(selected, d.key));
+          }
+        } else {
+          selected.push(d.key);
+          _listeners.filtered(selected);
+        }
       }
 
       function _transformData(data) {
@@ -3072,6 +3132,11 @@ d3.barChartChildren = function() {
   //   hasBrushLabel = _;
   //   return chart;
   // };
+  chart.select = function(_) {
+    if (!arguments.length) return select;
+    select = _;
+    return chart;
+  };
   chart.brushExtent = function(_) {
     if (!arguments.length) return brushExtent;
     brushExtent = _;
@@ -3171,8 +3236,6 @@ d3.barChartLocation = function() {
               .attr("height", barHeight)
               .attr("y", function(d) {
                 return y(d.name) - barHeight/2 })
-
-
             d3.select(this).classed("hovered", false);
           })
 
@@ -3197,7 +3260,7 @@ d3.barChartLocation = function() {
         y.rangeRoundPoints([0, _gHeight], 0, 0.5);
 
         // set brush
-        if (hasBrush) brush.y(y);
+        // if (hasBrush) brush.y(y);
 
         xAxis
           .innerTickSize(-_gHeight - 10)
@@ -3238,17 +3301,30 @@ d3.barChartLocation = function() {
           .text(title);
       }
 
+      // function clickHandler(d) {
+      //   if (selected.length > 1) {
+      //     _listeners.filtered([d.key]);
+      //   } else {
+      //     if (selected[0] == d.key) {
+      //       _listeners.filtered(null);
+      //     } else {
+      //       _listeners.filtered([d.key]);
+      //     }
+      //   }
+      // }
+
       function clickHandler(d) {
-        if (selected.length > 1) {
-          _listeners.filtered([d.key]);
-        } else {
-          if (selected[0] == d.key) {
-            _listeners.filtered(null);
-          } else {
-            _listeners.filtered([d.key]);
+        // if clicked rect is already selected
+        if (selected.indexOf(d.key) != -1) {
+          if (selected.length > 1) {
+            _listeners.filtered(_.without(selected, d.key));
           }
+        } else {
+          selected.push(d.key);
+          _listeners.filtered(selected);
         }
       }
+
 
       function _getDataBrushed(brush) {
         var extent = brush.extent().map(function(d) { return Math.floor(d) + 0.5;});
@@ -3561,17 +3637,32 @@ d3.barChartStackedHouseholds = function() {
           .text(title);
       }
 
+      // function clickHandler(d) {
+      //   if (selected.length > 1) {
+      //     _listeners.filtered([d.key]);
+      //   } else {
+      //     if (selected[0] == d.key) {
+      //       _listeners.filtered(null);
+      //     } else {
+      //       _listeners.filtered([d.key]);
+      //     }
+      //   }
+      // }
+
       function clickHandler(d) {
-        if (selected.length > 1) {
-          _listeners.filtered([d.key]);
-        } else {
-          if (selected[0] == d.key) {
-            _listeners.filtered(null);
-          } else {
-            _listeners.filtered([d.key]);
+        // if clicked rect is already selected
+        if (selected.indexOf(d.key) != -1) {
+          // 2 because of key value 97
+          if (selected.length > 2) {
+            _listeners.filtered(_.without(selected, d.key));
           }
+        } else {
+          selected.push(d.key);
+          _listeners.filtered(selected);
         }
+
       }
+
 
       function _getDataBrushed(brush) {
         var extent = brush.extent().map(function(d) { return Math.floor(d) + 0.5;});
@@ -3848,15 +3939,27 @@ d3.barChartStackedChildren = function() {
           .text(title);
       }
 
+      // function clickHandler(d) {
+      //   if (selected.length > 1) {
+      //     _listeners.filtered([d.key]);
+      //   } else {
+      //     if (selected[0] == d.key) {
+      //       _listeners.filtered(null);
+      //     } else {
+      //       _listeners.filtered([d.key]);
+      //     }
+      //   }
+      // }
+
       function clickHandler(d) {
-        if (selected.length > 1) {
-          _listeners.filtered([d.key]);
-        } else {
-          if (selected[0] == d.key) {
-            _listeners.filtered(null);
-          } else {
-            _listeners.filtered([d.key]);
+        // if clicked rect is already selected
+        if (selected.indexOf(d.key) != -1) {
+          if (selected.length > 1) {
+            _listeners.filtered(_.without(selected, d.key));
           }
+        } else {
+          selected.push(d.key);
+          _listeners.filtered(selected);
         }
       }
 
@@ -7294,7 +7397,7 @@ Vis.Templates["charts-profile"] =
   "  </div>" +
   "  <div class='col-md-4 profile'>" +
   "    <div class='row'>" +
-  "      <div class='ui'>[ Click or drag to select categories of interest ]</div>" +
+  "      <div class='ui'>[ Click to select categories of interest ]</div>" +
   "      <div class='col-md-6'>" +
   "        <div id='households-children' class='chart profile-chart bar-chart-vert'></div>" +
   "        <div style='display: none;' id='children-gender' class='chart profile-chart bar-chart-vert bar-chart-stacked-single'></div>" +
