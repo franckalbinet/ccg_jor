@@ -175,6 +175,64 @@ h1,h2,h3,h4,h5 {
 }
 
 /* ============================================================== */
+/*                       Context timeline                         */
+/* ============================================================== */
+#context-timeline {
+  height: 360px;
+}
+#context-timeline .axis text {
+  display: none;
+}
+#context-timeline .axis.top line,
+#context-timeline .axis.top path {
+  fill: none;
+  stroke: #555;
+  shape-rendering: crispEdges;
+}
+#context-timeline .axis.bottom line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+#context-timeline .axis.bottom path {
+  display: none;
+}
+#context-timeline .labels-top,
+#context-timeline .labels-bottom {
+  fill: #555;
+  text-anchor: middle;
+  font: 11px sans-serif;
+}
+#context-timeline .comments-top,
+#context-timeline .comments-bottom {
+  fill: #555;
+  text-anchor: middle;
+  font: 11px sans-serif;
+}
+#context-timeline .lines-top path,
+#context-timeline .lines-bottom path {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1px;
+  shape-rendering: crispEdges;
+  stroke-dasharray: 1,1;
+}
+#context-timeline path.critical {
+  stroke: #D23528;
+}
+#context-timeline .comments-top text.critical,
+#context-timeline .comments-bottom text.critical {
+  fill: #D23528;
+  font-weight: bold;
+}
+#context-timeline .labels-top text.highlight {
+  fill: #555;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+
+/* ============================================================== */
 /*                       Case studies                             */
 /* ============================================================== */
 #case-studies {

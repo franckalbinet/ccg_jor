@@ -14,9 +14,7 @@ Vis.Templates["main-text"] = [
   "<p>Despite deteriorating circumstances, families reported that they were <strong>able to increase spending on basic needs for children and increase their wellbeing and living conditions</strong>.<br>This, in turn, positively impacted their psychological wellbeing.</p>",
   "<p><strong>UNICEF will continue to provide refugees with the child cash grant they need to support their children through 2016.</strong></p>",
   "<p><strong>Over 630,000 Syrian are officially registered as refugees in Jordan</strong>, with more than 82% of them residing in the host communities.</p><p><strong>Many of these families have lost everything they own</strong>, are not allowed to work in Jordan, have depleted their savings, and, often, their ability to borrow money.</p><p><strong>In such scenarios, it is often children who suffer most</strong>.<br> Years of education lost, malnutrition or health problems in the early years: these can have life-long negative repercussions.</p><p><strong>To help cover basic needs of children</strong>, starting in February 2015, <strong>UNICEF has transferred a monthly child cash grant</strong> to the most vulnerable Syrian families living in host communities in Jordan.</p>",
-  "<p><strong>Many of these families have lost everything they own</strong>, are not allowed to work in Jordan, have depleted their savings, and, often, their ability to borrow money.</p>",
-  "<p><strong>In such scenarios, it is often children who suffer most</strong>.<br> Years of education lost, malnutrition or health problems in the early years: these can have life-long negative repercussions.</p>",
-  "<p><strong>To help cover basic needs of children</strong>, starting in February 2015, <strong>UNICEF has transferred a monthly child cash grant</strong> to the most vulnerable Syrian families living in host communities in Jordan.</p>",
+  "<p>Placeholder for a sentence or two on context timeline</p>",
 ];
 
 Vis.Templates["quote"] = [
@@ -35,6 +33,13 @@ Vis.Templates["narration"] =
   "      <div id='main-text'></div>" +
   "      <div id='quote'></div>" +
   "      <div id='line-down'></div>" +
+  "  </div>" +
+  "</div>";
+
+Vis.Templates["context-timeline"] =
+  "<div id='context-timeline' class='row'>" +
+  "  <div class='col-md-12'>" +
+  "      <div class='chart'></div>" +
   "  </div>" +
   "</div>";
 

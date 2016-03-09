@@ -10,15 +10,15 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
     TEMPLATES: "templates.json",
     INCOMES: "incomes.json",
     EXPENDITURES: "expenditures.json",
-    CURRENT_COPING_MECHANISMS: "current_coping_mechanisms.json",
-    STOPPED_COPING_MECHANISMS: "stopped_coping_mechanisms.json",
+    CURRENT_COPING_MECHANISMS: "current-coping-mechanisms.json",
+    STOPPED_COPING_MECHANISMS: "stopped-coping-mechanisms.json",
     EDUCATION: "education.json",
-    ECO_CONTRIBUTORS: "eco_contributors.json",
-    EXPENDITURES_CHILDREN: "expenditures_children.json",
+    ECO_CONTRIBUTORS: "eco-contributors.json",
+    EXPENDITURES_CHILDREN: "expenditures-children.json",
     MILESTONES: "milestones.json",
-    GOV_CENTROIDS: "gov_centroids.json",
-    GOV: "gov_s8.json"
-    // GOV: "gov.json"
+    GOV_CENTROIDS: "gov-centroids.json",
+    GOV: "gov-s8.json",
+    CONTEXT_TIMELINE: "context-timeline.json"
   },
   LOOKUP_CODES: {
     GOVERNORATES: {1:"Irbid", 2:"Ajloun", 3:"Jarash", 4:"Amman", 5:"Zarqa", 6:"Madaba", 11:"Mafraq", 99:"Others"},

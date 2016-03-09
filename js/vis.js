@@ -21,15 +21,15 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
     TEMPLATES: "templates.json",
     INCOMES: "incomes.json",
     EXPENDITURES: "expenditures.json",
-    CURRENT_COPING_MECHANISMS: "current_coping_mechanisms.json",
-    STOPPED_COPING_MECHANISMS: "stopped_coping_mechanisms.json",
+    CURRENT_COPING_MECHANISMS: "current-coping-mechanisms.json",
+    STOPPED_COPING_MECHANISMS: "stopped-coping-mechanisms.json",
     EDUCATION: "education.json",
-    ECO_CONTRIBUTORS: "eco_contributors.json",
-    EXPENDITURES_CHILDREN: "expenditures_children.json",
+    ECO_CONTRIBUTORS: "eco-contributors.json",
+    EXPENDITURES_CHILDREN: "expenditures-children.json",
     MILESTONES: "milestones.json",
-    GOV_CENTROIDS: "gov_centroids.json",
-    GOV: "gov_s8.json"
-    // GOV: "gov.json"
+    GOV_CENTROIDS: "gov-centroids.json",
+    GOV: "gov-s8.json",
+    CONTEXT_TIMELINE: "context-timeline.json"
   },
   LOOKUP_CODES: {
     GOVERNORATES: {1:"Irbid", 2:"Ajloun", 3:"Jarash", 4:"Amman", 5:"Zarqa", 6:"Madaba", 11:"Mafraq", 99:"Others"},
@@ -246,19 +246,36 @@ Vis.Collections.App = Backbone.Collection.extend({
           })
         },
         that.url + Vis.DEFAULTS.DATASETS.GOV)
+      .defer(
+        function(url, callback) {
+          d3.json(url, function(error, result) {
+            callback(error, result);
+          })
+        },
+        that.url + Vis.DEFAULTS.DATASETS.CONTEXT_TIMELINE)
       .await(_ready);
 
     // on success
-    function _ready(error, children, households, outcomes, milestones, incomes, expenditures, currentCoping, stoppedCoping, education, ecoContributors, expendituresChild, govCentroids, gov) {
+    function _ready(error, children, households, outcomes, milestones, incomes, expenditures, currentCoping, stoppedCoping, education, ecoContributors, expendituresChild, govCentroids, gov, contextTimeline) {
       var that = this;
+
       // coerce data
       var timeFormatter = d3.time.format("%L");
-      var id = 0;
-      milestones.forEach(function(d) {
+      var id = 0, time = 0;
+      milestones.forEach(function(d, i) {
         d.id = id++;
-        d.time = timeFormatter.parse(d.time.toString()),
+        time = (i == 0) ? 0 : (time += milestones[i-1].duration);
+        d.time = timeFormatter.parse(time.toString()),
         d.page = d.page.toString(),
         d.chapter = d.chapter.toString()
+      });
+
+      // coerce data
+      timeFormatter = d3.time.format("%d-%m-%Y");
+      id = 0;
+      contextTimeline.forEach(function(d, i) {
+        d.id = id++;
+        d.date = timeFormatter.parse(d.date)
       });
 
       Backbone.trigger("data:loaded", {
@@ -274,7 +291,8 @@ Vis.Collections.App = Backbone.Collection.extend({
         expendituresChild: expendituresChild,
         milestones: milestones,
         gov: gov,
-        govCentroids: govCentroids
+        govCentroids: govCentroids,
+        contextTimeline: contextTimeline
       });
     }
   }
@@ -1603,12 +1621,70 @@ Vis.Views.Context = Backbone.View.extend({
       case 5:
           $("#narration").find("#main-text p:nth-child(4)").animate({ opacity: 1 }, 1000);
         break;
+      case 6:
+        this.renderTemplate();
+        this.renderChart();
+
+        $("#context-timeline").animate({ opacity: 0 }, 0);
+        Vis.utils.chartDelay = setTimeout(function() {
+          $("#context-timeline").animate({ opacity: 1 }, 1000);
+        }, 2000);
+        break;
       default:
         break;
       }
 
     Backbone.trigger("view:rendered");
     $("#pending").hide();
+  },
+
+  renderTemplate: function() {
+    var templateNarration = _.template(Vis.Templates["narration"]),
+        templateCharts = _.template(Vis.Templates["context-timeline"]),
+        templateMainText = this.model.getTemplateMainText(),
+        templateQuote = this.model.getTemplateQuote();
+
+        Vis.utils.reset();
+
+        $("#content").html(templateNarration() + templateCharts());
+        new Vis.Views.Profile();
+        $("#main-text").html(templateMainText());
+        $("#quote").html(templateQuote());
+        $("#narration").animate({ opacity: 0 }, 0);
+        $("#narration").animate({ opacity: 1 }, 1500);
+  },
+
+  renderChart: function() {
+    var that = this,
+        scenario = this.model.get("scenario"),
+        chapter = scenario.chapter,
+        data = this.getData(chapter);
+
+    switch(chapter) {
+      case 6:
+        // if does not exist - init
+        if (!this.chart) {
+          this.chart = d3.contextTimeline()
+            .width(900).height(350)
+            .margins({top: 40, right: 20, bottom: 175, left: 60})
+            .data(data)
+          }
+          // render
+          d3.select("#context-timeline .chart").call(this.chart);
+          break;
+      default:
+        console.log("no matching case.");
+    }
+  },
+
+  getData: function(chapter) {
+    switch(chapter) {
+        case 6:
+          return this.model.data.contextTimeline;
+          break;
+        default:
+          console.log("no matching case.")
+      }
   }
 });
 // Education view
@@ -7274,6 +7350,273 @@ d3.mapBeneficiaries = function() {
 
   return chart;
 };
+/* CREATE CONTEXT TIME LINE INSTANCE*/
+d3.contextTimeline = function() {
+
+  var width = 400,
+      height = 100,
+      margins = {top: 10, right: 25, bottom: 30, left: 20},
+      data = null,
+      x = d3.time.scale(),
+      xAxisTop = d3.svg.axis().orient("top"),
+      xAxisBottom = d3.svg.axis().orient("bottom"),
+      xAxis = d3.svg.axis().orient("bottom"),
+      yAxis = d3.svg.axis().orient("left");
+
+  var _gWidth = 400,
+      _gHeight = 100,
+      _gXAxisTop,
+      _gXAxisBottom,
+      _gDateLabelTop,
+      _gDateLabelBottom,
+      _gCommentTop,
+      _gCommentBottom,
+      _gLineTop,
+      _gLineBottom,
+      _listeners = d3.dispatch("filtered", "filtering");
+
+  function chart(div) {
+    _gWidth = width - margins.left - margins.right;
+    _gHeight = height - margins.top - margins.bottom;
+    div.each(function() {
+      var div = d3.select(this),
+          g = div.select("g");
+
+
+      // create the skeleton chart.
+      if (g.empty()) _skeleton();
+
+      _render();
+
+      function _render() {
+      }
+
+      function _skeleton() {
+        // set scales range
+        x.range([0, _gWidth]).domain([new Date(2015,01,15), new Date(2016,00,01)]);
+
+        // set axis
+        xAxisTop.scale(x).tickValues(data.filter(function(d) { return d.position == "top"; }).map(function(d) { return d.date; }));
+        xAxisBottom.scale(x);
+        xAxisBottom.scale(x).tickValues(data.filter(function(d) { return d.position == "bottom"; }).map(function(d) { return d.date; }));
+        xAxisBottom.scale(x);
+
+        // create chart container
+        g = div.append("svg")
+            .attr("width", width)
+            .attr("height", height)
+          .append("g")
+            .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
+
+        // set x top Axis
+        _gXAxisTop = g.append("g")
+            .attr("class", "x axis top")
+            .attr("transform", "translate(0," + _gHeight + ")")
+            .call(xAxisTop);
+
+        // set x bottom Axis
+        _gXAxisBottom = g.append("g")
+            .attr("class", "x axis bottom")
+            .attr("transform", "translate(0," + _gHeight + ")")
+            .call(xAxisBottom);
+
+        _gDateLabelTop = g.append("g")
+            .attr("class", "labels-top")
+            .attr("transform", "translate(0," + (_gHeight - 10) + ")");
+
+        _gDateLabelBottom = g.append("g")
+            .attr("class", "labels-bottom")
+            .attr("transform", "translate(0," + (_gHeight + 20) + ")");
+
+        // text positioning
+        // top
+        _gCommentTop = g.append("g")
+            .attr("class", "comments-top");
+
+        _gDateLabelTop.selectAll("label-top")
+            .data(data.filter(function(d) { return d.position == "top"; }))
+          .enter().append("text")
+            .attr("id", function(d) { return "id-" + d.id; })
+            .attr("x", function(d) { return x(d.date); })
+            .text(function(d) { return d["date-label"]; });
+
+        _gCommentTop.selectAll("comment-top")
+            .data(data.filter(function(d) { return d.position == "top" && d.comment != ""; }))
+          .enter().append("g")
+            .attr("class", "comment-top")
+            .attr("id", function(d) { return "id-" + d.id; })
+            .attr("transform", function(d) { return "translate(" + x(d.date)+ ",0)"; })
+          .append("text")
+            .attr("dy", 0)
+            .attr("y", _gHeight - 80)
+            .attr("x", 0)
+            .text(function(d) { return d["comment"]; });
+
+        _gCommentTop.selectAll(".comment-top text")
+          .call(wrap, 140);
+
+        d3.selectAll(".comment-top#id-7 tspan ")
+          .attr("y", 20);
+
+        // bottom
+        _gCommentBottom = g.append("g")
+            .attr("class", "comments-bottom");
+
+        _gDateLabelBottom.selectAll("label-bottom")
+            .data(data.filter(function(d) { return d.position == "bottom"; }))
+          .enter().append("text")
+            .attr("id", function(d) { return "id-" + d.id; })
+            .attr("x", function(d) { return x(d.date); })
+            .text(function(d) { return d["date-label"]; });
+
+        _gDateLabelBottom.selectAll("label-bottom")
+            .data(data.filter(function(d) { return d.position == "bottom"; }))
+          .enter().append("text")
+            .attr("x", function(d) { return x(d.date); })
+            .text(function(d) { return d["date-label"]; });
+
+        _gCommentBottom.selectAll("comment-bottom")
+            .data(data.filter(function(d) { return d.position == "bottom" && d.comment != ""; }))
+          .enter().append("g")
+            .attr("class", "comment-bottom")
+            .attr("id", function(d) { return "id-" + d.id; })
+            .attr("transform", function(d) { return "translate(" + x(d.date)+ ",0)"; })
+          .append("text")
+            .attr("dy", 0)
+            .attr("y", _gHeight + 60)
+            .attr("x", 0)
+            .text(function(d) { return d["comment"]; });
+
+          _gCommentBottom.selectAll(".comment-bottom text")
+            .call(wrap, 140);
+
+          d3.selectAll(".comment-bottom#id-17 tspan ")
+            .attr("y", _gHeight + 95);
+
+          // lines
+          // top
+          _gLineTop = g.append("g")
+              .attr("class", "lines-top");
+
+          g.selectAll(".comment-top text").each(function(d) {
+            var last = d3.select(_.last(d3.select(this).selectAll("tspan")[0])),
+                dy = +last.attr("dy"),
+                y = dy + (+last.attr("y")) + 5;
+                _gLineTop.append("path")
+                  .attr("id", "id-" + d.id)
+                  .attr("d", "M" + x(d.date) + "," + y + "L" + x(d.date) + ",110");
+          })
+
+          // bottom
+          _gLineBottom = g.append("g")
+              .attr("class", "lines-bottom");
+
+          g.selectAll(".comment-bottom text").each(function(d) {
+            var first = d3.select(this).select("tspan"),
+                y = +first.attr("y") - 10;
+                _gLineBottom.append("path")
+                  .attr("id", "id-" + d.id)
+                  .attr("d", "M" + x(d.date) + "," + y + "L" + x(d.date) + ",165");
+          })
+
+          // finetune styling
+          g.select(".comments-top #id-7 text").classed("critical", true);
+          g.select(".comments-top #id-6 text").classed("critical", true);
+          g.select(".comments-bottom #id-17 text").classed("critical", true);
+
+          g.select(".labels-top #id-4").classed("highlight", true);
+          g.select(".labels-top #id-6").classed("highlight", true);
+          g.select(".labels-top #id-9").classed("highlight", true);
+
+          g.select(".lines-top #id-7").classed("critical", true);
+          g.select(".lines-top #id-6").classed("critical", true);
+          g.select(".lines-bottom #id-17").classed("critical", true);
+
+          // add manual text
+          g.append("text")
+            .attr("x", -30)
+            .attr("y", 155)
+            .style("font-weight", "bold")
+            .style("font-size", "10px")
+            .style("font-size", "10px")
+            .style("fill", "#555")
+            .text("CCG payment: ");
+
+          g.append("text")
+            .attr("x", 0)
+            .attr("y", 250)
+            .style("font-weight", "bold")
+            .style("font-size", "12px")
+            .style("fill", "#555")
+            .text("* Bi-monthly monitoring conducted");
+      }
+
+      function wrap(text, width) {
+        text.each(function() {
+          var text = d3.select(this),
+              words = text.text().split(/\s+/).reverse(),
+              word,
+              line = [],
+              lineNumber = 0,
+              lineHeight = 12, // px
+              y = text.attr("y"),
+              dy = parseFloat(text.attr("dy")),
+              tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy);
+          while (word = words.pop()) {
+            line.push(word);
+            tspan.text(line.join(" "));
+            if (tspan.node().getComputedTextLength() > width) {
+              line.pop();
+              tspan.text(line.join(" "));
+              line = [word];
+              tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy ).text(word);
+            }
+          }
+        });
+      }
+    });
+  }
+
+  // Getters and Setters
+  chart.width = function(_) {
+    if (!arguments.length) return width;
+    width = _;
+    return chart;
+  };
+  chart.height = function(_) {
+    if (!arguments.length) return height;
+    height = _;
+    return chart;
+  };
+
+  chart.margins = function(_) {
+    if (!arguments.length) return margins;
+    margins = _;
+    return chart;
+  };
+  chart.data = function(_) {
+    if (!arguments.length) return data;
+    data = _;
+    return chart;
+  };
+  chart.x = function(_) {
+    if (!arguments.length) return x;
+    x = _;
+    return chart;
+  };
+  chart.y = function(_) {
+    if (!arguments.length) return y;
+    y = _;
+    return chart;
+  };
+
+  chart.on = function (event, listener) {
+    _listeners.on(event, listener);
+    return chart;
+  };
+
+  return chart;
+};
 // Underscore Templates
 Vis.Templates["main-text"] = [
   "<p>On average, 55,000 children from 15,000 families were given 20 JD <br> (28 USD) per child per month to <strong>cover the basic needs of children</strong>.</p>",
@@ -7290,9 +7633,7 @@ Vis.Templates["main-text"] = [
   "<p>Despite deteriorating circumstances, families reported that they were <strong>able to increase spending on basic needs for children and increase their wellbeing and living conditions</strong>.<br>This, in turn, positively impacted their psychological wellbeing.</p>",
   "<p><strong>UNICEF will continue to provide refugees with the child cash grant they need to support their children through 2016.</strong></p>",
   "<p><strong>Over 630,000 Syrian are officially registered as refugees in Jordan</strong>, with more than 82% of them residing in the host communities.</p><p><strong>Many of these families have lost everything they own</strong>, are not allowed to work in Jordan, have depleted their savings, and, often, their ability to borrow money.</p><p><strong>In such scenarios, it is often children who suffer most</strong>.<br> Years of education lost, malnutrition or health problems in the early years: these can have life-long negative repercussions.</p><p><strong>To help cover basic needs of children</strong>, starting in February 2015, <strong>UNICEF has transferred a monthly child cash grant</strong> to the most vulnerable Syrian families living in host communities in Jordan.</p>",
-  "<p><strong>Many of these families have lost everything they own</strong>, are not allowed to work in Jordan, have depleted their savings, and, often, their ability to borrow money.</p>",
-  "<p><strong>In such scenarios, it is often children who suffer most</strong>.<br> Years of education lost, malnutrition or health problems in the early years: these can have life-long negative repercussions.</p>",
-  "<p><strong>To help cover basic needs of children</strong>, starting in February 2015, <strong>UNICEF has transferred a monthly child cash grant</strong> to the most vulnerable Syrian families living in host communities in Jordan.</p>",
+  "<p>Placeholder for a sentence or two on context timeline</p>",
 ];
 
 Vis.Templates["quote"] = [
@@ -7311,6 +7652,13 @@ Vis.Templates["narration"] =
   "      <div id='main-text'></div>" +
   "      <div id='quote'></div>" +
   "      <div id='line-down'></div>" +
+  "  </div>" +
+  "</div>";
+
+Vis.Templates["context-timeline"] =
+  "<div id='context-timeline' class='row'>" +
+  "  <div class='col-md-12'>" +
+  "      <div class='chart'></div>" +
   "  </div>" +
   "</div>";
 

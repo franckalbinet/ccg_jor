@@ -53,11 +53,69 @@ Vis.Views.Context = Backbone.View.extend({
       case 5:
           $("#narration").find("#main-text p:nth-child(4)").animate({ opacity: 1 }, 1000);
         break;
+      case 6:
+        this.renderTemplate();
+        this.renderChart();
+
+        $("#context-timeline").animate({ opacity: 0 }, 0);
+        Vis.utils.chartDelay = setTimeout(function() {
+          $("#context-timeline").animate({ opacity: 1 }, 1000);
+        }, 2000);
+        break;
       default:
         break;
       }
 
     Backbone.trigger("view:rendered");
     $("#pending").hide();
+  },
+
+  renderTemplate: function() {
+    var templateNarration = _.template(Vis.Templates["narration"]),
+        templateCharts = _.template(Vis.Templates["context-timeline"]),
+        templateMainText = this.model.getTemplateMainText(),
+        templateQuote = this.model.getTemplateQuote();
+
+        Vis.utils.reset();
+
+        $("#content").html(templateNarration() + templateCharts());
+        new Vis.Views.Profile();
+        $("#main-text").html(templateMainText());
+        $("#quote").html(templateQuote());
+        $("#narration").animate({ opacity: 0 }, 0);
+        $("#narration").animate({ opacity: 1 }, 1500);
+  },
+
+  renderChart: function() {
+    var that = this,
+        scenario = this.model.get("scenario"),
+        chapter = scenario.chapter,
+        data = this.getData(chapter);
+
+    switch(chapter) {
+      case 6:
+        // if does not exist - init
+        if (!this.chart) {
+          this.chart = d3.contextTimeline()
+            .width(900).height(350)
+            .margins({top: 40, right: 20, bottom: 175, left: 60})
+            .data(data)
+          }
+          // render
+          d3.select("#context-timeline .chart").call(this.chart);
+          break;
+      default:
+        console.log("no matching case.");
+    }
+  },
+
+  getData: function(chapter) {
+    switch(chapter) {
+        case 6:
+          return this.model.data.contextTimeline;
+          break;
+        default:
+          console.log("no matching case.")
+      }
   }
 });

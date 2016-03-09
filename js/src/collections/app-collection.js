@@ -102,19 +102,36 @@ Vis.Collections.App = Backbone.Collection.extend({
           })
         },
         that.url + Vis.DEFAULTS.DATASETS.GOV)
+      .defer(
+        function(url, callback) {
+          d3.json(url, function(error, result) {
+            callback(error, result);
+          })
+        },
+        that.url + Vis.DEFAULTS.DATASETS.CONTEXT_TIMELINE)
       .await(_ready);
 
     // on success
-    function _ready(error, children, households, outcomes, milestones, incomes, expenditures, currentCoping, stoppedCoping, education, ecoContributors, expendituresChild, govCentroids, gov) {
+    function _ready(error, children, households, outcomes, milestones, incomes, expenditures, currentCoping, stoppedCoping, education, ecoContributors, expendituresChild, govCentroids, gov, contextTimeline) {
       var that = this;
+
       // coerce data
       var timeFormatter = d3.time.format("%L");
-      var id = 0;
-      milestones.forEach(function(d) {
+      var id = 0, time = 0;
+      milestones.forEach(function(d, i) {
         d.id = id++;
-        d.time = timeFormatter.parse(d.time.toString()),
+        time = (i == 0) ? 0 : (time += milestones[i-1].duration);
+        d.time = timeFormatter.parse(time.toString()),
         d.page = d.page.toString(),
         d.chapter = d.chapter.toString()
+      });
+
+      // coerce data
+      timeFormatter = d3.time.format("%d-%m-%Y");
+      id = 0;
+      contextTimeline.forEach(function(d, i) {
+        d.id = id++;
+        d.date = timeFormatter.parse(d.date)
       });
 
       Backbone.trigger("data:loaded", {
@@ -130,7 +147,8 @@ Vis.Collections.App = Backbone.Collection.extend({
         expendituresChild: expendituresChild,
         milestones: milestones,
         gov: gov,
-        govCentroids: govCentroids
+        govCentroids: govCentroids,
+        contextTimeline: contextTimeline
       });
     }
   }
