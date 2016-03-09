@@ -2647,7 +2647,6 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
     },
 
     initProgressLine: function() {
-      // if(this.hasProgressLineContainer()) {
         if(this.progressLine) this.progressLine.destroy();
         this.progressLine = new ProgressBar.Line(Vis.DEFAULTS.SELECTORS.PROGRESS_LINE, {
            color: "#888",
@@ -4185,6 +4184,10 @@ d3.timeLineNavigation = function() {
       _render();
 
       function _render() {
+        // set x Axis
+        _gXAxis.select("path")
+          .attr("d", "M0,0h"+ _getElapsedTime());
+
         // EXIT - ENTER - UPDATE PATTERN - CIRCLES
         var circles =  _gCircles.selectAll("circle")
           .data(data);
@@ -4203,7 +4206,7 @@ d3.timeLineNavigation = function() {
             .attr("cx", function(d) {
               return x(d.time); })
             .attr("cy", 0)
-            .attr("r", function(d) { return (d.isMain) ? 5:2; })
+            .attr("r", function(d) { return (d.isMain) ? 5:3; })
             .on("mouseover", function(d) {
                 var _wasElapsed = d3.select(this).classed("elapsed"),
                     radius = (d.isMain) ? 8 : 5;
@@ -4213,7 +4216,7 @@ d3.timeLineNavigation = function() {
             })
             .on("mouseout", function(d) {
                 var _isElapsed = d3.select(this).classed("elapsed"),
-                    radius = (d.isMain) ? 5 : 2;
+                    radius = (d.isMain) ? 5 : 3;
 
                 d3.select(this)
                 .classed("elapsed", _wasElapsed || _isElapsed)
@@ -4259,25 +4262,16 @@ d3.timeLineNavigation = function() {
               // return (+(d.page + d.chapter) <= (10 * page + chapter)) ?
               return (d.page == page && d.chapter == chapter) ?
                 true : false;
-            })
+            });
 
       }
 
       function _skeleton() {
         // set scales range
         x.range([0 , _gWidth]);
-        // y.range([0, _gHeight]);
-
-        // set brush
-        // if (hasBrush) brush.y(y);
-
-        // xAxis
-        //   .innerTickSize(-_gHeight)
-        //   .tickPadding(5);
 
         // set axis
-        // xAxis.scale(x);
-        // yAxis.scale(y);
+        xAxis.scale(x);
 
         // create chart container
         g = div.append("svg")
@@ -4286,6 +4280,8 @@ d3.timeLineNavigation = function() {
           .append("g")
             .attr("transform", "translate(" + margins.left + "," + margins.top + ")");
 
+        _gXAxis = g.append("g").attr("class", "x axis");
+        _gXAxis.call(xAxis);
         _gCircles = g.append("g")
             .attr("class", "circles");
 
@@ -4295,42 +4291,12 @@ d3.timeLineNavigation = function() {
         _gLabels = g.append("g")
             .attr("class", "labels");
 
-        // set x Axis
-        // _gXAxis = g.append("g")
-        //     .attr("class", "x axis")
-        //     .call(xAxis);
-        //
-        // _gYAxis = g.append("g")
-        //     .attr("class", "y axis")
-        //     .call(yAxis);
-
-        // g.append("text")
-        //   .attr("class", "x label")
-        //   .attr("text-anchor", "start")
-        //   .attr("x", -15)
-        //   .attr("y", -25)
-        //   .text(title);
-
-        // _gBrush = g.append("g").attr("class", "brush").call(brush);
-        // _gBrush.selectAll("rect").attr("width", _gWidth);
-        //
-        // brush.on("brush", function() {
-        //   _listeners.filtering(_getDataBrushed(brush));
-        // });
-        //
-        // brush.on("brushend", function() {
-        //   _listeners.filtered(brush);
-        // });
       }
 
-      // function _getDataBrushed(brush) {
-      //   var extent = brush.extent().map(function(d) { return Math.floor(d) + 0.5;});
-      //   return data
-      //     .map(function(d) { return d.key; })
-      //     .filter(function(d) {
-      //       return d >= extent[0] && d <= extent[1];
-      //     });
-      // }
+      function _getElapsedTime() {
+        return x(data.filter(function(d) {
+          return +d.page == elapsed.page && +d.chapter == elapsed.chapter; })[0].time);
+      }
     });
   }
 

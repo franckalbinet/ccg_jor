@@ -163,7 +163,6 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
     },
 
     initProgressLine: function() {
-      // if(this.hasProgressLineContainer()) {
         if(this.progressLine) this.progressLine.destroy();
         this.progressLine = new ProgressBar.Line(Vis.DEFAULTS.SELECTORS.PROGRESS_LINE, {
            color: "#888",
