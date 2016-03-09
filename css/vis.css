@@ -145,7 +145,10 @@ h1,h2,h3,h4,h5 {
 #narration #line-down {
   margin-left: auto;
   margin-right: auto;
+  height: 5px;
   width: 300px;
+}
+#narration #line-down path {
   shape-rendering: crispEdges;
 }
 #narration #main-text {
@@ -432,7 +435,7 @@ h1,h2,h3,h4,h5 {
   margin-bottom: 20px;
   font-size: 0.8em;
   text-align: center;
-  color: #888;
+  color: #555;
 }
 .footer p {
   margin-bottom: 0px;
@@ -693,7 +696,6 @@ h1,h2,h3,h4,h5 {
   padding-left: 0px;
 }
 
-
 /* time line navigation */
 .nav {
   margin-bottom: 40px;
@@ -770,6 +772,13 @@ h1,h2,h3,h4,h5 {
   stroke-width: 1px;
   opacity: 0.8;
   shape-rendering: crispEdges;
+}
+
+#time-line-navigation .voronoi path {
+  fill: none;
+  stroke: none;
+  stroke-opacity: .2;
+  pointer-events: all;
 }
 
 /* dimple related - might be all removed */

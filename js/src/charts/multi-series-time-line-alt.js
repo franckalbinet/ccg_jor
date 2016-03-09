@@ -343,11 +343,8 @@ d3.multiSeriesTimeLineAlt = function() {
 
         // Voronoi polygons for tooltips
         _voronoi = d3.geom.voronoi()
-          // .x(function(d) { return x(d.round); })
-          // .y(function(d) { return y(toPercentage(d.count)); })
           .y(function(d) { return y(d.category); })
           .x(function(d) { return x(toPercentage(d.count)); })
-          // .clipExtent(null);
           .clipExtent([[0, 0], [_gWidth, _gHeight]]);
 
         _gVoronoi = g.append("g").attr("class", "voronoi");

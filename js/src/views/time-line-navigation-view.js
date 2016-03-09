@@ -167,14 +167,16 @@ Vis.Views.TimeLineNavigation = Backbone.View.extend({
         this.progressLine = new ProgressBar.Line(Vis.DEFAULTS.SELECTORS.PROGRESS_LINE, {
            color: "#888",
           //  strokeWidth: 0.4,
-           strokeWidth: 0.2,
+          //  strokeWidth: 0.2,
+           strokeWidth: 0.3,
            duration: 1500,
            trailColor: "#ccc",
           //  trailWidth: 0.2
-           trailWidth: 0.2
+           trailWidth: 0.3
         });
         this.progressLine.set(0);
-        d3.select(Vis.DEFAULTS.SELECTORS.PROGRESS_LINE + " svg").attr("viewBox", "0 0 100 1")
+        d3.selectAll("#line-down path").style("shape-rendering", "crispEdges");
+        d3.select(Vis.DEFAULTS.SELECTORS.PROGRESS_LINE + " svg").attr("viewBox", "0 -1 100 10")
       // }
     },
 

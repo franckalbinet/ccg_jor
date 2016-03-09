@@ -32,6 +32,8 @@ d3.timeLineNavigation = function() {
       _gBrush,
       _gXAxis,
       _gYAxis,
+      _voronoi = null,
+      _gVoronoi = null,
       _listeners = d3.dispatch("browsing");
 
   function chart(div) {
@@ -57,6 +59,7 @@ d3.timeLineNavigation = function() {
         circles.exit().remove();
         circles.enter().append("circle");
         circles
+            .attr("id", function(d) { return "id-" + d.id; })
             .classed("hidden", function(d) {
               return (d.hidden) ? true:false;
             })
@@ -69,27 +72,7 @@ d3.timeLineNavigation = function() {
             .attr("cx", function(d) {
               return x(d.time); })
             .attr("cy", 0)
-            .attr("r", function(d) { return (d.isMain) ? 5:3; })
-            .on("mouseover", function(d) {
-                var _wasElapsed = d3.select(this).classed("elapsed"),
-                    radius = (d.isMain) ? 8 : 5;
-                d3.select(this)
-                .transition(100)
-                .attr("r", radius);
-            })
-            .on("mouseout", function(d) {
-                var _isElapsed = d3.select(this).classed("elapsed"),
-                    radius = (d.isMain) ? 5 : 3;
-
-                d3.select(this)
-                .classed("elapsed", _wasElapsed || _isElapsed)
-                .transition(100)
-                .attr("r", radius);
-            })
-            .on("click", function(d) {
-              d3.select(this).classed("elapsed", true)
-              _listeners.browsing({page: +d.page, chapter: +d.chapter});
-            });
+            .attr("r", function(d) { return (d.isMain) ? 5:3; });
 
         // EXIT - ENTER - UPDATE PATTERN - Ticks
         var lines =  _gTicks.selectAll("line")
@@ -122,8 +105,7 @@ d3.timeLineNavigation = function() {
             .classed("elapsed", function(d) {
               var page = elapsed.page,
                   chapter = elapsed.chapter;
-              // return (+(d.page + d.chapter) <= (10 * page + chapter)) ?
-              return (d.page == page && d.chapter == chapter) ?
+              return (d.page == page) ?
                 true : false;
             });
 
@@ -153,6 +135,49 @@ d3.timeLineNavigation = function() {
 
         _gLabels = g.append("g")
             .attr("class", "labels");
+
+        // Voronoi polygons for tooltips
+        _voronoi = d3.geom.voronoi()
+          .y(function(d) { return 0; })
+          .x(function(d) { return x(d.time); });
+
+        _gVoronoi = g.append("g").attr("class", "voronoi");
+
+        _gVoronoi.selectAll("path")
+            .data(_voronoi(data.filter(function(d) { return !d.hidden; })))
+          .enter().append("path")
+            .attr("d", function(d) {
+              if (typeof(d) !== "undefined") {
+                return "M" + d.join("L") + "Z";
+              }
+            })
+            .datum(function(d) {
+              if (typeof(d) !== "undefined") {
+                return d.point;
+              }
+            })
+            .on("mouseover", function(d) {
+              var circle = g.select("circle#id-" + d.id);
+                  // _wasElapsed = circle.classed("isElapsed"),
+                  radius = (d.isMain) ? 8 : 5;
+                circle
+                  .transition().duration(200)
+                  .attr("r", radius);
+            })
+            .on("mouseout", function(d) {
+              var circle = g.select("circle#id-" + d.id),
+                  // _isElapsed = circle.classed("isElapsed"),
+                  radius = (d.isMain) ? 5 : 3;
+                circle
+                  // .classed("elapsed", _wasElapsed || _isElapsed)
+                  .transition().duration(600)
+                  .attr("r", radius);
+            })
+            .on("click", function(d) {
+              var circle = g.select("circle#id-" + d.id);
+              circle.classed("elapsed", true)
+              _listeners.browsing({page: +d.page, chapter: +d.chapter});
+            });
 
       }
 
@@ -225,33 +250,11 @@ d3.timeLineNavigation = function() {
     hasYAxis = _;
     return chart;
   };
-  // chart.brushClickReset = function(_) {
-  //   if (!arguments.length) return brushClickReset;
-  //   brushClickReset = _;
-  //   return chart;
-  // };
-  // chart.clearBrush = function(_) {
-  //   if (!arguments.length) {
-  //     _gBrush.call(brush.clear());
-  //     brush.event(_gBrush);
-  //   }
-  //   return chart;
-  // };
-  // chart.roundXDomain = function(_) {
-  //   if (!arguments.length) return roundXDomain;
-  //   roundXDomain = _;
-  //   return chart;
-  // };
   chart.hasBrush = function(_) {
     if (!arguments.length) return hasBrush;
     hasBrush = _;
     return chart;
   };
-  // chart.hasBrushLabel = function(_) {
-  //   if (!arguments.length) return hasBrushLabel;
-  //   hasBrushLabel = _;
-  //   return chart;
-  // };
   chart.brushExtent = function(_) {
     if (!arguments.length) return brushExtent;
     brushExtent = _;
