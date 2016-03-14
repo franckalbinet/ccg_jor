@@ -216,22 +216,25 @@ h1,h2,h3,h4,h5 {
 #context-timeline .lines-bottom path {
   fill: none;
   stroke: #ccc;
+  /*stroke: #003950;*/
   stroke-width: 1px;
   shape-rendering: crispEdges;
   stroke-dasharray: 1,1;
 }
 #context-timeline path.critical {
-  stroke: #D23528;
+  stroke: #B45B49;
+  opacity: 0.3;
 }
 #context-timeline .comments-top text.critical,
 #context-timeline .comments-bottom text.critical {
   fill: #D23528;
+  fill: #B45B49;
   font-weight: bold;
 }
-#context-timeline .labels-top text.highlight {
+#context-timeline .comments-bottom text.highlight {
   fill: #555;
   font-weight: bold;
-  font-size: 12px;
+  font-size: 11px;
 }
 
 
@@ -418,8 +421,8 @@ h1,h2,h3,h4,h5 {
   font-size: 0.77em;
   font-weight: 500;
   color: #888;
-  padding-left: 45px;
-  margin-top: -14px;
+  padding-left: 60px;
+  /*margin-top: -14px;*/
 }
 #time-line-navigation .chart {
   width: 800px;

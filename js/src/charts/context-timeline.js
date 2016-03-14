@@ -96,15 +96,22 @@ d3.contextTimeline = function() {
             .attr("transform", function(d) { return "translate(" + x(d.date)+ ",0)"; })
           .append("text")
             .attr("dy", 0)
-            .attr("y", _gHeight - 80)
+            .attr("y", _gHeight - 70)
             .attr("x", 0)
             .text(function(d) { return d["comment"]; });
 
         _gCommentTop.selectAll(".comment-top text")
           .call(wrap, 140);
 
-        d3.selectAll(".comment-top#id-7 tspan ")
-          .attr("y", 20);
+
+        d3.selectAll(".comment-top#id-9 tspan ")
+          .attr("y", 30);
+
+        d3.selectAll(".comment-top#id-11 tspan ")
+          .attr("y", 30);
+
+        // d3.selectAll(".comment-top#id-15 tspan ")
+        //   .attr("y", -15);
 
         // bottom
         _gCommentBottom = g.append("g")
@@ -131,15 +138,18 @@ d3.contextTimeline = function() {
             .attr("transform", function(d) { return "translate(" + x(d.date)+ ",0)"; })
           .append("text")
             .attr("dy", 0)
-            .attr("y", _gHeight + 60)
+            .attr("y", _gHeight + 30)
             .attr("x", 0)
             .text(function(d) { return d["comment"]; });
 
           _gCommentBottom.selectAll(".comment-bottom text")
             .call(wrap, 140);
 
-          d3.selectAll(".comment-bottom#id-17 tspan ")
-            .attr("y", _gHeight + 95);
+          d3.selectAll(".comment-bottom#id-16 tspan ")
+            .attr("y", _gHeight + 65);
+
+          d3.selectAll(".comment-bottom#id-15 tspan ")
+            .attr("y", _gHeight + 105);
 
           // lines
           // top
@@ -155,6 +165,8 @@ d3.contextTimeline = function() {
                   .attr("d", "M" + x(d.date) + "," + y + "L" + x(d.date) + ",110");
           })
 
+          d3.select("path#id-11").remove();
+
           // bottom
           _gLineBottom = g.append("g")
               .attr("class", "lines-bottom");
@@ -164,39 +176,39 @@ d3.contextTimeline = function() {
                 y = +first.attr("y") - 10;
                 _gLineBottom.append("path")
                   .attr("id", "id-" + d.id)
-                  .attr("d", "M" + x(d.date) + "," + y + "L" + x(d.date) + ",165");
+                  .attr("d", "M" + x(d.date) + "," + y + "L" + x(d.date) + ",145");
           })
 
           // finetune styling
           g.select(".comments-top #id-7 text").classed("critical", true);
-          g.select(".comments-top #id-6 text").classed("critical", true);
-          g.select(".comments-bottom #id-17 text").classed("critical", true);
+          g.select(".comments-top #id-9 text").classed("critical", true);
 
-          g.select(".labels-top #id-4").classed("highlight", true);
-          g.select(".labels-top #id-6").classed("highlight", true);
-          g.select(".labels-top #id-9").classed("highlight", true);
+          g.select(".comments-bottom #id-15 text").classed("critical", true);
+          g.select(".comments-bottom #id-5 text").classed("highlight", true);
+          g.select(".comments-bottom #id-8 text").classed("highlight", true);
+          g.select(".comments-bottom #id-13 text").classed("highlight", true);
 
           g.select(".lines-top #id-7").classed("critical", true);
-          g.select(".lines-top #id-6").classed("critical", true);
-          g.select(".lines-bottom #id-17").classed("critical", true);
+          g.select(".lines-top #id-9").classed("critical", true);
+          g.select(".lines-bottom #id-15").classed("critical", true);
 
           // add manual text
-          g.append("text")
-            .attr("x", -30)
-            .attr("y", 155)
-            .style("font-weight", "bold")
-            .style("font-size", "10px")
-            .style("font-size", "10px")
-            .style("fill", "#555")
-            .text("CCG payment: ");
+          // g.append("text")
+          //   .attr("x", -30)
+          //   .attr("y", 155)
+          //   .style("font-weight", "bold")
+          //   .style("font-size", "10px")
+          //   .style("font-size", "10px")
+          //   .style("fill", "#555")
+          //   .text("CCG payment: ");
 
-          g.append("text")
-            .attr("x", 0)
-            .attr("y", 250)
-            .style("font-weight", "bold")
-            .style("font-size", "12px")
-            .style("fill", "#555")
-            .text("* Bi-monthly monitoring conducted");
+          // g.append("text")
+          //   .attr("x", 0)
+          //   .attr("y", 250)
+          //   .style("font-weight", "bold")
+          //   .style("font-size", "12px")
+          //   .style("fill", "#555")
+          //   .text("* Bi-monthly monitoring conducted");
       }
 
       function wrap(text, width) {
