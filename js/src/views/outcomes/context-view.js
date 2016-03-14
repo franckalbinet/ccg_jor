@@ -51,7 +51,16 @@ Vis.Views.Context = Backbone.View.extend({
           $("#narration").find("#main-text p:nth-child(3)").animate({ opacity: 1 }, 1000);
         break;
       case 5:
-          $("#narration").find("#main-text p:nth-child(4)").animate({ opacity: 1 }, 1000);
+          if ($("p.intro").length == 3) {
+            $("#narration").find("#main-text p:nth-child(4)").animate({ opacity: 1 }, 1000);
+          } else {
+            Vis.utils.reset();
+            var templateNarration =  _.template(Vis.Templates["narration"]),
+                templateMainText = this.model.getTemplateMainText();
+            $("#content").html(templateNarration());
+            $("#narration").css("height", "500px");
+            $("#main-text").html(templateMainText());
+          }
         break;
       case 6:
         this.renderTemplate();
