@@ -7672,21 +7672,21 @@ Vis.Templates["case-studies"] =
   "  <div class='title'>Explore three case studies below.</div>" +
   " </div>" +
   "  <div class='col-md-4'>" +
-  "    <div class='reference'><a>Case study 1: The Abdullah Family</a></div>" +
+  "    <div class='reference'><a href='http://www.unicef.org/jordan/CaseStudy_1_-_UNICEF_CCG_PDM_2015.pdf'>Case study 1: The Youssef Family</a></div>" +
   "    <div class='photographs'>" +
-  "      <img src='./css/img/pictures_child_empowerment.png' alt='Photographs home'>" +
+  "      <img src='./css/img/case_studies_youssef.png' alt='Photographs home'>" +
   "    </div>" +
   "  </div>" +
   "  <div class='col-md-4'>" +
-  "    <div class='reference'><a>Case study X: ...</a></div>" +
+  "    <div class='reference'><a href='http://www.unicef.org/jordan/CaseStudy_2_-_UNICEF_CCG_PDM_2015.pdf'>Case study 2: The Abdullah Family</a></div>" +
   "    <div class='photographs'>" +
-  "      <img src='./css/img/pictures_child_empowerment.png' alt='Photographs home'>" +
+  "      <img src='./css/img/case_studies_abdallah.png' alt='Photographs home'>" +
   "    </div>" +
   "  </div>" +
   "  <div class='col-md-4'>" +
-  "    <div class='reference'><a>Case study X: ...</a></div>" +
+  "    <div class='reference'><a href='http://www.unicef.org/jordan/CaseStudy_3_-_UNICEF_CCG_PDM_2015.pdf'>Case study 3: The Al Laham Family</a></div>" +
   "    <div class='photographs'>" +
-  "      <img src='./css/img/pictures_child_empowerment.png' alt='Photographs home'>" +
+  "      <img src='./css/img/case_studies_al_laham.png' alt='Photographs home'>" +
   "    </div>" +
   "  </div>" +
   "</div>";
