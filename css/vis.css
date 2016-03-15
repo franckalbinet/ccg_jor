@@ -35,6 +35,12 @@ ul, ol {
   margin-left: 5px;
   font-size: 0.8em;
 }
+.fa-2 {
+  pointer-events: none;
+  margin-right: 5px;
+  margin-left: 5px;
+  font-size: 1.1em;
+}
 
 /* fonts */
 h1,h2,h3,h4,h5 {
