@@ -7703,11 +7703,11 @@ Vis.Templates["further-resources"] =
 "      </div>" +
 "    </div>" +
 "    <div class='documents'>" +
-"      <div class='title'><i class='fa fa-table fa-4'></i>Questionnaire files</div>" +
+"      <div class='title'><i class='fa fa-table fa-4'></i>Tools</div>" +
 "      <div class='links'>" +
-"        <a href='http://www.unicef.org/jordan/WindowofHope_UNICEFJordanPDM_report_childcashgrantSep2015_2_mb.pdf'>Link 1 - missing</a>" +
-"        <a href='http://www.unicef.org/jordan/WindowofHope_UNICEFJordanPDM_report_childcashgrantSep2015_2_mb.pdf'>Link 2 - missing</a>" +
-"        <a href='http://www.unicef.org/jordan/WindowofHope_UNICEFJordanPDM_report_childcashgrantSep2015_2_mb.pdf'>Link 3 - missing</a>" +
+"        <a href='http://www.unicef.org/jordan/Tool1-_CaseStudyGuide-UNICEF_CCG_PDM_2015.pdf'>Case Study Guide</a>" +
+"        <a href='http://www.unicef.org/jordan/Tool2-_FGD_Guide-UNICEF_CCG_PDM_2015.pdf'>Focus Group Discussion Group Guide</a>" +
+"        <a href='http://www.unicef.org/jordan/Tool3-_PDM_Questionnaire-UNICEF_CCG_PDM_2015.pdf'>Post-Distribution Monitoring Questionnaire</a>" +
 "      </div>" +
 "    </div>" +
 "    <div class='thanks'>" +
