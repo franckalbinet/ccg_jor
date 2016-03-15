@@ -162,10 +162,18 @@ Vis.Templates["background-sample"] =
 
 Vis.Templates["background-population"] =
   "<div id='background-population' class='row'>" +
-  "  <div id='age' class='col-md-4'></div>" +
-  "  <div id='gender' class='col-md-4'></div>" +
-  "  <div id='poverty' class='col-md-4'></div>" +
-  " </div>";
+  " <div id='map' class='col-md-8'></div>" +
+  " <div class='col-md-4'>" +
+  "   <div class='row donuts'>" +
+  "     <div class='title'>Age of children</div>" +
+  "     <div id='age'></div>" +
+  "     <div class='title'>Gender of children</div>" +
+  "     <div id='gender'></div>" +
+  "     <div class='title'>Vulnerability level</div>" +
+  "     <div id='poverty'></div>" +
+  "   </div>" +
+  " </div>" +
+  "</div>";
 
 Vis.Templates["background-population-map"] =
   "<div id='background-population-map' class='row'>" +

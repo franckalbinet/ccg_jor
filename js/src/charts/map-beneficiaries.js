@@ -128,7 +128,7 @@ d3.mapBeneficiaries = function() {
             .attr("data-id", function(d) { return d.properties.adm1_code; })
             .attr("transform", function(d, i) {
               var _pos = _path.centroid(d);
-              _pos[0] += -18;
+              _pos[0] += (d.properties.adm1_code == 1705) ? -30 : -18;
               _pos[1] += 10;
               return "translate(" + _pos + ")"; })
 
@@ -162,7 +162,6 @@ d3.mapBeneficiaries = function() {
               return "M580," + (_rightLabelAxis(i)-15) + "h-20L" + _centroidCoord[0] + "," + _centroidCoord[1];
             })
         })
-
 
       }
 

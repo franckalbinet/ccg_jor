@@ -6,7 +6,7 @@ Vis.Views.Background = Backbone.View.extend({
       var that = this,
           viewId = Vis.DEFAULTS.VIEW_PAGE_LOOKUP["background"];
 
-      this.chart = new Array(3);
+      this.chart = new Array(4);
 
       if (that.model.get("scenario").page === viewId) this.render();
 
@@ -34,34 +34,24 @@ Vis.Views.Background = Backbone.View.extend({
 
       switch(chapter) {
           case 1:
-            var templateCharts =  _.template(Vis.Templates["background-population-map"]);
-            break;
-          case 2:
             var templateCharts =  _.template(Vis.Templates["background-population"]);
             break;
-          case 3:
+          case 2:
             var templateCharts =  _.template(Vis.Templates["background-sample"]);
             break;
           default:
             console.log("no matching case.");
       }
 
-      var wasMapTemplate = $("#background-population-map").length;
       $("#content").html(templateNarration() + templateCharts());
       $("#main-text").html(templateMainText());
-      if (chapter != 2 || wasMapTemplate == 0) {
-        $("#narration").animate({ opacity: 0 }, 0);
-        $("#narration").animate({ opacity: 1 }, 1500);
-        $("#background-population").animate({ opacity: 0 }, 0);
-        Vis.utils.chartDelay = setTimeout(function() {
-          $("#background-population").animate({ opacity: 1 }, 1000);
-        }, 2000);
-      }
+      $("#narration").animate({ opacity: 0 }, 0);
+      $("#narration").animate({ opacity: 1 }, 1500);
       $("#background-sample").animate({ opacity: 0 }, 0);
-      $("#background-population-map").animate({ opacity: 0 }, 0);
+      $("#background-population").animate({ opacity: 0 }, 0);
       Vis.utils.chartDelay = setTimeout(function() {
         $("#background-sample").animate({ opacity: 1 }, 1000);
-        $("#background-population-map").animate({ opacity: 1 }, 1000);
+        $("#background-population").animate({ opacity: 1 }, 1000);
       }, 2000);
     },
 
@@ -70,37 +60,53 @@ Vis.Views.Background = Backbone.View.extend({
 
       switch(chapter) {
           case 1:
-            var data = this.getData(chapter);
-            this.chart = d3.mapBeneficiaries()
-              .width(930).height(355)
-              .margins({top: 55, right: 40, bottom: 40, left: 40})
+            var data = this.getData(chapter, 3);
+            this.chart[3] = d3.mapBeneficiaries()
+              .width(930).height(365)
+              .margins({top: 64, right: 40, bottom: 40, left: -150})
               .data(data)
               .title("# of children by Jordan's governorates");
 
             // render
-            d3.select("#background-population-map #map").call(this.chart);
-            break;
-          case 2:
+            d3.select("#background-population #map").call(this.chart[3]);
+
             // chart rendering -- population of beneficiaries
             // by age
             this.chart[0] = c3.generate({
               bindto: d3.select("#background-population #age"),
               size: {
-                width: 270,
-                height: 270,
+                width: 187,
+                height: 120,
+              },
+              padding: {
+                top: 0,
+                right: 20,
+                bottom: 0,
+                left: 0,
               },
               data: {
                 columns: that.getData(chapter, 0),
                 type : 'donut',
                 order: null
               },
+              legend: {
+                position: 'right'
+              },
               donut: {
-                  title: "Age of children",
+                  // title: "Age of children",
+                  title: "",
+                  width: 15,
                   label: {
                     format: function (value, ratio, id) {
                       return d3.format('f')(value) + "%";
-                    }
+                    },
+                    show: false
                   }
+              },
+              tooltip: {
+                format: {
+                  value: function (value, ratio, id) { return d3.format('f')(value) + "%"; }
+                }
               },
               color: {
                 pattern: ['#003950', '#E59138', '#88A3B6', '#609078', '#B45B49']
@@ -110,51 +116,83 @@ Vis.Views.Background = Backbone.View.extend({
             this.chart[1] = c3.generate({
               bindto: d3.select("#background-population #gender"),
               size: {
-                width: 250,
-                height: 250,
+                // width: 250,
+                // width: 250,
+                width: 165,
+                height: 120,
+              },
+              padding: {
+                top: 0,
+                right: 0,
+                bottom: 0,
+                left: 0,
               },
               data: {
                 columns: that.getData(chapter, 1),
                 type : 'donut'
               },
+              legend: {
+                position: 'right'
+              },
               donut: {
-                  title: "Gender of children",
+                  // title: "Gender of children",
+                  title: "",
+                  width: 15,
                   label: {
                     format: function (value, ratio, id) {
                       return d3.format('f')(value) + "%";
-                    }
+                    },
+                   show: false
                   }
+              },
+              tooltip: {
+                format: {
+                  value: function (value, ratio, id) { return d3.format('f')(value) + "%"; }
+                }
               },
               color: {
                 pattern: ['#003950', '#E59138']
               }
             });
-            // by povery
+            // by poverty
             this.chart[2] = c3.generate({
               bindto: d3.select("#background-population #poverty"),
               size: {
-                width: 270,
-                height: 270,
+                // width: 270,
+                width: 275,
+                // height: 270,
+                height: 120,
               },
               data: {
                 columns: that.getData(chapter, 2),
                 type : 'donut'
               },
+              legend: {
+                position: 'right'
+              },
               donut: {
-                  title: "Vulnerability level",
+                  // title: "Vulnerability level",
+                  title: "",
+                  width: 15,
                   label: {
                     threshold: 0.1,
                     format: function (value, ratio, id) {
                       return d3.format('f')(value) + "%";
-                    }
+                    },
+                    show: false
                   }
+              },
+              tooltip: {
+                format: {
+                  value: function (value, ratio, id) { return d3.format('f')(value) + "%"; }
+                }
               },
               color: {
                 pattern: ['#003950', '#E59138', '#88A3B6']
               }
             });
             break;
-          case 3:
+          case 2:
             // chart rendering - sample
             // by age
             this.chart[0] = c3.generate({
@@ -175,6 +213,11 @@ Vis.Views.Background = Backbone.View.extend({
                       return d3.format('f')(value) + "%";
                     }
                   }
+              },
+              tooltip: {
+                format: {
+                  value: function (value, ratio, id) { return d3.format('f')(value) + "%"; }
+                }
               },
               color: {
                 pattern: ['#003950', '#E59138', '#88A3B6', '#609078', '#B45B49']
@@ -198,6 +241,11 @@ Vis.Views.Background = Backbone.View.extend({
                       return d3.format('f')(value) + "%";
                     }
                   }
+              },
+              tooltip: {
+                format: {
+                  value: function (value, ratio, id) { return d3.format('f')(value) + "%"; }
+                }
               },
               color: {
                 pattern: ['#003950', '#E59138']
@@ -223,6 +271,11 @@ Vis.Views.Background = Backbone.View.extend({
                     }
                   }
               },
+              tooltip: {
+                format: {
+                  value: function (value, ratio, id) { return d3.format('f')(value) + "%"; }
+                }
+              },
               color: {
                 pattern: ['#003950', '#E59138', '#88A3B6']
               }
@@ -237,9 +290,6 @@ Vis.Views.Background = Backbone.View.extend({
     getData: function(chapter, index) {
       switch(chapter) {
           case 1:
-            return {polygons: this.model.data.gov, centroids: this.model.data.govCentroids};
-            break;
-          case 2:
             switch(index) {
               case 0:
                 return [
@@ -263,11 +313,14 @@ Vis.Views.Background = Backbone.View.extend({
                   ["Children with specific needs"].concat(d3.range(1,3).map(function(d) { return 1; })),
                 ];
                 break;
+              case 3:
+                return {polygons: this.model.data.gov, centroids: this.model.data.govCentroids};
+                break;
               default:
                 console.log("no matching case.")
             }
             break;
-          case 3:
+          case 2:
             switch(index) {
               case 0:
                 return [

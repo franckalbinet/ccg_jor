@@ -269,48 +269,49 @@ h1,h2,h3,h4,h5 {
 /* ============================================================== */
 /*                       Map beneficiaries                        */
 /* ============================================================== */
-#background-population-map {
+#background-population #map {
   height: 360px;
 }
-#background-population-map path.admin-boundaries {
+#background-population #map path.admin-boundaries {
   fill: #E3E0DE;
   stroke: #eee;
   stroke-width: 1.5px;
 }
-#background-population-map .centroid {
-  fill: #80A6B1;
-  opacity: 0.8;
-  stroke: #80A6B1;
-  /*stroke: #555;*/
-  stroke-width: 1.2px;
+#background-population #map .centroid {
+  /*fill: #80A6B1;*/
+  fill: #003950;
+  opacity: 0.7;
+  /*stroke: #fff;
+  stroke-width: 0.5px;*/
 }
-#background-population-map .centroid.empty {
+#background-population #map .centroid.empty {
   fill: none;
-  opacity: 1;
+  opacity: 0.7;
   stroke: #555;
   stroke: #80A6B1;
-  stroke-width: 1.5px;
+  stroke: #003950;
+  stroke-width: 1px;
 }
-#background-population-map .label {
+#background-population #map .label {
   fill: #555;
 }
-#background-population-map .label .admin-count {
+#background-population #map .label .admin-count {
   /*text-anchor: middle;*/
   font-size: 13px;
   font-weight: 700;
 }
-#background-population-map .label .admin-name {
+#background-population #map .label .admin-name {
   /*text-anchor: middle;*/
   font-size: 11px;
   font-weight: 500;
 }
-#background-population-map .label-line {
+#background-population #map .label-line {
   fill: none;
   stroke: #80A6B1;
   stroke-width: 0.5px;
   opacity: 1;
 }
-#background-population-map .title {
+#background-population #map .title {
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
@@ -321,7 +322,23 @@ h1,h2,h3,h4,h5 {
 /*                       Background population                    */
 /* ============================================================== */
 #background-population {
-  padding-top: 40px;
+  height: 400px;
+  margin-top: -40px;
+}
+#background-population .donuts #age {
+  margin-top: -5px;
+}
+#background-population .donuts #gender {
+  margin-top: -10px;
+}
+#background-population .donuts #poverty {
+  margin-top: -13px;
+}
+#background-population .donuts .title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  fill: #555;
 }
 /* ============================================================== */
 /*                       Background sample                        */
