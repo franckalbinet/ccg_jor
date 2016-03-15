@@ -81,7 +81,7 @@ h1,h2,h3,h4,h5 {
   padding-top: 60px;
 }
 #front-page .title {
-  width: 740px;
+  width: 744px;
   padding: 15px 10px;
   background-color: #1cace2;
   color: white;
@@ -101,17 +101,15 @@ h1,h2,h3,h4,h5 {
   margin-bottom: 0px;
   text-transform: uppercase;
 }
-#front-page .photographs {
-  position: relative;
-  z-index: -1;
-  margin-left: 130px;
-  margin-top: -6px;
-  margin-bottom: 140px;
-  text-align: left;
+
+#front-page .photographs img {
+  padding-bottom: 85px;
+  text-align: center;
+  width: 80%;
+  height: 80%;
   opacity: 0.9;
-  padding: 5px;
-  width: 67%;
 }
+
 #front-page .ui {
   height: 35px;
   font-size: 0.8em;
