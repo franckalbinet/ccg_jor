@@ -109,11 +109,12 @@ h1,h2,h3,h4,h5 {
 }
 
 #front-page .photographs img {
-  padding-bottom: 85px;
   text-align: center;
   width: 80%;
   height: 80%;
-  opacity: 0.9;
+  opacity: 0.95;
+  padding-bottom: 85px;
+  margin-top: -5px;
 }
 
 #front-page .ui {

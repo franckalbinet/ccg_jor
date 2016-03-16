@@ -95,7 +95,7 @@ Vis.Templates["further-resources"] =
 "      </div>" +
 "    </div>" +
 "    <div class='documents'>" +
-"      <div class='title'><i class='fa fa-wrench fa-2'></i>Tools</div>" +
+"      <div class='title'><i class='fa fa-wrench fa-2'></i>Post-distribution Monitoring Tools</div>" +
 "      <div class='links'>" +
 "        <a href='http://www.unicef.org/jordan/Tool1-_CaseStudyGuide-UNICEF_CCG_PDM_2015.pdf'>Case Study Guide</a>" +
 "        <a href='http://www.unicef.org/jordan/Tool2-_FGD_Guide-UNICEF_CCG_PDM_2015.pdf'>Focus Group Discussion Group Guide</a>" +
