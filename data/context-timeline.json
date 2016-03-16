@@ -1,5 +1,6 @@
 [
-{"date": "15-02-2015", "date-label": "Feb.-15", "comment": "Start of CCG", "position": "top"},
+{"date": "15-02-2015", "date-label": "Feb.-15", "comment": "", "position": "top"},
+{"date": "15-02-2015", "date-label": "", "comment": "Start of CCG", "position": "bottom"},
 {"date": "01-03-2015", "date-label": "Mar.", "comment": "", "position": "top"},
 {"date": "01-04-2015", "date-label": "Apr.", "comment": "Vulnerability Assessment Framework published", "position": "top"},
 {"date": "01-05-2015", "date-label": "May", "comment": "", "position": "top"},

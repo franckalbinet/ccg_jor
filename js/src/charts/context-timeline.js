@@ -104,10 +104,10 @@ d3.contextTimeline = function() {
           .call(wrap, 140);
 
 
-        d3.selectAll(".comment-top#id-9 tspan ")
+        d3.selectAll(".comment-top#id-10 tspan ")
           .attr("y", 30);
 
-        d3.selectAll(".comment-top#id-11 tspan ")
+        d3.selectAll(".comment-top#id-12 tspan ")
           .attr("y", 30);
 
         // d3.selectAll(".comment-top#id-15 tspan ")
@@ -145,10 +145,10 @@ d3.contextTimeline = function() {
           _gCommentBottom.selectAll(".comment-bottom text")
             .call(wrap, 140);
 
-          d3.selectAll(".comment-bottom#id-16 tspan ")
+          d3.selectAll(".comment-bottom#id-17 tspan ")
             .attr("y", _gHeight + 65);
 
-          d3.selectAll(".comment-bottom#id-15 tspan ")
+          d3.selectAll(".comment-bottom#id-16 tspan ")
             .attr("y", _gHeight + 105);
 
           // lines
@@ -165,7 +165,7 @@ d3.contextTimeline = function() {
                   .attr("d", "M" + x(d.date) + "," + y + "L" + x(d.date) + ",110");
           })
 
-          d3.select("path#id-11").remove();
+          d3.select("path#id-12").remove();
 
           // bottom
           _gLineBottom = g.append("g")
@@ -180,17 +180,17 @@ d3.contextTimeline = function() {
           })
 
           // finetune styling
-          g.select(".comments-top #id-7 text").classed("critical", true);
-          g.select(".comments-top #id-9 text").classed("critical", true);
+          g.select(".comments-top #id-8 text").classed("critical", true);
+          g.select(".comments-top #id-10 text").classed("critical", true);
+          g.select(".comments-bottom #id-16 text").classed("critical", true);
 
-          g.select(".comments-bottom #id-15 text").classed("critical", true);
-          g.select(".comments-bottom #id-5 text").classed("highlight", true);
-          g.select(".comments-bottom #id-8 text").classed("highlight", true);
-          g.select(".comments-bottom #id-13 text").classed("highlight", true);
+          g.select(".comments-bottom #id-6 text").classed("highlight", true);
+          g.select(".comments-bottom #id-9 text").classed("highlight", true);
+          g.select(".comments-bottom #id-14 text").classed("highlight", true);
 
-          g.select(".lines-top #id-7").classed("critical", true);
-          g.select(".lines-top #id-9").classed("critical", true);
-          g.select(".lines-bottom #id-15").classed("critical", true);
+          g.select(".lines-top #id-8").classed("critical", true);
+          g.select(".lines-top #id-10").classed("critical", true);
+          g.select(".lines-bottom #id-16").classed("critical", true);
 
           // add manual text
           // g.append("text")
