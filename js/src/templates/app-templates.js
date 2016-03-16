@@ -86,20 +86,52 @@ Vis.Templates["case-studies"] =
 Vis.Templates["further-resources"] =
 "<div id='further-resources' class='row'>" +
 "  <div class='col-md-12'>" +
-"    <div class='documents'>" +
-"      <div class='title'><i class='fa fa-file-pdf-o fa-4'></i>Post Distribution Monitoring Reports</div>" +
-"      <div class='links'>" +
-"        <a href='http://www.unicef.org/jordan/WindowofHope_UNICEFJordanPDM_report_childcashgrantSep2015_2_mb.pdf'>February-June 2015</a>" +
-"        <a href='http://www.unicef.org/jordan/UNICEF_CCG-_2PDM_Report_Dec2015_lowres.pdf'>July-August 2015</a>" +
-"        <a href='http://www.unicef.org/jordan/A_Window_of_Hope_December_2015.pdf'>2015 [Final Report]</a>" +
+"    <div class='row'>" +
+"      <div class='col-md-6'>" +
+"        <div class='title'><i class='fa fa-file-pdf-o fa-4'></i>Post Distribution Monitoring Reports</div>" +
+"        <div class='row'>" +
+"          <div class='col-md-4'>" +
+"            <div class='reference'><a href='http://www.unicef.org/jordan/WindowofHope_UNICEFJordanPDM_report_childcashgrantSep2015_2_mb.pdf'>February-June 2015</a></div>" +
+"            <div class='photographs'>" +
+"             <img src='./css/img/further-resources-1-1.png' alt='Photographs'>" +
+"            </div>" +
+"          </div>" +
+"          <div class='col-md-4'>" +
+"            <div class='reference'><a href='http://www.unicef.org/jordan/UNICEF_CCG-_2PDM_Report_Dec2015_lowres.pdf'>July-August 2015</a></div>" +
+"            <div class='photographs'>" +
+"             <img src='./css/img/further-resources-1-2.png' alt='Photographs'>" +
+"            </div>" +
+"          </div>" +
+"          <div class='col-md-4'>" +
+"            <div class='reference'><a href='http://www.unicef.org/jordan/A_Window_of_Hope_December_2015.pdf'>2015 [Final Report]</a></div>" +
+"            <div class='photographs'>" +
+"             <img src='./css/img/further-resources-1-3.png' alt='Photographs'>" +
+"            </div>" +
+"          </div>" +
+"        </div>" +
 "      </div>" +
-"    </div>" +
-"    <div class='documents'>" +
-"      <div class='title'><i class='fa fa-wrench fa-2'></i>Post-distribution Monitoring Tools</div>" +
-"      <div class='links'>" +
-"        <a href='http://www.unicef.org/jordan/Tool1-_CaseStudyGuide-UNICEF_CCG_PDM_2015.pdf'>Case Study Guide</a>" +
-"        <a href='http://www.unicef.org/jordan/Tool2-_FGD_Guide-UNICEF_CCG_PDM_2015.pdf'>Focus Group Discussion Group Guide</a>" +
-"        <a href='http://www.unicef.org/jordan/Tool3-_PDM_Questionnaire-UNICEF_CCG_PDM_2015.pdf'>Post-Distribution Monitoring Questionnaire</a>" +
+"      <div class='col-md-6'>" +
+"        <div class='title'><i class='fa fa-wrench fa-2'></i>Post distribution Monitoring Tools</div>" +
+"        <div class='row'>" +
+"          <div class='col-md-4'>" +
+"            <div class='reference'><a href='http://www.unicef.org/jordan/Tool1-_CaseStudyGuide-UNICEF_CCG_PDM_2015.pdf'>Case Study Guide</a></div>" +
+"            <div class='photographs'>" +
+"             <img src='./css/img/further-resources-2-1.png' alt='Photographs'>" +
+"            </div>" +
+"          </div>" +
+"          <div class='col-md-4'>" +
+"            <div class='reference'><a href='http://www.unicef.org/jordan/Tool2-_FGD_Guide-UNICEF_CCG_PDM_2015.pdf'>FGD Guide</a></div>" +
+"            <div class='photographs'>" +
+"             <img src='./css/img/further-resources-2-2.png' alt='Photographs'>" +
+"            </div>" +
+"          </div>" +
+"          <div class='col-md-4'>" +
+"            <div class='reference'><a href='http://www.unicef.org/jordan/Tool3-_PDM_Questionnaire-UNICEF_CCG_PDM_2015.pdf'>Questionnaire</a></div>" +
+"            <div class='photographs'>" +
+"             <img src='./css/img/further-resources-2-3.png' alt='Photographs'>" +
+"            </div>" +
+"          </div>" +
+"        </div>" +
 "      </div>" +
 "    </div>" +
 "    <div class='thanks'>" +

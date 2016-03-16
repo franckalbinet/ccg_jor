@@ -372,28 +372,33 @@ h1,h2,h3,h4,h5 {
   margin-top: -15px;
   text-align: center;
 }
-#further-resources .documents {
-  margin-bottom: 15px;
-}
-#further-resources .documents .title {
+#further-resources .title {
   font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
   fill: #555;
   margin-bottom: 5px;
 }
-#further-resources .links a {
-  display: inline-block;
-  padding-left: 20px;
-  padding-right: 20px;
-  border-right: 1px solid #1cabe2;
-  font-size: 12px;
+#further-resources .reference {
+  font-size: 13px;
+  font-weight: 500;
+  fill: #555;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  cursor: pointer;
 }
-#further-resources .links a:last-child {
-  border-right: none;
+#further-resources .photographs img {
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  padding: 5px;
+  text-align: center;
+  width: 95%;
+  height: 95%;
 }
+
 #further-resources .thanks {
-  margin-top: 45px;
+  margin-top: 25px;
+  margin-bottom: 30px;
 }
 #further-resources p {
   margin-left: auto;
