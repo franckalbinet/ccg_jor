@@ -21,7 +21,7 @@ Vis.Views.FurtherResources = Backbone.View.extend({
     this.renderTemplate();
 
     $("#further-resources").animate({ opacity: 0 }, 0);
-    Vis.utils.chartDelay = setTimeout(function() {
+    Vis.Utils.chartDelay = setTimeout(function() {
       $("#further-resources").animate({ opacity: 1 }, 1000);
     }, 2000);
 
@@ -34,7 +34,7 @@ Vis.Views.FurtherResources = Backbone.View.extend({
         templateMainText = this.model.getTemplateMainText(),
         templateQuote = this.model.getTemplateQuote();
 
-        Vis.utils.reset();
+        Vis.Utils.reset();
 
         $("#content").html(templateNarration() + templateContent());
         new Vis.Views.Profile();

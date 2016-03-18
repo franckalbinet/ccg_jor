@@ -67,10 +67,10 @@ Vis.DEFAULTS = _.extend(Vis.DEFAULTS, {
                      "furtherResources": 10}
 });
 /*  Utilities functions*/
-Vis.utils = _.extend(Vis.DEFAULTS, {
+Vis.Utils = _.extend(Vis.Utils, {
 
   reset: function() {
-    Vis.utils.clearTimer();
+    Vis.Utils.clearTimer();
     $(".page-header").css("visibility", "visible");
     $("#narration").css("height", "250px");
     $(".footer").hide();
@@ -79,8 +79,8 @@ Vis.utils = _.extend(Vis.DEFAULTS, {
   },
 
   clearTimer: function() {
-    if (Vis.utils.chartDelay) clearTimeout(Vis.utils.chartDelay);
-    if (Vis.utils.filterDelay) clearTimeout(Vis.utils.filterDelay);
+    if (Vis.Utils.chartDelay) clearTimeout(Vis.Utils.chartDelay);
+    if (Vis.Utils.filterDelay) clearTimeout(Vis.Utils.filterDelay);
   },
 
   setTextContent: function(attr, animated) {
@@ -1141,7 +1141,7 @@ Vis.Views.Background = Backbone.View.extend({
       var templateNarration =  _.template(Vis.Templates["narration"]),
           templateMainText = this.model.getTemplateMainText();
 
-      Vis.utils.reset();
+      Vis.Utils.reset();
 
       switch(chapter) {
           case 1:
@@ -1160,7 +1160,7 @@ Vis.Views.Background = Backbone.View.extend({
       $("#narration").animate({ opacity: 1 }, 1500);
       $("#background-sample").animate({ opacity: 0 }, 0);
       $("#background-population").animate({ opacity: 0 }, 0);
-      Vis.utils.chartDelay = setTimeout(function() {
+      Vis.Utils.chartDelay = setTimeout(function() {
         $("#background-sample").animate({ opacity: 1 }, 1000);
         $("#background-population").animate({ opacity: 1 }, 1000);
       }, 2000);
@@ -1492,7 +1492,7 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
     this.renderChart();
 
     $("#charts").animate({ opacity: 0 }, 0);
-    Vis.utils.chartDelay = setTimeout(function() {
+    Vis.Utils.chartDelay = setTimeout(function() {
       $("#charts").animate({ opacity: 1 }, 1000);
     }, 2000);
 
@@ -1506,7 +1506,7 @@ Vis.Views.CopingMechanisms = Backbone.View.extend({
         templateMainText = this.model.getTemplateMainText(),
         templateQuote = this.model.getTemplateQuote();
 
-        Vis.utils.reset();
+        Vis.Utils.reset();
 
         $("#content").html(templateNarration() + templateCharts());
         new Vis.Views.Profile();
@@ -1645,14 +1645,14 @@ Vis.Views.Context = Backbone.View.extend({
 
     switch (this.model.get("scenario").chapter) {
       case 1:
-        Vis.utils.reset();
+        Vis.Utils.reset();
         var templateFrontPage =  _.template(Vis.Templates["front-page"]);
         $(".page-header").css("visibility", "hidden");
         $(".footer").show();
         $("#content").html(templateFrontPage());
         break;
       case 2:
-        Vis.utils.reset();
+        Vis.Utils.reset();
         var templateNarration =  _.template(Vis.Templates["narration"]),
             templateMainText = this.model.getTemplateMainText();
 
@@ -1675,7 +1675,7 @@ Vis.Views.Context = Backbone.View.extend({
           if ($("p.intro").length == 3) {
             $("#narration").find("#main-text p:nth-child(4)").animate({ opacity: 1 }, 1000);
           } else {
-            Vis.utils.reset();
+            Vis.Utils.reset();
             var templateNarration =  _.template(Vis.Templates["narration"]),
                 templateMainText = this.model.getTemplateMainText();
             $("#content").html(templateNarration());
@@ -1688,7 +1688,7 @@ Vis.Views.Context = Backbone.View.extend({
         this.renderChart();
 
         $("#context-timeline").animate({ opacity: 0 }, 0);
-        Vis.utils.chartDelay = setTimeout(function() {
+        Vis.Utils.chartDelay = setTimeout(function() {
           $("#context-timeline").animate({ opacity: 1 }, 1000);
         }, 2000);
         break;
@@ -1706,7 +1706,7 @@ Vis.Views.Context = Backbone.View.extend({
         templateMainText = this.model.getTemplateMainText(),
         templateQuote = this.model.getTemplateQuote();
 
-        Vis.utils.reset();
+        Vis.Utils.reset();
 
         $("#content").html(templateNarration() + templateCharts());
         new Vis.Views.Profile();
@@ -1778,7 +1778,7 @@ Vis.Views.Education = Backbone.View.extend({
     this.renderChart();
 
     $("#charts").animate({ opacity: 0 }, 0);
-    Vis.utils.chartDelay = setTimeout(function() {
+    Vis.Utils.chartDelay = setTimeout(function() {
       $("#charts").animate({ opacity: 1 }, 1000);
     }, 2000);
 
@@ -1791,7 +1791,7 @@ Vis.Views.Education = Backbone.View.extend({
         templateMainText = this.model.getTemplateMainText(),
         templateQuote = this.model.getTemplateQuote();
 
-        Vis.utils.reset();
+        Vis.Utils.reset();
 
         $("#content").html(templateNarration() + templateCharts());
         new Vis.Views.Profile();
@@ -1881,7 +1881,7 @@ Vis.Views.FamilyConditions = Backbone.View.extend({
     this.renderChart();
 
     $("#charts").animate({ opacity: 0 }, 0);
-    Vis.utils.chartDelay = setTimeout(function() {
+    Vis.Utils.chartDelay = setTimeout(function() {
       $("#charts").animate({ opacity: 1 }, 1000);
     }, 2000);
 
@@ -1894,7 +1894,7 @@ Vis.Views.FamilyConditions = Backbone.View.extend({
         templateMainText = this.model.getTemplateMainText(),
         templateQuote = this.model.getTemplateQuote();
 
-        Vis.utils.reset();
+        Vis.Utils.reset();
 
         $("#content").html(templateNarration() + templateCharts());
         new Vis.Views.Profile();
@@ -2036,7 +2036,7 @@ Vis.Views.CaseStudies = Backbone.View.extend({
     this.renderTemplate();
 
     $("#case-studies").animate({ opacity: 0 }, 0);
-    Vis.utils.chartDelay = setTimeout(function() {
+    Vis.Utils.chartDelay = setTimeout(function() {
       $("#case-studies").animate({ opacity: 1 }, 1000);
     }, 2000);
 
@@ -2049,7 +2049,7 @@ Vis.Views.CaseStudies = Backbone.View.extend({
         templateMainText = this.model.getTemplateMainText(),
         templateQuote = this.model.getTemplateQuote();
 
-        Vis.utils.reset();
+        Vis.Utils.reset();
 
         $("#content").html(templateNarration() + templateContent());
         new Vis.Views.Profile();
@@ -2082,7 +2082,7 @@ Vis.Views.FurtherResources = Backbone.View.extend({
     this.renderTemplate();
 
     $("#further-resources").animate({ opacity: 0 }, 0);
-    Vis.utils.chartDelay = setTimeout(function() {
+    Vis.Utils.chartDelay = setTimeout(function() {
       $("#further-resources").animate({ opacity: 1 }, 1000);
     }, 2000);
 
@@ -2095,7 +2095,7 @@ Vis.Views.FurtherResources = Backbone.View.extend({
         templateMainText = this.model.getTemplateMainText(),
         templateQuote = this.model.getTemplateQuote();
 
-        Vis.utils.reset();
+        Vis.Utils.reset();
 
         $("#content").html(templateNarration() + templateContent());
         new Vis.Views.Profile();
@@ -2138,7 +2138,7 @@ Vis.Views.Incomes = Backbone.View.extend({
     this.renderChart();
 
     $("#charts").animate({ opacity: 0 }, 0);
-    Vis.utils.chartDelay = setTimeout(function() {
+    Vis.Utils.chartDelay = setTimeout(function() {
       $("#charts").animate({ opacity: 1 }, 1000);
     }, 2000);
 
@@ -2151,7 +2151,7 @@ Vis.Views.Incomes = Backbone.View.extend({
         templateMainText = this.model.getTemplateMainText(),
         templateQuote = this.model.getTemplateQuote();
 
-        Vis.utils.reset();
+        Vis.Utils.reset();
 
         $("#content").html(templateNarration() + templateCharts());
         new Vis.Views.Profile();
@@ -2283,7 +2283,7 @@ Vis.Views.Expenditures = Backbone.View.extend({
       this.renderChart();
 
       $("#charts").animate({ opacity: 0 }, 0);
-      Vis.utils.chartDelay = setTimeout(function() {
+      Vis.Utils.chartDelay = setTimeout(function() {
         $("#charts").animate({ opacity: 1 }, 1000);
       }, 2000);
 
@@ -2296,7 +2296,7 @@ Vis.Views.Expenditures = Backbone.View.extend({
           templateMainText = this.model.getTemplateMainText(),
           templateQuote = this.model.getTemplateQuote();
 
-          Vis.utils.reset();
+          Vis.Utils.reset();
 
           $("#content").html(templateNarration() + templateCharts());
           new Vis.Views.Profile();
@@ -2460,7 +2460,7 @@ Vis.Views.ResultsChildren = Backbone.View.extend({
     this.renderChart();
 
     $("#charts").animate({ opacity: 0 }, 0);
-    Vis.utils.chartDelay = setTimeout(function() {
+    Vis.Utils.chartDelay = setTimeout(function() {
       $("#charts").animate({ opacity: 1 }, 1000);
     }, 2000);
 
@@ -2473,7 +2473,7 @@ Vis.Views.ResultsChildren = Backbone.View.extend({
         templateMainText = this.model.getTemplateMainText(),
         templateQuote = this.model.getTemplateQuote();
 
-        Vis.utils.reset();
+        Vis.Utils.reset();
 
         $("#content").html(templateNarration() + templateCharts());
         new Vis.Views.Profile();

@@ -30,7 +30,7 @@ Vis.Views.Background = Backbone.View.extend({
       var templateNarration =  _.template(Vis.Templates["narration"]),
           templateMainText = this.model.getTemplateMainText();
 
-      Vis.utils.reset();
+      Vis.Utils.reset();
 
       switch(chapter) {
           case 1:
@@ -49,7 +49,7 @@ Vis.Views.Background = Backbone.View.extend({
       $("#narration").animate({ opacity: 1 }, 1500);
       $("#background-sample").animate({ opacity: 0 }, 0);
       $("#background-population").animate({ opacity: 0 }, 0);
-      Vis.utils.chartDelay = setTimeout(function() {
+      Vis.Utils.chartDelay = setTimeout(function() {
         $("#background-sample").animate({ opacity: 1 }, 1000);
         $("#background-population").animate({ opacity: 1 }, 1000);
       }, 2000);

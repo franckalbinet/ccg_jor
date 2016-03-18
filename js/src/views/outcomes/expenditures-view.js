@@ -29,7 +29,7 @@ Vis.Views.Expenditures = Backbone.View.extend({
       this.renderChart();
 
       $("#charts").animate({ opacity: 0 }, 0);
-      Vis.utils.chartDelay = setTimeout(function() {
+      Vis.Utils.chartDelay = setTimeout(function() {
         $("#charts").animate({ opacity: 1 }, 1000);
       }, 2000);
 
@@ -42,7 +42,7 @@ Vis.Views.Expenditures = Backbone.View.extend({
           templateMainText = this.model.getTemplateMainText(),
           templateQuote = this.model.getTemplateQuote();
 
-          Vis.utils.reset();
+          Vis.Utils.reset();
 
           $("#content").html(templateNarration() + templateCharts());
           new Vis.Views.Profile();

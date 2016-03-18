@@ -22,7 +22,7 @@ Vis.Views.CaseStudies = Backbone.View.extend({
     this.renderTemplate();
 
     $("#case-studies").animate({ opacity: 0 }, 0);
-    Vis.utils.chartDelay = setTimeout(function() {
+    Vis.Utils.chartDelay = setTimeout(function() {
       $("#case-studies").animate({ opacity: 1 }, 1000);
     }, 2000);
 
@@ -35,7 +35,7 @@ Vis.Views.CaseStudies = Backbone.View.extend({
         templateMainText = this.model.getTemplateMainText(),
         templateQuote = this.model.getTemplateQuote();
 
-        Vis.utils.reset();
+        Vis.Utils.reset();
 
         $("#content").html(templateNarration() + templateContent());
         new Vis.Views.Profile();

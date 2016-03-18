@@ -1,8 +1,8 @@
 /*  Utilities functions*/
-Vis.utils = _.extend(Vis.DEFAULTS, {
+Vis.Utils = _.extend(Vis.Utils, {
 
   reset: function() {
-    Vis.utils.clearTimer();
+    Vis.Utils.clearTimer();
     $(".page-header").css("visibility", "visible");
     $("#narration").css("height", "250px");
     $(".footer").hide();
@@ -11,8 +11,8 @@ Vis.utils = _.extend(Vis.DEFAULTS, {
   },
 
   clearTimer: function() {
-    if (Vis.utils.chartDelay) clearTimeout(Vis.utils.chartDelay);
-    if (Vis.utils.filterDelay) clearTimeout(Vis.utils.filterDelay);
+    if (Vis.Utils.chartDelay) clearTimeout(Vis.Utils.chartDelay);
+    if (Vis.Utils.filterDelay) clearTimeout(Vis.Utils.filterDelay);
   },
 
   setTextContent: function(attr, animated) {

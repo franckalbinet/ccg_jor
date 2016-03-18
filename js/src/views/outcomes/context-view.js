@@ -24,14 +24,14 @@ Vis.Views.Context = Backbone.View.extend({
 
     switch (this.model.get("scenario").chapter) {
       case 1:
-        Vis.utils.reset();
+        Vis.Utils.reset();
         var templateFrontPage =  _.template(Vis.Templates["front-page"]);
         $(".page-header").css("visibility", "hidden");
         $(".footer").show();
         $("#content").html(templateFrontPage());
         break;
       case 2:
-        Vis.utils.reset();
+        Vis.Utils.reset();
         var templateNarration =  _.template(Vis.Templates["narration"]),
             templateMainText = this.model.getTemplateMainText();
 
@@ -54,7 +54,7 @@ Vis.Views.Context = Backbone.View.extend({
           if ($("p.intro").length == 3) {
             $("#narration").find("#main-text p:nth-child(4)").animate({ opacity: 1 }, 1000);
           } else {
-            Vis.utils.reset();
+            Vis.Utils.reset();
             var templateNarration =  _.template(Vis.Templates["narration"]),
                 templateMainText = this.model.getTemplateMainText();
             $("#content").html(templateNarration());
@@ -67,7 +67,7 @@ Vis.Views.Context = Backbone.View.extend({
         this.renderChart();
 
         $("#context-timeline").animate({ opacity: 0 }, 0);
-        Vis.utils.chartDelay = setTimeout(function() {
+        Vis.Utils.chartDelay = setTimeout(function() {
           $("#context-timeline").animate({ opacity: 1 }, 1000);
         }, 2000);
         break;
@@ -85,7 +85,7 @@ Vis.Views.Context = Backbone.View.extend({
         templateMainText = this.model.getTemplateMainText(),
         templateQuote = this.model.getTemplateQuote();
 
-        Vis.utils.reset();
+        Vis.Utils.reset();
 
         $("#content").html(templateNarration() + templateCharts());
         new Vis.Views.Profile();
